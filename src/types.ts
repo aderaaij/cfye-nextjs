@@ -1525,6 +1525,8 @@ export enum OrderEnum {
 
 /** The status of the object. */
 export enum PostStatusEnum {
+  /** Objects with the acf-disabled status */
+  AcfDisabled = 'ACF_DISABLED',
   /** Objects with the auto-draft status */
   AutoDraft = 'AUTO_DRAFT',
   /** Objects with the draft status */
@@ -1601,6 +1603,8 @@ export type Post = Node &
   NodeWithRevisions &
   MenuItemLinkable & {
     __typename?: 'Post';
+    /** @deprecated  */
+    artistInformation?: Maybe<Post_Artistinformation>;
     /**
      * Connection between the NodeWithAuthor type and the User type
      * @deprecated
@@ -1761,6 +1765,8 @@ export type Post = Node &
      * @deprecated
      */
     pinged?: Maybe<Array<Maybe<Scalars['String']>>>;
+    /** @deprecated  */
+    postFields?: Maybe<Post_Postfields>;
     /**
      * Connection between the post type and the postFormat type
      * @deprecated
@@ -1771,6 +1777,8 @@ export type Post = Node &
      * @deprecated Deprecated in favor of the databaseId field
      */
     postId: Scalars['Int'];
+    /** @deprecated  */
+    postSubtitle?: Maybe<Post_Postsubtitle>;
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -4507,6 +4515,11 @@ export type Page = Node &
      */
     enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
     /**
+     * Added to the GraphQL Schema because the ACF Field Group &quot;FAQ&quot; was assigned to an individual post of the post_type: &quot;page&quot;. The group will be present in the Schema for the &quot;pages&quot; Type, but will only resolve if the entity has content saved.
+     * @deprecated
+     */
+    faq?: Maybe<Page_Faq>;
+    /**
      * Connection between the NodeWithFeaturedImage type and the MediaItem type
      * @deprecated
      */
@@ -4626,6 +4639,11 @@ export type Page = Node &
      * @deprecated
      */
     revisions?: Maybe<PageToRevisionConnection>;
+    /**
+     * Added to the GraphQL Schema because the ACF Field Group &quot;Sites we like&quot; was assigned to an individual post of the post_type: &quot;page&quot;. The group will be present in the Schema for the &quot;pages&quot; Type, but will only resolve if the entity has content saved.
+     * @deprecated
+     */
+    sitesWeLike?: Maybe<Page_Siteswelike>;
     /**
      * The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
      * @deprecated
@@ -4891,6 +4909,29 @@ export type PageToContentTypeConnectionEdge = {
   node?: Maybe<ContentType>;
 };
 
+/** Field Group */
+export type Page_Faq = {
+  __typename?: 'Page_Faq';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /**
+   * Q &amp; A Fields
+   * @deprecated
+   */
+  qAndA?: Maybe<Array<Maybe<Page_Faq_QAndA>>>;
+};
+
+/** Field Group */
+export type Page_Faq_QAndA = {
+  __typename?: 'Page_Faq_qAndA';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  qaAnswer?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  qaQuestion?: Maybe<Scalars['String']>;
+};
+
 /** Connection between the page type and the page type */
 export type PageToPreviewConnectionEdge = {
   __typename?: 'PageToPreviewConnectionEdge';
@@ -4978,6 +5019,32 @@ export type PageToRevisionConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Page>;
+};
+
+/** Field Group */
+export type Page_Siteswelike = {
+  __typename?: 'Page_Siteswelike';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  friends?: Maybe<Array<Maybe<Page_Siteswelike_Friends>>>;
+};
+
+/** Field Group */
+export type Page_Siteswelike_Friends = {
+  __typename?: 'Page_Siteswelike_friends';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  friendsDes?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  friendsLink?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  friendsLogo?: Maybe<MediaItem>;
+  /** @deprecated  */
+  friendsThumbnail?: Maybe<MediaItem>;
+  /** @deprecated  */
+  friendsTitle?: Maybe<Scalars['String']>;
 };
 
 /** Arguments for filtering the UserToPostConnection connection */
@@ -5238,6 +5305,116 @@ export type NodeWithTrackbacks = {
   toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+/** Field Group */
+export type Post_Artistinformation = {
+  __typename?: 'Post_Artistinformation';
+  /** @deprecated  */
+  artistDescription?: Maybe<Scalars['String']>;
+  /**
+   * Add the artist location to the map
+   * @deprecated
+   */
+  artistLocation?: Maybe<Acf_GoogleMap>;
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  flickrUsername?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  headerImage?: Maybe<MediaItem>;
+  /** @deprecated  */
+  relatedArticles?: Maybe<Array<Maybe<Post_Artistinformation_RelatedArticles>>>;
+  /**
+   * Add Facebook URL
+   * @deprecated
+   */
+  sltFacebookid?: Maybe<Scalars['String']>;
+  /**
+   * Add the instagram user handle
+   * @deprecated
+   */
+  sltInstagram?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  sltTumblrid?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  sltTwitterid?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  sltWebsite?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  sltYoutubeid?: Maybe<Scalars['String']>;
+};
+
+/** Google Map field */
+export type Acf_GoogleMap = {
+  __typename?: 'ACF_GoogleMap';
+  /**
+   * The city associated with the map
+   * @deprecated
+   */
+  city?: Maybe<Scalars['String']>;
+  /**
+   * The country associated with the map
+   * @deprecated
+   */
+  country?: Maybe<Scalars['String']>;
+  /**
+   * The country abbreviation associated with the map
+   * @deprecated
+   */
+  countryShort?: Maybe<Scalars['String']>;
+  /**
+   * The latitude associated with the map
+   * @deprecated
+   */
+  latitude?: Maybe<Scalars['Float']>;
+  /**
+   * The longitude associated with the map
+   * @deprecated
+   */
+  longitude?: Maybe<Scalars['Float']>;
+  /**
+   * The country associated with the map
+   * @deprecated
+   */
+  placeId?: Maybe<Scalars['String']>;
+  /**
+   * The post code associated with the map
+   * @deprecated
+   */
+  postCode?: Maybe<Scalars['String']>;
+  /**
+   * The state associated with the map
+   * @deprecated
+   */
+  state?: Maybe<Scalars['String']>;
+  /**
+   * The state abbreviation associated with the map
+   * @deprecated
+   */
+  stateShort?: Maybe<Scalars['String']>;
+  /**
+   * The street address associated with the map
+   * @deprecated
+   */
+  streetAddress?: Maybe<Scalars['String']>;
+  /**
+   * The street name associated with the map
+   * @deprecated
+   */
+  streetName?: Maybe<Scalars['String']>;
+  /**
+   * The street number associated with the map
+   * @deprecated
+   */
+  streetNumber?: Maybe<Scalars['String']>;
+  /**
+   * The zoom defined with the map
+   * @deprecated
+   */
+  zoom?: Maybe<Scalars['String']>;
+};
+
+export type Post_Artistinformation_RelatedArticles = Post;
+
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
@@ -5421,6 +5598,35 @@ export type PostToContentTypeConnectionEdge = {
    */
   node?: Maybe<ContentType>;
 };
+
+/** Field Group */
+export type Post_Postfields = {
+  __typename?: 'Post_Postfields';
+  /** @deprecated  */
+  addToMap?: Maybe<Scalars['Boolean']>;
+  /**
+   * Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt;
+   * @deprecated
+   */
+  artistPost?: Maybe<Array<Maybe<PostObjectUnion>>>;
+  /**
+   * Align the featured image so the most important parts aren&#039;t cut off (default: center).
+   * @deprecated
+   */
+  featuredImageAlignment?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  featuredImageBackground?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  featuredImageSize?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  relatedArticle?: Maybe<Array<Maybe<Post_Postfields_RelatedArticle>>>;
+};
+
+export type PostObjectUnion = Post | Page | MediaItem;
+
+export type Post_Postfields_RelatedArticle = Post;
 
 /** Arguments for filtering the PostToPostFormatConnection connection */
 export type PostToPostFormatConnectionWhereArgs = {
@@ -5719,6 +5925,15 @@ export type PostFormatToTaxonomyConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Taxonomy>;
+};
+
+/** Field Group */
+export type Post_Postsubtitle = {
+  __typename?: 'Post_Postsubtitle';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  postSubtitle?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the post type */
@@ -7902,6 +8117,8 @@ export enum UserRoleEnum {
   Author = 'AUTHOR',
   Contributor = 'CONTRIBUTOR',
   Editor = 'EDITOR',
+  SeoEditor = 'SEO_EDITOR',
+  SeoManager = 'SEO_MANAGER',
   Subscriber = 'SUBSCRIBER',
 }
 
@@ -9542,6 +9759,8 @@ export enum TimezoneEnum {
   AmericaFortNelson = 'AMERICA_FORT_NELSON',
   /** Glace Bay */
   AmericaGlaceBay = 'AMERICA_GLACE_BAY',
+  /** Godthab */
+  AmericaGodthab = 'AMERICA_GODTHAB',
   /** Goose Bay */
   AmericaGooseBay = 'AMERICA_GOOSE_BAY',
   /** Grand Turk */
@@ -9648,8 +9867,6 @@ export enum TimezoneEnum {
   AmericaNorthDakotaCenter = 'AMERICA_NORTH_DAKOTA_CENTER',
   /** North Dakota - New Salem */
   AmericaNorthDakotaNewSalem = 'AMERICA_NORTH_DAKOTA_NEW_SALEM',
-  /** Nuuk */
-  AmericaNuuk = 'AMERICA_NUUK',
   /** Ojinaga */
   AmericaOjinaga = 'AMERICA_OJINAGA',
   /** Panama */
@@ -9870,8 +10087,6 @@ export enum TimezoneEnum {
   AsiaPyongyang = 'ASIA_PYONGYANG',
   /** Qatar */
   AsiaQatar = 'ASIA_QATAR',
-  /** Qostanay */
-  AsiaQostanay = 'ASIA_QOSTANAY',
   /** Qyzylorda */
   AsiaQyzylorda = 'ASIA_QYZYLORDA',
   /** Riyadh */
@@ -10253,8 +10468,6 @@ export type MenuItemsWhereArgs = {
   /** The menu location for the menu being queried */
   location?: Maybe<MenuLocationEnum>;
 };
-
-export type PostObjectUnion = Post | Page | MediaItem;
 
 export type TermObjectUnion = Category | Tag | PostFormat;
 

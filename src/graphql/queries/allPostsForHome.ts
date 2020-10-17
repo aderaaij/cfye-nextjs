@@ -1,6 +1,6 @@
 export const allPostsForHome = /* GraphQL */ `
   query AllPosts {
-    posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+    posts(first: 1000, where: { orderby: { field: DATE, order: DESC } }) {
       edges {
         node {
           title
