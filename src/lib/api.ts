@@ -82,18 +82,6 @@ export async function getAllPostsWithSlug(): Promise<AllPostsWithSlug> {
   return data?.posts;
 }
 
-export async function getAllPostsForHome(
-  preview: boolean
-): Promise<CategoryToPostConnection> {
-  const data = await fetchAPI(allPostsForHome, {
-    variables: {
-      onlyEnabled: !preview,
-      preview,
-    },
-  });
-  return data?.posts;
-}
-
 export async function getPostAndMorePosts(
   slug: string,
   preview: boolean,

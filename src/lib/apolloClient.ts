@@ -1,12 +1,16 @@
 import { useMemo } from 'react';
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities';
 
-let apolloClient;
-
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
-function createApolloClient(): ApolloClient<any> {
+function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
@@ -24,7 +28,9 @@ function createApolloClient(): ApolloClient<any> {
   });
 }
 
-export function initializeApollo(initialState = null): ApolloClient<any> {
+export function initializeApollo(
+  initialState: NormalizedCacheObject = null
+): ApolloClient<NormalizedCacheObject> {
   const _apolloClient = apolloClient ?? createApolloClient();
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -43,7 +49,7 @@ export function initializeApollo(initialState = null): ApolloClient<any> {
   return _apolloClient;
 }
 
-export function useApollo(initialState): any {
+export function useApollo(initialState): ApolloClient<NormalizedCacheObject> {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }

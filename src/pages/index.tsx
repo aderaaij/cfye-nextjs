@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import ErrorPage from 'next/error';
-import { NetworkStatus, useQuery, ApolloClient } from '@apollo/client';
+import { NetworkStatus, useQuery, NormalizedCacheObject } from '@apollo/client';
 import Container from '@/components/Container';
 import MoreStories from '@/components/MoreStories';
 import HeroPost from '@/components/HeroPost';
 import Intro from '@/components/Intro';
 import Layout from '@/components/Layout';
-import { POSTS_QUERY } from '@/graphql/queries/PostsQuery';
+import { POSTS_QUERY } from '@/graphql/queries/POSTS_QUERY';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
 
@@ -26,7 +26,7 @@ export const allPostsQueryVars: AllPostQueryVars = {
 };
 
 const Index: React.FC = () => {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery<
+  const { loading, error, data, fetchMore, networkStatus, ...rest } = useQuery<
     Data,
     AllPostQueryVars
   >(POSTS_QUERY, {
@@ -92,8 +92,10 @@ export default Index;
 
 interface StaticProps {
   props: {
-    initialApolloState: ApolloClient<any>;
+    initialApolloState: NormalizedCacheObject['cache'];
+    test234: string;
   };
+
   revalidate: number;
 }
 
@@ -106,7 +108,9 @@ export const getStaticProps = async (): Promise<StaticProps> => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      test234: 'bla',
     },
+
     revalidate: 1,
   };
 };
