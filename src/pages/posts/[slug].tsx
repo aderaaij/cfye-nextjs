@@ -142,12 +142,7 @@ const Post: React.FC<Props> = () => {
 
 export default Post;
 
-export const getStaticProps = async ({
-  params,
-  preview = false,
-  previewData,
-}): Promise<any> => {
-  console.log(params, preview, previewData);
+export const getStaticProps = async ({ params }): Promise<any> => {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({

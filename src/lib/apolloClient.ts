@@ -10,7 +10,7 @@ function createApolloClient(): ApolloClient<any> {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
-      uri: 'https://cfye.com/wp/graphql',
+      uri: API_URL,
     }),
     cache: new InMemoryCache({
       typePolicies: {
