@@ -26,7 +26,7 @@ export const allPostsQueryVars: AllPostQueryVars = {
 };
 
 const Index: React.FC = () => {
-  const { loading, error, data, fetchMore, networkStatus, ...rest } = useQuery<
+  const { loading, error, data, fetchMore, networkStatus } = useQuery<
     Data,
     AllPostQueryVars
   >(POSTS_QUERY, {

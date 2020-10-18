@@ -11,7 +11,6 @@ import SectionSeparator from '@/components/SectionSeparator';
 import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
 import Tags from '@/components/Tags';
-import { getAllPostsWithSlug } from '@/lib/api';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
   CategoryToPostConnection,
@@ -19,8 +18,10 @@ import {
   PostIdType,
   PostStatusEnum,
   PostFormatIdType,
+  RootQueryToPostConnection,
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/POST_QUERY';
+import { allPostsWithSlug } from '@/graphql/queries/allPostsWithSlug';
 interface Props {
   post: GeneratedPostType;
   posts?: CategoryToPostConnection;
@@ -133,16 +134,20 @@ interface StaticPaths {
   fallback: boolean;
 }
 
-export async function getStaticPaths(): Promise<StaticPaths> {
-  const allPosts = await getAllPostsWithSlug();
-
+export const getStaticPaths = async (): Promise<StaticPaths> => {
+  const apolloClient: any = initializeApollo();
+  await apolloClient.query({
+    query: allPostsWithSlug,
+  });
+  const edges: RootQueryToPostConnection['edges'] = apolloClient.cache.extract()
+    .ROOT_QUERY.posts.edges;
   return {
     paths:
-      allPosts.edges.map(({ node }) => {
+      edges.map(({ node }) => {
         if (node) {
           return `/posts/${node.slug}`;
         }
       }) || [],
     fallback: true,
   };
-}
+};

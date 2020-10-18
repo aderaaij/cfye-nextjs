@@ -77,10 +77,10 @@ interface AllPostsWithSlug {
   edges: Array<PostWithSlug>;
 }
 
-export async function getAllPostsWithSlug(): Promise<AllPostsWithSlug> {
-  const data = await fetchAPI(allPostsWithSlug);
-  return data?.posts;
-}
+// export async function getAllPostsWithSlug(): Promise<AllPostsWithSlug> {
+//   const data = await fetchAPI(allPostsWithSlug);
+//   return data?.posts;
+// }
 
 export async function getPostAndMorePosts(
   slug: string,
