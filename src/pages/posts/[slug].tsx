@@ -83,6 +83,10 @@ const Post: React.FC<Props> = () => {
     }
   );
 
+  if (!data) {
+    return <ErrorPage statusCode={501} />;
+  }
+
   const { post, posts } = data;
 
   if (!router.isFallback && !post?.slug) {
