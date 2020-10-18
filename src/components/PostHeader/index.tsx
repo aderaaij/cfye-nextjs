@@ -1,8 +1,8 @@
-import Avatar from '@components/Avatar';
-import Date from '@components/Date';
-import CoverImage from '@components/CoverImage';
-import PostTitle from '@components/PostTitle';
-import Categories from '@components/Categories';
+import Avatar from '@/components/Avatar';
+import Date from '@/components/Date';
+import CoverImage from '@/components/CoverImage';
+import PostTitle from '@/components/PostTitle';
+import Categories from '@/components/Categories';
 import { MediaItem, PostToCategoryConnection, User } from 'types';
 
 interface Props {

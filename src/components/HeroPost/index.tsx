@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Avatar from '@components/Avatar';
-import Date from '@components/Date';
-import CoverImage from '@components/CoverImage';
+import Avatar from '@/components/Avatar';
+import Date from '@/components/Date';
+import CoverImage from '@/components/CoverImage';
 import { MediaItem, NodeWithAuthorToUserConnectionEdge } from 'types';
 
 interface Props {

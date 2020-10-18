@@ -1604,6 +1604,8 @@ export type Post = Node &
   MenuItemLinkable & {
     __typename?: 'Post';
     /** @deprecated  */
+    PostSubtitle?: Maybe<Post_Postsubtitle>;
+    /** @deprecated  */
     artistInformation?: Maybe<Post_Artistinformation>;
     /**
      * Connection between the NodeWithAuthor type and the User type
@@ -1777,8 +1779,6 @@ export type Post = Node &
      * @deprecated Deprecated in favor of the databaseId field
      */
     postId: Scalars['Int'];
-    /** @deprecated  */
-    postSubtitle?: Maybe<Post_Postsubtitle>;
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -5306,114 +5306,18 @@ export type NodeWithTrackbacks = {
 };
 
 /** Field Group */
+export type Post_Postsubtitle = {
+  __typename?: 'Post_Postsubtitle';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
+/** Field Group */
 export type Post_Artistinformation = {
   __typename?: 'Post_Artistinformation';
   /** @deprecated  */
-  artistDescription?: Maybe<Scalars['String']>;
-  /**
-   * Add the artist location to the map
-   * @deprecated
-   */
-  artistLocation?: Maybe<Acf_GoogleMap>;
-  /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  flickrUsername?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  headerImage?: Maybe<MediaItem>;
-  /** @deprecated  */
-  relatedArticles?: Maybe<Array<Maybe<Post_Artistinformation_RelatedArticles>>>;
-  /**
-   * Add Facebook URL
-   * @deprecated
-   */
-  sltFacebookid?: Maybe<Scalars['String']>;
-  /**
-   * Add the instagram user handle
-   * @deprecated
-   */
-  sltInstagram?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltTumblrid?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltTwitterid?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltWebsite?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltYoutubeid?: Maybe<Scalars['String']>;
 };
-
-/** Google Map field */
-export type Acf_GoogleMap = {
-  __typename?: 'ACF_GoogleMap';
-  /**
-   * The city associated with the map
-   * @deprecated
-   */
-  city?: Maybe<Scalars['String']>;
-  /**
-   * The country associated with the map
-   * @deprecated
-   */
-  country?: Maybe<Scalars['String']>;
-  /**
-   * The country abbreviation associated with the map
-   * @deprecated
-   */
-  countryShort?: Maybe<Scalars['String']>;
-  /**
-   * The latitude associated with the map
-   * @deprecated
-   */
-  latitude?: Maybe<Scalars['Float']>;
-  /**
-   * The longitude associated with the map
-   * @deprecated
-   */
-  longitude?: Maybe<Scalars['Float']>;
-  /**
-   * The country associated with the map
-   * @deprecated
-   */
-  placeId?: Maybe<Scalars['String']>;
-  /**
-   * The post code associated with the map
-   * @deprecated
-   */
-  postCode?: Maybe<Scalars['String']>;
-  /**
-   * The state associated with the map
-   * @deprecated
-   */
-  state?: Maybe<Scalars['String']>;
-  /**
-   * The state abbreviation associated with the map
-   * @deprecated
-   */
-  stateShort?: Maybe<Scalars['String']>;
-  /**
-   * The street address associated with the map
-   * @deprecated
-   */
-  streetAddress?: Maybe<Scalars['String']>;
-  /**
-   * The street name associated with the map
-   * @deprecated
-   */
-  streetName?: Maybe<Scalars['String']>;
-  /**
-   * The street number associated with the map
-   * @deprecated
-   */
-  streetNumber?: Maybe<Scalars['String']>;
-  /**
-   * The zoom defined with the map
-   * @deprecated
-   */
-  zoom?: Maybe<Scalars['String']>;
-};
-
-export type Post_Artistinformation_RelatedArticles = Post;
 
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
@@ -5925,15 +5829,6 @@ export type PostFormatToTaxonomyConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Taxonomy>;
-};
-
-/** Field Group */
-export type Post_Postsubtitle = {
-  __typename?: 'Post_Postsubtitle';
-  /** @deprecated  */
-  fieldGroupName?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  postSubtitle?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the post type */

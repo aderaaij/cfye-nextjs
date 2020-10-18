@@ -1,4 +1,6 @@
-export const PostFields = /* GraphQL */ `
+import { gql } from '@apollo/client';
+
+export const PostFields = /* GraphQL */ gql`
   fragment PostFields on Post {
     title
     excerpt

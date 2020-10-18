@@ -1,10 +1,10 @@
-import { previewPost } from '@graphql/queries/previewPost';
-import { allPostsWithSlug } from '@graphql/queries/allPostsWithSlug';
-import { allPostsForHome } from '@graphql/queries/allPostsForHome';
-import { AuthorFields } from '@graphql/fragments/AuthorFields';
-import { postBySlug } from '@graphql/queries/postBySlug';
-import { PostFields } from '@graphql/fragments/PostFields';
-import { PostAndMorePosts } from '@interfaces/PostAndMorePosts';
+import { previewPost } from '@/graphql/queries/previewPost';
+import { allPostsWithSlug } from '@/graphql/queries/allPostsWithSlug';
+import { allPostsForHome } from '@/graphql/queries/allPostsForHome';
+import { AuthorFields } from '@/graphql/fragments/AuthorFields';
+import { postBySlug } from '@/graphql/queries/postBySlug';
+import { PostFields } from '@/graphql/fragments/PostFields';
+import { PostAndMorePosts } from '@/interfaces/PostAndMorePosts';
 import { CategoryToPostConnection, Post, PostFormatIdType } from 'types';
 
 const API_URL = process.env.WORDPRESS_API_URL;

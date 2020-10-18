@@ -1,9 +1,10 @@
-import PostPreview from '@components/PostPreview';
-import { CategoryToPostConnection } from 'types';
+import PostPreview from '@/components/PostPreview';
+import { RootQueryToPostConnection } from 'types';
 
 interface Props {
-  posts: CategoryToPostConnection['edges'];
+  posts: RootQueryToPostConnection['edges'];
 }
+
 const MoreStories: React.FC<Props> = ({ posts }) => {
   return (
     <section>
@@ -26,4 +27,5 @@ const MoreStories: React.FC<Props> = ({ posts }) => {
     </section>
   );
 };
+
 export default MoreStories;

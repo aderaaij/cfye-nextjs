@@ -1,4 +1,4 @@
-import Container from '@components/Container';
+import Container from '@/components/Container';
 import cn from 'classnames';
 
 interface Props {
