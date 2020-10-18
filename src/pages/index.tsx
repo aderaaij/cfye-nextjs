@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import ErrorPage from 'next/error';
 import { NetworkStatus, useQuery, ApolloClient } from '@apollo/client';
 import Container from '@/components/Container';
 import MoreStories from '@/components/MoreStories';
@@ -32,6 +33,11 @@ const Index: React.FC = () => {
     variables: allPostsQueryVars,
     notifyOnNetworkStatusChange: true,
   });
+
+  if (!data) {
+    return <ErrorPage statusCode={501} />;
+  }
+
   const { posts } = data;
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
