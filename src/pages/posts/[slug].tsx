@@ -10,7 +10,7 @@ import SectionSeparator from '@/components/SectionSeparator';
 import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
 import Tags from '@/components/Tags';
-import { getAllPostsWithSlug, getPostAndMorePosts } from '@/lib/api';
+import { getAllPostsWithSlug } from '@/lib/api';
 import {
   CategoryToPostConnection,
   Post as GeneratedPostType,
