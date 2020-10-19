@@ -22,6 +22,7 @@ import {
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
+import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 interface Props {
   post: GeneratedPostType;
   posts?: CategoryToPostConnection;
@@ -101,7 +102,7 @@ export const getStaticProps = async ({
   params,
   preview = false,
   previewData,
-}): Promise<any> => {
+}): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
   const postPreview: GeneratedPostType = preview && previewData?.post;
   const isId = Number.isInteger(Number(params.slug));
@@ -129,12 +130,7 @@ export const getStaticProps = async ({
   };
 };
 
-interface StaticPaths {
-  paths: (string | undefined)[] | [];
-  fallback: boolean;
-}
-
-export const getStaticPaths = async (): Promise<StaticPaths> => {
+export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const apolloClient: any = initializeApollo();
   await apolloClient.query({
     query: ALL_POSTS_WITH_SLUG_QUERY,

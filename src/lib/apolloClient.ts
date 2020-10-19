@@ -16,6 +16,11 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     link: new HttpLink({
       uri: API_URL,
     }),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+      },
+    },
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

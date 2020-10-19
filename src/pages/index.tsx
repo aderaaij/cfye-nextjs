@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import ErrorPage from 'next/error';
-import { NetworkStatus, useQuery, NormalizedCacheObject } from '@apollo/client';
+import { NetworkStatus, useQuery } from '@apollo/client';
 import Container from '@/components/Container';
 import MoreStories from '@/components/MoreStories';
 import HeroPost from '@/components/HeroPost';
@@ -9,6 +9,7 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
+import { GetStaticPropsResult } from 'next';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -33,30 +34,26 @@ const Index: React.FC = () => {
     variables: allPostsQueryVars,
     notifyOnNetworkStatusChange: true,
   });
-
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
-  console.log({ loading, loadingMorePosts, networkStatus, NetworkStatus });
-
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
 
   const { posts } = data;
-
   const heroPost = posts.edges[0]?.node;
   const morePosts = posts.edges.slice(1);
+  let moreContentIsLoading = false;
   const loadMorePosts = (): void => {
+    moreContentIsLoading = true;
     fetchMore({
-      query: POSTS_QUERY,
       variables: {
-        first: 10,
+        ...allPostsQueryVars,
         after: posts.pageInfo.endCursor,
       },
     });
   };
 
   if (error) return <div>Error loading posts</div>;
-  if (loading && !loadingMorePosts) return <div>Loading</div>;
 
   return (
     <>
@@ -77,16 +74,15 @@ const Index: React.FC = () => {
             />
           )}
           {posts.edges.length > 0 && <MoreStories posts={morePosts} />}
-          <div className="flex items-center justify-center bg-gray-200 h-24">
-            {!loadingMorePosts && (
-              <button
-                onClick={() => loadMorePosts()}
-                disabled={loadingMorePosts}
-                className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
-              >
-                {loadingMorePosts ? 'Loading...' : 'Show More'}
-              </button>
-            )}
+
+          <div className="flex items-center justify-center  h-24">
+            <button
+              onClick={() => loadMorePosts()}
+              disabled={loadingMorePosts}
+              className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
+            >
+              {loadingMorePosts ? 'Loading...' : 'Show More'}
+            </button>
           </div>
         </Container>
       </Layout>
@@ -96,16 +92,7 @@ const Index: React.FC = () => {
 
 export default Index;
 
-interface StaticProps {
-  props: {
-    initialApolloState: NormalizedCacheObject['cache'];
-    test234: string;
-  };
-
-  revalidate: number;
-}
-
-export const getStaticProps = async (): Promise<StaticProps> => {
+export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: POSTS_QUERY,
@@ -114,9 +101,6 @@ export const getStaticProps = async (): Promise<StaticProps> => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
-      test234: 'bla',
     },
-
-    revalidate: 1,
   };
 };
