@@ -49,7 +49,6 @@ const Post: React.FC<Props> = () => {
     return <ErrorPage statusCode={404} />;
   }
   if (error) return <ErrorPage statusCode={501} />;
-  if (loading) return <div>Loading</div>;
 
   return (
     <>
