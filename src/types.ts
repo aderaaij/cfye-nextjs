@@ -1604,8 +1604,6 @@ export type Post = Node &
   MenuItemLinkable & {
     __typename?: 'Post';
     /** @deprecated  */
-    PostSubtitle?: Maybe<Post_Postsubtitle>;
-    /** @deprecated  */
     artistInformation?: Maybe<Post_Artistinformation>;
     /**
      * Connection between the NodeWithAuthor type and the User type
@@ -1779,6 +1777,8 @@ export type Post = Node &
      * @deprecated Deprecated in favor of the databaseId field
      */
     postId: Scalars['Int'];
+    /** @deprecated  */
+    postSubtitleField?: Maybe<Post_Postsubtitlefield>;
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -4133,9 +4133,9 @@ export enum MediaItemSizeEnum {
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
   /** MediaItem with the 1536x1536 size */
-  _1536X1536 = '_1536X1536',
+  '1536X1536' = '_1536X1536',
   /** MediaItem with the 2048x2048 size */
-  _2048X2048 = '_2048X2048',
+  '2048X2048' = '_2048X2048',
 }
 
 /** Connection between the ContentNode type and the User type */
@@ -5306,13 +5306,6 @@ export type NodeWithTrackbacks = {
 };
 
 /** Field Group */
-export type Post_Postsubtitle = {
-  __typename?: 'Post_Postsubtitle';
-  /** @deprecated  */
-  fieldGroupName?: Maybe<Scalars['String']>;
-};
-
-/** Field Group */
 export type Post_Artistinformation = {
   __typename?: 'Post_Artistinformation';
   /** @deprecated  */
@@ -5829,6 +5822,13 @@ export type PostFormatToTaxonomyConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Taxonomy>;
+};
+
+/** Field Group */
+export type Post_Postsubtitlefield = {
+  __typename?: 'Post_Postsubtitlefield';
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the post type */

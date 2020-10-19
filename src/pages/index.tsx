@@ -34,12 +34,14 @@ const Index: React.FC = () => {
     notifyOnNetworkStatusChange: true,
   });
 
+  const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
+  console.log({ loading, loadingMorePosts, networkStatus, NetworkStatus });
+
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
 
   const { posts } = data;
-  const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
   const heroPost = posts.edges[0]?.node;
   const morePosts = posts.edges.slice(1);
@@ -75,13 +77,17 @@ const Index: React.FC = () => {
             />
           )}
           {posts.edges.length > 0 && <MoreStories posts={morePosts} />}
-          <button
-            onClick={() => loadMorePosts()}
-            disabled={loadingMorePosts}
-            className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
-          >
-            {loadingMorePosts ? 'Loading...' : 'Show More'}
-          </button>
+          <div className="flex items-center justify-center bg-gray-200 h-24">
+            {!loadingMorePosts && (
+              <button
+                onClick={() => loadMorePosts()}
+                disabled={loadingMorePosts}
+                className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
+              >
+                {loadingMorePosts ? 'Loading...' : 'Show More'}
+              </button>
+            )}
+          </div>
         </Container>
       </Layout>
     </>

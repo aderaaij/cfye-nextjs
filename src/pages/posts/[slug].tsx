@@ -30,7 +30,7 @@ interface Props {
 
 const Post: React.FC<Props> = () => {
   const router = useRouter();
-  const { loading, error, data } = useQuery(POST_QUERY(), {
+  const { loading, error, data } = useQuery(POST_QUERY, {
     variables: {
       id: router.query.slug,
       idType: PostIdType.Slug,
@@ -114,7 +114,7 @@ export const getStaticProps = async ({
     isSamePost && postPreview?.status === PostStatusEnum.Publish.toLowerCase();
 
   await apolloClient.query({
-    query: POST_QUERY(isRevision),
+    query: POST_QUERY,
     variables: {
       id: isDraft ? postPreview.id : params.slug,
       idType: isDraft ? PostFormatIdType.DatabaseId : PostFormatIdType.Slug,
