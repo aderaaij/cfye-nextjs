@@ -18,12 +18,12 @@
     "typeRoots": ["./node_modules/@types", "./typings", "./next-env.d.ts"],
     "lib": ["dom", "es2017"],
     "paths": {
-      "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"],
-      "@graphql/*": ["graphql/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@api/*": ["api/*"],
-      "@lib/*": ["lib/*"]
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/graphql/*": ["graphql/*"],
+      "@/interfaces/*": ["interfaces/*"],
+      "@/api/*": ["api/*"],
+      "@/lib/*": ["lib/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

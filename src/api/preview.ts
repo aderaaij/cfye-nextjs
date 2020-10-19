@@ -1,4 +1,4 @@
-import { getPreviewPost } from '@lib/api';
+import { getPreviewPost } from '@/lib/api';
 import { PostFormatIdType } from 'types';
 
 export default async function preview(req: any, res: any): Promise<any> {

@@ -1,6 +1,6 @@
-import Alert from '@components/Alert';
-import Footer from '@components/Footer';
-import Meta from '@components/Meta';
+import Alert from '@/components/Alert';
+import Footer from '@/components/Footer';
+import Meta from '@/components/Meta';
 
 interface Props {
   preview: boolean;

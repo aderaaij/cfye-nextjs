@@ -1778,7 +1778,7 @@ export type Post = Node &
      */
     postId: Scalars['Int'];
     /** @deprecated  */
-    postSubtitle?: Maybe<Post_Postsubtitle>;
+    postSubtitleField?: Maybe<Post_Postsubtitlefield>;
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -4133,9 +4133,9 @@ export enum MediaItemSizeEnum {
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
   /** MediaItem with the 1536x1536 size */
-  _1536X1536 = '_1536X1536',
+  '1536X1536' = '_1536X1536',
   /** MediaItem with the 2048x2048 size */
-  _2048X2048 = '_2048X2048',
+  '2048X2048' = '_2048X2048',
 }
 
 /** Connection between the ContentNode type and the User type */
@@ -5309,111 +5309,8 @@ export type NodeWithTrackbacks = {
 export type Post_Artistinformation = {
   __typename?: 'Post_Artistinformation';
   /** @deprecated  */
-  artistDescription?: Maybe<Scalars['String']>;
-  /**
-   * Add the artist location to the map
-   * @deprecated
-   */
-  artistLocation?: Maybe<Acf_GoogleMap>;
-  /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  flickrUsername?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  headerImage?: Maybe<MediaItem>;
-  /** @deprecated  */
-  relatedArticles?: Maybe<Array<Maybe<Post_Artistinformation_RelatedArticles>>>;
-  /**
-   * Add Facebook URL
-   * @deprecated
-   */
-  sltFacebookid?: Maybe<Scalars['String']>;
-  /**
-   * Add the instagram user handle
-   * @deprecated
-   */
-  sltInstagram?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltTumblrid?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltTwitterid?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltWebsite?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  sltYoutubeid?: Maybe<Scalars['String']>;
 };
-
-/** Google Map field */
-export type Acf_GoogleMap = {
-  __typename?: 'ACF_GoogleMap';
-  /**
-   * The city associated with the map
-   * @deprecated
-   */
-  city?: Maybe<Scalars['String']>;
-  /**
-   * The country associated with the map
-   * @deprecated
-   */
-  country?: Maybe<Scalars['String']>;
-  /**
-   * The country abbreviation associated with the map
-   * @deprecated
-   */
-  countryShort?: Maybe<Scalars['String']>;
-  /**
-   * The latitude associated with the map
-   * @deprecated
-   */
-  latitude?: Maybe<Scalars['Float']>;
-  /**
-   * The longitude associated with the map
-   * @deprecated
-   */
-  longitude?: Maybe<Scalars['Float']>;
-  /**
-   * The country associated with the map
-   * @deprecated
-   */
-  placeId?: Maybe<Scalars['String']>;
-  /**
-   * The post code associated with the map
-   * @deprecated
-   */
-  postCode?: Maybe<Scalars['String']>;
-  /**
-   * The state associated with the map
-   * @deprecated
-   */
-  state?: Maybe<Scalars['String']>;
-  /**
-   * The state abbreviation associated with the map
-   * @deprecated
-   */
-  stateShort?: Maybe<Scalars['String']>;
-  /**
-   * The street address associated with the map
-   * @deprecated
-   */
-  streetAddress?: Maybe<Scalars['String']>;
-  /**
-   * The street name associated with the map
-   * @deprecated
-   */
-  streetName?: Maybe<Scalars['String']>;
-  /**
-   * The street number associated with the map
-   * @deprecated
-   */
-  streetNumber?: Maybe<Scalars['String']>;
-  /**
-   * The zoom defined with the map
-   * @deprecated
-   */
-  zoom?: Maybe<Scalars['String']>;
-};
-
-export type Post_Artistinformation_RelatedArticles = Post;
 
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
@@ -5928,12 +5825,10 @@ export type PostFormatToTaxonomyConnectionEdge = {
 };
 
 /** Field Group */
-export type Post_Postsubtitle = {
-  __typename?: 'Post_Postsubtitle';
+export type Post_Postsubtitlefield = {
+  __typename?: 'Post_Postsubtitlefield';
   /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  postSubtitle?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the post type */
