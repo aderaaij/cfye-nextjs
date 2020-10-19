@@ -1,4 +1,8 @@
-export const postBySlug = (isRevision = false): string => `
+import { gql } from '@apollo/client';
+import { AuthorFields } from '../fragments/AuthorFields';
+import { PostFields } from '../fragments/PostFields';
+
+export const POST_QUERY = (isRevision = false): any => gql`
 query PostBySlug($id: ID!, $idType: PostIdType!) {
   post(id: $id, idType: $idType) {
     ...PostFields
@@ -33,4 +37,5 @@ query PostBySlug($id: ID!, $idType: PostIdType!) {
     }
   }
 }
+${PostFields}${AuthorFields}
 `;

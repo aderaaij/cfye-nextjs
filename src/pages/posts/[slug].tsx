@@ -20,8 +20,8 @@ import {
   PostFormatIdType,
   RootQueryToPostConnection,
 } from 'types';
-import { POST_QUERY } from '@/graphql/queries/POST_QUERY';
-import { allPostsWithSlug } from '@/graphql/queries/allPostsWithSlug';
+import { POST_QUERY } from '@/graphql/queries/postBySlug';
+import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
 interface Props {
   post: GeneratedPostType;
   posts?: CategoryToPostConnection;
@@ -137,7 +137,7 @@ interface StaticPaths {
 export const getStaticPaths = async (): Promise<StaticPaths> => {
   const apolloClient: any = initializeApollo();
   await apolloClient.query({
-    query: allPostsWithSlug,
+    query: ALL_POSTS_WITH_SLUG_QUERY,
   });
   const edges: RootQueryToPostConnection['edges'] = apolloClient.cache.extract()
     .ROOT_QUERY.posts.edges;

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const allPostsWithSlug = /* GraphQL */ gql`
+export const ALL_POSTS_WITH_SLUG_QUERY = /* GraphQL */ gql`
   {
     posts(first: 10000) {
       edges {

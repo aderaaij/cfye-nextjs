@@ -6,7 +6,7 @@ import MoreStories from '@/components/MoreStories';
 import HeroPost from '@/components/HeroPost';
 import Intro from '@/components/Intro';
 import Layout from '@/components/Layout';
-import { POSTS_QUERY } from '@/graphql/queries/POSTS_QUERY';
+import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
 
