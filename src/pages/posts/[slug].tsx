@@ -31,7 +31,7 @@ interface Props {
 
 const Post: React.FC<Props> = () => {
   const router = useRouter();
-  const { loading, error, data } = useQuery(POST_QUERY, {
+  const { error, data } = useQuery(POST_QUERY, {
     variables: {
       id: router.query.slug,
       idType: PostIdType.Slug,

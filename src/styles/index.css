@@ -13,6 +13,11 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+
+body {
+  @apply bg-white text-black;
+}
+
 .loader {
   border-top-color: #3498db;
   -webkit-animation: spinner 1.5s linear infinite;
@@ -36,6 +41,16 @@
     transform: rotate(360deg);
   }
 }
+
+.post-body p {
+  @apply max-w-2xl mx-auto;
+}
+
+.wp-caption img {
+  width: 100% !important;
+  max-width: 100%;
+}
+
 .has-text-align-left {
   @apply text-left;
 }
@@ -62,8 +77,16 @@
   right: 50%;
 }
 
+.wp-block-image {
+  @apply px-12 my-12 flex relative;
+}
+
+.wb-block-image figcaption {
+  @apply absolute bottom-0 left-0 w-full;
+}
+
 .wp-block-image img {
-  @apply max-w-full mt-2;
+  @apply w-full;
 }
 .wp-block-image.aligncenter {
   @apply text-center;
@@ -82,7 +105,7 @@
 .wp-block-image .alignright > figcaption,
 .wp-block-image .aligncenter > figcaption,
 .wp-block-image.is-resized > figcaption {
-  @apply table-caption;
+  @apply table-caption absolute left-0 bottom-0;
 
   caption-side: bottom;
 }

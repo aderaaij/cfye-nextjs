@@ -1,5 +1,8 @@
 import Head from 'next/head';
+
+import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
+import { motion } from 'framer-motion';
 import { NetworkStatus, useQuery } from '@apollo/client';
 import Container from '@/components/Container';
 import MoreStories from '@/components/MoreStories';
@@ -9,7 +12,6 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
-import { GetStaticPropsResult } from 'next';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -34,23 +36,25 @@ const Index: React.FC = () => {
     variables: allPostsQueryVars,
     notifyOnNetworkStatusChange: true,
   });
+
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
+
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
 
   const { posts } = data;
-  const heroPost = posts.edges[0]?.node;
-  const morePosts = posts.edges.slice(1);
-  let moreContentIsLoading = false;
   const loadMorePosts = (): void => {
-    moreContentIsLoading = true;
     fetchMore({
       variables: {
         ...allPostsQueryVars,
         after: posts.pageInfo.endCursor,
       },
     });
+  };
+
+  const isEven = (n: number): boolean => {
+    return n % 2 == 0;
   };
 
   if (error) return <div>Error loading posts</div>;
@@ -62,26 +66,25 @@ const Index: React.FC = () => {
           <title>Next.js Blog Example with {process.env.CMS_NAME}</title>
         </Head>
         <Container>
-          <Intro />
-          {heroPost && (
+          {/* <Intro /> */}
+          {posts.edges.map(({ node }, index) => (
             <HeroPost
-              title={heroPost.title}
-              coverImage={heroPost.featuredImage?.node}
-              date={heroPost.date}
-              author={heroPost.author.node}
-              slug={heroPost.slug}
-              excerpt={heroPost.excerpt}
+              title={node.title}
+              isEven={isEven(index)}
+              key={node.id}
+              coverImage={node.featuredImage?.node}
+              date={node.date}
+              author={node.author.node}
+              slug={node.slug}
+              excerpt={node.excerpt}
             />
-          )}
-          {posts.edges.length > 0 && <MoreStories posts={morePosts} />}
-
+          ))}
           <div className="flex items-center justify-center  h-24">
             <button
               onClick={() => loadMorePosts()}
               disabled={loadingMorePosts}
               className="flex mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
             >
-              {' '}
               {loadingMorePosts && (
                 <div className="loader mr-2 ease-linear rounded-full border-2 border-t-2 border-gray-200 h-6 w-6"></div>
               )}

@@ -56,7 +56,7 @@
 }
 
 .content figcaption {
-  @apply text-center text-sm;
+  @apply text-center text-sm absolute bottom-0 left-0 w-full py-4;
 }
 
 .content blockquote {
