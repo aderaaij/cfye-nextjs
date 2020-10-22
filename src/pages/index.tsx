@@ -67,19 +67,21 @@ const Index: React.FC = () => {
         </Head>
         <Container>
           {/* <Intro /> */}
-          {posts.edges.map(({ node }, index) => (
-            <HeroPost
-              title={node.title}
-              isEven={isEven(index)}
-              key={node.id}
-              coverImage={node.featuredImage?.node}
-              date={node.date}
-              author={node.author.node}
-              slug={node.slug}
-              excerpt={node.excerpt}
-            />
-          ))}
-          <div className="flex items-center justify-center  h-24">
+          <div className="snap snap-y snap-both snap-mandatory lg:h-screen overflow-y-scroll">
+            {posts.edges.map(({ node }, index) => (
+              <HeroPost
+                title={node.title}
+                isEven={isEven(index)}
+                key={node.id}
+                coverImage={node.featuredImage?.node}
+                date={node.date}
+                author={node.author.node}
+                slug={node.slug}
+                excerpt={node.excerpt}
+              />
+            ))}
+          </div>
+          <div className="flex items-center justify-center h-24 fixed bottom-0 left-0">
             <button
               onClick={() => loadMorePosts()}
               disabled={loadingMorePosts}

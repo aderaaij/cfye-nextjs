@@ -36,6 +36,7 @@ const HeroPost: React.FC<Props> = ({
         'lg:grid',
         'lg:grid-cols-2',
         'grid-flow-col-dense',
+        'snap-start',
         {
           'bg-gray-100': !isEven,
         }
@@ -76,7 +77,7 @@ const HeroPost: React.FC<Props> = ({
         )}
       >
         <div className={cn('py-4 lg:py-0', {})}>
-          <h3 className="mb-4 text-4xl lg:text-6xl leading-tight">
+          <h3 className="mb-4 text-4xl lg:text-6xl leading-tight font-header font-medium">
             <Link as={`/posts/${slug}`} href="/posts/[slug]">
               <a
                 className="hover:underline text-cfye"
@@ -84,13 +85,13 @@ const HeroPost: React.FC<Props> = ({
               />
             </Link>
           </h3>
-          <div className="mb-4 lg:mb-8 text-sm">
+          <div className="mb-4 lg:mb-8 text-sm font-header font-light text-gray-600">
             <Date dateString={date} />
           </div>
 
           <div>
             <div
-              className="text-lg leading-relaxed mb-4"
+              className="text-xl leading-relaxed mb-4 font-body font-light mb-8"
               dangerouslySetInnerHTML={{ __html: excerpt }}
             />
             <Avatar isEven={isEven} author={author} />

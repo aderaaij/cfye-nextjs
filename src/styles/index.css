@@ -43,7 +43,7 @@ body {
 }
 
 .post-body p {
-  @apply max-w-2xl mx-auto;
+  @apply max-w-2xl mx-auto font-body text-xl font-light;
 }
 
 .wp-caption img {

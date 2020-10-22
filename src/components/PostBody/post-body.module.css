@@ -35,6 +35,14 @@
   list-style: circle;
 }
 
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  @apply text-cfye max-w-2xl mx-auto font-header;
+}
+
 .content h2 {
   @apply text-3xl mt-12 mb-4 leading-snug;
 }
@@ -60,11 +68,11 @@
 }
 
 .content blockquote {
-  @apply border-l-4 border-gray-500 bg-gray-200 italic ml-0 py-4 px-6;
+  @apply border-l-4 border-cfye font-medium italic my-10 ml-0 py-4 px-6 max-w-2xl mx-auto flex justify-center font-header;
 }
 
 .content blockquote p {
-  @apply mt-0;
+  @apply my-0 py-4 font-header font-medium italic text-2xl;
 }
 
 .content blockquote cite {
