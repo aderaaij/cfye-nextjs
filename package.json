@@ -32,7 +32,8 @@
     "framer-motion": "^2.9.3",
     "next": "latest",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-intersection-observer": "^8.29.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.18.0",
