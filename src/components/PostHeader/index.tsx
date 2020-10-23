@@ -21,14 +21,16 @@ const PostHeader: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <PostTitle>{title}</PostTitle>
-      {author && (
-        <div className="hidden md:block md:mb-12">
-          <Avatar author={author} />
-        </div>
-      )}
+      <header className="text-center flex flex-col items-center">
+        <PostTitle>{title}</PostTitle>
+        {author && (
+          <div className="hidden md:block md:mb-12">
+            <Avatar author={author} />
+          </div>
+        )}
+      </header>
       {coverImage && (
-        <div className="mb-8 md:mb-16 sm:mx-0">
+        <div className="flex items-center justify-center mb-8 md:mb-16 sm:mx-0 p-6">
           <CoverImage title={title} coverImage={coverImage} />
         </div>
       )}

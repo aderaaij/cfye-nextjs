@@ -15,6 +15,7 @@ module.exports = {
         'accent-7': '#333',
         success: '#0070f3',
         cyan: '#79FFE1',
+        cfye: '#ec008c',
       },
       spacing: {
         28: '7rem',
@@ -35,6 +36,20 @@ module.exports = {
         small: '0 5px 10px rgba(0, 0, 0, 0.12)',
         medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
+      maxWidth: {
+        paragraph: '65ch',
+      },
+    },
+    fontFamily: {
+      sans: ['-apple-system', 'BlinkMacSystemFont'],
+      serif: ['maecenas', 'Cambria'],
+      mono: ['SFMono-Regular', 'Menlo'],
+      header: ['protipo-narrow', 'sans-serif'],
+      body: ['maecenas', 'serif'],
     },
   },
+  variants: {
+    scrollSnapType: ['responsive'],
+  },
+  plugins: [require('tailwindcss-scroll-snap')],
 };

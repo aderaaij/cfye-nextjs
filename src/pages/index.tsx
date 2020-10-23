@@ -1,15 +1,18 @@
 import Head from 'next/head';
+import { Fragment, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
+import { motion } from 'framer-motion';
 import { NetworkStatus, useQuery } from '@apollo/client';
 import Container from '@/components/Container';
 import MoreStories from '@/components/MoreStories';
 import HeroPost from '@/components/HeroPost';
-import Intro from '@/components/Intro';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
-import { GetStaticPropsResult } from 'next';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -27,6 +30,11 @@ export const allPostsQueryVars: AllPostQueryVars = {
 };
 
 const Index: React.FC = () => {
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
   const { loading, error, data, fetchMore, networkStatus } = useQuery<
     Data,
     AllPostQueryVars
@@ -34,17 +42,17 @@ const Index: React.FC = () => {
     variables: allPostsQueryVars,
     notifyOnNetworkStatusChange: true,
   });
+
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
+
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
 
   const { posts } = data;
-  const heroPost = posts.edges[0]?.node;
-  const morePosts = posts.edges.slice(1);
-  let moreContentIsLoading = false;
+  const [count, setCount] = useState(null);
+
   const loadMorePosts = (): void => {
-    moreContentIsLoading = true;
     fetchMore({
       variables: {
         ...allPostsQueryVars,
@@ -52,6 +60,20 @@ const Index: React.FC = () => {
       },
     });
   };
+
+  const isEven = (n: number): boolean => {
+    return n % 2 == 0;
+  };
+
+  useEffect((): void => {
+    setCount(posts.edges.length - 1);
+  }, [posts]);
+
+  useEffect((): void => {
+    if (inView) {
+      loadMorePosts();
+    }
+  }, [inView]);
 
   if (error) return <div>Error loading posts</div>;
 
@@ -62,31 +84,33 @@ const Index: React.FC = () => {
           <title>Next.js Blog Example with {process.env.CMS_NAME}</title>
         </Head>
         <Container>
-          <Intro />
-          {heroPost && (
-            <HeroPost
-              title={heroPost.title}
-              coverImage={heroPost.featuredImage?.node}
-              date={heroPost.date}
-              author={heroPost.author.node}
-              slug={heroPost.slug}
-              excerpt={heroPost.excerpt}
-            />
-          )}
-          {posts.edges.length > 0 && <MoreStories posts={morePosts} />}
-
-          <div className="flex items-center justify-center  h-24">
-            <button
-              onClick={() => loadMorePosts()}
-              disabled={loadingMorePosts}
-              className="flex mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
-            >
-              {' '}
-              {loadingMorePosts && (
-                <div className="loader mr-2 ease-linear rounded-full border-2 border-t-2 border-gray-200 h-6 w-6"></div>
-              )}
-              {loadingMorePosts ? 'Loading...' : 'Show More'}
-            </button>
+          <div className="snap snap-y snap-both snap-mandatory lg:h-screen overflow-y-scroll">
+            {posts.edges.map(({ node }, index) => {
+              return (
+                <Fragment key={node.id}>
+                  <HeroPost
+                    title={node.title}
+                    isEven={isEven(index)}
+                    key={node.id}
+                    coverImage={node.featuredImage?.node}
+                    date={node.date}
+                    author={node.author.node}
+                    slug={node.slug}
+                    excerpt={node.excerpt}
+                  />
+                  {index === count - 1 && (
+                    <div ref={ref} key={index}>
+                      Test
+                    </div>
+                  )}
+                </Fragment>
+              );
+            })}
+          </div>
+          <div className="flex items-center w-full justify-center h-24 fixed bottom-0 left-0 ">
+            {loadingMorePosts && (
+              <div className="loader ease-linear rounded-full border-2 border-t-2 border-cfye h-12 w-12"></div>
+            )}
           </div>
         </Container>
       </Layout>
