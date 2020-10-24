@@ -21,14 +21,9 @@ export const POSTS_QUERY = gql`
           date
           featuredImage {
             node {
-              sourceUrl
-              srcSet
+              sourceUrl(size: LARGE)
+              srcSet(size: LARGE)
               id
-              mediaDetails {
-                sizes {
-                  sourceUrl
-                }
-              }
             }
           }
           author {
