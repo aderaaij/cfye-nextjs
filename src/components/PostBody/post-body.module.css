@@ -126,13 +126,6 @@
     @apply w-full;
   }
 
-  /* 
-  > figure > img {
-    @apply max-h-screen object-contain;
-
-    max-height: calc(100vh - 6rem);
-  } */
-
   :global {
     .wp-block-image {
       @apply px-12;
@@ -209,6 +202,16 @@
 
       width: 100vw;
       height: 56.25vw;
+
+      &__wrapper {
+        @apply w-full;
+        @apply h-full;
+
+        iframe {
+          @apply w-full;
+          @apply h-full;
+        }
+      }
 
       @screen lg {
         @apply my-0;
