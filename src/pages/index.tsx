@@ -98,11 +98,7 @@ const Index: React.FC = () => {
                     slug={node.slug}
                     excerpt={node.excerpt}
                   />
-                  {index === count - 1 && (
-                    <div ref={ref} key={index}>
-                      Test
-                    </div>
-                  )}
+                  {index === count - 1 && <div ref={ref} key={index}></div>}
                 </Fragment>
               );
             })}

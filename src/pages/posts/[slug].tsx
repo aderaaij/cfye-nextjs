@@ -54,17 +54,13 @@ const Post: React.FC<Props> = () => {
     <>
       <Layout preview={false}>
         <Container>
-          <Header />
           {router.isFallback ? (
             <PostTitle>Loading…</PostTitle>
           ) : (
             <>
               <article>
                 <Head>
-                  <title>
-                    {post.title} | Next.js Blog Example with{' '}
-                    {process.env.CMS_NAME}
-                  </title>
+                  <title>{post.title} | CFYE.com</title>
                   <meta
                     property="og:image"
                     content={
@@ -85,8 +81,8 @@ const Post: React.FC<Props> = () => {
                 </footer>
               </article>
 
-              <SectionSeparator />
-              {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+              {/* <SectionSeparator /> */}
+              {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
             </>
           )}
         </Container>

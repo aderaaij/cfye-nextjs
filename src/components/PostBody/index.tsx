@@ -4,7 +4,7 @@ interface Props {
   content: string;
 }
 const PostBody: React.FC<Props> = ({ content }) => (
-  <div className="post-body">
+  <div className="post-body  pb-16">
     <div
       className={styles.content}
       dangerouslySetInnerHTML={{ __html: content }}

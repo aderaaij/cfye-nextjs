@@ -31,6 +31,7 @@ const HeroPost: React.FC<Props> = ({
         'w-full',
         'lg:h-screen',
         'relative',
+        'overflow-hidden',
         'px-4 lg:px-0',
         'mb-12 lg:mb-0',
         'py-4 lg:py-0',
@@ -55,6 +56,7 @@ const HeroPost: React.FC<Props> = ({
         )}
       >
         <CoverImage
+          absolute={true}
           cover={true}
           title={title}
           coverImage={coverImage}
@@ -82,7 +84,9 @@ const HeroPost: React.FC<Props> = ({
         >
           <h3 className="mb-4 text-4xl lg:text-6xl leading-tight font-header font-medium">
             <Link as={`/posts/${slug}`} href="/posts/[slug]">
-              <a className="hover:underline text-cfye">{limitText(title)}</a>
+              <a className="hover:underline text-cfye">
+                {limitText(title, 50)}
+              </a>
             </Link>
           </h3>
           <div className="mb-4 lg:mb-8 text-sm font-header font-light text-gray-600">
