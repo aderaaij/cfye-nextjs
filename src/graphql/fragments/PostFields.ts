@@ -6,6 +6,10 @@ export const PostFields = gql`
     excerpt
     slug
     date
+    featuredImageSettings {
+      imageFit
+      backgroundColor
+    }
     featuredImage {
       node {
         sourceUrl

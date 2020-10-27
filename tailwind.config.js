@@ -1,3 +1,4 @@
+var colors = require('./material-colors.tailwind.js');
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
@@ -16,6 +17,7 @@ module.exports = {
         success: '#0070f3',
         cyan: '#79FFE1',
         cfye: '#ec008c',
+        ...colors,
       },
       spacing: {
         28: '7rem',
@@ -29,7 +31,7 @@ module.exports = {
       fontSize: {
         '5xl': '2.5rem',
         '6xl': '2.75rem',
-        '7xl': '4.5rem',
+        '7xl': '3.5rem',
         '8xl': '6.25rem',
       },
       boxShadow: {
@@ -46,6 +48,15 @@ module.exports = {
       mono: ['SFMono-Regular', 'Menlo'],
       header: ['protipo-narrow', 'sans-serif'],
       body: ['maecenas', 'serif'],
+    },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      hd: '1920px',
+      qhd: '2560px',
+      '4k': '3840px',
     },
   },
   variants: {

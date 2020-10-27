@@ -47,13 +47,13 @@ body {
   }
 }
 
-.post-body p {
+/* .post-body p {
   @apply max-w-2xl;
   @apply mx-auto;
   @apply font-body;
   @apply text-xl;
   @apply font-light;
-}
+} */
 
 .wp-caption img {
   width: 100% !important;

@@ -1,13 +1,10 @@
 import Head from 'next/head';
 import { Fragment, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-
 import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
-import { motion } from 'framer-motion';
 import { NetworkStatus, useQuery } from '@apollo/client';
 import Container from '@/components/Container';
-import MoreStories from '@/components/MoreStories';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
@@ -31,7 +28,6 @@ export const allPostsQueryVars: AllPostQueryVars = {
 
 const Index: React.FC = () => {
   const { ref, inView } = useInView({
-    /* Optional options */
     threshold: 0,
   });
 
@@ -84,7 +80,7 @@ const Index: React.FC = () => {
           <title>Next.js Blog Example with {process.env.CMS_NAME}</title>
         </Head>
         <Container>
-          <div className="snap snap-y snap-both snap-mandatory lg:h-screen overflow-y-scroll">
+          <div className="snap snap-both snap-mandatory lg:h-screen overflow-y-scroll">
             {posts.edges.map(({ node }, index) => {
               return (
                 <Fragment key={node.id}>
@@ -92,13 +88,15 @@ const Index: React.FC = () => {
                     title={node.title}
                     isEven={isEven(index)}
                     key={node.id}
+                    imageSettings={node.featuredImageSettings}
                     coverImage={node.featuredImage?.node}
                     date={node.date}
                     author={node.author.node}
                     slug={node.slug}
                     excerpt={node.excerpt}
                   />
-                  {index === count - 1 && <div ref={ref} key={index}></div>}
+
+                  {index === count - 2 && <div ref={ref} key={index}></div>}
                 </Fragment>
               );
             })}

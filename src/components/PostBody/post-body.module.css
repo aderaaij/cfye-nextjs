@@ -1,12 +1,53 @@
 .content {
   @apply leading-relaxed;
   @apply text-lg;
+  @apply grid;
+
+  grid-template-columns: 1rem 1fr minmax(33%, 55ch) 1fr 1rem;
+  grid-template-areas: '. . paragraph . .';
+  grid-template-rows: auto;
+  grid-auto-flow: dense;
+
+  @screen lg {
+    grid-template-columns: 4rem 1fr minmax(500px, 55ch) 1fr 4rem;
+  }
+
+  @screen xl {
+    grid-template-columns: 4rem 1fr minmax(500px, 65ch) 1fr 4rem;
+  }
 
   p,
   ul,
   ol,
   blockquote {
-    @apply my-6;
+    @apply mb-6;
+  }
+
+  strong {
+    @apply font-bold;
+  }
+
+  p,
+  ul,
+  ol {
+    @apply font-body;
+    @apply text-lg;
+    @apply font-light;
+
+    @screen md {
+      @apply text-xl;
+    }
+  }
+
+  p,
+  blockquote,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    grid-column: 3 / span 1;
   }
 
   a {
@@ -43,7 +84,6 @@
   h6 {
     @apply text-cfye;
     @apply max-w-2xl;
-    @apply mx-auto;
     @apply font-header;
   }
 
@@ -94,19 +134,17 @@
   }
 
   blockquote {
-    @apply border-l-4;
-    @apply border-cfye;
-    @apply font-medium;
-    @apply italic;
-    @apply my-10;
-    @apply ml-0;
-    @apply py-4;
-    @apply px-6;
-    @apply max-w-2xl;
-    @apply mx-auto;
-    @apply flex;
-    @apply justify-center;
-    @apply font-header;
+    @apply border-l-4 border-cfye;
+    @apply font-header font-medium italic;
+    @apply my-4 mx-auto;
+    @apply py-4 pl-4;
+    @apply flex justify-center;
+    @apply min-w-full;
+
+    @screen lg {
+      @apply px-6;
+      @apply mx-0;
+    }
 
     p {
       @apply my-0;
@@ -114,7 +152,11 @@
       @apply font-header;
       @apply font-medium;
       @apply italic;
-      @apply text-xl;
+      @apply text-base;
+
+      @screen lg {
+        @apply text-xl;
+      }
     }
 
     cite {
@@ -128,17 +170,29 @@
 
   :global {
     .wp-block-image {
-      @apply px-12;
-      @apply my-16;
-      @apply flex;
+      @apply flex justify-center;
       @apply relative;
+      @apply my-12;
+
+      grid-column: 1 / span 5;
+
+      @screen lg {
+        grid-column: 2 / span 3;
+      }
 
       &.is-style-cover-screen {
-        @apply w-screen min-h-screen;
+        @apply w-screen;
         @apply p-0;
+
+        grid-column: 1 / span 5;
+
+        @screen lg {
+          @apply min-h-screen;
+        }
 
         img {
           object-fit: cover;
+          width: 100%;
           height: auto;
         }
       }
@@ -157,27 +211,66 @@
 
     /* Begin Blocks Gallery */
 
+    figure + .wp-block-gallery {
+      @apply mt-0;
+    }
+
+    /* .wp-block-gallery ~ .wp-block-image,
+    .wp-block-image ~ .wp-block-gallery {
+      margin: 0;
+    } */
+
     .wp-block-gallery {
+      @apply my-12;
+
+      grid-column: 1 / span 5;
+
+      @screen lg {
+        grid-column: 2 / span 3;
+      }
+
       &.columns-2 {
         .blocks-gallery-grid {
           grid-template-columns: repeat(2, 1fr);
+
+          .blocks-gallery-item {
+            /* &:nth-child(3n) {
+              grid-column: span 2;
+            } */
+          }
+        }
+      }
+
+      &.columns-3 {
+        .blocks-gallery-grid {
+          grid-template-columns: repeat(12, 1fr);
+          grid-template-rows: 14.2vw;
+          grid-auto-rows: 14.2vw;
+        }
+
+        .blocks-gallery-item {
+          grid-column: span 4;
+          grid-row: span 2;
         }
       }
     }
 
     .blocks-gallery-grid {
-      display: grid;
+      @apply grid;
+      @apply list-none;
+      @apply my-0;
+      @apply overflow-hidden;
+
       grid-template-columns: repeat(12, 1fr);
 
       /* grid-template-rows: 14.2vw;
       grid-auto-rows: 14.2vw; */
       grid-auto-flow: row dense;
       grid-gap: 1.5vw;
-      margin-bottom: 1.5vw;
-      overflow: hidden;
 
-      @apply list-none;
-      @apply p-16;
+      @screen lg {
+        /* @apply p-16; */
+      }
     }
 
     .blocks-gallery-item {
@@ -193,10 +286,16 @@
         height: 100%;
         object-fit: cover;
       }
+
+      &__caption {
+        display: none;
+      }
     }
 
     /* Embeds */
     .wp-block-embed {
+      grid-column: 2 / span 3;
+
       @apply my-4;
       @apply mx-auto;
 

@@ -1,5 +1,5 @@
 const Container: React.FC = ({ children }) => (
-  <div className="">{children}</div>
+  <div className="max-w-screen-qhd">{children}</div>
 );
 
 export default Container;

@@ -19,6 +19,10 @@ export const POSTS_QUERY = gql`
           excerpt
           slug
           date
+          featuredImageSettings {
+            imageFit
+            backgroundColor
+          }
           featuredImage {
             node {
               sourceUrl(size: LARGE)

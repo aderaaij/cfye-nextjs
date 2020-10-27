@@ -74,6 +74,7 @@ const Post: React.FC<Props> = () => {
                   date={post.date}
                   author={post.author?.node}
                   categories={post.categories}
+                  featuredImageSettings={post.featuredImageSettings}
                 />
                 <PostBody content={post.content} />
                 <footer>

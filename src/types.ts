@@ -1603,8 +1603,6 @@ export type Post = Node &
   NodeWithRevisions &
   MenuItemLinkable & {
     __typename?: 'Post';
-    /** @deprecated  */
-    artistInformation?: Maybe<Post_Artistinformation>;
     /**
      * Connection between the NodeWithAuthor type and the User type
      * @deprecated
@@ -1710,6 +1708,8 @@ export type Post = Node &
      * @deprecated
      */
     featuredImageId?: Maybe<Scalars['ID']>;
+    /** @deprecated  */
+    featuredImageSettings?: Maybe<Post_Featuredimagesettings>;
     /**
      * The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
      * @deprecated
@@ -1765,8 +1765,6 @@ export type Post = Node &
      * @deprecated
      */
     pinged?: Maybe<Array<Maybe<Scalars['String']>>>;
-    /** @deprecated  */
-    postFields?: Maybe<Post_Postfields>;
     /**
      * Connection between the post type and the postFormat type
      * @deprecated
@@ -1778,7 +1776,7 @@ export type Post = Node &
      */
     postId: Scalars['Int'];
     /** @deprecated  */
-    postSubtitleField?: Maybe<Post_Postsubtitlefield>;
+    postSettingsField?: Maybe<Post_Postsettingsfield>;
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -4132,10 +4130,20 @@ export enum MediaItemSizeEnum {
   MediumLarge = 'MEDIUM_LARGE',
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
+  /** MediaItem with the 100x100 size */
+  '100X100' = '_100X100',
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
+  /** MediaItem with the 1600x1067 size */
+  '1600X1067' = '_1600X1067',
+  /** MediaItem with the 1600x1600 size */
+  '1600X1600' = '_1600X1600',
+  /** MediaItem with the 1920x1080 size */
+  '1920X1080' = '_1920X1080',
   /** MediaItem with the 2048x2048 size */
   '2048X2048' = '_2048X2048',
+  /** MediaItem with the 900x600 size */
+  '900X600' = '_900X600',
 }
 
 /** Connection between the ContentNode type and the User type */
@@ -4242,6 +4250,14 @@ export type MediaSize = {
    * @deprecated
    */
   width?: Maybe<Scalars['String']>;
+};
+
+/** The template assigned to a node of content */
+export type ContentTemplate = {
+  /** The file the template uses */
+  templateFile?: Maybe<Scalars['String']>;
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
 };
 
 /** Arguments for filtering the ContentNodeToTermNodeConnection connection */
@@ -5305,13 +5321,6 @@ export type NodeWithTrackbacks = {
   toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-/** Field Group */
-export type Post_Artistinformation = {
-  __typename?: 'Post_Artistinformation';
-  /** @deprecated  */
-  fieldGroupName?: Maybe<Scalars['String']>;
-};
-
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
@@ -5497,33 +5506,15 @@ export type PostToContentTypeConnectionEdge = {
 };
 
 /** Field Group */
-export type Post_Postfields = {
-  __typename?: 'Post_Postfields';
+export type Post_Featuredimagesettings = {
+  __typename?: 'Post_Featuredimagesettings';
   /** @deprecated  */
-  addToMap?: Maybe<Scalars['Boolean']>;
-  /**
-   * Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt;
-   * @deprecated
-   */
-  artistPost?: Maybe<Array<Maybe<PostObjectUnion>>>;
-  /**
-   * Align the featured image so the most important parts aren&#039;t cut off (default: center).
-   * @deprecated
-   */
-  featuredImageAlignment?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  featuredImageBackground?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  featuredImageSize?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
   /** @deprecated  */
-  relatedArticle?: Maybe<Array<Maybe<Post_Postfields_RelatedArticle>>>;
+  imageFit?: Maybe<Scalars['String']>;
 };
-
-export type PostObjectUnion = Post | Page | MediaItem;
-
-export type Post_Postfields_RelatedArticle = Post;
 
 /** Arguments for filtering the PostToPostFormatConnection connection */
 export type PostToPostFormatConnectionWhereArgs = {
@@ -5606,7 +5597,8 @@ export type PostToPostFormatConnectionEdge = {
 export type PostFormat = Node &
   TermNode &
   UniformResourceIdentifiable &
-  DatabaseIdentifier & {
+  DatabaseIdentifier &
+  MenuItemLinkable & {
     __typename?: 'PostFormat';
     /**
      * The number of objects connected to the object
@@ -5825,11 +5817,33 @@ export type PostFormatToTaxonomyConnectionEdge = {
 };
 
 /** Field Group */
-export type Post_Postsubtitlefield = {
-  __typename?: 'Post_Postsubtitlefield';
+export type Post_Postsettingsfield = {
+  __typename?: 'Post_Postsettingsfield';
+  /** @deprecated  */
+  addToMap?: Maybe<Scalars['Boolean']>;
+  /**
+   * Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt;
+   * @deprecated
+   */
+  artistPost?: Maybe<Array<Maybe<PostObjectUnion>>>;
+  /**
+   * Align the featured image so the most important parts aren&#039;t cut off (default: center).
+   * @deprecated
+   */
+  featuredImageAlignment?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  featuredImageBackground?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  featuredImageSize?: Maybe<Scalars['String']>;
   /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
+  /** @deprecated  */
+  relatedArticle?: Maybe<Array<Maybe<Post_Postsettingsfield_RelatedArticle>>>;
 };
+
+export type PostObjectUnion = Post | Page | MediaItem;
+
+export type Post_Postsettingsfield_RelatedArticle = Post;
 
 /** Connection between the post type and the post type */
 export type PostToPreviewConnectionEdge = {
@@ -6934,7 +6948,7 @@ export type MenuItemToMenuItemLinkableConnectionEdge = {
 };
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Post | Page | Category | Tag;
+export type MenuItemObjectUnion = Post | Page | Category | Tag | PostFormat;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -10365,11 +10379,3 @@ export type MenuItemsWhereArgs = {
 };
 
 export type TermObjectUnion = Category | Tag | PostFormat;
-
-/** The template assigned to a node of content */
-export type ContentTemplate = {
-  /** The file the template uses */
-  templateFile?: Maybe<Scalars['String']>;
-  /** The name of the template */
-  templateName?: Maybe<Scalars['String']>;
-};
