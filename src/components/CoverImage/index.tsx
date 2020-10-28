@@ -23,7 +23,7 @@ const CoverImage: React.FC<Props> = ({
   const image = (
     <img
       srcSet={coverImage?.srcSet}
-      className={cn(`w-full h-full shadow-small object-${objectFit}`, {
+      className={cn('w-full h-full shadow-small object-cover', {
         'hover:shadow-medium transition-shadow duration-200': slug,
         absolute: absolute,
       })}
