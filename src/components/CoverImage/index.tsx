@@ -17,7 +17,6 @@ const CoverImage: React.FC<Props> = ({
   coverImage,
   slug,
   absolute,
-  objectFit = 'cover',
   backgroundColor: bg,
 }) => {
   const image = (
