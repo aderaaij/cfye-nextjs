@@ -17,7 +17,6 @@ module.exports = {
         success: '#0070f3',
         cyan: '#79FFE1',
         cfye: '#ec008c',
-        ...colors,
       },
       spacing: {
         28: '7rem',

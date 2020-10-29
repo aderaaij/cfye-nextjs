@@ -31,7 +31,7 @@ const PostBody: React.FC<Props> = ({ content }) => {
         />
       </div>
 
-      <LightBox active={modalActive} image={image} />
+      {/* <LightBox active={modalActive} image={image} /> */}
     </>
   );
 };
