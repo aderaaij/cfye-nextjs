@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Avatar from '@/components/Avatar';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
+import Image from 'next/image';
+
 import {
   MediaItem,
   NodeWithAuthorToUserConnectionEdge,
