@@ -4,10 +4,21 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: [
-    './src/components/**/*.{js,ts,jsx,tsx}',
-    './src/pages/**/*.{js,ts,jsx,tsx}',
-  ],
+  purge: {
+    content: [
+      './src/components/**/*.{js,ts,jsx,tsx}',
+      './src/pages/**/*.{js,ts,jsx,tsx}',
+    ],
+    options: {
+      whitelist: [
+        'object-cover',
+        'object-contain',
+        'object-fill',
+        'object-none',
+        'object-scale-down',
+      ],
+    },
+  },
   theme: {
     extend: {
       colors: {

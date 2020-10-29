@@ -17,12 +17,14 @@ const CoverImage: React.FC<Props> = ({
   coverImage,
   slug,
   absolute,
+  objectFit = 'contain',
   backgroundColor: bg,
 }) => {
+  console.log({ objectFit });
   const image = (
     <img
       srcSet={coverImage?.srcSet}
-      className={cn('w-full h-full shadow-small object-cover', {
+      className={cn(`w-full h-full shadow-small object-${objectFit}`, {
         'hover:shadow-medium transition-shadow duration-200': slug,
         absolute: absolute,
       })}
