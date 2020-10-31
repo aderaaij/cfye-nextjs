@@ -20,12 +20,11 @@ const CoverImage: React.FC<Props> = ({
   objectFit = 'contain',
   backgroundColor: bg,
 }) => {
-  console.log({ objectFit });
   const image = (
     <img
       srcSet={coverImage?.srcSet}
-      className={cn(`w-full h-full shadow-small object-${objectFit}`, {
-        'hover:shadow-medium transition-shadow duration-200': slug,
+      className={cn(`w-full h-full  object-${objectFit}`, {
+        'transition-shadow duration-200': slug,
         absolute: absolute,
       })}
     />
@@ -35,7 +34,7 @@ const CoverImage: React.FC<Props> = ({
       style={{
         backgroundColor: bg ? bg : 'transparent',
       }}
-      className="bg-gray-300 w-full h-full"
+      className="w-full h-full"
     >
       {slug ? (
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
