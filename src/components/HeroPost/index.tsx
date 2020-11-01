@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Avatar from '@/components/Avatar';
@@ -34,22 +33,10 @@ const HeroPost: React.FC<Props> = ({
   isEven,
   imageSettings,
 }) => {
-  const [hoverRef, isHovered] = useHover();
-  const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
-  const headerVariants = {
-    visible: {
-      '--before-x': 'translateX(100%)',
-    },
-    hidden: {
-      '--before-x': 'translateX(0)',
-    },
-  };
   return (
     <motion.section
       animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
       className={cn(
         `${styles['hero-post']}`,
         'hero-post w-full lg:h-screen overflow-hidden relative snap-start',
@@ -61,7 +48,6 @@ const HeroPost: React.FC<Props> = ({
       )}
     >
       <div
-        ref={hoverRef}
         className={cn(
           `${styles['image-wrap']}`,
           'hero-post__image-wrap relative h-full w-full max-w-full max-h-full flex-shrink-0 col-span-1 overflow-hidden',
@@ -71,12 +57,14 @@ const HeroPost: React.FC<Props> = ({
           }
         )}
       >
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+        <Link as={`/${slug}`} href="/[slug]">
           <a className="w-full h-full block relative" aria-label={title}>
             <motion.div
               whileHover={{
                 borderWidth: '0px',
+                scale: 1.02,
               }}
+              transition={{ ease: 'easeOut', duration: 0.3 }}
               className={cn(
                 `${styles['image-border']}`,
                 'w-full h-full overflow-hidden absolute top-0 left-0 z-10 '
@@ -115,52 +103,25 @@ const HeroPost: React.FC<Props> = ({
         >
           <motion.h3
             className={`${styles['title']} mb-4 text-4xl lg:text-6xl leading-tight font-header font-medium`}
-            ref={hoverRef}
           >
-            <Link as={`/posts/${slug}`} href="/posts/[slug]">
+            <Link as={`/${slug}`} href="/[slug]">
               <a className="hover:underline text-cfye">
                 {limitText(title, 50)}
               </a>
             </Link>
           </motion.h3>
-          <div className="mb-4 lg:mb-8 text-sm font-header font-light text-gray-600">
+          {/* <div className="mb-4 lg:mb-8 text-sm font-header font-light text-gray-600">
             <Date dateString={date} />
-          </div>
+          </div> */}
 
           <div
             className="text-xl leading-relaxed font-body font-light mb-8 max-w-paragraph"
             dangerouslySetInnerHTML={{ __html: excerpt }}
           />
-          <Avatar isEven={isEven} author={author} />
+          {/* <Avatar isEven={isEven} author={author} /> */}
         </div>
       </div>
     </motion.section>
   );
 };
 export default HeroPost;
-
-function useHover(): any {
-  const [value, setValue] = useState(false);
-
-  const ref = useRef(null);
-
-  const handleMouseOver = (): void => setValue(true);
-  const handleMouseOut = (): void => setValue(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    console.log({ node });
-    if (node) {
-      console.log('yay');
-      node.addEventListener('mouseover', handleMouseOver);
-      node.addEventListener('mouseout', handleMouseOut);
-
-      return () => {
-        node.removeEventListener('mouseover', handleMouseOver);
-        node.removeEventListener('mouseout', handleMouseOut);
-      };
-    }
-  }, [ref.current]);
-
-  return [ref, value];
-}

@@ -49,7 +49,7 @@ module.exports = {
         medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
       borderWidth: {
-        16: '4vw',
+        16: '4rem',
       },
       maxWidth: {
         paragraph: '65ch',

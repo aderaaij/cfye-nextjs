@@ -37,7 +37,7 @@ const CoverImage: React.FC<Props> = ({
       className="w-full h-full"
     >
       {slug ? (
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+        <Link as={`/${slug}`} href="/[slug]">
           <a className="w-full h-full block relative" aria-label={title}>
             {image}
           </a>

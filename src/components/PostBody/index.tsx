@@ -14,7 +14,6 @@ const PostBody: React.FC<Props> = ({ content }) => {
     const imageLinks = postContentRef.current.querySelectorAll('figure > a');
     imageLinks.forEach((imageLink) => {
       imageLink.addEventListener('click', function (e) {
-        console.log(e.target.dataset.fullUrl);
         setModelActive(true);
         setImage(e.target.dataset.fullUrl);
         e.preventDefault();
