@@ -62,12 +62,12 @@ const HeroPost: React.FC<Props> = ({
             <motion.div
               whileHover={{
                 borderWidth: '0px',
-                scale: 1.02,
+                scale: 1.01,
               }}
               transition={{ ease: 'easeOut', duration: 0.3 }}
               className={cn(
                 `${styles['image-border']}`,
-                'w-full h-full overflow-hidden absolute top-0 left-0 z-10 '
+                'w-full h-full overflow-hidden absolute top-0 left-0 z-10 hover:shadow-none'
               )}
             />
             <CoverImage

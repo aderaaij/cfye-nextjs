@@ -49,38 +49,38 @@ const SiteNav: React.FC = () => {
   const containerRef = useRef(null);
 
   return (
-    <>
-      <motion.nav
-        className={cn(`${styles.nav}`, 'fixed top-0 left-0 z-50 ', {
-          'w-16 h-16': !isNavOpen && isNavAnimationDone,
-        })}
-        initial={false}
-        animate={isNavOpen ? 'open' : 'closed'}
-        onAnimationComplete={() => toggleNavAnimationDone(true)}
-        ref={containerRef}
-      >
-        <NavToggle
-          toggle={() => {
-            return toggleNavOpen();
-          }}
-        />
-        <motion.div
-          className={cn(
-            'w-screen h-screen grid fixed border-cfye border-l-16 border-r-16 border-t-16 border-b-16 top-0 left-0 z-40 bg-transparent',
-            {
-              'pointer-events-none': !isNavOpen,
-            }
-          )}
-          variants={sidebar}
-        />
-        <AnimateSharedLayout>
-          <motion.ul variants={itemVariants} className="z-40 py-32 px-16">
-            <MenuItem text="home" link="/" />
-            <MenuItem text="contact" link="/contact" />
-          </motion.ul>
-        </AnimateSharedLayout>
-      </motion.nav>
-    </>
+    <motion.nav
+      initial={false}
+      animate={isNavOpen ? 'open' : 'closed'}
+      onAnimationComplete={() => toggleNavAnimationDone(true)}
+      ref={containerRef}
+      className={cn(`${styles.nav} fixed top-0 left-0 z-50`, {
+        'w-16 h-16': !isNavOpen && isNavAnimationDone,
+      })}
+    >
+      <NavToggle toggle={() => toggleNavOpen()} />
+      <motion.div
+        className={cn(
+          'w-screen h-screen fixed top-0 left-0 grid z-40 bg-transparent',
+          'border-cfye border-l-16 border-r-16 border-t-16 border-b-16 ',
+          {
+            'pointer-events-none': !isNavOpen,
+          }
+        )}
+        variants={sidebar}
+      />
+      <AnimateSharedLayout>
+        <motion.ul
+          variants={itemVariants}
+          className={cn('z-40 py-32 px-16', {
+            'pointer-events-none': !isNavOpen,
+          })}
+        >
+          <MenuItem text="home" link="/" />
+          <MenuItem text="contact" link="/contact" />
+        </motion.ul>
+      </AnimateSharedLayout>
+    </motion.nav>
   );
 };
 export default SiteNav;
