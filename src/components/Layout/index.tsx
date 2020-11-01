@@ -9,7 +9,6 @@ const Layout: React.FC<Props> = ({ preview, children }) => {
   return (
     <>
       <Meta />
-
       <Alert preview={preview} />
       <main>{children}</main>
     </>

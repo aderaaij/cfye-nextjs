@@ -1,6 +1,7 @@
-import { motion, useCycle } from 'framer-motion';
+import { AnimateSharedLayout, motion, useCycle } from 'framer-motion';
 import cn from 'classnames';
 import NavToggle from '@/components/NavToggle';
+import MenuItem from '@/components/MenuItem';
 import { useRef, useState } from 'react';
 import styles from './site-nav.module.css';
 
@@ -12,8 +13,8 @@ const sidebar = {
     backgroundColor: 'rgba(255,255,255, 0.96)',
     transition: {
       type: 'spring',
-      stiffness: 200,
-      damping: 30,
+      stiffness: 400,
+      damping: 50,
       restDelta: 2,
     },
   },
@@ -25,11 +26,20 @@ const sidebar = {
     height: '100vh',
     backgroundColor: 'rgba(255,255,255 0.0)',
     transition: {
-      // delay: 0.5,
+      delay: 0.5,
       type: 'spring',
       stiffness: 400,
       damping: 40,
     },
+  },
+};
+
+const itemVariants = {
+  open: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+  },
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
   },
 };
 
@@ -63,6 +73,12 @@ const SiteNav: React.FC = () => {
           )}
           variants={sidebar}
         />
+        <AnimateSharedLayout>
+          <motion.ul variants={itemVariants} className="z-40 py-32 px-16">
+            <MenuItem text="home" link="/" />
+            <MenuItem text="contact" link="/contact" />
+          </motion.ul>
+        </AnimateSharedLayout>
       </motion.nav>
     </>
   );

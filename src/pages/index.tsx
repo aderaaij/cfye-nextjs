@@ -31,7 +31,7 @@ const Index: React.FC = () => {
     threshold: 0,
   });
 
-  const { loading, error, data, fetchMore, networkStatus } = useQuery<
+  const { error, data, fetchMore, networkStatus } = useQuery<
     Data,
     AllPostQueryVars
   >(POSTS_QUERY, {
