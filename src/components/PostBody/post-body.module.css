@@ -249,15 +249,12 @@
             } */
 
             &:nth-last-of-type(-n + 1):not(:nth-child(even)) {
-              color: red;
               grid-column: span 2;
-              background: red;
               border: 1px green;
             }
 
             &:last-child:nth-child(odd) {
               /* Last child AND odd */
-              background: red;
             }
           }
         }
