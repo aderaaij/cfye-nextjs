@@ -77,7 +77,7 @@ const SiteNav: React.FC = () => {
           })}
         >
           <MenuItem text="home" link="/" />
-          <MenuItem text="contact" link="/contact" />
+          <MenuItem text="about" link="/about" />
         </motion.ul>
       </AnimateSharedLayout>
     </motion.nav>

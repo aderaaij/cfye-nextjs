@@ -10,6 +10,7 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
+import { motion, usePresence, Variants } from 'framer-motion';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -26,10 +27,31 @@ export const allPostsQueryVars: AllPostQueryVars = {
   first: 10,
 };
 
+const wrapperVariants: Variants = {
+  exit: {
+    opacity: 0,
+  },
+  initial: {
+    opacity: 0,
+  },
+  enter: {
+    opacity: 1,
+  },
+  animate: {
+    opacity: 1,
+  },
+};
+
 const Index: React.FC = () => {
   const { ref, inView } = useInView({
     threshold: 0,
   });
+
+  const [isPresent, safeToRemove] = usePresence();
+
+  useEffect(() => {
+    if (!isPresent) safeToRemove();
+  }, [isPresent]);
 
   const { error, data, fetchMore, networkStatus } = useQuery<
     Data,
@@ -74,10 +96,10 @@ const Index: React.FC = () => {
   if (error) return <div>Error loading posts</div>;
 
   return (
-    <>
+    <motion.div exit="exit">
       <Layout preview={false}>
         <Head>
-          <title>Next.js Blog Example with {process.env.CMS_NAME}</title>
+          <title>CFYE | Crack For Your Eyes </title>
         </Head>
         <Container>
           <div className="snap snap-both snap-mandatory lg:h-screen overflow-y-scroll">
@@ -108,7 +130,7 @@ const Index: React.FC = () => {
           </div>
         </Container>
       </Layout>
-    </>
+    </motion.div>
   );
 };
 
@@ -116,6 +138,8 @@ export default Index;
 
 export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
+  debugger;
+
   await apolloClient.query({
     query: POSTS_QUERY,
     variables: allPostsQueryVars,

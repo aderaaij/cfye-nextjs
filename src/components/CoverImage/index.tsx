@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MediaItem } from 'types';
 
 interface Props {
@@ -21,12 +22,11 @@ const CoverImage: React.FC<Props> = ({
   backgroundColor: bg,
 }) => {
   const image = (
-    <img
-      srcSet={coverImage?.srcSet}
-      className={cn(`w-full h-full  object-${objectFit}`, {
-        'transition-shadow duration-200': slug,
-        absolute: absolute,
-      })}
+    <Image
+      className={`coverImage object-${objectFit} w-full h-full`}
+      src={coverImage.sourceUrl}
+      alt="Picture of the author"
+      layout="fill"
     />
   );
   return (

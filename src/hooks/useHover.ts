@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
-export default function useHover(): any {
+export default function useHover(): [MutableRefObject<any>, boolean] {
   const [value, setValue] = useState(false);
 
   const ref = useRef(null);

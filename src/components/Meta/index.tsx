@@ -31,10 +31,7 @@ const Meta: React.FC = () => {
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <meta
-        name="description"
-        content={`A statically generated blog example using Next.js and ${process.env.CMS_NAME}.`}
-      />
+      <meta name="description" content={'CFYE.com | Crack For Your Eyes'} />
       <meta property="og:image" content={process.env.HOME_OG_IMAGE_URL} />
     </Head>
   );
