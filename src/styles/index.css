@@ -15,6 +15,11 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+*,
+::before,
+::after {
+  border-color: transparent;
+}
 
 body {
   @apply bg-white;

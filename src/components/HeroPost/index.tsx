@@ -21,66 +21,29 @@ interface Props {
   isEven?: boolean;
   imageSettings?: Post_Featuredimagesettings;
 }
-
-const imageVariants: Variants = {
-  active: {
-    borderWidth: '50px',
-    transition: {
-      type: 'tween',
-      ease: 'easeOut',
-    },
-  },
-  inactive: {
-    borderWidth: '64px',
-    transition: {
-      type: 'tween',
-      ease: 'easeIn',
-    },
-  },
+const borderVariants: Variants = {
   enter: {
-    borderWidth: '64px',
+    scale: 1,
     transition: {
-      type: 'tween',
-      ease: 'easeIn',
+      easings: 'anticipate',
+      duration: 0.4,
     },
   },
   exit: {
-    borderWidth: '0px',
+    scale: 1.5,
     transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
+      easings: 'anticipate',
+      duration: 0.5,
+    },
+  },
+  hoverIn: {
+    scale: 1.02,
+    transition: {
+      ease: 'backOut',
+      duration: 0.4,
     },
   },
 };
-const imageWrapVariants: Variants = {
-  active: {
-    width: '100vw',
-    transition: {
-      type: 'tween',
-      ease: 'easeIn',
-    },
-  },
-  enter: {
-    borderWidth: '64px',
-    transition: {
-      type: 'tween',
-      ease: 'easeIn',
-    },
-  },
-};
-const textVariants = {
-  exit: {
-    opacity: 0,
-    x: '-50%',
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
-
 const HeroPost: React.FC<Props> = ({
   title,
   coverImage,
@@ -91,19 +54,15 @@ const HeroPost: React.FC<Props> = ({
 }) => {
   const [hoverRef, isHovered] = useHover();
   return (
-    <motion.section
-      animate={{ opacity: 1 }}
-      initial={{ opacity: 0 }}
+    <section
       className={cn(
-        `${styles['hero-post']}`,
+        styles['hero-post'],
         'hero-post w-full lg:h-screen overflow-hidden relative snap-start',
         'px-4 lg:px-0 mb-12 lg:mb-0 py-4 lg:py-0',
         'lg:grid  lg:grid-cols-2 w-6/12  bg-opacity-50 grid-flow-col-dense'
       )}
     >
-      <motion.div
-        animate={isHovered ? 'active' : 'inactive'}
-        variants={imageWrapVariants}
+      <div
         className={cn(
           `${styles['image-wrap']}`,
           'block relative h-full w-full max-w-full max-h-full flex-shrink-0 col-span-1 overflow-hidden',
@@ -116,10 +75,10 @@ const HeroPost: React.FC<Props> = ({
         <Link as={`/${slug}`} href="/[slug]">
           <a className="w-full h-full block relative" aria-label={title}>
             <motion.div
-              whileHover="active"
-              variants={imageVariants}
-              animate={isHovered ? 'active' : 'inactive'}
+              variants={borderVariants}
+              initial="hoverIn"
               exit="exit"
+              animate={isHovered ? 'hoverIn' : 'enter'}
               className={cn(
                 `${styles['image-border']}`,
                 'w-full h-full overflow-hidden absolute top-0 left-0 z-10',
@@ -138,9 +97,9 @@ const HeroPost: React.FC<Props> = ({
             />
           </a>
         </Link>
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         className={cn(
           'w-full h-full',
           'flex items-center flex-shrink',
@@ -151,7 +110,7 @@ const HeroPost: React.FC<Props> = ({
           }
         )}
       >
-        <motion.div
+        <div
           ref={hoverRef}
           className={cn(
             `${styles['text-wrap']}`,
@@ -160,16 +119,14 @@ const HeroPost: React.FC<Props> = ({
               'items-end': isEven,
             }
           )}
-          variants={textVariants}
-          exit="exit"
         >
           <Link as={`/${slug}`} href="/[slug]">
             <a>
-              <motion.h3
+              <h3
                 className={`${styles['title']} mb-4 text-cfye text-4xl lg:text-6xl leading-tight font-header font-medium pointer-events-none`}
               >
                 {limitText(title, 60)}
-              </motion.h3>
+              </h3>
 
               <div
                 className="text-xl ml-auto leading-relaxed font-body font-light mb-8 max-w-paragraph"
@@ -177,9 +134,9 @@ const HeroPost: React.FC<Props> = ({
               />
             </a>
           </Link>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+        </div>
+      </div>
+    </section>
   );
 };
 export default HeroPost;

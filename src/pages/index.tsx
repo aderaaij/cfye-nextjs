@@ -31,13 +31,7 @@ const wrapperVariants: Variants = {
   exit: {
     opacity: 0,
   },
-  initial: {
-    opacity: 0,
-  },
   enter: {
-    opacity: 1,
-  },
-  animate: {
     opacity: 1,
   },
 };
@@ -96,7 +90,12 @@ const Index: React.FC = () => {
   if (error) return <div>Error loading posts</div>;
 
   return (
-    <motion.div exit="exit">
+    <motion.div
+      initial="exit"
+      animate="enter"
+      exit="exit"
+      variants={wrapperVariants}
+    >
       <Layout preview={false}>
         <Head>
           <title>CFYE | Crack For Your Eyes </title>
@@ -109,7 +108,6 @@ const Index: React.FC = () => {
                   <HeroPost
                     title={node.title}
                     isEven={isEven(index)}
-                    key={node.id}
                     imageSettings={node.featuredImageSettings}
                     coverImage={node.featuredImage?.node}
                     date={node.date}
@@ -117,7 +115,6 @@ const Index: React.FC = () => {
                     slug={node.slug}
                     excerpt={node.excerpt}
                   />
-
                   {index === count - 2 && <div ref={ref} key={index}></div>}
                 </Fragment>
               );

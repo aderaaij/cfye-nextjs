@@ -4130,20 +4130,10 @@ export enum MediaItemSizeEnum {
   MediumLarge = 'MEDIUM_LARGE',
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
-  /** MediaItem with the 100x100 size */
-  '100X100' = '_100X100',
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
-  /** MediaItem with the 1600x1067 size */
-  '1600X1067' = '_1600X1067',
-  /** MediaItem with the 1600x1600 size */
-  '1600X1600' = '_1600X1600',
-  /** MediaItem with the 1920x1080 size */
-  '1920X1080' = '_1920X1080',
   /** MediaItem with the 2048x2048 size */
   '2048X2048' = '_2048X2048',
-  /** MediaItem with the 900x600 size */
-  '900X600' = '_900X600',
 }
 
 /** Connection between the ContentNode type and the User type */
@@ -5597,8 +5587,7 @@ export type PostToPostFormatConnectionEdge = {
 export type PostFormat = Node &
   TermNode &
   UniformResourceIdentifiable &
-  DatabaseIdentifier &
-  MenuItemLinkable & {
+  DatabaseIdentifier & {
     __typename?: 'PostFormat';
     /**
      * The number of objects connected to the object
@@ -5822,19 +5811,10 @@ export type Post_Postsettingsfield = {
   /** @deprecated  */
   addToMap?: Maybe<Scalars['Boolean']>;
   /**
-   * Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt;
+   * Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;https://admin.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt;
    * @deprecated
    */
   artistPost?: Maybe<Array<Maybe<PostObjectUnion>>>;
-  /**
-   * Align the featured image so the most important parts aren&#039;t cut off (default: center).
-   * @deprecated
-   */
-  featuredImageAlignment?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  featuredImageBackground?: Maybe<Scalars['String']>;
-  /** @deprecated  */
-  featuredImageSize?: Maybe<Scalars['String']>;
   /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>;
   /** @deprecated  */
@@ -6948,7 +6928,7 @@ export type MenuItemToMenuItemLinkableConnectionEdge = {
 };
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Post | Page | Category | Tag | PostFormat;
+export type MenuItemObjectUnion = Post | Page | Category | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -9668,8 +9648,6 @@ export enum TimezoneEnum {
   AmericaFortNelson = 'AMERICA_FORT_NELSON',
   /** Glace Bay */
   AmericaGlaceBay = 'AMERICA_GLACE_BAY',
-  /** Godthab */
-  AmericaGodthab = 'AMERICA_GODTHAB',
   /** Goose Bay */
   AmericaGooseBay = 'AMERICA_GOOSE_BAY',
   /** Grand Turk */
@@ -9776,6 +9754,8 @@ export enum TimezoneEnum {
   AmericaNorthDakotaCenter = 'AMERICA_NORTH_DAKOTA_CENTER',
   /** North Dakota - New Salem */
   AmericaNorthDakotaNewSalem = 'AMERICA_NORTH_DAKOTA_NEW_SALEM',
+  /** Nuuk */
+  AmericaNuuk = 'AMERICA_NUUK',
   /** Ojinaga */
   AmericaOjinaga = 'AMERICA_OJINAGA',
   /** Panama */
@@ -9996,6 +9976,8 @@ export enum TimezoneEnum {
   AsiaPyongyang = 'ASIA_PYONGYANG',
   /** Qatar */
   AsiaQatar = 'ASIA_QATAR',
+  /** Qostanay */
+  AsiaQostanay = 'ASIA_QOSTANAY',
   /** Qyzylorda */
   AsiaQyzylorda = 'ASIA_QYZYLORDA',
   /** Riyadh */
