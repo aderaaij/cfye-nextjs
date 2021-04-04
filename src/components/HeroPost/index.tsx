@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import CoverImage from '@/components/CoverImage';
+import styles from './HeroPost.module.css';
 
 import {
   MediaItem,
@@ -27,8 +28,8 @@ const HeroPost: React.FC<Props> = ({
   imageSettings,
 }) => {
   return (
-    <section>
-      <div>
+    <article className={styles['hero-post']}>
+      <div className={styles['image-wrap']}>
         <Link as={`/${slug}`} href="/[slug]">
           <a aria-label={title}>
             <CoverImage
@@ -43,7 +44,7 @@ const HeroPost: React.FC<Props> = ({
         </Link>
       </div>
 
-      <div>
+      <div className={styles['text-wrap']}>
         <Link as={`/${slug}`} href="/[slug]">
           <a>
             <h3>{limitText(title, 60)}</h3>
@@ -52,7 +53,7 @@ const HeroPost: React.FC<Props> = ({
           </a>
         </Link>
       </div>
-    </section>
+    </article>
   );
 };
 export default HeroPost;

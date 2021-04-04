@@ -1,6 +1,8 @@
 import Avatar from '@/components/Avatar';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
+import styles from './PostHeader.module.css';
+
 import {
   MediaItem,
   PostToCategoryConnection,
@@ -28,7 +30,7 @@ const PostHeader: React.FC<Props> = ({
   return (
     <>
       <section>
-        <div>
+        <div className={styles['image-wrap']}>
           <CoverImage
             absolute={false}
             objectFit={featuredImageSettings.imageFit}

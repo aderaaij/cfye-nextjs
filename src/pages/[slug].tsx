@@ -49,7 +49,7 @@ const Post: React.FC<Props> = () => {
   if (error) return <ErrorPage statusCode={501} />;
 
   return (
-    <div>
+    <>
       <Layout preview={false}>
         <Container>
           {router.isFallback ? (
@@ -83,7 +83,7 @@ const Post: React.FC<Props> = () => {
           )}
         </Container>
       </Layout>
-    </div>
+    </>
   );
 };
 
