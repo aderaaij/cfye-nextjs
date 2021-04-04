@@ -7,7 +7,6 @@ const SiteNav: React.FC = () => {
 
       <ul>
         <MenuItem text="home" link="/" />
-        <MenuItem text="about" link="/about" />
       </ul>
     </nav>
   );

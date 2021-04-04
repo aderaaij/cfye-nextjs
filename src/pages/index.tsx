@@ -10,7 +10,6 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { initializeApollo } from '@/lib/apolloClient';
 import { RootQueryToPostConnection } from 'types';
-import { usePresence, Variants } from 'framer-motion';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -31,12 +30,6 @@ const Index: React.FC = () => {
   const { ref, inView } = useInView({
     threshold: 0,
   });
-
-  const [isPresent, safeToRemove] = usePresence();
-
-  useEffect(() => {
-    if (!isPresent) safeToRemove();
-  }, [isPresent]);
 
   const { error, data, fetchMore, networkStatus } = useQuery<
     Data,

@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { LightBox } from '@/components/LightBox';
-import styles from './post-body.module.css';
 
 interface Props {
   content: string;
@@ -28,8 +26,6 @@ const PostBody: React.FC<Props> = ({ content }) => {
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
-
-      {/* <LightBox active={modalActive} image={image} /> */}
     </>
   );
 };

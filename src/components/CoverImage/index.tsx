@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { MediaItem } from 'types';
-
+import styles from './CoverImage.module.css';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -29,7 +29,7 @@ const CoverImage: React.FC<Props> = ({
     />
   );
   return (
-    <div className="cover-image">
+    <div className={styles['wrapper']}>
       {slug ? (
         <Link as={`/${slug}`} href="/[slug]">
           <a aria-label={title}>{image}</a>

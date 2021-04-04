@@ -1,3 +1,7 @@
+:root {
+  --cfye: #ec008c;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -11,14 +15,4 @@ html {
 body {
   margin: 0;
   padding: 0;
-}
-
-.cover-image {
-  position: relative;
-  width: 100%;
-  height: 350px;
-}
-
-.cover-image img {
-  object-fit: cover;
 }
