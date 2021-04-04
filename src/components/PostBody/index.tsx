@@ -22,10 +22,9 @@ const PostBody: React.FC<Props> = ({ content }) => {
   }, [postContentRef]);
   return (
     <>
-      <div className="post-body  pb-16">
+      <div>
         <div
           ref={postContentRef}
-          className={styles.content}
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>

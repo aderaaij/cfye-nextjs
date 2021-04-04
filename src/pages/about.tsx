@@ -1,19 +1,8 @@
-import { motion, usePresence } from 'framer-motion';
 import Header from '../components/Header';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 const AboutPage: React.FC = () => {
-  const [isPresent, safeToRemove] = usePresence();
-  const variant = isPresent ? { opacity: 1 } : { opacity: 0 };
-
-  useEffect(() => {
-    if (!isPresent) safeToRemove();
-  }, [isPresent]);
-
-  const router = useRouter();
   return (
-    <motion.div animate={variant} key={router.asPath}>
+    <div>
       <Header />
       <article>
         <h1>The Idea Behind This Example</h1>
@@ -50,7 +39,7 @@ const AboutPage: React.FC = () => {
           its GraphQL backend.
         </p>
       </article>
-    </motion.div>
+    </div>
   );
 };
 

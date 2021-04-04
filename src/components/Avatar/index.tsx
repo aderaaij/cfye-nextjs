@@ -1,5 +1,4 @@
 import { User } from 'types';
-import cn from 'classnames';
 interface Props {
   author: User;
   isEven?: boolean;
@@ -12,17 +11,9 @@ const Avatar: React.FC<Props> = ({ author, isEven }) => {
       : author.name;
 
   return (
-    <div
-      className={cn('flex items-center', {
-        'lg:justify-end': !isEven,
-      })}
-    >
-      <img
-        src={author.avatar.url}
-        className="w-12 h-12 rounded-full mr-4"
-        alt={name}
-      />
-      <div className="text-xl font-header font-medium">{name}</div>
+    <div>
+      <img src={author.avatar.url} alt={name} />
+      <div>{name}</div>
     </div>
   );
 };

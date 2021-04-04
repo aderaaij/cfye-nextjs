@@ -1,5 +1,5 @@
 .nav {
-  @apply w-screen h-screen;
+  /* @apply w-screen h-screen; */
 
   display: grid;
 
