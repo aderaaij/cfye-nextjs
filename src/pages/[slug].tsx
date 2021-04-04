@@ -20,8 +20,7 @@ import {
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import { motion, usePresence } from 'framer-motion';
-import { useEffect } from 'react';
+
 interface Props {
   post: GeneratedPostType;
   posts?: CategoryToPostConnection;
@@ -36,11 +35,6 @@ const Post: React.FC<Props> = () => {
       idType: PostIdType.Slug,
     },
   });
-  const [isPresent, safeToRemove] = usePresence();
-
-  useEffect(() => {
-    if (!isPresent) safeToRemove();
-  }, [isPresent]);
 
   if (!data) {
     return <ErrorPage statusCode={501} />;
@@ -55,7 +49,7 @@ const Post: React.FC<Props> = () => {
   if (error) return <ErrorPage statusCode={501} />;
 
   return (
-    <motion.div initial="exit" animate="enter" exit="exit" key={router.asPath}>
+    <div>
       <Layout preview={false}>
         <Container>
           {router.isFallback ? (
@@ -89,7 +83,7 @@ const Post: React.FC<Props> = () => {
           )}
         </Container>
       </Layout>
-    </motion.div>
+    </div>
   );
 };
 
