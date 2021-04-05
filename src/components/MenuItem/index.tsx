@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 interface Props {
@@ -10,11 +8,9 @@ interface Props {
 
 const MenuItem: React.FC<Props> = ({ text, link }) => {
   return (
-    <li>
-      <Link href={link}>
-        <a>{text}</a>
-      </Link>
-    </li>
+    <Link href={link}>
+      <a>{text}</a>
+    </Link>
   );
 };
 

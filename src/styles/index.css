@@ -1,5 +1,7 @@
 :root {
   --cfye: #ec008c;
+  --text: #323232;
+  --header-font: protipo-narrow, sans-serif;
 }
 
 html {
@@ -15,7 +17,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  color: #fff;
   font-family: maecenas, serif;
   font-weight: 300;
   font-style: normal;
@@ -27,7 +28,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: protipo-narrow, sans-serif;
+  font-family: var(--header-font);
   font-weight: 500;
   font-style: normal;
   color: var(--cfye);
@@ -52,6 +53,7 @@ a > h3 {
 p {
   font-size: 1.25em;
   line-height: 1.5;
+  color: --var(text);
 }
 
 .nav-wrap {
@@ -175,4 +177,94 @@ p {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+/**
+ * Entry-content
+ **/
+
+.entry-content {
+  width: 100%;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 2em repeat(5, 1fr) 2em;
+
+  /* grid-template-rows: repeat(5, 1fr); */
+  max-width: 1920px;
+  gap: 0 0;
+  margin: 4em auto;
+  grid-auto-flow: row;
+
+  /* grid-template-areas:
+    '. . . . . .'
+    '. . . . . .'
+    '. . . . . .'; */
+}
+
+.entry-content > p {
+  font-size: 1.375em;
+  display: block;
+  grid-column: 3 / 6;
+  margin: 0 0 2em;
+
+  /* grid-row: 1 / 2; */
+}
+
+.entry-content > p a {
+  color: var(--cfye);
+}
+
+.entry-content figure {
+  /* display: none; */
+  grid-column: 1 / 6;
+}
+
+.entry-content .wp-block-image {
+  grid-column: 2 / 7;
+  margin: 2em 0;
+  padding: 0;
+  position: relative;
+}
+
+.entry-content .wp-block-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.wp-block-image.is-style-cover-screen {
+  grid-column: 1 / -1;
+  height: 100vh;
+}
+
+.wp-block-image.is-style-cover-screen img {
+  grid-column: 1 / -1;
+  height: 100vh;
+  height: 100%;
+}
+
+.wp-block-image figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1em;
+  font-family: var(--header-font);
+  color: #fff;
+}
+
+.wp-block-gallery {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+}
+
+.wp-block-gallery ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blocks-gallery-item figure {
+  margin: 0;
+  padding: 0;
 }

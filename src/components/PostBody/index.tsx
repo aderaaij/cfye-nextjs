@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+// import styles from './PostBody.module.css';
 
 interface Props {
   content: string;
@@ -20,12 +21,11 @@ const PostBody: React.FC<Props> = ({ content }) => {
   }, [postContentRef]);
   return (
     <>
-      <div>
-        <div
-          ref={postContentRef}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
+      <div
+        className="entry-content"
+        ref={postContentRef}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </>
   );
 };
