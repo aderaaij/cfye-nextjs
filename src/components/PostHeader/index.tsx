@@ -28,35 +28,21 @@ const PostHeader: React.FC<Props> = ({
   isEven = false,
 }) => {
   return (
-    <>
-      <section>
-        <div className={styles['image-wrap']}>
-          <CoverImage
-            absolute={false}
-            objectFit={featuredImageSettings.imageFit}
-            backgroundColor={featuredImageSettings.backgroundColor}
-            title={title}
-            coverImage={coverImage}
-          />
-        </div>
-        <div>
-          <div>
-            <h1>{limitText(title, 50)}</h1>
-            <div>
-              <Date dateString={date} />
-            </div>
-
-            <div>
-              {/* <div
-              
-                dangerouslySetInnerHTML={{ __html: excerpt }}
-              /> */}
-              <Avatar isEven={isEven} author={author} />
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    <div className={styles['post-header']}>
+      <div className={styles['image-wrap']}>
+        <CoverImage
+          absolute={false}
+          objectFit={featuredImageSettings.imageFit}
+          backgroundColor={featuredImageSettings.backgroundColor}
+          title={title}
+          coverImage={coverImage}
+        />
+      </div>
+      <div className={styles['title-wrap']}>
+        <h1 className={styles['title']}>{limitText(title, 50)}</h1>
+        <Date dateString={date} />
+      </div>
+    </div>
   );
 };
 export default PostHeader;

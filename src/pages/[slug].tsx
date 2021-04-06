@@ -74,10 +74,10 @@ const Post: React.FC<Props> = () => {
                   categories={post.categories}
                   featuredImageSettings={post.featuredImageSettings}
                 />
-                <PostBody content={post.content} />
-                <footer>
+                <PostBody blocks={post.blocks} content={post.content} />
+                {/* <footer>
                   {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
-                </footer>
+                </footer> */}
               </article>
             </>
           )}

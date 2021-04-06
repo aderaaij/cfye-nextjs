@@ -1,4 +1,27 @@
-.image-wrap {
-  width: 100%;
+.post-header {
+  display: grid;
+  grid-template-columns: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  grid-template-rows: 14.2vw;
+  grid-auto-rows: 14.2vw;
+
+  grid-auto-flow: row;
+  gap: 1.5vw;
   height: 100vh;
+}
+
+.image-wrap {
+  grid-column: 1 / -1;
+  grid-row: 1 / span 1;
+  height: 100vh;
+}
+
+.title-wrap {
+  grid-column: 3 / span 6;
+  grid-row: 1 / span 1;
+}
+
+.title {
+  font-size: 4em;
+  margin: 0;
+  color: var(--cfye);
 }
