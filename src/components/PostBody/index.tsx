@@ -1,37 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
-import { LightBox } from '@/components/LightBox';
-import styles from './post-body.module.css';
+import parse from 'html-react-parser';
+import { Fragment } from 'react';
+import { Block } from 'types';
 
+interface BlockWithTypeName extends Block {
+  __typename: string;
+}
 interface Props {
   content: string;
+  blocks: Array<BlockWithTypeName>;
 }
-const PostBody: React.FC<Props> = ({ content }) => {
-  const postContentRef = useRef(null);
-  const [image, setImage] = useState<string>(null);
-  const [modalActive, setModelActive] = useState<boolean>(false);
-
-  useEffect(() => {
-    const imageLinks = postContentRef.current.querySelectorAll('figure > a');
-    imageLinks.forEach((imageLink) => {
-      imageLink.addEventListener('click', function (e) {
-        setModelActive(true);
-        setImage(e.target.dataset.fullUrl);
-        e.preventDefault();
-      });
-    });
-  }, [postContentRef]);
+const PostBody: React.FC<Props> = ({ blocks }) => {
   return (
-    <>
-      <div className="post-body  pb-16">
-        <div
-          ref={postContentRef}
-          className={styles.content}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
-
-      {/* <LightBox active={modalActive} image={image} /> */}
-    </>
+    <div className="entry-content">
+      {blocks.map((block) => (
+        <Fragment key={block.order}>{parse(block.saveContent)}</Fragment>
+      ))}
+    </div>
   );
 };
 

@@ -1,5 +1,3 @@
-const Container: React.FC = ({ children }) => (
-  <div className="mx-auto">{children}</div>
-);
+const Container: React.FC = ({ children }) => <>{children}</>;
 
 export default Container;

@@ -7,7 +7,6 @@ A NextJS starter for WordPress installations with WPGraphQL, including TypeScrip
 - Works out of the box with any WordPress installation including WPGraphQL
 - TypeScript and dynamic type generating with graphql-codegen
 - Prettier, ESLint, Husky and Lint Staged
-- Tailwind CSS
 
 ## Installation
 

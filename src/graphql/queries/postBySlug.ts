@@ -6,6 +6,11 @@ export const POST_QUERY = gql`
   query PostBySlug($id: ID!, $idType: PostIdType!) {
     post(id: $id, idType: $idType) {
       ...PostFields
+      blocks {
+        name
+        order
+        saveContent
+      }
       content
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {

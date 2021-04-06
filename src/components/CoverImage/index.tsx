@@ -1,8 +1,7 @@
-import cn from 'classnames';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MediaItem } from 'types';
-
+import styles from './CoverImage.module.css';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -23,7 +22,6 @@ const CoverImage: React.FC<Props> = ({
 }) => {
   const image = (
     <Image
-      className={`coverImage object-${objectFit} w-full h-full`}
       src={coverImage.sourceUrl}
       alt="Picture of the author"
       layout="fill"
@@ -31,17 +29,10 @@ const CoverImage: React.FC<Props> = ({
     />
   );
   return (
-    <div
-      style={{
-        backgroundColor: bg ? bg : 'transparent',
-      }}
-      className="w-full h-full"
-    >
+    <div className={styles['wrapper']}>
       {slug ? (
         <Link as={`/${slug}`} href="/[slug]">
-          <a className="w-full h-full block relative" aria-label={title}>
-            {image}
-          </a>
+          <a aria-label={title}>{image}</a>
         </Link>
       ) : (
         image
