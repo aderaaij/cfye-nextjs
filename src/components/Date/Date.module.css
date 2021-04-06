@@ -1,0 +1,6 @@
+.time {
+  color: #fff;
+  font-family: var(--header-font);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
