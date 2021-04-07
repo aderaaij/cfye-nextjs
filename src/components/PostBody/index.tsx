@@ -19,7 +19,7 @@ const PostBody: React.FC<Props> = ({ blocks }) => {
             <Fragment key={block.order}>{parse(block.saveContent)}</Fragment>
           );
         }
-        return <PostEmbed content={block.saveContent} />;
+        return <PostEmbed key={block.order} content={block.saveContent} />;
       })}
     </div>
   );

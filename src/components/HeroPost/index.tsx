@@ -8,6 +8,7 @@ import {
   Post_Featuredimagesettings,
 } from 'types';
 import { limitText } from 'utils/limitCharacters';
+import { ImageProps } from 'next/image';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -33,7 +34,7 @@ const HeroPost: React.FC<Props> = ({
           <a aria-label={title}>
             <CoverImage
               absolute={true}
-              objectFit={imageSettings.imageFit}
+              objectFit={imageSettings.imageFit as ImageProps['objectFit']}
               backgroundColor={imageSettings.backgroundColor}
               cover={true}
               title={title}

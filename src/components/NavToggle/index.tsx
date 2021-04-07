@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import SiteLogo from '@/components/SiteLogo';
 import useHover from '@/hooks/useHover';
+import { useRouter } from 'next/router';
 
 interface Props {
   toggle: any;
@@ -65,6 +66,7 @@ interface Props {
 }
 
 const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
+  const router = useRouter();
   const [hoverRef, isHovered] = useHover();
   const [buttonState, setButtonState] = useState('closed');
   const [isFocused, setFocus] = useState(false);
@@ -83,11 +85,12 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
     <button
       className="nav-toggle"
       ref={hoverRef}
-      onClick={() => toggle()}
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
+      onClick={() => {
+        router.push('/');
+        // toggle();
+      }}
     >
-      <motion.ul
+      {/* <motion.ul
         className="nav-toggle__bars"
         initial="closed"
         animate={buttonState}
@@ -96,7 +99,7 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
         <motion.li
           variants={{
             ...barVariants(1),
-            active: { rotate: 45, y: '10px' },
+            active: { rotate: 45, y: '10px', scale: 1 },
           }}
         ></motion.li>
         <motion.li
@@ -106,10 +109,13 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
           }}
         ></motion.li>
         <motion.li
-          variants={{ ...barVariants(3), active: { rotate: -45, y: '-10px' } }}
+          variants={{
+            ...barVariants(3),
+            active: { rotate: -45, y: '-10px', scale: 1 },
+          }}
         ></motion.li>
-      </motion.ul>
-      <SiteLogo buttonState={buttonState} />
+      </motion.ul> */}
+      <SiteLogo buttonState="closed" />
     </button>
   );
 };
