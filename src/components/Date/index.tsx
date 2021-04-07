@@ -1,5 +1,5 @@
 import { parseISO, format } from 'date-fns';
-import styles from './Date.module.css';
+import styles from './Date.module.scss';
 interface Props {
   dateString: string;
 }

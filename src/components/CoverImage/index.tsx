@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { MediaItem } from 'types';
-import styles from './CoverImage.module.css';
+import styles from './CoverImage.module.scss';
 interface Props {
   title: string;
   coverImage: MediaItem;

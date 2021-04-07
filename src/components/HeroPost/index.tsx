@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import CoverImage from '@/components/CoverImage';
-import styles from './HeroPost.module.css';
+import styles from './HeroPost.module.scss';
 
 import {
   MediaItem,

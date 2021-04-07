@@ -1,6 +1,6 @@
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
-import styles from './PostHeader.module.css';
+import styles from './PostHeader.module.scss';
 
 import {
   MediaItem,
