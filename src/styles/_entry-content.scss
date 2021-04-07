@@ -1,0 +1,41 @@
+.entry-content {
+  display: grid;
+  grid-template-columns: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+
+  /* grid-template-rows: 14.2vw; */
+
+  /* grid-auto-rows: 14.2vw; */
+
+  grid-auto-flow: dense;
+  gap: 1.5vw;
+  width: 100%;
+  overflow-x: hidden;
+  margin: 4em auto;
+
+  > p {
+    font-size: 1.375em;
+    line-height: 1.75;
+    display: block;
+    grid-column: 5 / span 3;
+    margin: 0 0 2em;
+    max-width: 75ch;
+  }
+
+  p a {
+    color: var(--cfye);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    grid-column: 5 / span 3;
+  }
+
+  h2 {
+    font-size: 2.5em;
+    margin-top: 0;
+  }
+}

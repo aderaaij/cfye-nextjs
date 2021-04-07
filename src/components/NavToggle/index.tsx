@@ -31,7 +31,7 @@ const listVariants: Variants = {
   },
 };
 
-const barVariants: Variants = {
+const barVariants = (i: number) => ({
   open: {
     scale: 1,
     rotate: 0,
@@ -57,7 +57,7 @@ const barVariants: Variants = {
   active: {
     opacity: 1,
   },
-};
+});
 
 interface Props {
   toggle: any;
@@ -72,11 +72,8 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
   useEffect(() => {
     if ((isHovered || isFocused) && !isActive) {
       setButtonState('open');
-      setTimeout(() => {
-        toggle();
-      }, 100);
     } else if (isActive) {
-      // setButtonState('active');
+      setButtonState('active');
     } else {
       setButtonState('closed');
     }
@@ -86,9 +83,7 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
     <button
       className="nav-toggle"
       ref={hoverRef}
-      onClick={() => {
-        isActive && toggle();
-      }}
+      onClick={() => toggle()}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
     >
@@ -100,18 +95,18 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
       >
         <motion.li
           variants={{
-            ...barVariants,
+            ...barVariants(1),
             active: { rotate: 45, y: '10px' },
           }}
         ></motion.li>
         <motion.li
           variants={{
-            ...barVariants,
+            ...barVariants(2),
             active: { scale: 0, opacity: 0 },
           }}
         ></motion.li>
         <motion.li
-          variants={{ ...barVariants, active: { rotate: -45, y: '-10px' } }}
+          variants={{ ...barVariants(3), active: { rotate: -45, y: '-10px' } }}
         ></motion.li>
       </motion.ul>
       <SiteLogo buttonState={buttonState} />
