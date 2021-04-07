@@ -7,7 +7,6 @@ import PostBody from '@/components/PostBody';
 import PostHeader from '@/components/PostHeader';
 import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
-import Tags from '@/components/Tags';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
   CategoryToPostConnection,
@@ -103,8 +102,8 @@ export const getStaticProps = async ({
     : params.slug === postPreview.slug;
   const isDraft =
     isSamePost && postPreview?.status === PostStatusEnum.Draft.toLowerCase();
-  const isRevision =
-    isSamePost && postPreview?.status === PostStatusEnum.Publish.toLowerCase();
+  // const isRevision =
+  //   isSamePost && postPreview?.status === PostStatusEnum.Publish.toLowerCase();
 
   await apolloClient.query({
     query: POST_QUERY,

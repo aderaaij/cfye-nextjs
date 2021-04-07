@@ -1,6 +1,5 @@
 import Alert from '@/components/Alert';
 import Meta from '@/components/Meta';
-import { motion } from 'framer-motion';
 
 interface Props {
   preview: boolean;

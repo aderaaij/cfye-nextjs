@@ -24,7 +24,6 @@ const HeroPost: React.FC<Props> = ({
   coverImage,
   excerpt,
   slug,
-  isEven,
   imageSettings,
 }) => {
   return (

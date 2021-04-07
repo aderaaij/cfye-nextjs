@@ -31,7 +31,7 @@ const listVariants: Variants = {
   },
 };
 
-const barVariants = (i: number) => ({
+const barVariants: Variants = {
   open: {
     scale: 1,
     rotate: 0,
@@ -57,7 +57,7 @@ const barVariants = (i: number) => ({
   active: {
     opacity: 1,
   },
-});
+};
 
 interface Props {
   toggle: any;
@@ -100,18 +100,18 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
       >
         <motion.li
           variants={{
-            ...barVariants(1),
+            ...barVariants,
             active: { rotate: 45, y: '10px' },
           }}
         ></motion.li>
         <motion.li
           variants={{
-            ...barVariants(2),
+            ...barVariants,
             active: { scale: 0, opacity: 0 },
           }}
         ></motion.li>
         <motion.li
-          variants={{ ...barVariants(3), active: { rotate: -45, y: '-10px' } }}
+          variants={{ ...barVariants, active: { rotate: -45, y: '-10px' } }}
         ></motion.li>
       </motion.ul>
       <SiteLogo buttonState={buttonState} />

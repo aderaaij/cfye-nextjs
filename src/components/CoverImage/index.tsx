@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MediaItem } from 'types';
 import styles from './CoverImage.module.css';
+import cn from 'classnames';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -10,22 +11,25 @@ interface Props {
   absolute?: boolean;
   objectFit?: string;
   backgroundColor?: string;
+  priority?: boolean;
 }
 
 const CoverImage: React.FC<Props> = ({
   title,
   coverImage,
+  priority = false,
   slug,
-  absolute,
   objectFit = 'contain',
-  backgroundColor: bg,
+  cover,
 }) => {
+  console.log({ objectFit, cover });
+
   const image = (
     <Image
       src={coverImage.sourceUrl}
       layout="fill"
       quality={90}
-      priority={true}
+      priority={priority}
     />
   );
   return (

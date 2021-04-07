@@ -1,4 +1,3 @@
-import Avatar from '@/components/Avatar';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.css';
@@ -23,9 +22,7 @@ const PostHeader: React.FC<Props> = ({
   title,
   coverImage,
   date,
-  author,
   featuredImageSettings,
-  isEven = false,
 }) => {
   return (
     <div className={styles['post-header']}>
@@ -36,6 +33,7 @@ const PostHeader: React.FC<Props> = ({
           backgroundColor={featuredImageSettings.backgroundColor}
           title={title}
           coverImage={coverImage}
+          priority={true}
         />
       </div>
       <div className={styles['title-wrap']}>
