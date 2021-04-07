@@ -7,8 +7,9 @@ interface Props {
   slug?: string;
   cover?: boolean;
   absolute?: boolean;
-  objectFit?: ImageProps['objectFit'] | string;
+  objectFit?: ImageProps['objectFit'];
   backgroundColor?: string;
+  priority?: boolean;
 }
 
 const CoverImage: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const CoverImage: React.FC<Props> = ({
   absolute,
   objectFit = 'cover',
   backgroundColor: bg,
+  priority = false,
 }) => {
   return (
     <div className={styles['wrapper']}>
@@ -25,7 +27,7 @@ const CoverImage: React.FC<Props> = ({
         src={coverImage.sourceUrl}
         layout="fill"
         quality={90}
-        priority={true}
+        priority={priority}
         objectFit={objectFit}
       />
     </div>

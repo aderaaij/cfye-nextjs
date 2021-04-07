@@ -1,3 +1,5 @@
+import Image, { ImageProps } from 'next/image';
+
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.scss';
@@ -29,7 +31,7 @@ const PostHeader: React.FC<Props> = ({
       <div className={styles['image-wrap']}>
         <CoverImage
           absolute={false}
-          objectFit={featuredImageSettings.imageFit}
+          objectFit={featuredImageSettings.imageFit as ImageProps['objectFit']}
           backgroundColor={featuredImageSettings.backgroundColor}
           title={title}
           coverImage={coverImage}
