@@ -1,4 +1,4 @@
-import parse from 'html-react-parser';
+import parse, { DOMNode, Text } from 'html-react-parser';
 interface Props {
   content: string;
 }
@@ -27,7 +27,7 @@ const PostEmbed: React.FC<Props> = ({ content }) => {
   return (
     <>
       {parse(content, {
-        replace: (domNode) => {
+        replace: (domNode: Text) => {
           if (domNode.type === 'text' && domNode.data) {
             return (
               <iframe
