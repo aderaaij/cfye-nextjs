@@ -38,10 +38,10 @@ const PostHeader: React.FC<Props> = ({
           priority={true}
         />
       </div>
-      <div className={styles['title-wrap']}>
+      <header className={styles['title-wrap']}>
         <h1 className={styles['title']}>{limitText(title, 50)}</h1>
         <Date dateString={date} />
-      </div>
+      </header>
     </div>
   );
 };

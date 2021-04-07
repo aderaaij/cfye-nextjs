@@ -21,8 +21,9 @@ const CoverImage: React.FC<Props> = ({
   backgroundColor: bg,
   priority = false,
 }) => {
+  console.log({ bg });
   return (
-    <div className={styles['wrapper']}>
+    <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
         src={coverImage.sourceUrl}
         layout="fill"
