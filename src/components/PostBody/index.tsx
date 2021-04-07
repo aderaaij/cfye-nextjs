@@ -1,6 +1,7 @@
 import parse from 'html-react-parser';
 import { Fragment } from 'react';
 import { Block } from 'types';
+import PostEmbed from '@/components/PostEmbed';
 
 interface BlockWithTypeName extends Block {
   __typename: string;
@@ -12,9 +13,14 @@ interface Props {
 const PostBody: React.FC<Props> = ({ blocks }) => {
   return (
     <div className="entry-content">
-      {blocks.map((block) => (
-        <Fragment key={block.order}>{parse(block.saveContent)}</Fragment>
-      ))}
+      {blocks.map((block) => {
+        if (block.__typename !== 'CoreEmbedBlock') {
+          return (
+            <Fragment key={block.order}>{parse(block.saveContent)}</Fragment>
+          );
+        }
+        return <PostEmbed content={block.saveContent} />;
+      })}
     </div>
   );
 };

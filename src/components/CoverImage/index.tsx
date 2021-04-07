@@ -23,9 +23,9 @@ const CoverImage: React.FC<Props> = ({
   const image = (
     <Image
       src={coverImage.sourceUrl}
-      alt="Picture of the author"
       layout="fill"
       quality={90}
+      priority={true}
     />
   );
   return (
