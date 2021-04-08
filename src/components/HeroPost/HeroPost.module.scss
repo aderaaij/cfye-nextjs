@@ -19,8 +19,22 @@
       grid-column: 6 / span 2;
     }
 
+    .title {
+      grid-column: 6 / span 4;
+      z-index: 1;
+      text-align: right;
+    }
+
     .image-wrap {
       grid-column: 2 / span 5;
+
+      &::before {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 40%,
+          rgba(0, 0, 0, 1) 100%
+        );
+      }
 
       @media screen and (min-width: 1024px) {
         grid-column: 3 / span 5;
@@ -33,8 +47,22 @@
       grid-column: 5 / span 2;
     }
 
+    .title {
+      grid-column: 3 / span 4;
+      z-index: 1;
+      text-align: left;
+    }
+
     .image-wrap {
       grid-column: 6 / span 4;
+
+      &::before {
+        background: linear-gradient(
+          270deg,
+          rgba(0, 0, 0, 0) 40%,
+          rgba(0, 0, 0, 1) 100%
+        );
+      }
 
       @media screen and (min-width: 1024px) {
         grid-column: 5 / span 5;
@@ -46,6 +74,17 @@
 .image-wrap {
   grid-column: 3 / span 4;
   grid-row: 1 / span 5;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
 
   @media screen and (min-width: 1024px) {
     grid-row: 1 / span 3;
@@ -71,14 +110,17 @@
   }
 }
 
-.text-wrap h3 {
+.text-wrap h3,
+.title {
   font-size: 2em;
+  line-height: 1.5;
   letter-spacing: 0.1px;
   font-weight: 700;
   margin: 0;
+  grid-row: 2 / span 2;
 
   @media screen and (min-width: 1024px) {
-    font-size: 3em;
+    font-size: 4em;
   }
 }
 
