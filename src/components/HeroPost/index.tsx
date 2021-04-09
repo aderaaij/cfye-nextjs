@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import Link from 'next/link';
 import CoverImage from '@/components/CoverImage';
 import styles from './HeroPost.module.scss';
@@ -25,6 +26,7 @@ const HeroPost: React.FC<Props> = ({
   coverImage,
   excerpt,
   slug,
+  author,
   imageSettings,
 }) => {
   return (
@@ -43,14 +45,21 @@ const HeroPost: React.FC<Props> = ({
           </a>
         </Link>
       </div>
-      <h3 className={styles['title']}>{limitText(title, 60)}</h3>
+
+      <h3 className={styles['title']}>
+        {' '}
+        <Link as={`/${slug}`} href="/[slug]">
+          <a>{limitText(title, 60)} </a>
+        </Link>
+      </h3>
+      <div className={styles['author-wrap']}>Written by {author.firstName}</div>
 
       <div className={styles['text-wrap']}>
         <Link as={`/${slug}`} href="/[slug]">
           <a>
             {/* <h3>{limitText(title, 60)}</h3> */}
 
-            <div dangerouslySetInnerHTML={{ __html: excerpt }} />
+            {parse(excerpt)}
           </a>
         </Link>
       </div>
