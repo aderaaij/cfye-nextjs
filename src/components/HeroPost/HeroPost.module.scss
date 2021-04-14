@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 8em auto;
+  margin: 0 auto 8em;
   max-width: 2160px;
 
   @media screen and (min-width: 768px) {
@@ -104,6 +104,7 @@
 
   @media screen and (min-width: 1024px) {
     grid-row: 1 / span 3;
+    max-height: 90vh;
   }
 }
 
@@ -162,5 +163,11 @@
   position: relative;
   z-index: 2;
   font-family: maecenas, serif;
-  color: #333;
+  color: #666;
+  font-style: italic;
+  font-size: 1.125em;
+
+  a {
+    color: var(--cfye);
+  }
 }

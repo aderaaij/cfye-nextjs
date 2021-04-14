@@ -10,7 +10,7 @@ const Layout: React.FC<Props> = ({ preview, children }) => {
     <>
       <Meta />
       <Alert preview={preview} />
-      <main>{children}</main>
+      <main className="main">{children}</main>
     </>
   );
 };

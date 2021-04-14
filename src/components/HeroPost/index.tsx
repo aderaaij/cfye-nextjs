@@ -47,20 +47,22 @@ const HeroPost: React.FC<Props> = ({
       </div>
 
       <h3 className={styles['title']}>
-        {' '}
         <Link as={`/${slug}`} href="/[slug]">
           <a>{limitText(title, 60)} </a>
         </Link>
       </h3>
-      <div className={styles['author-wrap']}>Written by {author.firstName}</div>
+      <div className={styles['author-wrap']}>
+        Written by{' '}
+        <Link as={`/${slug}`} href="/[slug]">
+          <a>
+            {author.firstName} {author.lastName}
+          </a>
+        </Link>
+      </div>
 
       <div className={styles['text-wrap']}>
         <Link as={`/${slug}`} href="/[slug]">
-          <a>
-            {/* <h3>{limitText(title, 60)}</h3> */}
-
-            {parse(excerpt)}
-          </a>
+          <a>{parse(excerpt)}</a>
         </Link>
       </div>
     </article>
