@@ -40,7 +40,7 @@ const PostHeader: React.FC<Props> = ({
         />
       </div>
       <header className={styles['title-wrap']}>
-        <h1 className={styles['title']}>{limitText(title, 50)}</h1>
+        <h1 className={styles['title']}>{title}</h1>
         <Date dateString={date} />
       </header>
     </div>
