@@ -78,7 +78,7 @@ const Index: React.FC = () => {
       <Head>
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
-      <Container>
+      <Container type="frontpage-grid">
         {posts.edges.map(({ node }, index) => {
           return (
             <Fragment key={node.id}>

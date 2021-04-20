@@ -19,6 +19,8 @@ import {
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
+import Tags from '@/components/Tags';
+import styles from './Post.module.scss';
 
 interface Props {
   post: GeneratedPostType;
@@ -55,7 +57,7 @@ const Post: React.FC<Props> = () => {
             <PostTitle>Loading…</PostTitle>
           ) : (
             <>
-              <article>
+              <article className={styles['article']}>
                 <Head>
                   <title>{post.title} | CFYE.com</title>
                   <meta
@@ -73,10 +75,12 @@ const Post: React.FC<Props> = () => {
                   categories={post.categories}
                   featuredImageSettings={post.featuredImageSettings}
                 />
+
                 <PostBody blocks={post.blocks} content={post.content} />
-                {/* <footer>
+                <footer>
+                  {/* {post.postSettingsField?.artistPost?.title} */}
                   {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
-                </footer> */}
+                </footer>
               </article>
             </>
           )}
@@ -132,7 +136,7 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
     paths:
       edges.map(({ node }) => {
         if (node) {
-          return `/${node.slug}`;
+          return `/posts/${node.slug}`;
         }
       }) || [],
     fallback: true,

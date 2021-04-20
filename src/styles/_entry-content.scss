@@ -1,23 +1,19 @@
 .entry-content {
   display: grid;
   grid-template-columns: var(--grid-columns-template);
-
-  /* grid-template-rows: 14.2vw; */
-
-  /* grid-auto-rows: 14.2vw; */
-
   grid-auto-flow: dense;
   gap: var(--grid-gap-size);
+  row-gap: 5em;
   width: 100%;
   overflow-x: hidden;
-  margin: 4em auto;
+  max-width: var(--max-width);
 
   > p {
     font-size: 1.375em;
     line-height: 1.75;
     display: block;
     grid-column: 5 / span 3;
-    margin: 0 0 2em;
+    margin: 0;
     max-width: 75ch;
   }
 
@@ -37,5 +33,16 @@
   h2 {
     font-size: 2.5em;
     margin-top: 0;
+  }
+
+  &__hr {
+    display: block;
+    margin: 0;
+    padding: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--cfye);
+    border: none;
+    grid-column: 4 / span 5;
   }
 }

@@ -4,8 +4,9 @@
   --header-font: protipo-narrow, sans-serif;
   --grid-row-size: 14.2vw;
   --grid-gap-size: 1.5vw;
-  --grid-columns-template: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  --grid-columns-template: 1% 2% 4% repeat(5, 1fr) 4% 2% 1%;
   --background-color: #fff;
+  --max-width: 2160px;
 }
 
 @import 'entry-content';

@@ -32,8 +32,8 @@ const HeroPost: React.FC<Props> = ({
   return (
     <article className={styles['hero-post']}>
       <div className={styles['image-wrap']}>
-        <Link as={`/${slug}`} href="/[slug]">
-          <a aria-label={title}>
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <a>
             <CoverImage
               absolute={true}
               objectFit={imageSettings.imageFit as ImageProps['objectFit']}
@@ -47,13 +47,13 @@ const HeroPost: React.FC<Props> = ({
       </div>
 
       <h3 className={styles['title']}>
-        <Link as={`/${slug}`} href="/[slug]">
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>{limitText(title, 60)} </a>
         </Link>
       </h3>
       <div className={styles['author-wrap']}>
         Written by{' '}
-        <Link as={`/${slug}`} href="/[slug]">
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>
             {author.firstName} {author.lastName}
           </a>
@@ -61,7 +61,7 @@ const HeroPost: React.FC<Props> = ({
       </div>
 
       <div className={styles['text-wrap']}>
-        <Link as={`/${slug}`} href="/[slug]">
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>{parse(excerpt)}</a>
         </Link>
       </div>

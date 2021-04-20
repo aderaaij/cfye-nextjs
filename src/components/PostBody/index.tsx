@@ -21,6 +21,7 @@ const PostBody: React.FC<Props> = ({ blocks }) => {
         }
         return <PostEmbed key={block.order} content={block.saveContent} />;
       })}
+      <hr className="entry-content__hr" />
     </div>
   );
 };

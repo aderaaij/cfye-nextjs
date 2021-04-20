@@ -36,6 +36,7 @@ const PostHeader: React.FC<Props> = ({
           title={title}
           coverImage={coverImage}
           priority={true}
+          sizes={{ width: 900, height: 900 }}
         />
       </div>
       <header className={styles['title-wrap']}>

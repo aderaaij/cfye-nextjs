@@ -11,6 +11,21 @@ export const POST_QUERY = gql`
         order
         saveContent
       }
+      postSettingsField {
+        artistPost {
+          ... on Artist {
+            id
+            title
+            featuredImage {
+              node {
+                id
+                srcSet(size: LARGE)
+                sourceUrl(size: LARGE)
+              }
+            }
+          }
+        }
+      }
       content
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
