@@ -1,29 +1,29 @@
-import { GetStaticPropsResult } from 'next';
 import Head from 'next/head';
-import ErrorPage from 'next/error';
 import { Fragment, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { GetStaticPropsResult } from 'next';
+import ErrorPage from 'next/error';
 import { NetworkStatus, useQuery } from '@apollo/client';
 import Container from '@/components/Container';
-import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
-import { POSTS_QUERY } from '@/graphql/queries/posts';
+import ArtistsExcerpt from '@/components/ArtistsExcerpt';
+import { ARTISTS_QUERY } from '@/graphql/queries/artists';
 import { initializeApollo } from '@/lib/apolloClient';
-import { RootQueryToPostConnection } from 'types';
+import { RootQueryToArtistConnection } from 'types';
 
 interface Data {
-  posts: RootQueryToPostConnection;
+  artists: RootQueryToArtistConnection;
   preview?: boolean;
 }
 
-interface AllPostQueryVars {
+interface artistsQueryVars {
   after?: string;
   first: number;
 }
 
-export const allPostsQueryVars: AllPostQueryVars = {
+export const artistsQueryVars: artistsQueryVars = {
   after: '',
-  first: 10,
+  first: 400,
 };
 
 const Index: React.FC = () => {
@@ -33,9 +33,9 @@ const Index: React.FC = () => {
 
   const { error, data, fetchMore, networkStatus } = useQuery<
     Data,
-    AllPostQueryVars
-  >(POSTS_QUERY, {
-    variables: allPostsQueryVars,
+    artistsQueryVars
+  >(ARTISTS_QUERY, {
+    variables: artistsQueryVars,
     notifyOnNetworkStatusChange: true,
   });
 
@@ -45,14 +45,14 @@ const Index: React.FC = () => {
     return <ErrorPage statusCode={501} />;
   }
 
-  const { posts } = data;
+  const { artists } = data;
   const [count, setCount] = useState(null);
 
   const loadMorePosts = (): void => {
     fetchMore({
       variables: {
-        ...allPostsQueryVars,
-        after: posts.pageInfo.endCursor,
+        ...artistsQueryVars,
+        after: artists.pageInfo.endCursor,
       },
     });
   };
@@ -62,8 +62,8 @@ const Index: React.FC = () => {
   };
 
   useEffect((): void => {
-    setCount(posts.edges.length - 1);
-  }, [posts]);
+    setCount(artists.edges.length - 1);
+  }, [artists]);
 
   useEffect((): void => {
     if (inView) {
@@ -78,25 +78,20 @@ const Index: React.FC = () => {
       <Head>
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
-      <Container type="frontpage-grid">
-        {posts.edges.map(({ node }, index) => {
+      <Container type="artists-grid">
+        {artists.edges.map(({ node }, index) => {
           return (
             <Fragment key={node.id}>
-              <HeroPost
+              <ArtistsExcerpt
                 title={node.title}
-                isEven={isEven(index)}
-                imageSettings={node.featuredImageSettings}
-                coverImage={node.featuredImage?.node}
-                date={node.date}
-                author={node.author.node}
+                image={node.featuredImage.node}
                 slug={node.slug}
-                excerpt={node.excerpt}
               />
-              {index === count - 2 && <div ref={ref} key={index}></div>}
+
+              {/* {index === count - 2 && <div ref={ref} key={index}></div>} */}
             </Fragment>
           );
         })}
-
         {loadingMorePosts && <div>Load More</div>}
       </Container>
     </Layout>
@@ -110,8 +105,8 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
   debugger;
 
   await apolloClient.query({
-    query: POSTS_QUERY,
-    variables: allPostsQueryVars,
+    query: ARTISTS_QUERY,
+    variables: artistsQueryVars,
   });
   return {
     props: {

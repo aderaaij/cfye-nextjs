@@ -1,6 +1,5 @@
 import Alert from '@/components/Alert';
 import Meta from '@/components/Meta';
-import { motion } from 'framer-motion';
 
 interface Props {
   preview: boolean;
@@ -11,7 +10,7 @@ const Layout: React.FC<Props> = ({ preview, children }) => {
     <>
       <Meta />
       <Alert preview={preview} />
-      <main>{children}</main>
+      <main className="main">{children}</main>
     </>
   );
 };

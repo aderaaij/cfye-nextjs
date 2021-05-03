@@ -1,0 +1,34 @@
+.wp-block-image {
+  grid-column: 3 / 10;
+  padding: 0;
+  position: relative;
+  margin: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  &.is-style-cover-screen {
+    grid-column: 1 / -1;
+    height: 100vh;
+  }
+
+  &.is-style-cover-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  figcaption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1em;
+    font-family: var(--header-font);
+    color: #fff;
+  }
+}

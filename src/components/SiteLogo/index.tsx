@@ -26,6 +26,14 @@ const itemVariants: Variants = {
       stiffness: 200,
     },
   },
+  active: {
+    scale: 0,
+    transition: {
+      type: 'spring',
+      damping: 20,
+      stiffness: 200,
+    },
+  },
   closed: {
     scale: 1,
   },

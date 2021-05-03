@@ -1,0 +1,19 @@
+.wp-block-embed {
+  grid-column: 3 / -3;
+  margin: 4em 0;
+  padding: 0;
+
+  &__wrapper {
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.25%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

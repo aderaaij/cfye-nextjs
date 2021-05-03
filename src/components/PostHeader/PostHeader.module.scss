@@ -1,0 +1,40 @@
+.post-header {
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: var(--grid-columns-template);
+    gap: var(--grid-gap-size);
+    margin: 0 auto;
+  }
+}
+
+.image-wrap {
+  grid-column: 3 / span 4;
+  grid-row: 1 / span 3;
+  position: relative;
+}
+
+.title-wrap {
+  grid-column: 7 / span 3;
+  grid-row: 2 / span 1;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-size: 64px;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  font-weight: 700;
+  margin: 0;
+  grid-row: 1 / span 3;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  z-index: 1;
+  color: var(--cfye);
+}

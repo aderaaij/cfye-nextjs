@@ -1,7 +1,8 @@
-import Avatar from '@/components/Avatar';
+import Image, { ImageProps } from 'next/image';
+
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
-import styles from './PostHeader.module.css';
+import styles from './PostHeader.module.scss';
 
 import {
   MediaItem,
@@ -10,6 +11,7 @@ import {
   User,
 } from 'types';
 import { limitText } from 'utils/limitCharacters';
+import { motion } from 'framer-motion';
 interface Props {
   title: string;
   coverImage?: MediaItem;
@@ -18,30 +20,34 @@ interface Props {
   categories?: PostToCategoryConnection;
   isEven?: boolean;
   featuredImageSettings?: Post_Featuredimagesettings;
+  slug?: string;
 }
 const PostHeader: React.FC<Props> = ({
   title,
   coverImage,
   date,
-  author,
   featuredImageSettings,
-  isEven = false,
+  slug,
 }) => {
   return (
     <div className={styles['post-header']}>
-      <div className={styles['image-wrap']}>
+      <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
         <CoverImage
           absolute={false}
-          objectFit={featuredImageSettings.imageFit}
+          objectFit={featuredImageSettings.imageFit as ImageProps['objectFit']}
           backgroundColor={featuredImageSettings.backgroundColor}
           title={title}
           coverImage={coverImage}
+          priority={true}
+          sizes={{ width: 900, height: 900 }}
         />
-      </div>
-      <div className={styles['title-wrap']}>
-        <h1 className={styles['title']}>{limitText(title, 50)}</h1>
+      </motion.div>
+      <header className={styles['title-wrap']}>
+        <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
+          {title}
+        </motion.h3>
         <Date dateString={date} />
-      </div>
+      </header>
     </div>
   );
 };

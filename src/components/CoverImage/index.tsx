@@ -1,15 +1,21 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import { MediaItem } from 'types';
-import styles from './CoverImage.module.css';
+import styles from './CoverImage.module.scss';
+
+type Sizes = {
+  width: number;
+  height: number;
+};
 interface Props {
   title: string;
   coverImage: MediaItem;
   slug?: string;
   cover?: boolean;
   absolute?: boolean;
-  objectFit?: string;
+  objectFit?: ImageProps['objectFit'];
   backgroundColor?: string;
+  priority?: boolean;
+  sizes?: Sizes;
 }
 
 const CoverImage: React.FC<Props> = ({
@@ -17,26 +23,22 @@ const CoverImage: React.FC<Props> = ({
   coverImage,
   slug,
   absolute,
-  objectFit = 'contain',
+  objectFit = 'cover',
   backgroundColor: bg,
+  priority = false,
+  sizes = { width: 1200, height: 800 },
 }) => {
-  const image = (
-    <Image
-      src={coverImage.sourceUrl}
-      alt="Picture of the author"
-      layout="fill"
-      quality={90}
-    />
-  );
   return (
-    <div className={styles['wrapper']}>
-      {slug ? (
-        <Link as={`/${slug}`} href="/[slug]">
-          <a aria-label={title}>{image}</a>
-        </Link>
-      ) : (
-        image
-      )}
+    <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
+      <Image
+        src={coverImage.sourceUrl}
+        quality={90}
+        priority={priority}
+        objectFit={objectFit}
+        layout="responsive"
+        width={sizes.width}
+        height={sizes.height}
+      />
     </div>
   );
 };
