@@ -11,6 +11,7 @@ import {
   User,
 } from 'types';
 import { limitText } from 'utils/limitCharacters';
+import { motion } from 'framer-motion';
 interface Props {
   title: string;
   coverImage?: MediaItem;
@@ -19,16 +20,18 @@ interface Props {
   categories?: PostToCategoryConnection;
   isEven?: boolean;
   featuredImageSettings?: Post_Featuredimagesettings;
+  slug?: string;
 }
 const PostHeader: React.FC<Props> = ({
   title,
   coverImage,
   date,
   featuredImageSettings,
+  slug,
 }) => {
   return (
     <div className={styles['post-header']}>
-      <div className={styles['image-wrap']}>
+      <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
         <CoverImage
           absolute={false}
           objectFit={featuredImageSettings.imageFit as ImageProps['objectFit']}
@@ -38,9 +41,11 @@ const PostHeader: React.FC<Props> = ({
           priority={true}
           sizes={{ width: 900, height: 900 }}
         />
-      </div>
+      </motion.div>
       <header className={styles['title-wrap']}>
-        <h1 className={styles['title']}>{title}</h1>
+        <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
+          {title}
+        </motion.h3>
         <Date dateString={date} />
       </header>
     </div>

@@ -10,6 +10,7 @@ import {
 } from 'types';
 import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
+import { motion } from 'framer-motion';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -31,7 +32,7 @@ const HeroPost: React.FC<Props> = ({
 }) => {
   return (
     <article className={styles['hero-post']}>
-      <div className={styles['image-wrap']}>
+      <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>
             <CoverImage
@@ -44,13 +45,18 @@ const HeroPost: React.FC<Props> = ({
             />
           </a>
         </Link>
-      </div>
+      </motion.div>
 
-      <h3 className={styles['title']}>
+      <motion.h3
+        initial={false}
+        animate={{ scale: 1, opacity: 1 }}
+        layoutId={`title-${slug}`}
+        className={styles['title']}
+      >
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>{limitText(title, 60)} </a>
         </Link>
-      </h3>
+      </motion.h3>
       <div className={styles['author-wrap']}>
         Written by{' '}
         <Link as={`/posts/${slug}`} href="/posts/[slug]">

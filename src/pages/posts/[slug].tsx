@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import ErrorPage from 'next/error';
 import Head from 'next/head';
+import ErrorPage from 'next/error';
 import { useQuery } from '@apollo/client';
 import Container from '@/components/Container';
 import PostBody from '@/components/PostBody';
@@ -21,6 +21,7 @@ import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Tags from '@/components/Tags';
 import styles from './Post.module.scss';
+import { motion } from 'framer-motion';
 
 interface Props {
   post: GeneratedPostType;
@@ -57,7 +58,12 @@ const Post: React.FC<Props> = () => {
             <PostTitle>Loading…</PostTitle>
           ) : (
             <>
-              <article className={styles['article']}>
+              <motion.article
+                // initial={{ scale: 0.8, opacity: 0 }}
+                // animate={{ scale: 1, opacity: 1 }}
+                layoutId={`article-${post.slug}`}
+                className={styles['article']}
+              >
                 <Head>
                   <title>{post.title} | CFYE.com</title>
                   <meta
@@ -69,6 +75,7 @@ const Post: React.FC<Props> = () => {
                 </Head>
                 <PostHeader
                   title={post.title}
+                  slug={post.slug}
                   coverImage={post.featuredImage?.node}
                   date={post.date}
                   author={post.author?.node}
@@ -81,7 +88,7 @@ const Post: React.FC<Props> = () => {
                   {/* {post.postSettingsField?.artistPost?.title} */}
                   {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
                 </footer>
-              </article>
+              </motion.article>
             </>
           )}
         </Container>
