@@ -1,4 +1,4 @@
-import { GetStaticPropsResult } from 'next';
+import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { Fragment, useEffect, useState } from 'react';
@@ -8,8 +8,13 @@ import Container from '@/components/Container';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
+import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
-import { RootQueryToPostConnection } from 'types';
+import {
+  RootQueryToCategoryConnection,
+  RootQueryToPostConnection,
+} from 'types';
+import { useRouter } from 'next/router';
 
 interface Data {
   posts: RootQueryToPostConnection;
@@ -19,6 +24,7 @@ interface Data {
 interface AllPostQueryVars {
   after?: string;
   first: number;
+  name?: string | string[];
 }
 
 export const allPostsQueryVars: AllPostQueryVars = {
@@ -27,6 +33,8 @@ export const allPostsQueryVars: AllPostQueryVars = {
 };
 
 const Index: React.FC = () => {
+  const router = useRouter();
+
   const { ref, inView } = useInView({
     threshold: 0,
   });
@@ -35,7 +43,11 @@ const Index: React.FC = () => {
     Data,
     AllPostQueryVars
   >(POSTS_QUERY, {
-    variables: allPostsQueryVars,
+    variables: {
+      after: '',
+      first: 10,
+      name: router.query.slug,
+    },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -46,30 +58,30 @@ const Index: React.FC = () => {
   }
 
   const { posts } = data;
-  const [count, setCount] = useState(null);
+  // const [count, setCount] = useState(null);
 
-  const loadMorePosts = (): void => {
-    fetchMore({
-      variables: {
-        ...allPostsQueryVars,
-        after: posts.pageInfo.endCursor,
-      },
-    });
-  };
+  // const loadMorePosts = (): void => {
+  //   fetchMore({
+  //     variables: {
+  //       ...allPostsQueryVars,
+  //       after: posts.pageInfo.endCursor,
+  //     },
+  //   });
+  // };
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
   };
 
-  useEffect((): void => {
-    setCount(posts.edges.length - 1);
-  }, [posts]);
+  // useEffect((): void => {
+  //   setCount(posts.edges.length - 1);
+  // }, [posts]);
 
-  useEffect((): void => {
-    if (inView) {
-      loadMorePosts();
-    }
-  }, [inView]);
+  // useEffect((): void => {
+  //   if (inView) {
+  //     loadMorePosts();
+  //   }
+  // }, [inView]);
 
   if (error) return <div>Error loading posts</div>;
 
@@ -92,7 +104,7 @@ const Index: React.FC = () => {
                 slug={node.slug}
                 excerpt={node.excerpt}
               />
-              {index === count - 2 && <div ref={ref} key={index}></div>}
+              {/* {index === count - 2 && <div ref={ref} key={index}></div>} */}
             </Fragment>
           );
         })}
@@ -105,16 +117,40 @@ const Index: React.FC = () => {
 
 export default Index;
 
-export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
+export const getStaticProps = async ({
+  params,
+}): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
     query: POSTS_QUERY,
-    variables: allPostsQueryVars,
+    variables: {
+      ...allPostsQueryVars,
+    },
   });
+
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
     },
+    revalidate: 1,
+  };
+};
+
+export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
+  const apolloClient: any = initializeApollo();
+  await apolloClient.query({
+    query: ALL_CATEGORIES,
+  });
+  const edges: RootQueryToCategoryConnection['edges'] = apolloClient.cache.extract()
+    .ROOT_QUERY.categories.edges;
+  return {
+    paths:
+      edges.map(({ node }) => {
+        if (node) {
+          return `/category/${node.slug}`;
+        }
+      }) || [],
+    fallback: true,
   };
 };

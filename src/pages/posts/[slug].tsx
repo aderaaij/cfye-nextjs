@@ -43,7 +43,6 @@ const Post: React.FC<Props> = () => {
   }
 
   const { post } = data;
-
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
@@ -104,7 +103,6 @@ export const getStaticProps = async ({
   preview = false,
   previewData,
 }): Promise<GetStaticPropsResult<any>> => {
-  debugger;
   const apolloClient = initializeApollo();
   const postPreview: GeneratedPostType = preview && previewData?.post;
   const isId = Number.isInteger(Number(params.slug));

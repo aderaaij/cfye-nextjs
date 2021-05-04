@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 
 export const POSTS_QUERY = gql`
-  query posts($first: Int!, $after: String) {
+  query posts($first: Int!, $after: String, $name: String) {
     posts(
       first: $first
       after: $after
-      where: { orderby: { field: DATE, order: DESC } }
+      where: { orderby: { field: DATE, order: DESC }, categoryName: $name }
     ) {
       pageInfo {
         endCursor

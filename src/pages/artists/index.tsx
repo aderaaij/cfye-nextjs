@@ -102,7 +102,6 @@ export default Index;
 
 export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
-  debugger;
 
   await apolloClient.query({
     query: ARTISTS_QUERY,

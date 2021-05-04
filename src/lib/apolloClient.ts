@@ -18,6 +18,10 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     }),
 
     cache: new InMemoryCache({
+      // dataIdFromObject: ({__template, id}) => {
+      //   return
+      // }
+      /**  Type Policy used for lazyloading */
       typePolicies: {
         Query: {
           fields: {
