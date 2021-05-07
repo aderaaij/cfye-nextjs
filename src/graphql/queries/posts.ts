@@ -1,46 +1,24 @@
 import { gql } from '@apollo/client';
-
+import { POST_EXCERPT_FIELDS } from '../fragments/PostExcerptFields';
 export const POSTS_QUERY = gql`
-  query posts($first: Int!, $after: String, $name: String) {
-    posts(
+  ${POST_EXCERPT_FIELDS}
+  query categoryPosts($first: Int!, $after: String, $categoryName: String) {
+    categoryPosts: posts(
       first: $first
       after: $after
-      where: { orderby: { field: DATE, order: DESC }, categoryName: $name }
+      where: {
+        orderby: { field: DATE, order: DESC }
+        categoryName: $categoryName
+      }
     ) {
       pageInfo {
         endCursor
         startCursor
+        hasNextPage
       }
       edges {
         cursor
-        node {
-          id
-          title
-          excerpt
-          slug
-          date
-          featuredImageSettings {
-            imageFit
-            backgroundColor
-          }
-          featuredImage {
-            node {
-              sourceUrl(size: LARGE)
-              srcSet(size: LARGE)
-              id
-            }
-          }
-          author {
-            node {
-              name
-              firstName
-              lastName
-              avatar {
-                url
-              }
-            }
-          }
-        }
+        ...PostExcerptFields
       }
     }
   }

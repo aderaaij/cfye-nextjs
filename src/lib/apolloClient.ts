@@ -5,7 +5,6 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
-import { relayStylePagination } from '@apollo/client/utilities';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
@@ -18,17 +17,7 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     }),
 
     cache: new InMemoryCache({
-      // dataIdFromObject: ({__template, id}) => {
-      //   return
-      // }
-      /**  Type Policy used for lazyloading */
-      typePolicies: {
-        Query: {
-          fields: {
-            posts: relayStylePagination(),
-          },
-        },
-      },
+      resultCaching: false,
     }),
   });
 }
