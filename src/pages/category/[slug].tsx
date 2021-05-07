@@ -17,7 +17,6 @@ interface Props {
   };
 }
 const Category: React.FC<Props> = ({ data }) => {
-  console.log({ data });
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
