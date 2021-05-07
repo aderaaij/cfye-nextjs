@@ -2,43 +2,26 @@ import { GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { RootQueryToPostConnection } from 'types';
-import { useQuery } from '@apollo/client';
 import Container from '@/components/Container';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
 
-interface Data {
-  featuredPosts: RootQueryToPostConnection;
-  newWorkPosts: RootQueryToPostConnection;
-  preview?: boolean;
+interface Props {
+  data: {
+    featuredPosts: RootQueryToPostConnection;
+    newWorkPosts: RootQueryToPostConnection;
+  };
 }
 
-interface AllPostQueryVars {
-  after?: string;
-  first: number;
-}
-
-export const allPostsQueryVars: AllPostQueryVars = {
-  after: '',
-  first: 10,
-};
-
-const Index: React.FC = ({ data }) => {
+const Index: React.FC<Props> = ({ data }) => {
+  if (!data) {
+    return <ErrorPage statusCode={501} />;
+  }
   const { featuredPosts, newWorkPosts } = data;
-  // const { error, data } = useQuery<Data, AllPostQueryVars>(FRONTPAGE_QUERY, {
-  //   variables: allPostsQueryVars,
-  //   notifyOnNetworkStatusChange: true,
-  // });
 
-  // if (!data) {
-  //   return <ErrorPage statusCode={501} />;
-  // }
-
-  // const { featuredPosts, newWorkPosts } = data;
   const featuredPostNode = featuredPosts.edges[0].node;
-  // if (error) return <div>Error loading posts</div>;
   return (
     <Layout preview={false}>
       <Head>
@@ -71,12 +54,14 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
 
   const result = await apolloClient.query({
     query: FRONTPAGE_QUERY,
-    variables: allPostsQueryVars,
+    variables: {
+      after: '',
+      first: 10,
+    },
   });
   return {
     props: {
       data: result.data,
-      // initialApolloState: apolloClient.cache.extract(),
     },
   };
 };
