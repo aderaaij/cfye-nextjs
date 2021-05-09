@@ -34,20 +34,22 @@ const HeroPost: React.FC<Props> = ({
 }) => {
   return (
     <article className={styles['hero-post']}>
-      <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
-          <a>
-            <CoverImage
-              absolute={true}
-              objectFit={imageSettings.imageFit as ImageProps['objectFit']}
-              backgroundColor={imageSettings.backgroundColor}
-              cover={true}
-              title={title}
-              coverImage={coverImage}
-            />
-          </a>
-        </Link>
-      </motion.div>
+      {coverImage && (
+        <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
+          <Link as={`/posts/${slug}`} href="/posts/[slug]">
+            <a>
+              <CoverImage
+                absolute={true}
+                objectFit={imageSettings.imageFit as ImageProps['objectFit']}
+                backgroundColor={imageSettings.backgroundColor}
+                cover={true}
+                title={title}
+                coverImage={coverImage}
+              />
+            </a>
+          </Link>
+        </motion.div>
+      )}
       <div className={styles['title-wrap']}>
         <motion.h3
           initial={false}

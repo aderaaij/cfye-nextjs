@@ -31,9 +31,11 @@
   display: grid;
   grid-template-rows: auto;
   padding: 0 1em;
+  margin-bottom: 4em;
 
   @media screen and (min-width: 1024px) {
     padding: 0;
-    gap: 8em;
+    gap: 4em;
+    margin-bottom: 4em;
   }
 }

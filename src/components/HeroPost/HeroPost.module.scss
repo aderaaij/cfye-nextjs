@@ -11,9 +11,20 @@
     gap: var(--grid-gap-size);
   }
 
+  &::before {
+    content: '';
+    background: lighten(#333, 77%);
+    grid-row: 2 / span 3;
+  }
+
   &:nth-child(odd) {
+    &::before {
+      grid-column: 7 / span 2;
+    }
+
     .text-wrap {
       grid-column: 6 / span 2;
+      grid-row: 4 / span 2;
     }
 
     .title-wrap {
@@ -51,8 +62,14 @@
   }
 
   &:nth-child(even) {
+    &::before {
+      grid-column: 4 / span 4;
+    }
+
     .text-wrap {
       grid-column: 5 / span 2;
+      grid-row: 4 / span 2;
+      padding-right: var(--grid-gap-size);
     }
 
     .title-wrap {

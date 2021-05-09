@@ -90,3 +90,14 @@ p {
   width: 50%;
   height: 50%;
 }
+
+.fp-hr {
+  width: auto;
+  display: block;
+  height: 1px;
+  background-color: #ec008c;
+  border: none;
+  margin: 0 auto;
+  margin-left: calc(var(--grid-gap-size) + 3%);
+  margin-right: calc(var(--grid-gap-size) + 3%);
+}

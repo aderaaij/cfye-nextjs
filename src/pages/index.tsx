@@ -7,6 +7,7 @@ import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
+import ExcerptsSmall from '@/components/ExcerptsSmall';
 
 interface Props {
   data: {
@@ -39,9 +40,8 @@ const Index: React.FC<Props> = ({ data }) => {
           excerpt={featuredPostNode.excerpt}
           categories={featuredPostNode.categories}
         />
-        {newWorkPosts.edges.map(({ node }) => {
-          return <article key={node.id}>{node.title}</article>;
-        })}
+        <hr className="fp-hr" />
+        <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
       </Container>
     </Layout>
   );

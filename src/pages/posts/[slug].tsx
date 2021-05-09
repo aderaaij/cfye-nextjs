@@ -14,7 +14,6 @@ import {
   PostIdType,
   PostStatusEnum,
   PostFormatIdType,
-  RootQueryToPostConnection,
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
