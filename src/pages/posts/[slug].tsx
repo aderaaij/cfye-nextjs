@@ -134,7 +134,8 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const res = await apolloClient.query({
     query: ALL_POSTS_WITH_SLUG_QUERY,
   });
-
+  // const edges: RootQueryToPostConnection['edges'] = apolloClient.cache.extract()
+  //   .ROOT_QUERY.posts.edges;
   return {
     paths:
       res.data.posts.edges.map(({ node }) => {
@@ -142,6 +143,6 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
           return `/posts/${node.slug}`;
         }
       }) || [],
-    fallback: false,
+    fallback: true,
   };
 };

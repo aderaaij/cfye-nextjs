@@ -1,6 +1,7 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
 import { RootQueryToPostConnection, Post } from 'types';
+import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
 import {
   MediaItem,
@@ -31,9 +32,14 @@ const HeroPost: React.FC<Props> = ({
   author,
   imageSettings,
   categories,
+  isEven,
 }) => {
   return (
-    <article className={styles['hero-post']}>
+    <article
+      className={cx(styles['hero-post'], {
+        [styles['hero-post--is-even']]: isEven,
+      })}
+    >
       {coverImage && (
         <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">

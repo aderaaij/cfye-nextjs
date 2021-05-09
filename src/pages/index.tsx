@@ -11,8 +11,11 @@ import ExcerptsSmall from '@/components/ExcerptsSmall';
 
 interface Props {
   data: {
-    featuredPosts: RootQueryToPostConnection;
+    stickyPosts: RootQueryToPostConnection;
     newWorkPosts: RootQueryToPostConnection;
+    interviewsPosts: RootQueryToPostConnection;
+    cfyeXPosts: RootQueryToPostConnection;
+    featuresPosts: RootQueryToPostConnection;
   };
 }
 
@@ -20,9 +23,19 @@ const Index: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const { featuredPosts, newWorkPosts } = data;
+  const {
+    stickyPosts,
+    newWorkPosts,
+    interviewsPosts,
+    cfyeXPosts,
+    featuresPosts,
+  } = data;
 
-  const featuredPostNode = featuredPosts.edges[0].node;
+  const featuredPostNode = stickyPosts?.edges[0].node;
+  const featuredInterview = interviewsPosts?.edges[0].node;
+  const featuredCfyeXPost = cfyeXPosts?.edges[0].node;
+  const featuredFeaturesPost = featuresPosts?.edges[0].node;
+  console.log(featuresPosts);
   return (
     <Layout preview={false}>
       <Head>
@@ -42,6 +55,52 @@ const Index: React.FC<Props> = ({ data }) => {
         />
         <hr className="fp-hr" />
         <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
+        <hr className="fp-hr" />
+
+        <h2>Interviews</h2>
+        {featuredInterview && (
+          <HeroPost
+            title={featuredInterview.title}
+            isEven={true}
+            imageSettings={featuredInterview.featuredImageSettings}
+            coverImage={featuredInterview.featuredImage?.node}
+            date={featuredInterview.date}
+            author={featuredInterview.author.node}
+            slug={featuredInterview.slug}
+            excerpt={featuredInterview.excerpt}
+            categories={featuredInterview.categories}
+          />
+        )}
+        <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
+        <hr className="fp-hr" />
+        {featuredCfyeXPost && (
+          <HeroPost
+            title={featuredCfyeXPost.title}
+            isEven={false}
+            imageSettings={featuredCfyeXPost.featuredImageSettings}
+            coverImage={featuredCfyeXPost.featuredImage?.node}
+            date={featuredCfyeXPost.date}
+            author={featuredCfyeXPost.author.node}
+            slug={featuredCfyeXPost.slug}
+            excerpt={featuredCfyeXPost.excerpt}
+            categories={featuredCfyeXPost.categories}
+          />
+        )}
+        <hr className="fp-hr" />
+        {featuredFeaturesPost && (
+          <HeroPost
+            title={featuredFeaturesPost.title}
+            isEven={true}
+            imageSettings={featuredFeaturesPost.featuredImageSettings}
+            coverImage={featuredFeaturesPost.featuredImage?.node}
+            date={featuredFeaturesPost.date}
+            author={featuredFeaturesPost.author.node}
+            slug={featuredFeaturesPost.slug}
+            excerpt={featuredFeaturesPost.excerpt}
+            categories={featuredFeaturesPost.categories}
+          />
+        )}
+        <ExcerptsSmall edges={featuresPosts.edges.slice(1)} />
       </Container>
     </Layout>
   );
