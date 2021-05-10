@@ -60,7 +60,6 @@ export const getStaticProps = async ({
   params,
 }): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
-  console.log(params.slug);
   const res = await apolloClient.query({
     query: POSTS_QUERY,
     variables: {
