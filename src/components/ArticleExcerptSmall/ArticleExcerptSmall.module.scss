@@ -23,6 +23,14 @@
   margin: 0;
   font-style: italic;
 
+  a {
+    color: #666;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   li {
     &::after {
       content: ', \00a0';

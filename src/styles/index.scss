@@ -92,12 +92,22 @@ p {
 }
 
 .fp-hr {
-  width: auto;
   display: block;
+  width: 100%;
   height: 1px;
   background-color: #ec008c;
   border: none;
-  margin: 0 auto;
-  margin-left: calc(var(--grid-gap-size) + 3%);
-  margin-right: calc(var(--grid-gap-size) + 3%);
+  margin: 0;
+}
+
+/**
+ * Content width
+ **/
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.content-width {
+  grid-column: 3 / span 7;
 }

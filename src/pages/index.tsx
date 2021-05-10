@@ -41,63 +41,75 @@ const Index: React.FC<Props> = ({ data }) => {
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
       <Container type="frontpage-grid">
-        <HeroPost
-          title={featuredPostNode.title}
-          isEven={false}
-          imageSettings={featuredPostNode.featuredImageSettings}
-          coverImage={featuredPostNode.featuredImage?.node}
-          date={featuredPostNode.date}
-          author={featuredPostNode.author.node}
-          slug={featuredPostNode.slug}
-          excerpt={featuredPostNode.excerpt}
-          categories={featuredPostNode.categories}
-        />
-        <hr className="fp-hr" />
-        <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
-        <hr className="fp-hr" />
+        {featuredPostNode && (
+          <div className="full-width">
+            <HeroPost
+              title={featuredPostNode.title}
+              isEven={false}
+              imageSettings={featuredPostNode.featuredImageSettings}
+              coverImage={featuredPostNode.featuredImage?.node}
+              date={featuredPostNode.date}
+              author={featuredPostNode.author.node}
+              slug={featuredPostNode.slug}
+              excerpt={featuredPostNode.excerpt}
+              categories={featuredPostNode.categories}
+            />
+          </div>
+        )}
 
-        <h2>Interviews</h2>
+        <hr className="fp-hr content-width" />
+        <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
+        <hr className="fp-hr content-width" />
+
+        <h2 className="content-width">Interviews</h2>
         {featuredInterview && (
-          <HeroPost
-            title={featuredInterview.title}
-            isEven={true}
-            imageSettings={featuredInterview.featuredImageSettings}
-            coverImage={featuredInterview.featuredImage?.node}
-            date={featuredInterview.date}
-            author={featuredInterview.author.node}
-            slug={featuredInterview.slug}
-            excerpt={featuredInterview.excerpt}
-            categories={featuredInterview.categories}
-          />
+          <div className="full-width">
+            <HeroPost
+              title={featuredInterview.title}
+              isEven={true}
+              imageSettings={featuredInterview.featuredImageSettings}
+              coverImage={featuredInterview.featuredImage?.node}
+              date={featuredInterview.date}
+              author={featuredInterview.author.node}
+              slug={featuredInterview.slug}
+              excerpt={featuredInterview.excerpt}
+              categories={featuredInterview.categories}
+            />
+          </div>
         )}
         <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
-        <hr className="fp-hr" />
+        <hr className="fp-hr content-width" />
         {featuredCfyeXPost && (
-          <HeroPost
-            title={featuredCfyeXPost.title}
-            isEven={false}
-            imageSettings={featuredCfyeXPost.featuredImageSettings}
-            coverImage={featuredCfyeXPost.featuredImage?.node}
-            date={featuredCfyeXPost.date}
-            author={featuredCfyeXPost.author.node}
-            slug={featuredCfyeXPost.slug}
-            excerpt={featuredCfyeXPost.excerpt}
-            categories={featuredCfyeXPost.categories}
-          />
+          <div className="full-width">
+            <HeroPost
+              title={featuredCfyeXPost.title}
+              isEven={false}
+              imageSettings={featuredCfyeXPost.featuredImageSettings}
+              coverImage={featuredCfyeXPost.featuredImage?.node}
+              date={featuredCfyeXPost.date}
+              author={featuredCfyeXPost.author.node}
+              slug={featuredCfyeXPost.slug}
+              excerpt={featuredCfyeXPost.excerpt}
+              categories={featuredCfyeXPost.categories}
+            />
+          </div>
         )}
-        <hr className="fp-hr" />
+        <hr className="fp-hr content-width" />
+        <h2 className="content-width">Features</h2>
         {featuredFeaturesPost && (
-          <HeroPost
-            title={featuredFeaturesPost.title}
-            isEven={true}
-            imageSettings={featuredFeaturesPost.featuredImageSettings}
-            coverImage={featuredFeaturesPost.featuredImage?.node}
-            date={featuredFeaturesPost.date}
-            author={featuredFeaturesPost.author.node}
-            slug={featuredFeaturesPost.slug}
-            excerpt={featuredFeaturesPost.excerpt}
-            categories={featuredFeaturesPost.categories}
-          />
+          <div className="full-width">
+            <HeroPost
+              title={featuredFeaturesPost.title}
+              isEven={true}
+              imageSettings={featuredFeaturesPost.featuredImageSettings}
+              coverImage={featuredFeaturesPost.featuredImage?.node}
+              date={featuredFeaturesPost.date}
+              author={featuredFeaturesPost.author.node}
+              slug={featuredFeaturesPost.slug}
+              excerpt={featuredFeaturesPost.excerpt}
+              categories={featuredFeaturesPost.categories}
+            />
+          </div>
         )}
         <ExcerptsSmall edges={featuresPosts.edges.slice(1)} />
       </Container>

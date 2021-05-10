@@ -34,8 +34,12 @@
   margin-bottom: 4em;
 
   @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: var(--grid-columns-template);
+    grid-column-gap: var(--grid-gap-size);
+    grid-row-gap: 4em;
+    grid-template-rows: auto;
     padding: 0;
-    gap: 4em;
     margin-bottom: 4em;
   }
 }
