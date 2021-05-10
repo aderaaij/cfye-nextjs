@@ -6,6 +6,16 @@
   color: var(--cfye);
 }
 
+.tag-list-wrap {
+  display: flex;
+
+  span {
+    font-style: italic;
+    color: #666;
+    margin-right: 0.5em;
+  }
+}
+
 .tag-list {
   display: flex;
   list-style: none;

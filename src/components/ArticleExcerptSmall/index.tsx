@@ -20,17 +20,20 @@ const ArticleExcerptSmall: React.FC<Props> = ({ node }) => {
         </a>
       </Link>
       {node.tags && (
-        <ul className={styles['tag-list']}>
-          {node.tags.edges.map(({ node }) => {
-            return (
-              <li key={node.name}>
-                <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
-                  <a>{node.name}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={styles['tag-list-wrap']}>
+          <span>tagged:</span>
+          <ul className={styles['tag-list']}>
+            {node.tags.edges.map(({ node }) => {
+              return (
+                <li key={node.name}>
+                  <Link as={`/tag/${node.slug}`} href="/tag/[slug]">
+                    <a>{node.name}</a>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
       <h3 className={styles['title']}>
         <Link as={`/posts/${node.slug}`} href="/posts/[slug]">

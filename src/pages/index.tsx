@@ -35,7 +35,6 @@ const Index: React.FC<Props> = ({ data }) => {
   const featuredInterview = interviewsPosts?.edges[0].node;
   const featuredCfyeXPost = cfyeXPosts?.edges[0].node;
   const featuredFeaturesPost = featuresPosts?.edges[0].node;
-  console.log(featuresPosts);
   return (
     <Layout preview={false}>
       <Head>
