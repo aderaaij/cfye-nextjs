@@ -1,20 +1,23 @@
-.article {
-  position: relative;
-}
-
-.title {
-  font-size: 1.5em;
-  letter-spacing: 0.1px;
-  margin-top: 0;
-}
-
-.title a {
-  color: var(--cfye);
-}
-
 .tag-list-wrap {
   display: flex;
   margin-bottom: 0.5em;
+
+  &--heroExcerpt,
+  &--default {
+    a {
+      color: var(--cfye);
+    }
+  }
+
+  &--articleExcerpt {
+    a {
+      color: var(--meta);
+    }
+
+    span {
+      text-transform: lowercase;
+    }
+  }
 
   span {
     font-style: italic;
@@ -31,7 +34,7 @@
   font-style: italic;
 
   a {
-    color: var(--meta);
+    // color: var(--cfye);
 
     &:hover {
       text-decoration: underline;

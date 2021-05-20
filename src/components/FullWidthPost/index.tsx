@@ -1,7 +1,6 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { RootQueryToPostConnection, Post } from 'types';
-import cx from 'classnames';
+import { Post } from 'types';
 import CoverImage from '@/components/CoverImage';
 import {
   MediaItem,
@@ -11,8 +10,7 @@ import {
 import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
-import TagList from '@/components/TagList';
-import styles from './HeroPost.module.scss';
+import styles from './FullWidthPost.module.scss';
 interface Props {
   title: string;
   coverImage: MediaItem;
@@ -23,10 +21,9 @@ interface Props {
   isEven?: boolean;
   imageSettings?: Post_Featuredimagesettings;
   categories?: Post['categories'];
-  tags?: Post['tags'];
 }
 
-const HeroPost: React.FC<Props> = ({
+const FullWidthPost: React.FC<Props> = ({
   title,
   coverImage,
   excerpt,
@@ -34,15 +31,9 @@ const HeroPost: React.FC<Props> = ({
   author,
   imageSettings,
   categories,
-  isEven,
-  tags,
 }) => {
   return (
-    <article
-      className={cx(styles['hero-post'], {
-        [styles['hero-post--is-even']]: isEven,
-      })}
-    >
+    <article className={styles['fullwidth-post']}>
       {coverImage && (
         <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
@@ -59,7 +50,7 @@ const HeroPost: React.FC<Props> = ({
           </Link>
         </motion.div>
       )}
-      <div className={styles['title-wrap']}>
+      {/* <div className={styles['title-wrap']}>
         <motion.h3
           initial={false}
           animate={{ scale: 1, opacity: 1 }}
@@ -91,15 +82,14 @@ const HeroPost: React.FC<Props> = ({
             {author.firstName} {author.lastName}
           </a>
         </Link>
-        {tags && <TagList tags={tags} context="heroExcerpt" />}
       </div>
 
       <div className={styles['text-wrap']}>
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>{parse(excerpt)}</a>
         </Link>
-      </div>
+      </div> */}
     </article>
   );
 };
-export default HeroPost;
+export default FullWidthPost;

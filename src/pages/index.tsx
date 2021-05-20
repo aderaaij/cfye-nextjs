@@ -8,6 +8,7 @@ import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
 import ExcerptsSmall from '@/components/ExcerptsSmall';
+import FullWidthPost from '@/components/FullWidthPost';
 
 interface Props {
   data: {
@@ -53,6 +54,7 @@ const Index: React.FC<Props> = ({ data }) => {
               slug={featuredPostNode.slug}
               excerpt={featuredPostNode.excerpt}
               categories={featuredPostNode.categories}
+              tags={featuredPostNode.tags}
             />
           </div>
         )}
@@ -61,7 +63,7 @@ const Index: React.FC<Props> = ({ data }) => {
         <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
         <hr className="fp-hr content-width" />
 
-        <h2 className="content-width">Interviews</h2>
+        <h2 className="content-width section-title">Interviews</h2>
         {featuredInterview && (
           <div className="full-width">
             <HeroPost
@@ -81,7 +83,7 @@ const Index: React.FC<Props> = ({ data }) => {
         <hr className="fp-hr content-width" />
         {featuredCfyeXPost && (
           <div className="full-width">
-            <HeroPost
+            <FullWidthPost
               title={featuredCfyeXPost.title}
               isEven={false}
               imageSettings={featuredCfyeXPost.featuredImageSettings}
@@ -95,7 +97,7 @@ const Index: React.FC<Props> = ({ data }) => {
           </div>
         )}
         <hr className="fp-hr content-width" />
-        <h2 className="content-width">Features</h2>
+        <h2 className="section-title content-width">Features</h2>
         {featuredFeaturesPost && (
           <div className="full-width">
             <HeroPost

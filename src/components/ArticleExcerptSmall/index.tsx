@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from 'types';
+import TagList from '@/components/TagList';
 import styles from './ArticleExcerptSmall.module.scss';
 
 interface Props {
@@ -15,26 +16,11 @@ const ArticleExcerptSmall: React.FC<Props> = ({ node }) => {
             src={node.featuredImage.node.sourceUrl}
             width={600}
             height={400}
-            objectFit="cover"
+            objectFit="fill"
           />
         </a>
       </Link>
-      {node.tags && (
-        <div className={styles['tag-list-wrap']}>
-          <span>tagged:</span>
-          <ul className={styles['tag-list']}>
-            {node.tags.edges.map(({ node }) => {
-              return (
-                <li key={node.name}>
-                  <Link as={`/tag/${node.slug}`} href="/tag/[slug]">
-                    <a>{node.name}</a>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
+      <TagList tags={node.tags} context="articleExcerpt" />
       <h3 className={styles['title']}>
         <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
           <a>{node.title}</a>

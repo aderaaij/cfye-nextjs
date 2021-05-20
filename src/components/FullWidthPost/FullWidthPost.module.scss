@@ -3,6 +3,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  max-height: 85vh;
 
   @media screen and (min-width: 768px) {
     display: grid;
@@ -24,19 +25,11 @@
 
   .title-wrap {
     grid-column: 6 / span 4;
-    text-align: left;
-
-    @media screen and (min-width: 768px) {
-      text-align: right;
-    }
+    text-align: right;
   }
 
   .category {
-    justify-content: flex-start;
-
-    @media screen and (min-width: 768px) {
-      justify-content: flex-end;
-    }
+    justify-content: flex-end;
   }
 
   .author-wrap {
@@ -62,56 +55,6 @@
       grid-column: 3 / span 5;
     }
   }
-
-  // &:nth-child(even) {
-  // }
-
-  &--is-even {
-    &::before {
-      grid-column: 4 / span 4;
-    }
-
-    .text-wrap {
-      grid-column: 5 / span 2;
-      grid-row: 4 / span 2;
-      padding-right: var(--grid-gap-size);
-    }
-
-    .title-wrap {
-      grid-column: 3 / span 4;
-      text-align: left;
-    }
-
-    .author-wrap {
-      grid-column: 6 / span 4;
-
-      @media screen and (min-width: 1024px) {
-        grid-column: 8 / span 2;
-        text-align: right;
-      }
-    }
-
-    .category {
-      justify-content: flex-start;
-    }
-
-    .image-wrap {
-      grid-column: 6 / span 4;
-
-      &::before {
-        pointer-events: none;
-        background: linear-gradient(
-          270deg,
-          rgba(0, 0, 0, 0) 40%,
-          rgba(0, 0, 0, 1) 100%
-        );
-      }
-
-      @media screen and (min-width: 1024px) {
-        grid-column: 5 / span 5;
-      }
-    }
-  }
 }
 
 .image-wrap {
@@ -119,7 +62,7 @@
   grid-column: 3 / span 4;
 
   @media screen and (min-width: 1024px) {
-    grid-row: 1 / span 3;
+    grid-row: 1 / -1;
   }
 
   &::before {
@@ -139,7 +82,6 @@
 }
 
 .text-wrap {
-  padding: 0 1em;
   p {
     margin: 0;
     font-size: 1.375em;
@@ -158,22 +100,16 @@
   // align-items: center;
   justify-content: center;
   z-index: 1;
-  padding: 0 1em;
-
-  @media screen and (min-width: 1024px) {
-    padding: 0;
-  }
 }
 
 .title {
-  font-size: 2em;
+  font-size: 64px;
   line-height: 1.5;
   letter-spacing: 0.1px;
   margin: 0;
 
   a {
     color: var(--cfye);
-    mix-blend-mode: color-burn;
   }
 
   @media screen and (min-width: 1024px) {
@@ -208,17 +144,8 @@
   color: var(--meta);
   font-style: italic;
   font-size: 1.125em;
-  padding: 0 1em;
-
-  @media screen and (min-width: 1024px) {
-    padding: 0;
-  }
 
   a {
     color: var(--cfye);
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }

@@ -27,10 +27,6 @@
 }
 
 .frontpage-grid {
-  gap: 4em;
-  display: grid;
-  grid-template-rows: auto;
-  padding: 0 1em;
   margin-bottom: 4em;
 
   @media screen and (min-width: 1024px) {
@@ -39,7 +35,5 @@
     grid-column-gap: var(--grid-gap-size);
     grid-row-gap: 4em;
     grid-template-rows: auto;
-    padding: 0;
-    margin-bottom: 4em;
   }
 }
