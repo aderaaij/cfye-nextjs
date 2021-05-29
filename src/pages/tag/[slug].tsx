@@ -32,23 +32,9 @@ const Tag: React.FC<Props> = ({ data }) => {
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
       <Container type="frontpage-grid">
-        {categoryPosts.edges.map(({ node }, index) => {
-          return (
-            <Fragment key={node.id}>
-              <HeroPost
-                title={node.title}
-                isEven={isEven(index)}
-                imageSettings={node.featuredImageSettings}
-                coverImage={node.featuredImage?.node}
-                date={node.date}
-                author={node.author.node}
-                slug={node.slug}
-                excerpt={node.excerpt}
-                categories={node.categories}
-              />
-            </Fragment>
-          );
-        })}
+        {categoryPosts.edges.map(({ node }, index) => (
+          <HeroPost key={node.id} post={node} isEven={isEven(index)} />
+        ))}
       </Container>
     </Layout>
   );

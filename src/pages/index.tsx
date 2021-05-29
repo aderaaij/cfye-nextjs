@@ -46,7 +46,7 @@ const Index: React.FC<Props> = ({ data }) => {
         {featuredPost && <HeroPost post={featuredPost} isEven={false} />}
         <Excerpts edges={newWorkPosts.edges} />
 
-        <hr className="fp-hr" />
+        {/* <hr className="fp-hr" /> */}
 
         <h2 className="section-title">Interviews</h2>
         {featuredInterview && (
