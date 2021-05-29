@@ -1,59 +1,48 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { RootQueryToPostConnection, Post } from 'types';
+import { Post } from 'types';
 import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
-import {
-  MediaItem,
-  NodeWithAuthorToUserConnectionEdge,
-  Post_Featuredimagesettings,
-} from 'types';
 import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
 import TagList from '@/components/TagList';
 import styles from './HeroPost.module.scss';
 interface Props {
-  title: string;
-  coverImage: MediaItem;
-  date: string;
-  excerpt: string;
-  author: NodeWithAuthorToUserConnectionEdge['node'];
-  slug: string;
+  post: Post;
   isEven?: boolean;
-  imageSettings?: Post_Featuredimagesettings;
-  categories?: Post['categories'];
-  tags?: Post['tags'];
 }
 
-const HeroPost: React.FC<Props> = ({
-  title,
-  coverImage,
-  excerpt,
-  slug,
-  author,
-  imageSettings,
-  categories,
-  isEven,
-  tags,
-}) => {
+const HeroPost: React.FC<Props> = ({ post, isEven }) => {
+  const {
+    slug,
+    featuredImageSettings,
+    title,
+    featuredImage,
+    categories,
+    author,
+    tags,
+    excerpt,
+  } = post;
   return (
     <article
       className={cx(styles['hero-post'], {
         [styles['hero-post--is-even']]: isEven,
       })}
     >
-      {coverImage && (
+      {post.featuredImage && (
         <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>
               <CoverImage
                 absolute={true}
-                objectFit={imageSettings.imageFit as ImageProps['objectFit']}
-                backgroundColor={imageSettings.backgroundColor}
+                objectFit={
+                  featuredImageSettings.imageFit as ImageProps['objectFit']
+                }
+                backgroundColor={featuredImageSettings.backgroundColor}
                 cover={true}
                 title={title}
-                coverImage={coverImage}
+                coverImage={featuredImage.node}
               />
             </a>
           </Link>
@@ -86,9 +75,9 @@ const HeroPost: React.FC<Props> = ({
       </div>
       <div className={styles['author-wrap']}>
         Written by{' '}
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+        <Link as={`/posts/${post.slug}`} href="/posts/[slug]">
           <a>
-            {author.firstName} {author.lastName}
+            {author.node.firstName} {author.node.lastName}
           </a>
         </Link>
         {tags && <TagList tags={tags} context="heroExcerpt" />}

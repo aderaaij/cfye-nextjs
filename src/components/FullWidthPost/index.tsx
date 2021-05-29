@@ -2,49 +2,31 @@ import parse from 'html-react-parser';
 import Link from 'next/link';
 import { Post } from 'types';
 import CoverImage from '@/components/CoverImage';
-import {
-  MediaItem,
-  NodeWithAuthorToUserConnectionEdge,
-  Post_Featuredimagesettings,
-} from 'types';
 import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './FullWidthPost.module.scss';
 interface Props {
-  title: string;
-  coverImage: MediaItem;
-  date: string;
-  excerpt: string;
-  author: NodeWithAuthorToUserConnectionEdge['node'];
-  slug: string;
-  isEven?: boolean;
-  imageSettings?: Post_Featuredimagesettings;
-  categories?: Post['categories'];
+  post: Post;
 }
 
-const FullWidthPost: React.FC<Props> = ({
-  title,
-  coverImage,
-  excerpt,
-  slug,
-  author,
-  imageSettings,
-  categories,
-}) => {
+const FullWidthPost: React.FC<Props> = ({ post }) => {
+  const { featuredImage, slug, featuredImageSettings, title } = post;
   return (
     <article className={styles['fullwidth-post']}>
-      {coverImage && (
+      {featuredImage && (
         <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>
               <CoverImage
                 absolute={true}
-                objectFit={imageSettings.imageFit as ImageProps['objectFit']}
-                backgroundColor={imageSettings.backgroundColor}
+                objectFit={
+                  featuredImageSettings.imageFit as ImageProps['objectFit']
+                }
+                backgroundColor={featuredImageSettings.backgroundColor}
                 cover={true}
                 title={title}
-                coverImage={coverImage}
+                coverImage={featuredImage.node}
               />
             </a>
           </Link>
