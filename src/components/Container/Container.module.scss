@@ -16,7 +16,6 @@
     }
 
     &:nth-child(2n) {
-      background: blue;
       grid-column: 7 / span 2;
     }
   }

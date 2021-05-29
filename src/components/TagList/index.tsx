@@ -8,22 +8,28 @@ interface Props {
   context?: 'heroExcerpt' | 'articleExcerpt' | 'default';
 }
 
-const TagList: React.FC<Props> = ({ tags, context = 'default' }) => (
-  <div
-    className={cx(styles['tag-list-wrap'], styles[`tag-list-wrap--${context}`])}
-  >
-    <span>Tags:</span>
-    <ul className={styles['tag-list']}>
-      {tags.edges.map(({ node }) => {
-        return (
-          <li key={node.name}>
-            <Link as={`/tag/${node.slug}`} href="/tag/[slug]">
-              <a>{node.name}</a>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-);
+const TagList: React.FC<Props> = ({ tags, context = 'default' }) => {
+  if (!tags.edges.length) return null;
+  return (
+    <div
+      className={cx(
+        styles['tag-list-wrap'],
+        styles[`tag-list-wrap--${context}`]
+      )}
+    >
+      <span>Tags:</span>
+      <ul className={styles['tag-list']}>
+        {tags.edges.map(({ node }) => {
+          return (
+            <li key={node.name}>
+              <Link as={`/tag/${node.slug}`} href="/tag/[slug]">
+                <a>{node.name}</a>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 export default TagList;

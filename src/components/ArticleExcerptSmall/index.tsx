@@ -4,28 +4,38 @@ import { Post } from 'types';
 import TagList from '@/components/TagList';
 import styles from './ArticleExcerptSmall.module.scss';
 
+interface Dimensions {
+  width: number;
+  height: number;
+}
 interface Props {
   node: Post;
+  dimensions?: Dimensions;
 }
-const ArticleExcerptSmall: React.FC<Props> = ({ node }) => {
+
+const ArticleExcerptSmall: React.FC<Props> = ({
+  node,
+  dimensions = { width: 600, height: 400 },
+}) => {
   return (
     <article className={styles['article']}>
       <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
-        <a>
+        <a className={styles['image-link']}>
           <Image
             src={node.featuredImage.node.sourceUrl}
-            width={600}
-            height={400}
-            objectFit="fill"
+            layout="fill"
+            objectFit="cover"
           />
         </a>
       </Link>
-      <TagList tags={node.tags} context="articleExcerpt" />
-      <h3 className={styles['title']}>
-        <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
-          <a>{node.title}</a>
-        </Link>
-      </h3>
+      <div className={styles['content']}>
+        <TagList tags={node.tags} context="articleExcerpt" />
+        <h3 className={styles['title']}>
+          <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
+            <a>{node.title}</a>
+          </Link>
+        </h3>
+      </div>
     </article>
   );
 };

@@ -6,7 +6,7 @@
 
   @media screen and (min-width: 768px) {
     display: grid;
-    grid-template-columns: var(--grid-columns-template);
+    grid-template-columns: 4% repeat(5, 1fr) 4%;
     gap: var(--grid-gap-size);
   }
 
@@ -14,16 +14,16 @@
     content: '';
     background: lighten(#333, 77%);
     grid-row: 2 / span 3;
-    grid-column: 7 / span 2;
+    grid-column: 5 / span 2;
   }
 
   .text-wrap {
-    grid-column: 6 / span 2;
+    grid-column: 4 / span 2;
     grid-row: 4 / span 2;
   }
 
   .title-wrap {
-    grid-column: 6 / span 4;
+    grid-column: 4 / span 4;
     text-align: left;
 
     @media screen and (min-width: 768px) {
@@ -40,10 +40,10 @@
   }
 
   .author-wrap {
-    grid-column: 2 / span 5;
+    grid-column: 1 / span 5;
 
     @media screen and (min-width: 1024px) {
-      grid-column: 3 / span 2;
+      grid-column: 1 / span 2;
     }
   }
 
@@ -59,26 +59,22 @@
     }
 
     @media screen and (min-width: 1024px) {
-      grid-column: 3 / span 5;
+      grid-column: 1 / span 5;
     }
   }
 
-  // &:nth-child(even) {
-  // }
-
   &--is-even {
     &::before {
-      grid-column: 4 / span 4;
+      grid-column: 2 / span 2;
     }
 
     .text-wrap {
-      grid-column: 5 / span 2;
+      grid-column: 3 / span 2;
       grid-row: 4 / span 2;
-      padding-right: var(--grid-gap-size);
     }
 
     .title-wrap {
-      grid-column: 3 / span 4;
+      grid-column: 1 / span 4;
       text-align: left;
     }
 
@@ -86,7 +82,7 @@
       grid-column: 6 / span 4;
 
       @media screen and (min-width: 1024px) {
-        grid-column: 8 / span 2;
+        grid-column: 6 / span 2;
         text-align: right;
       }
     }
@@ -96,7 +92,7 @@
     }
 
     .image-wrap {
-      grid-column: 6 / span 4;
+      grid-column: 4 / span 4;
 
       &::before {
         pointer-events: none;
@@ -108,7 +104,7 @@
       }
 
       @media screen and (min-width: 1024px) {
-        grid-column: 5 / span 5;
+        grid-column: 3 / span 5;
       }
     }
   }
@@ -140,6 +136,7 @@
 
 .text-wrap {
   padding: 0 1em;
+
   p {
     margin: 0;
     font-size: 1.375em;
@@ -177,7 +174,7 @@
   }
 
   @media screen and (min-width: 1024px) {
-    font-size: 4em;
+    font-size: 4vw;
   }
 }
 

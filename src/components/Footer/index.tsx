@@ -20,11 +20,15 @@ const Footer: React.FC<any> = ({}) => {
           <li>
             <a>Privacy Policy</a>
           </li>
+          <li>
+            <a>Twitter</a>
+          </li>
         </ul>
+
         <span className={styles['tagline']}>
-          Slangin' Dope <br /> Since 2008
+          <img className={styles['logo']} src="/images/CFYE_NEW.svg" /> Slangin'
+          Dope <br /> Since 2008
         </span>
-        <img className={styles['logo']} src="/images/CFYE_NEW.svg" />
       </div>
     </footer>
   );

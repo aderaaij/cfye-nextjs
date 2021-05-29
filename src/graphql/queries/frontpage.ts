@@ -13,7 +13,7 @@ export const FRONTPAGE_QUERY = gql`
         ...PostExcerptFields
       }
     }
-    newWorkPosts: posts(first: 6, where: { categoryId: 954 }) {
+    newWorkPosts: posts(first: 5, where: { categoryId: 954 }) {
       edges {
         cursor
         ...PostExcerptFields

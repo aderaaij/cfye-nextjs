@@ -2,13 +2,14 @@ import { GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { RootQueryToPostConnection } from 'types';
-import Container from '@/components/Container';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
 import ExcerptsSmall from '@/components/ExcerptsSmall';
+import Excerpts from '@/components/Excerpts';
 import FullWidthPost from '@/components/FullWidthPost';
+import { truncate } from 'node:fs';
 
 interface Props {
   data: {
@@ -41,68 +42,63 @@ const Index: React.FC<Props> = ({ data }) => {
       <Head>
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
-      <Container type="frontpage-grid">
+      <div className="content-width content-width--container">
         {featuredPostNode && (
-          <div className="full-width">
-            <HeroPost
-              title={featuredPostNode.title}
-              isEven={false}
-              imageSettings={featuredPostNode.featuredImageSettings}
-              coverImage={featuredPostNode.featuredImage?.node}
-              date={featuredPostNode.date}
-              author={featuredPostNode.author.node}
-              slug={featuredPostNode.slug}
-              excerpt={featuredPostNode.excerpt}
-              categories={featuredPostNode.categories}
-              tags={featuredPostNode.tags}
-            />
-          </div>
+          <HeroPost
+            title={featuredPostNode.title}
+            isEven={false}
+            imageSettings={featuredPostNode.featuredImageSettings}
+            coverImage={featuredPostNode.featuredImage?.node}
+            date={featuredPostNode.date}
+            author={featuredPostNode.author.node}
+            slug={featuredPostNode.slug}
+            excerpt={featuredPostNode.excerpt}
+            categories={featuredPostNode.categories}
+            tags={featuredPostNode.tags}
+          />
         )}
+        <Excerpts edges={newWorkPosts.edges} />
+        <hr className="fp-hr" />
 
-        <hr className="fp-hr content-width" />
-        <ExcerptsSmall title="New Work" edges={newWorkPosts.edges} />
-        <hr className="fp-hr content-width" />
-
-        <h2 className="content-width section-title">Interviews</h2>
+        <h2 className="section-title">Interviews</h2>
         {featuredInterview && (
-          <div className="full-width">
-            <HeroPost
-              title={featuredInterview.title}
-              isEven={true}
-              imageSettings={featuredInterview.featuredImageSettings}
-              coverImage={featuredInterview.featuredImage?.node}
-              date={featuredInterview.date}
-              author={featuredInterview.author.node}
-              slug={featuredInterview.slug}
-              excerpt={featuredInterview.excerpt}
-              categories={featuredInterview.categories}
-            />
-          </div>
+          <HeroPost
+            title={featuredInterview.title}
+            isEven={true}
+            imageSettings={featuredInterview.featuredImageSettings}
+            coverImage={featuredInterview.featuredImage?.node}
+            date={featuredInterview.date}
+            author={featuredInterview.author.node}
+            slug={featuredInterview.slug}
+            excerpt={featuredInterview.excerpt}
+            categories={featuredInterview.categories}
+          />
         )}
-        <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
-        <hr className="fp-hr content-width" />
-        {featuredCfyeXPost && (
-          <div className="full-width">
-            <FullWidthPost
-              title={featuredCfyeXPost.title}
-              isEven={false}
-              imageSettings={featuredCfyeXPost.featuredImageSettings}
-              coverImage={featuredCfyeXPost.featuredImage?.node}
-              date={featuredCfyeXPost.date}
-              author={featuredCfyeXPost.author.node}
-              slug={featuredCfyeXPost.slug}
-              excerpt={featuredCfyeXPost.excerpt}
-              categories={featuredCfyeXPost.categories}
-            />
-          </div>
-        )}
-        <hr className="fp-hr content-width" />
-        <h2 className="section-title content-width">Features</h2>
+        <Excerpts isEven={true} edges={interviewsPosts.edges.slice(1)} />
+      </div>
+      {featuredCfyeXPost && (
+        <div className="content-width content-width--full">
+          <FullWidthPost
+            title={featuredCfyeXPost.title}
+            isEven={false}
+            imageSettings={featuredCfyeXPost.featuredImageSettings}
+            coverImage={featuredCfyeXPost.featuredImage?.node}
+            date={featuredCfyeXPost.date}
+            author={featuredCfyeXPost.author.node}
+            slug={featuredCfyeXPost.slug}
+            excerpt={featuredCfyeXPost.excerpt}
+            categories={featuredCfyeXPost.categories}
+          />
+        </div>
+      )}
+
+      <div className="content-width content-width--container">
+        <h2 className="section-title">Features</h2>
         {featuredFeaturesPost && (
           <div className="full-width">
             <HeroPost
               title={featuredFeaturesPost.title}
-              isEven={true}
+              isEven={false}
               imageSettings={featuredFeaturesPost.featuredImageSettings}
               coverImage={featuredFeaturesPost.featuredImage?.node}
               date={featuredFeaturesPost.date}
@@ -113,8 +109,8 @@ const Index: React.FC<Props> = ({ data }) => {
             />
           </div>
         )}
-        <ExcerptsSmall edges={featuresPosts.edges.slice(1)} />
-      </Container>
+        <Excerpts edges={featuresPosts.edges.slice(1)} />
+      </div>
     </Layout>
   );
 };
