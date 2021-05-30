@@ -1,21 +1,31 @@
 .wrap {
-  display: grid;
-  grid-template-columns: 4vw repeat(5, 1fr) 4vw;
-  grid-template-rows: 14.2vw;
-  grid-auto-rows: 14.2vw;
-  grid-auto-flow: row;
-  gap: var(--grid-gap-size);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @media screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 4vw repeat(5, 1fr) 4vw;
+    grid-template-rows: 14.2vw;
+    grid-auto-rows: 14.2vw;
+    grid-auto-flow: row;
+    gap: var(--grid-gap-size);
+  }
 
   &--is-even {
     .article {
       &:nth-of-type(1) {
-        grid-column: 1 / span 4;
-        grid-row: 1 / span 3;
+        @media screen and (min-width: 768px) {
+          grid-column: 1 / span 4;
+          grid-row: 2 / span 2;
+        }
       }
 
       &:nth-of-type(2) {
-        grid-column: 5 / span 3;
-        grid-row: 2 / span 2;
+        @media screen and (min-width: 768px) {
+          grid-column: 5 / span 3;
+          grid-row: 1 / span 3;
+        }
       }
     }
   }
@@ -32,30 +42,48 @@
 }
 
 .article {
+  width: 100%;
+  height: 300px;
+
+  @media screen and (min-width: 768px) {
+    height: auto;
+  }
+
   &:nth-of-type(1) {
-    grid-column: 1 / span 3;
-    grid-row: 1 / span 3;
+    @media screen and (min-width: 768px) {
+      grid-column: 1 / span 3;
+      grid-row: 1 / span 3;
+    }
   }
 
   &:nth-of-type(2) {
-    grid-column: 4 / span 4;
-    grid-row: 2 / span 2;
+    @media screen and (min-width: 768px) {
+      grid-column: 4 / span 4;
+      grid-row: 2 / span 2;
+    }
   }
 
   &:nth-of-type(3) {
-    grid-column: 1 / span 4;
-    grid-row: 4 / span 3;
+    @media screen and (min-width: 768px) {
+      grid-column: 2 / span 3;
+      grid-row: 4 / span 3;
+    }
   }
 }
 
 .more {
-  grid-column: 5 / span 3;
-  grid-row: 4 / span 3;
-  grid-template-rows: 14.2vw;
-  grid-auto-rows: 14.2vw;
-  grid-auto-flow: row;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--grid-gap-size);
+
+  @media screen and (min-width: 768px) {
+    grid-column: 5 / span 3;
+    grid-row: 4 / span 3;
+    grid-template-rows: 14.2vw;
+    grid-auto-rows: 14.2vw;
+    grid-auto-flow: row;
+    display: grid;
+  }
 }
 
 .more-article {
