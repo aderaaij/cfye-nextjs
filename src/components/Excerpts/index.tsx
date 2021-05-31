@@ -1,10 +1,11 @@
-import { RootQueryToPostConnection } from 'types';
-import ArticleExcerptSmall from '@/components/ArticleExcerptSmall';
-import styles from './Excerpts.module.scss';
+import parse from 'html-react-parser';
 import Image from 'next/image';
-
 import cx from 'classnames';
-import TagList from '../TagList';
+import { RootQueryToPostConnection } from 'types';
+import ExcerptOverlay from '@/components/ExcerptOverlay';
+import TagList from '@/components/TagList';
+import styles from './Excerpts.module.scss';
+import { limitText } from 'utils/limitCharacters';
 
 interface Props {
   title?: string;
@@ -31,7 +32,7 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
       >
         {groups[0].map(({ node }) => (
           <div className={styles['article']} key={node.id}>
-            <ArticleExcerptSmall node={node} />
+            <ExcerptOverlay node={node} />
           </div>
         ))}
         <div className={styles['more']}>
@@ -48,6 +49,7 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
               <div className={styles['more-content-wrap']}>
                 <TagList tags={node.tags} context="articleExcerpt" />
                 <h3 className={styles['more-article-title']}>{node.title}</h3>
+                {parse(limitText(node.excerpt, 120))}
               </div>
             </div>
           ))}

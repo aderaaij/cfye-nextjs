@@ -1,10 +1,5 @@
 import styles from './Container.module.scss';
 
-enum GridType {
-  artistsGrid = 'artists-grid',
-  containerGrid = 'container-grid',
-  frontpageGrid = 'frontpage-grid',
-}
 interface Props {
   children: any;
   type?: 'artists-grid' | 'container-grid' | 'frontpage-grid' | 'article-grid';

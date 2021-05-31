@@ -1,8 +1,10 @@
+import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from 'types';
 import TagList from '@/components/TagList';
-import styles from './ArticleExcerptSmall.module.scss';
+import styles from './ExcerptOverlay.module.scss';
+import { limitText } from 'utils/limitCharacters';
 
 interface Dimensions {
   width: number;
@@ -13,10 +15,7 @@ interface Props {
   dimensions?: Dimensions;
 }
 
-const ArticleExcerptSmall: React.FC<Props> = ({
-  node,
-  dimensions = { width: 600, height: 400 },
-}) => {
+const ExcerptOverlay: React.FC<Props> = ({ node }) => {
   return (
     <article className={styles['article']}>
       <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
@@ -35,9 +34,10 @@ const ArticleExcerptSmall: React.FC<Props> = ({
             <a>{node.title}</a>
           </Link>
         </h3>
+        <div>{parse(limitText(node.excerpt, 120))}</div>
       </div>
     </article>
   );
 };
 
-export default ArticleExcerptSmall;
+export default ExcerptOverlay;

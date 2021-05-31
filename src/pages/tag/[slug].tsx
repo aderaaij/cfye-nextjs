@@ -1,9 +1,7 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
-import { Fragment } from 'react';
 import { ApolloClient } from '@apollo/client';
-import Container from '@/components/Container';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
@@ -31,11 +29,11 @@ const Tag: React.FC<Props> = ({ data }) => {
       <Head>
         <title>CFYE | Crack For Your Eyes </title>
       </Head>
-      <Container type="frontpage-grid">
+      <div className="category-wrap">
         {categoryPosts.edges.map(({ node }, index) => (
           <HeroPost key={node.id} post={node} isEven={isEven(index)} />
         ))}
-      </Container>
+      </div>
     </Layout>
   );
 };

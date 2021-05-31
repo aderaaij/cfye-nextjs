@@ -19,6 +19,10 @@
     }
   }
 
+  &--is-even {
+    justify-content: flex-end;
+  }
+
   span {
     font-style: italic;
     color: var(--meta);

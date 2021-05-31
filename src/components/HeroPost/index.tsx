@@ -80,7 +80,7 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
             {author.node.firstName} {author.node.lastName}
           </a>
         </Link>
-        {tags && <TagList tags={tags} context="heroExcerpt" />}
+        {tags && <TagList isEven={isEven} tags={tags} context="heroExcerpt" />}
       </div>
 
       <div className={styles['text-wrap']}>

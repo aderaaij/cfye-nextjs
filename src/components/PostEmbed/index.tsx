@@ -1,4 +1,4 @@
-import parse, { DOMNode, Text } from 'html-react-parser';
+import parse, { Text } from 'html-react-parser';
 interface Props {
   content: string;
 }

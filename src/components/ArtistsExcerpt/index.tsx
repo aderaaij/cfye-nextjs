@@ -1,12 +1,9 @@
-import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
-import CoverImage from '@/components/CoverImage';
 import styles from './ArtistsExcerpt.module.scss';
 
-import { MediaItem, Post_Featuredimagesettings } from 'types';
+import { MediaItem } from 'types';
 import { limitText } from 'utils/limitCharacters';
-import { ImageProps } from 'next/image';
 
 interface Props {
   title: string;

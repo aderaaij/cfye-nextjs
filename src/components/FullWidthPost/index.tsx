@@ -1,8 +1,6 @@
-import parse from 'html-react-parser';
 import Link from 'next/link';
 import { Post } from 'types';
 import CoverImage from '@/components/CoverImage';
-import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './FullWidthPost.module.scss';
