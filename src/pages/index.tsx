@@ -8,7 +8,7 @@ import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
 import Excerpts from '@/components/Excerpts';
 import FullWidthPost from '@/components/FullWidthPost';
-
+import MetaPage from '@/components/MetaPage';
 interface Props {
   data: {
     stickyPosts: RootQueryToPostConnection;
@@ -39,18 +39,10 @@ const Index: React.FC<Props> = ({ data }) => {
 
   return (
     <Layout preview={false}>
-      <Head>
-        <title>CFYE | Crack For Your Eyes </title>
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@cfye_crew" />
-        <meta property="og:url" content="https://cfye.com" />
-        <meta property="og:title" content={settings.generalSettingsTitle} />
-        <meta
-          property="og:description"
-          content={settings.generalSettingsDescription}
-        />
-        <meta property="og:image" content="/images/cfye_logo.png" />
-      </Head>
+      <MetaPage
+        title={settings.generalSettingsTitle}
+        description={settings.generalSettingsDescription}
+      />
 
       <div className="content-width content-width--container">
         {featuredPost && <HeroPost post={featuredPost} isEven={false} />}

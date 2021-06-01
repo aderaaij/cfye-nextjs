@@ -37,7 +37,7 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
         ))}
         <div className={styles['more']}>
           {groups[1].map(({ node }) => (
-            <div className={styles['more-article']}>
+            <div className={styles['more-article']} key={node.id}>
               <Image
                 className={styles['more-image']}
                 src={node.featuredImage.node.sourceUrl}

@@ -20,6 +20,7 @@ import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Tags from '@/components/Tags';
 import styles from './Post.module.scss';
 import { motion } from 'framer-motion';
+import MetaPage from '@/components/MetaPage';
 
 interface Props {
   post: GeneratedPostType;
@@ -50,6 +51,11 @@ const Post: React.FC<Props> = () => {
   return (
     <>
       <Layout preview={false}>
+        <MetaPage
+          title={post.title}
+          description={post.excerpt}
+          image={post.featuredImage?.node?.mediaDetails?.sizes[1].sourceUrl}
+        />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
@@ -60,15 +66,6 @@ const Post: React.FC<Props> = () => {
               layoutId={`article-${post.slug}`}
               className={styles['article']}
             >
-              <Head>
-                <title>{post.title} | CFYE.com</title>
-                <meta
-                  property="og:image"
-                  content={
-                    post.featuredImage?.node?.mediaDetails?.sizes[1].sourceUrl
-                  }
-                />
-              </Head>
               <PostHeader
                 title={post.title}
                 slug={post.slug}
