@@ -26,8 +26,8 @@ const Footer: React.FC<any> = ({}) => {
         </ul>
 
         <span className={styles['tagline']}>
-          <img className={styles['logo']} src="/images/CFYE_NEW.svg" /> Slangin'
-          Dope <br /> Since 2008
+          <img className={styles['logo']} src="/images/cfye_logo.svg" />{' '}
+          Slangin' Dope <br /> Since 2008
         </span>
       </div>
     </footer>

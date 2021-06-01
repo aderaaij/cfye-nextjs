@@ -3,6 +3,10 @@ import { POST_EXCERPT_FIELDS } from '../fragments/PostExcerptFields';
 export const FRONTPAGE_QUERY = gql`
   ${POST_EXCERPT_FIELDS}
   query frontpagePosts($first: Int!, $after: String) {
+    settings: allSettings {
+      generalSettingsDescription
+      generalSettingsTitle
+    }
     stickyPosts: posts(
       first: $first
       after: $after

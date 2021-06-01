@@ -1,7 +1,7 @@
 import { GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
-import { RootQueryToPostConnection } from 'types';
+import { RootQueryToPostConnection, Settings } from 'types';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
@@ -16,6 +16,7 @@ interface Props {
     interviewsPosts: RootQueryToPostConnection;
     cfyeXPosts: RootQueryToPostConnection;
     featuresPosts: RootQueryToPostConnection;
+    settings: Settings;
   };
 }
 
@@ -24,13 +25,13 @@ const Index: React.FC<Props> = ({ data }) => {
     return <ErrorPage statusCode={501} />;
   }
   const {
+    settings,
     stickyPosts,
     newWorkPosts,
     interviewsPosts,
     cfyeXPosts,
     featuresPosts,
   } = data;
-
   const featuredPost = stickyPosts?.edges[0].node;
   const featuredInterview = interviewsPosts?.edges[0].node;
   const featuredCfyeXPost = cfyeXPosts?.edges[0].node;
@@ -40,6 +41,15 @@ const Index: React.FC<Props> = ({ data }) => {
     <Layout preview={false}>
       <Head>
         <title>CFYE | Crack For Your Eyes </title>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@cfye_crew" />
+        <meta property="og:url" content="https://cfye.com" />
+        <meta property="og:title" content={settings.generalSettingsTitle} />
+        <meta
+          property="og:description"
+          content={settings.generalSettingsDescription}
+        />
+        <meta property="og:image" content="/images/cfye_logo.png" />
       </Head>
 
       <div className="content-width content-width--container">
