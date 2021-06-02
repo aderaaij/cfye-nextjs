@@ -11,7 +11,7 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
   const router = useRouter();
   return (
     <Head>
-      <title>Crack For Your Eyes | {title}</title>
+      <title>{title} | CFYE.com</title>
       {router && (
         <meta
           property="og:url"
@@ -30,9 +30,10 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
         key="image"
         content={image ? image : '/images/cfye_logo.png'}
       />
+
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@cfye_crew" />
-      <meta name="twitter:title" content={title} />
+      <meta name="twitter:title" content={`${title} | CFYE.com`} />
       <meta
         name="twitter:description"
         content={stripHtml(description).result}

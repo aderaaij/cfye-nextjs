@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { useQuery } from '@apollo/client';
 import PostBody from '@/components/PostBody';
@@ -47,14 +46,14 @@ const Post: React.FC<Props> = () => {
   }
 
   if (error) return <ErrorPage statusCode={501} />;
-
+  console.log(post.featuredImage?.node?.mediaDetails?.sizes);
   return (
     <>
       <Layout preview={false}>
         <MetaPage
           title={post.title}
           description={post.excerpt}
-          image={post.featuredImage?.node?.mediaDetails?.sizes[1].sourceUrl}
+          image={post.featuredImage?.node?.mediaDetails?.sizes[3].sourceUrl}
         />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
