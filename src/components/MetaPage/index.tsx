@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import parse from 'html-react-parser';
 import { stripHtml } from 'string-strip-html';
 import { useRouter } from 'next/router';
 
@@ -38,6 +37,7 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
         name="twitter:description"
         content={stripHtml(description).result}
       />
+      {image && <meta name="twitter:image" content={image}></meta>}
     </Head>
   );
 };
