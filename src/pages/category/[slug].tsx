@@ -1,5 +1,4 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
 import HeroPost from '@/components/HeroPost';
@@ -7,28 +6,32 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
-import { RootQueryToPostConnection } from 'types';
+import { Category, RootQueryToPostConnection } from 'types';
+import MetaPage from '@/components/MetaPage';
 
 interface Props {
   data: {
     categoryPosts: RootQueryToPostConnection;
+    categoryDetails: Category;
   };
 }
-const Category: React.FC<Props> = ({ data }) => {
+const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const { categoryPosts } = data;
+  const { categoryPosts, categoryDetails } = data;
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
   };
-
   return (
     <Layout preview={false}>
-      <Head>
-        <title>CFYE | Crack For Your Eyes </title>
-      </Head>
+      {categoryDetails && (
+        <MetaPage
+          description={categoryDetails.description}
+          title={categoryDetails.name}
+        />
+      )}
       <div className="category-wrap">
         {categoryPosts.edges.map(({ node }, index) => (
           <HeroPost key={node.id} post={node} isEven={isEven(index)} />
@@ -38,7 +41,7 @@ const Category: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default Category;
+export default CategoryPage;
 
 export const getStaticProps = async ({
   params,
@@ -50,6 +53,7 @@ export const getStaticProps = async ({
       after: '',
       first: 10,
       categoryName: params.slug,
+      id: params.slug,
     },
   });
 

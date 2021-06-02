@@ -9,7 +9,6 @@ interface Props {
 }
 const MetaPage: React.FC<Props> = ({ title, description, image }) => {
   const router = useRouter();
-  console.log({ router });
   return (
     <Head>
       <title>{title} | CFYE.com</title>
@@ -21,11 +20,13 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
         />
       )}
       <meta property="og:title" key="title" content={title} />
-      <meta
-        property="og:description"
-        key="description"
-        content={stripHtml(description).result}
-      />
+      {description && (
+        <meta
+          property="og:description"
+          key="description"
+          content={stripHtml(description).result}
+        />
+      )}
       <meta
         property="og:image"
         key="image"
@@ -35,10 +36,12 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@cfye_crew" />
       <meta name="twitter:title" content={`${title} | CFYE.com`} />
-      <meta
-        name="twitter:description"
-        content={stripHtml(description).result}
-      />
+      {description && (
+        <meta
+          name="twitter:description"
+          content={stripHtml(description).result}
+        />
+      )}
       {image && (
         <meta
           name="twitter:image"

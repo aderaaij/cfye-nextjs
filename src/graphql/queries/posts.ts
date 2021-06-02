@@ -7,6 +7,7 @@ export const POSTS_QUERY = gql`
     $after: String
     $categoryName: String
     $tagName: String
+    $id: ID!
   ) {
     categoryPosts: posts(
       first: $first
@@ -26,6 +27,16 @@ export const POSTS_QUERY = gql`
         cursor
         ...PostExcerptFields
       }
+    }
+    categoryDetails: category(id: $id, idType: SLUG) {
+      id
+      description
+      name
+    }
+    tagDetails: tag(id: $id, idType: SLUG) {
+      id
+      description
+      name
     }
   }
 `;
