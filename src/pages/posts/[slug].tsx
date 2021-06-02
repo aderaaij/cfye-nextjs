@@ -46,7 +46,6 @@ const Post: React.FC<Props> = () => {
   }
 
   if (error) return <ErrorPage statusCode={501} />;
-  console.log(post.featuredImage?.node?.mediaDetails?.sizes);
   return (
     <>
       <Layout preview={false}>

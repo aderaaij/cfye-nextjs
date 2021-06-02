@@ -8,6 +8,7 @@ interface Props {
   image?: string;
 }
 const MetaPage: React.FC<Props> = ({ title, description, image }) => {
+  console.log(window.location.href);
   const router = useRouter();
   return (
     <Head>
@@ -28,7 +29,7 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
       <meta
         property="og:image"
         key="image"
-        content={image ? image : '/images/cfye_logo.png'}
+        content={image ? image : `${window.location.href}images/cfye_logo.png`}
       />
 
       <meta name="twitter:card" content="summary" />
@@ -38,7 +39,14 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
         name="twitter:description"
         content={stripHtml(description).result}
       />
-      {image && <meta name="twitter:image" content={image}></meta>}
+      {image && (
+        <meta
+          name="twitter:image"
+          content={
+            image ? image : `${window.location.href}images/cfye_logo.png`
+          }
+        />
+      )}
     </Head>
   );
 };
