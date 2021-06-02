@@ -52,7 +52,7 @@ const Post: React.FC<Props> = () => {
         <MetaPage
           title={post.title}
           description={post.excerpt}
-          image={post.featuredImage?.node?.mediaDetails?.sizes[3].sourceUrl}
+          image={post.featuredImage?.node?.sourceUrl}
         />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
