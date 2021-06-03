@@ -1,6 +1,6 @@
 .article {
   margin: 0 auto;
-  max-width: var(--max-width);
   display: grid;
   row-gap: 6em;
+  grid-column: 1 / -1;
 }

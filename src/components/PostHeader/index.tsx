@@ -1,4 +1,4 @@
-import Image, { ImageProps } from 'next/image';
+import { ImageProps } from 'next/image';
 
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
@@ -10,7 +10,6 @@ import {
   Post_Featuredimagesettings,
   User,
 } from 'types';
-import { limitText } from 'utils/limitCharacters';
 import { motion } from 'framer-motion';
 interface Props {
   title: string;

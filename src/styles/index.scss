@@ -1,11 +1,13 @@
 :root {
   --cfye: #ec008c;
   --text: #323232;
-  --header-font: protipo-narrow, sans-serif;
-  --grid-row-size: 14.2vw;
-  --grid-gap-size: 1.5vw;
-  --grid-columns-template: 1% 2% 4% repeat(5, 1fr) 4% 2% 1%;
+  --meta: #999;
   --background-color: #fff;
+  --header-font: protipo-narrow, sans-serif;
+  --body-font: maecenas, serif;
+  --grid-row-size: 14.2vw;
+  --grid-gap-size: 2vw;
+  --grid-columns-template: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
   --max-width: 2160px;
 }
 
@@ -44,7 +46,7 @@ h4,
 h5,
 h6 {
   font-family: var(--header-font);
-  font-weight: 700;
+  font-weight: 300;
   font-style: normal;
   color: var(--cfye);
 }
@@ -69,10 +71,6 @@ p {
   font-size: 1.25em;
   line-height: 1.5;
   color: --var(text);
-}
-
-.main {
-  padding-top: 4em;
 }
 
 .nav-wrap {
@@ -104,10 +102,44 @@ p {
  * Content width
  **/
 
-.full-width {
-  grid-column: 1 / -1;
+.content-width {
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 8vw;
+  margin: 4vw 0;
+
+  &--container {
+    grid-column: 1 / -1;
+
+    @media screen and (min-width: 1024px) {
+      grid-column: 3 / -3;
+    }
+  }
+
+  &--full {
+    grid-column: 1 / -1;
+  }
 }
 
-.content-width {
-  grid-column: 3 / span 7;
+.section-title {
+  font-family: var(--body-font);
+  font-size: 2.5em;
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0;
+  font-style: italic;
+  color: var(--meta);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  gap: var(--grid-gap-size);
+  width: 100%;
+}
+
+.category-wrap {
+  grid-column: 3 / -3;
+  display: grid;
+  gap: 4vw;
 }

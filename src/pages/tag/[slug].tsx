@@ -1,26 +1,25 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import Head from 'next/head';
 import ErrorPage from 'next/error';
-import { Fragment } from 'react';
 import { ApolloClient } from '@apollo/client';
-import Container from '@/components/Container';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_TAGS } from '@/graphql/queries/allTags';
 import { initializeApollo } from '@/lib/apolloClient';
-import { RootQueryToPostConnection } from 'types';
+import { RootQueryToPostConnection, Tag } from 'types';
+import MetaPage from '@/components/MetaPage';
 
 interface Props {
   data: {
     categoryPosts: RootQueryToPostConnection;
+    tagDetails: Tag;
   };
 }
-const Tag: React.FC<Props> = ({ data }) => {
+const TagPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const { categoryPosts } = data;
+  const { categoryPosts, tagDetails } = data;
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
@@ -28,33 +27,22 @@ const Tag: React.FC<Props> = ({ data }) => {
 
   return (
     <Layout preview={false}>
-      <Head>
-        <title>CFYE | Crack For Your Eyes </title>
-      </Head>
-      <Container type="frontpage-grid">
-        {categoryPosts.edges.map(({ node }, index) => {
-          return (
-            <Fragment key={node.id}>
-              <HeroPost
-                title={node.title}
-                isEven={isEven(index)}
-                imageSettings={node.featuredImageSettings}
-                coverImage={node.featuredImage?.node}
-                date={node.date}
-                author={node.author.node}
-                slug={node.slug}
-                excerpt={node.excerpt}
-                categories={node.categories}
-              />
-            </Fragment>
-          );
-        })}
-      </Container>
+      {tagDetails && (
+        <MetaPage
+          description={tagDetails.description}
+          title={tagDetails.name}
+        />
+      )}
+      <div className="category-wrap">
+        {categoryPosts.edges.map(({ node }, index) => (
+          <HeroPost key={node.id} post={node} isEven={isEven(index)} />
+        ))}
+      </div>
     </Layout>
   );
 };
 
-export default Tag;
+export default TagPage;
 
 export const getStaticProps = async ({
   params,
@@ -66,6 +54,7 @@ export const getStaticProps = async ({
       after: '',
       first: 10,
       tagName: params.slug,
+      id: params.slug,
     },
   });
 

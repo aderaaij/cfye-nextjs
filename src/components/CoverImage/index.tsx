@@ -21,8 +21,6 @@ interface Props {
 const CoverImage: React.FC<Props> = ({
   title,
   coverImage,
-  slug,
-  absolute,
   objectFit = 'cover',
   backgroundColor: bg,
   priority = false,
@@ -38,6 +36,7 @@ const CoverImage: React.FC<Props> = ({
         layout="responsive"
         width={sizes.width}
         height={sizes.height}
+        alt={title}
       />
     </div>
   );

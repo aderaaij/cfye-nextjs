@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { useQuery } from '@apollo/client';
-import Container from '@/components/Container';
 import PostBody from '@/components/PostBody';
 import PostHeader from '@/components/PostHeader';
 import Layout from '@/components/Layout';
@@ -21,6 +19,7 @@ import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Tags from '@/components/Tags';
 import styles from './Post.module.scss';
 import { motion } from 'framer-motion';
+import MetaPage from '@/components/MetaPage';
 
 interface Props {
   post: GeneratedPostType;
@@ -47,49 +46,42 @@ const Post: React.FC<Props> = () => {
   }
 
   if (error) return <ErrorPage statusCode={501} />;
-
   return (
     <>
       <Layout preview={false}>
-        <Container>
-          {router.isFallback ? (
-            <PostTitle>Loading…</PostTitle>
-          ) : (
-            <>
-              <motion.article
-                // initial={{ scale: 0.8, opacity: 0 }}
-                // animate={{ scale: 1, opacity: 1 }}
-                layoutId={`article-${post.slug}`}
-                className={styles['article']}
-              >
-                <Head>
-                  <title>{post.title} | CFYE.com</title>
-                  <meta
-                    property="og:image"
-                    content={
-                      post.featuredImage?.node?.mediaDetails?.sizes[1].sourceUrl
-                    }
-                  />
-                </Head>
-                <PostHeader
-                  title={post.title}
-                  slug={post.slug}
-                  coverImage={post.featuredImage?.node}
-                  date={post.date}
-                  author={post.author?.node}
-                  categories={post.categories}
-                  featuredImageSettings={post.featuredImageSettings}
-                />
+        <MetaPage
+          title={post.title}
+          description={post.excerpt}
+          image={post.featuredImage?.node?.sourceUrl}
+        />
+        {router.isFallback ? (
+          <PostTitle>Loading…</PostTitle>
+        ) : (
+          <>
+            <motion.article
+              // initial={{ scale: 0.8, opacity: 0 }}
+              // animate={{ scale: 1, opacity: 1 }}
+              layoutId={`article-${post.slug}`}
+              className={styles['article']}
+            >
+              <PostHeader
+                title={post.title}
+                slug={post.slug}
+                coverImage={post.featuredImage?.node}
+                date={post.date}
+                author={post.author?.node}
+                categories={post.categories}
+                featuredImageSettings={post.featuredImageSettings}
+              />
 
-                <PostBody blocks={post.blocks} content={post.content} />
-                <footer>
-                  {/* {post.postSettingsField?.artistPost?.title} */}
-                  {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
-                </footer>
-              </motion.article>
-            </>
-          )}
-        </Container>
+              <PostBody blocks={post.blocks} content={post.content} />
+              <footer>
+                {/* {post.postSettingsField?.artistPost?.title} */}
+                {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
+              </footer>
+            </motion.article>
+          </>
+        )}
       </Layout>
     </>
   );

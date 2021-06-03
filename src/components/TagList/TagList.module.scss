@@ -1,17 +1,31 @@
-.article {
-  position: relative;
-}
-
-.title a {
-  color: var(--cfye);
-}
-
 .tag-list-wrap {
   display: flex;
+  margin-bottom: 0.5em;
+
+  &--heroExcerpt,
+  &--default {
+    a {
+      color: var(--cfye);
+    }
+  }
+
+  &--articleExcerpt {
+    a {
+      color: var(--meta);
+    }
+
+    span {
+      text-transform: lowercase;
+    }
+  }
+
+  &--is-even {
+    justify-content: flex-end;
+  }
 
   span {
     font-style: italic;
-    color: #666;
+    color: var(--meta);
     margin-right: 0.5em;
   }
 }
@@ -24,7 +38,7 @@
   font-style: italic;
 
   a {
-    color: #666;
+    // color: var(--cfye);
 
     &:hover {
       text-decoration: underline;

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import NavToggle from '@/components/NavToggle';
-import NavBar from '@/components/NavBar';
 
 const SiteNav: React.FC = () => {
   const [isActive, toggleMenu] = useState(false);

@@ -1,36 +1,18 @@
-import parse from 'html-react-parser';
 import Link from 'next/link';
 import { Post } from 'types';
-import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
-import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
-import TagList from '@/components/TagList';
-import styles from './HeroPost.module.scss';
+import styles from './FullWidthPost.module.scss';
 interface Props {
   post: Post;
-  isEven?: boolean;
 }
 
-const HeroPost: React.FC<Props> = ({ post, isEven }) => {
-  const {
-    slug,
-    featuredImageSettings,
-    title,
-    featuredImage,
-    categories,
-    author,
-    tags,
-    excerpt,
-  } = post;
+const FullWidthPost: React.FC<Props> = ({ post }) => {
+  const { featuredImage, slug, featuredImageSettings, title } = post;
   return (
-    <article
-      className={cx(styles['hero-post'], {
-        [styles['hero-post--is-even']]: isEven,
-      })}
-    >
-      {post.featuredImage && (
+    <article className={styles['fullwidth-post']}>
+      {featuredImage && (
         <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>
@@ -48,7 +30,7 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
           </Link>
         </motion.div>
       )}
-      <div className={styles['title-wrap']}>
+      {/* <div className={styles['title-wrap']}>
         <motion.h3
           initial={false}
           animate={{ scale: 1, opacity: 1 }}
@@ -75,20 +57,19 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
       </div>
       <div className={styles['author-wrap']}>
         Written by{' '}
-        <Link as={`/posts/${post.slug}`} href="/posts/[slug]">
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>
-            {author.node.firstName} {author.node.lastName}
+            {author.firstName} {author.lastName}
           </a>
         </Link>
-        {tags && <TagList isEven={isEven} tags={tags} context="heroExcerpt" />}
       </div>
 
       <div className={styles['text-wrap']}>
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
           <a>{parse(excerpt)}</a>
         </Link>
-      </div>
+      </div> */}
     </article>
   );
 };
-export default HeroPost;
+export default FullWidthPost;
