@@ -1,5 +1,4 @@
 import { GetStaticPropsResult } from 'next';
-import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { RootQueryToPostConnection, Settings } from 'types';
 import HeroPost from '@/components/HeroPost';
@@ -32,10 +31,10 @@ const Index: React.FC<Props> = ({ data }) => {
     cfyeXPosts,
     featuresPosts,
   } = data;
+
   const featuredPost = stickyPosts?.edges[0].node;
-  const featuredInterview = interviewsPosts?.edges[0].node;
-  const featuredCfyeXPost = cfyeXPosts?.edges[0].node;
-  const featuredFeaturesPost = featuresPosts?.edges[0].node;
+  const featuredInterview = interviewsPosts?.edges[0]?.node;
+  const featuredCfyeXPost = cfyeXPosts?.edges[0]?.node;
 
   return (
     <Layout preview={false}>
@@ -65,9 +64,9 @@ const Index: React.FC<Props> = ({ data }) => {
 
       <div className="content-width content-width--container">
         <h2 className="section-title">Features</h2>
-        {featuredFeaturesPost && (
+        {featuresPosts && (
           <div className="full-width">
-            <HeroPost post={featuredFeaturesPost} isEven={false} />
+            <HeroPost post={featuresPosts?.edges[0].node} isEven={false} />
           </div>
         )}
         <Excerpts edges={featuresPosts.edges.slice(1)} />
