@@ -29,6 +29,7 @@ const CoverImage: React.FC<Props> = ({
   return (
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
+        // placeholder="blur"
         src={coverImage.sourceUrl}
         quality={90}
         priority={priority}

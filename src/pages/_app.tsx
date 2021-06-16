@@ -16,7 +16,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
       </Head>
       <SiteNav />
       <ApolloProvider client={apolloClient}>
-        <AnimateSharedLayout>
+        <AnimateSharedLayout type="crossfade">
           <Component {...pageProps} key={router.asPath} />
         </AnimateSharedLayout>
         <Footer />

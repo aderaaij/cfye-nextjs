@@ -31,7 +31,13 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
       })}
     >
       {post.featuredImage && (
-        <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -100, opacity: 0 }}
+          layoutId={`image-${slug}`}
+          className={styles['image-wrap']}
+        >
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>
               <CoverImage
@@ -49,12 +55,7 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
         </motion.div>
       )}
       <div className={styles['title-wrap']}>
-        <motion.h3
-          initial={false}
-          animate={{ scale: 1, opacity: 1 }}
-          layoutId={`title-${slug}`}
-          className={styles['title']}
-        >
+        <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>{limitText(title, 60)} </a>
           </Link>

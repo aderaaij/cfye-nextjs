@@ -17,13 +17,19 @@ export const FRONTPAGE_QUERY = gql`
         ...PostExcerptFields
       }
     }
-    newWorkPosts: posts(first: 5, where: { categoryId: 954 }) {
+    newWorkPosts: posts(
+      first: 5
+      where: { categoryId: 954, onlySticky: false }
+    ) {
       edges {
         cursor
         ...PostExcerptFields
       }
     }
-    interviewsPosts: posts(first: 7, where: { categoryId: 11 }) {
+    interviewsPosts: posts(
+      first: 7
+      where: { categoryId: 11, onlySticky: false }
+    ) {
       edges {
         cursor
         ...PostExcerptFields
@@ -37,7 +43,6 @@ export const FRONTPAGE_QUERY = gql`
     }
     featuresPosts: posts(
       first: 7
-      # after: "YXJyYXljb25uZWN0aW9uOjkxOTI="
       where: { categoryId: 13, onlySticky: false }
     ) {
       edges {

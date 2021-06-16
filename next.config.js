@@ -7,9 +7,7 @@ module.exports = {
   images: {
     domains: ['admin.cfye.com'],
   },
-  future: {
-    webpack5: true,
-  },
+
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     if (dev) {
       config.module.rules.push({
