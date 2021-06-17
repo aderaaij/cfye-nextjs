@@ -34,6 +34,7 @@ export const POST_EXCERPT_FIELDS = gql`
       featuredImage {
         node {
           sourceUrl(size: LARGE)
+          thumbnail: sourceUrl(size: THUMBNAIL)
           srcSet(size: LARGE)
           id
         }

@@ -6,9 +6,10 @@ type Sizes = {
   width: number;
   height: number;
 };
+
 interface Props {
   title: string;
-  coverImage: MediaItem;
+  coverImage: MediaItem & { thumbnail: string };
   slug?: string;
   cover?: boolean;
   absolute?: boolean;
@@ -29,7 +30,8 @@ const CoverImage: React.FC<Props> = ({
   return (
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
-        // placeholder="blur"
+        placeholder="blur"
+        blurDataURL={coverImage.thumbnail}
         src={coverImage.sourceUrl}
         quality={90}
         priority={priority}

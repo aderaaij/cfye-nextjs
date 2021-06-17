@@ -21,6 +21,7 @@ export const POST_QUERY = gql`
                 id
                 srcSet(size: LARGE)
                 sourceUrl(size: LARGE)
+                thumbnail: sourceUrl(size: THUMBNAIL)
               }
             }
           }
