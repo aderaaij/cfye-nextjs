@@ -9,7 +9,7 @@ type Sizes = {
 
 interface Props {
   title: string;
-  coverImage: MediaItem & { thumbnail: string };
+  coverImage: MediaItem & { thumbnail?: string };
   slug?: string;
   cover?: boolean;
   absolute?: boolean;
