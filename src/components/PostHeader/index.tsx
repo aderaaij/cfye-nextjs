@@ -5,7 +5,7 @@ import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.scss';
 
 import {
-  MediaItem,
+  FeaturedImageFieldsFragment,
   PostToCategoryConnection,
   Post_Featuredimagesettings,
   User,
@@ -13,7 +13,7 @@ import {
 import { motion } from 'framer-motion';
 interface Props {
   title: string;
-  coverImage?: MediaItem;
+  coverImage?: FeaturedImageFieldsFragment['node'];
   date: string;
   author?: User;
   categories?: PostToCategoryConnection;

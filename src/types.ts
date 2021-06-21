@@ -12112,3 +12112,478 @@ export type WritingSettings = {
   /** Convert emoticons like :-) and :-P to graphics on display. */
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
+
+export type AuthorFieldsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'name' | 'firstName' | 'lastName'>
+  & { avatar?: Maybe<(
+    { __typename?: 'Avatar' }
+    & Pick<Avatar, 'url'>
+  )> }
+);
+
+export type FeaturedImageFieldsFragment = (
+  { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+  & { node?: Maybe<(
+    { __typename?: 'MediaItem' }
+    & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'id'>
+    & { thumbnail: MediaItem['sourceUrl'] }
+  )> }
+);
+
+export type PostExcerptFieldsFragment = (
+  { __typename?: 'RootQueryToPostConnectionEdge' }
+  & { node?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'excerpt' | 'slug' | 'date' | 'isSticky'>
+    & { tags?: Maybe<(
+      { __typename?: 'PostToTagConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'PostToTagConnectionEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Tag' }
+          & Pick<Tag, 'id' | 'name' | 'slug'>
+        )> }
+      )>>> }
+    )>, categories?: Maybe<(
+      { __typename?: 'PostToCategoryConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'PostToCategoryConnectionEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Category' }
+          & Pick<Category, 'id' | 'name' | 'slug'>
+        )> }
+      )>>> }
+    )>, featuredImageSettings?: Maybe<(
+      { __typename?: 'Post_Featuredimagesettings' }
+      & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
+    )>, featuredImage?: Maybe<(
+      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+      & FeaturedImageFieldsFragment
+    )>, author?: Maybe<(
+      { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'name' | 'firstName' | 'lastName'>
+        & { avatar?: Maybe<(
+          { __typename?: 'Avatar' }
+          & Pick<Avatar, 'url'>
+        )> }
+      )> }
+    )> }
+  )> }
+);
+
+export type PostFieldsFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'title' | 'excerpt' | 'slug' | 'date'>
+  & { featuredImageSettings?: Maybe<(
+    { __typename?: 'Post_Featuredimagesettings' }
+    & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
+  )>, featuredImage?: Maybe<(
+    { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+    & { node?: Maybe<(
+      { __typename?: 'MediaItem' }
+      & Pick<MediaItem, 'sourceUrl' | 'id' | 'srcSet' | 'sizes'>
+      & { thumbnail: MediaItem['sourceUrl'] }
+      & { mediaDetails?: Maybe<(
+        { __typename?: 'MediaDetails' }
+        & { sizes?: Maybe<Array<Maybe<(
+          { __typename?: 'MediaSize' }
+          & Pick<MediaSize, 'sourceUrl'>
+        )>>> }
+      )> }
+    )> }
+  )>, author?: Maybe<(
+    { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
+    & { node?: Maybe<(
+      { __typename?: 'User' }
+      & AuthorFieldsFragment
+    )> }
+  )>, categories?: Maybe<(
+    { __typename?: 'PostToCategoryConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'PostToCategoryConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'name'>
+      )> }
+    )>>> }
+  )>, tags?: Maybe<(
+    { __typename?: 'PostToTagConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'PostToTagConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Tag' }
+        & Pick<Tag, 'name'>
+      )> }
+    )>>> }
+  )> }
+);
+
+export type RevisionsFragment = (
+  { __typename?: 'Post' }
+  & { revisions?: Maybe<(
+    { __typename?: 'PostToRevisionConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'PostToRevisionConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Post' }
+        & Pick<Post, 'title' | 'excerpt' | 'content'>
+        & { author?: Maybe<(
+          { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'User' }
+            & AuthorFieldsFragment
+          )> }
+        )> }
+      )> }
+    )>>> }
+  )> }
+);
+
+export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_1_Query = (
+  { __typename?: 'RootQuery' }
+  & { categories?: Maybe<(
+    { __typename?: 'RootQueryToCategoryConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToCategoryConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug'>
+      )> }
+    )>>> }
+  )> }
+);
+
+export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_2_Query = (
+  { __typename?: 'RootQuery' }
+  & { posts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Post' }
+        & Pick<Post, 'slug'>
+      )> }
+    )>>> }
+  )> }
+);
+
+export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_3_Query = (
+  { __typename?: 'RootQuery' }
+  & { tags?: Maybe<(
+    { __typename?: 'RootQueryToTagConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToTagConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Tag' }
+        & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug'>
+      )> }
+    )>>> }
+  )> }
+);
+
+export type ArtistsQueryVariables = Exact<{
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ArtistsQuery = (
+  { __typename?: 'RootQuery' }
+  & { artists?: Maybe<(
+    { __typename?: 'RootQueryToArtistConnection' }
+    & { pageInfo?: Maybe<(
+      { __typename?: 'WPPageInfo' }
+      & Pick<WpPageInfo, 'endCursor' | 'startCursor'>
+    )>, edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToArtistConnectionEdge' }
+      & Pick<RootQueryToArtistConnectionEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename?: 'Artist' }
+        & Pick<Artist, 'id' | 'title' | 'slug'>
+        & { featuredImage?: Maybe<(
+          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'MediaItem' }
+            & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'id'>
+          )> }
+        )> }
+      )> }
+    )>>> }
+  )> }
+);
+
+export type FrontpagePostsQueryVariables = Exact<{
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FrontpagePostsQuery = (
+  { __typename?: 'RootQuery' }
+  & { settings?: Maybe<(
+    { __typename?: 'Settings' }
+    & Pick<Settings, 'generalSettingsDescription' | 'generalSettingsTitle'>
+  )>, stickyPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, newWorkPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, interviewsPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, cfyeXPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, featuresPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )> }
+);
+
+export type PostBySlugQueryVariables = Exact<{
+  id: Scalars['ID'];
+  idType: PostIdType;
+}>;
+
+
+export type PostBySlugQuery = (
+  { __typename?: 'RootQuery' }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'content'>
+    & { blocks?: Maybe<Array<(
+      { __typename?: 'CgbBlockCfyeBlocksBlock' }
+      & Pick<CgbBlockCfyeBlocksBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreArchivesBlock' }
+      & Pick<CoreArchivesBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreAudioBlock' }
+      & Pick<CoreAudioBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreBlock' }
+      & Pick<CoreBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreButtonBlock' }
+      & Pick<CoreButtonBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreButtonsBlock' }
+      & Pick<CoreButtonsBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCalendarBlock' }
+      & Pick<CoreCalendarBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCategoriesBlock' }
+      & Pick<CoreCategoriesBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCodeBlock' }
+      & Pick<CoreCodeBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreColumnBlock' }
+      & Pick<CoreColumnBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreColumnsBlock' }
+      & Pick<CoreColumnsBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCoverBlock' }
+      & Pick<CoreCoverBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreEmbedBlock' }
+      & Pick<CoreEmbedBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreFileBlock' }
+      & Pick<CoreFileBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreFreeformBlock' }
+      & Pick<CoreFreeformBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreGalleryBlock' }
+      & Pick<CoreGalleryBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreGroupBlock' }
+      & Pick<CoreGroupBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreHeadingBlock' }
+      & Pick<CoreHeadingBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreHtmlBlock' }
+      & Pick<CoreHtmlBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreImageBlock' }
+      & Pick<CoreImageBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreLatestCommentsBlock' }
+      & Pick<CoreLatestCommentsBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreLatestPostsBlock' }
+      & Pick<CoreLatestPostsBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreListBlock' }
+      & Pick<CoreListBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMediaTextBlock' }
+      & Pick<CoreMediaTextBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMissingBlock' }
+      & Pick<CoreMissingBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMoreBlock' }
+      & Pick<CoreMoreBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreNextpageBlock' }
+      & Pick<CoreNextpageBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreParagraphBlock' }
+      & Pick<CoreParagraphBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CorePreformattedBlock' }
+      & Pick<CorePreformattedBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CorePullquoteBlock' }
+      & Pick<CorePullquoteBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreQuoteBlock' }
+      & Pick<CoreQuoteBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreRssBlock' }
+      & Pick<CoreRssBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSearchBlock' }
+      & Pick<CoreSearchBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSeparatorBlock' }
+      & Pick<CoreSeparatorBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreShortcodeBlock' }
+      & Pick<CoreShortcodeBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSocialLinkBlock' }
+      & Pick<CoreSocialLinkBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSocialLinksBlock' }
+      & Pick<CoreSocialLinksBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSpacerBlock' }
+      & Pick<CoreSpacerBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSubheadBlock' }
+      & Pick<CoreSubheadBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTableBlock' }
+      & Pick<CoreTableBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTagCloudBlock' }
+      & Pick<CoreTagCloudBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTextColumnsBlock' }
+      & Pick<CoreTextColumnsBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreVerseBlock' }
+      & Pick<CoreVerseBlock, 'name' | 'order' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreVideoBlock' }
+      & Pick<CoreVideoBlock, 'name' | 'order' | 'saveContent'>
+    )>>, postSettingsField?: Maybe<(
+      { __typename?: 'Post_Postsettingsfield' }
+      & { artistPost?: Maybe<Array<Maybe<(
+        { __typename?: 'Artist' }
+        & Pick<Artist, 'id' | 'title'>
+        & { featuredImage?: Maybe<(
+          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'MediaItem' }
+            & Pick<MediaItem, 'id' | 'srcSet' | 'sourceUrl'>
+            & { thumbnail: MediaItem['sourceUrl'] }
+          )> }
+        )> }
+      )>>> }
+    )> }
+    & PostFieldsFragment
+  )>, posts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Post' }
+        & PostFieldsFragment
+      )> }
+    )>>> }
+  )> }
+);
+
+export type CategoryPostsQueryVariables = Exact<{
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+  categoryName?: Maybe<Scalars['String']>;
+  tagName?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+}>;
+
+
+export type CategoryPostsQuery = (
+  { __typename?: 'RootQuery' }
+  & { categoryPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { pageInfo?: Maybe<(
+      { __typename?: 'WPPageInfo' }
+      & Pick<WpPageInfo, 'endCursor' | 'startCursor' | 'hasNextPage'>
+    )>, edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, categoryDetails?: Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'description' | 'name'>
+  )>, tagDetails?: Maybe<(
+    { __typename?: 'Tag' }
+    & Pick<Tag, 'id' | 'description' | 'name'>
+  )> }
+);
+
+export type PreviewPostQueryVariables = Exact<{
+  id: Scalars['ID'];
+  idType: PostIdType;
+}>;
+
+
+export type PreviewPostQuery = (
+  { __typename?: 'RootQuery' }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'databaseId' | 'slug' | 'status'>
+  )> }
+);

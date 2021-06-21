@@ -1,5 +1,5 @@
 import Image, { ImageProps } from 'next/image';
-import { MediaItem } from 'types';
+import { FeaturedImageFieldsFragment } from 'types';
 import styles from './CoverImage.module.scss';
 
 type Sizes = {
@@ -9,7 +9,7 @@ type Sizes = {
 
 interface Props {
   title: string;
-  coverImage: MediaItem & { thumbnail?: string };
+  coverImage: FeaturedImageFieldsFragment['node'];
   slug?: string;
   cover?: boolean;
   absolute?: boolean;

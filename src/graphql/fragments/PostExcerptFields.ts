@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client';
+import { FEATURED_IMAGE_FIELDS } from './FeaturedImageFields';
 
 export const POST_EXCERPT_FIELDS = gql`
+  ${FEATURED_IMAGE_FIELDS}
   fragment PostExcerptFields on RootQueryToPostConnectionEdge {
     node {
       id
@@ -32,12 +34,7 @@ export const POST_EXCERPT_FIELDS = gql`
         backgroundColor
       }
       featuredImage {
-        node {
-          sourceUrl(size: LARGE)
-          thumbnail: sourceUrl(size: THUMBNAIL)
-          srcSet(size: LARGE)
-          id
-        }
+        ...FeaturedImageFields
       }
       author {
         node {

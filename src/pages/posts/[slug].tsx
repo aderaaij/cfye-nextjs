@@ -7,11 +7,11 @@ import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
-  CategoryToPostConnection,
   Post as GeneratedPostType,
   PostIdType,
   PostStatusEnum,
   PostFormatIdType,
+  PostBySlugQuery,
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
@@ -22,9 +22,7 @@ import { motion } from 'framer-motion';
 import MetaPage from '@/components/MetaPage';
 
 interface Props {
-  post: GeneratedPostType;
-  posts?: CategoryToPostConnection;
-  preview: boolean;
+  data: PostBySlugQuery;
 }
 
 const Post: React.FC<Props> = () => {

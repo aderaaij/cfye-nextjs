@@ -6,14 +6,11 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_TAGS } from '@/graphql/queries/allTags';
 import { initializeApollo } from '@/lib/apolloClient';
-import { RootQueryToPostConnection, Tag } from 'types';
+import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
 
 interface Props {
-  data: {
-    categoryPosts: RootQueryToPostConnection;
-    tagDetails: Tag;
-  };
+  data: CategoryPostsQuery;
 }
 const TagPage: React.FC<Props> = ({ data }) => {
   if (!data) {

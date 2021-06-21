@@ -1,7 +1,7 @@
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import cx from 'classnames';
-import { RootQueryToPostConnection } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import ExcerptOverlay from '@/components/ExcerptOverlay';
 import TagList from '@/components/TagList';
 import styles from './Excerpts.module.scss';
@@ -9,7 +9,7 @@ import { limitText } from 'utils/limitCharacters';
 
 interface Props {
   title?: string;
-  edges: RootQueryToPostConnection['edges'];
+  edges: Array<PostExcerptFieldsFragment>;
   isEven?: boolean;
 }
 
