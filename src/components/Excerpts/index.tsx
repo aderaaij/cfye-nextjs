@@ -1,7 +1,7 @@
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import cx from 'classnames';
-import { RootQueryToPostConnection } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import ExcerptOverlay from '@/components/ExcerptOverlay';
 import TagList from '@/components/TagList';
 import styles from './Excerpts.module.scss';
@@ -9,7 +9,7 @@ import { limitText } from 'utils/limitCharacters';
 
 interface Props {
   title?: string;
-  edges: RootQueryToPostConnection['edges'];
+  edges: Array<PostExcerptFieldsFragment>;
   isEven?: boolean;
 }
 
@@ -39,6 +39,8 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
           {groups[1].map(({ node }) => (
             <div className={styles['more-article']} key={node.id}>
               <Image
+                placeholder="blur"
+                blurDataURL={node.featuredImage.node.thumbnail}
                 className={styles['more-image']}
                 src={node.featuredImage.node.sourceUrl}
                 width={400}

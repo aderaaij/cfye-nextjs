@@ -1,6 +1,6 @@
 import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
-import { RootQueryToPostConnection, Settings } from 'types';
+import { FrontpagePostsQuery } from 'types';
 import HeroPost from '@/components/HeroPost';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
@@ -9,14 +9,7 @@ import Excerpts from '@/components/Excerpts';
 import FullWidthPost from '@/components/FullWidthPost';
 import MetaPage from '@/components/MetaPage';
 interface Props {
-  data: {
-    stickyPosts: RootQueryToPostConnection;
-    newWorkPosts: RootQueryToPostConnection;
-    interviewsPosts: RootQueryToPostConnection;
-    cfyeXPosts: RootQueryToPostConnection;
-    featuresPosts: RootQueryToPostConnection;
-    settings: Settings;
-  };
+  data: FrontpagePostsQuery;
 }
 
 const Index: React.FC<Props> = ({ data }) => {
@@ -31,7 +24,6 @@ const Index: React.FC<Props> = ({ data }) => {
     cfyeXPosts,
     featuresPosts,
   } = data;
-
   const featuredPost = stickyPosts?.edges[0].node;
   const featuredInterview = interviewsPosts?.edges[0]?.node;
   const featuredCfyeXPost = cfyeXPosts?.edges[0]?.node;

@@ -13,6 +13,7 @@ export const PostFields = gql`
     featuredImage {
       node {
         sourceUrl
+        thumbnail: sourceUrl(size: THUMBNAIL)
         id
         srcSet
         sizes

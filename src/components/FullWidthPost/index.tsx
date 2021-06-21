@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { Post } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import CoverImage from '@/components/CoverImage';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './FullWidthPost.module.scss';
 interface Props {
-  post: Post;
+  post: PostExcerptFieldsFragment['node'];
 }
 
 const FullWidthPost: React.FC<Props> = ({ post }) => {

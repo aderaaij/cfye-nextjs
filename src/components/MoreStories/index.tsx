@@ -1,8 +1,8 @@
-import { RootQueryToPostConnection } from 'types';
+import { PostExcerptFieldsFragment, RootQueryToPostConnection } from 'types';
 import HeroPost from '../HeroPost';
 
 interface Props {
-  posts: RootQueryToPostConnection['edges'];
+  posts: Array<PostExcerptFieldsFragment>;
 }
 
 const MoreStories: React.FC<Props> = ({ posts }) => {

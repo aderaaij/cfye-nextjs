@@ -1,6 +1,6 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { Post } from 'types';
+import { Post, PostExcerptFieldsFragment } from 'types';
 import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
 import { limitText } from 'utils/limitCharacters';
@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 import TagList from '@/components/TagList';
 import styles from './HeroPost.module.scss';
 interface Props {
-  post: Post;
+  post: PostExcerptFieldsFragment['node'];
   isEven?: boolean;
 }
 

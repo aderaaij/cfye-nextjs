@@ -1,7 +1,7 @@
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Post } from 'types';
+import { Post, PostExcerptFieldsFragment } from 'types';
 import TagList from '@/components/TagList';
 import styles from './ExcerptOverlay.module.scss';
 import { limitText } from 'utils/limitCharacters';
@@ -10,8 +10,9 @@ interface Dimensions {
   width: number;
   height: number;
 }
+
 interface Props {
-  node: Post;
+  node: PostExcerptFieldsFragment['node'];
   dimensions?: Dimensions;
 }
 
@@ -21,6 +22,8 @@ const ExcerptOverlay: React.FC<Props> = ({ node }) => {
       <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
         <a className={styles['image-link']}>
           <Image
+            placeholder="blur"
+            blurDataURL={node.featuredImage.node.thumbnail}
             src={node.featuredImage.node.sourceUrl}
             layout="fill"
             objectFit="cover"

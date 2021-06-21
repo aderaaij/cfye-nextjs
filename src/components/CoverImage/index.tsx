@@ -1,14 +1,15 @@
 import Image, { ImageProps } from 'next/image';
-import { MediaItem } from 'types';
+import { FeaturedImageFieldsFragment } from 'types';
 import styles from './CoverImage.module.scss';
 
 type Sizes = {
   width: number;
   height: number;
 };
+
 interface Props {
   title: string;
-  coverImage: MediaItem;
+  coverImage: FeaturedImageFieldsFragment['node'];
   slug?: string;
   cover?: boolean;
   absolute?: boolean;
@@ -29,7 +30,8 @@ const CoverImage: React.FC<Props> = ({
   return (
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
-        // placeholder="blur"
+        placeholder="blur"
+        blurDataURL={coverImage.thumbnail}
         src={coverImage.sourceUrl}
         quality={90}
         priority={priority}
