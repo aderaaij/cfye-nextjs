@@ -116,6 +116,10 @@
   font-size: 2em;
   margin: 0;
   flex: 1;
+
+  a {
+    color: var(--cfye);
+  }
 }
 
 .more-article-image-wrap {

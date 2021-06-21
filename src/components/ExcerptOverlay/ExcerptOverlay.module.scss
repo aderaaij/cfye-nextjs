@@ -13,7 +13,7 @@
     z-index: 1;
     background: linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 0) 30%,
       rgba(0, 0, 0, 1) 100%
     );
   }
@@ -25,9 +25,8 @@
   left: 0;
   width: 100%;
   height: auto;
-  padding: 1em;
+  padding: 1.5em;
   z-index: 2;
-  mix-blend-mode: lighten;
 
   p {
     color: #fff;
@@ -38,6 +37,7 @@
   font-size: 2.4vw;
   letter-spacing: 0.1px;
   margin: 0;
+  font-weight: 700;
 
   a {
     color: var(--cfye);

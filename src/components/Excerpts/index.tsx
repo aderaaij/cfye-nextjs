@@ -6,6 +6,7 @@ import ExcerptOverlay from '@/components/ExcerptOverlay';
 import TagList from '@/components/TagList';
 import styles from './Excerpts.module.scss';
 import { limitText } from 'utils/limitCharacters';
+import Link from 'next/link';
 
 interface Props {
   title?: string;
@@ -50,8 +51,13 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
 
               <div className={styles['more-content-wrap']}>
                 <TagList tags={node.tags} context="articleExcerpt" />
-                <h3 className={styles['more-article-title']}>{node.title}</h3>
-                {parse(limitText(node.excerpt, 120))}
+                <h3 className={styles['more-article-title']}>
+                  {' '}
+                  <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
+                    <a>{node.title}</a>
+                  </Link>
+                </h3>
+                {/* {parse(limitText(node.excerpt, 120))} */}
               </div>
             </div>
           ))}
