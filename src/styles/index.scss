@@ -136,6 +136,8 @@ p {
   grid-template-columns: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
   gap: var(--grid-gap-size);
   width: 100%;
+  max-width: 2160px;
+  margin: 0 auto;
 }
 
 .category-wrap {

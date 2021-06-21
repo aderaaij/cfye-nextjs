@@ -39,6 +39,8 @@ const Excerpts: React.FC<Props> = ({ title, edges, isEven = false }) => {
           {groups[1].map(({ node }) => (
             <div className={styles['more-article']} key={node.id}>
               <Image
+                placeholder="blur"
+                blurDataURL={node.featuredImage.node.thumbnail}
                 className={styles['more-image']}
                 src={node.featuredImage.node.sourceUrl}
                 width={400}

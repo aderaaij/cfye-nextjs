@@ -10,6 +10,7 @@ interface Dimensions {
   width: number;
   height: number;
 }
+
 interface Props {
   node: Post;
   dimensions?: Dimensions;
@@ -21,6 +22,8 @@ const ExcerptOverlay: React.FC<Props> = ({ node }) => {
       <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
         <a className={styles['image-link']}>
           <Image
+            placeholder="blur"
+            blurDataURL={node.featuredImage.node.thumbnail}
             src={node.featuredImage.node.sourceUrl}
             layout="fill"
             objectFit="cover"

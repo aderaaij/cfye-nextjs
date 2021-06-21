@@ -11,37 +11,6 @@ export type Scalars = {
   Float: number;
 };
 
-/** Google Map field */
-export type Acf_GoogleMap = {
-  __typename?: 'ACF_GoogleMap';
-  /** The city associated with the map */
-  city?: Maybe<Scalars['String']>;
-  /** The country associated with the map */
-  country?: Maybe<Scalars['String']>;
-  /** The country abbreviation associated with the map */
-  countryShort?: Maybe<Scalars['String']>;
-  /** The latitude associated with the map */
-  latitude?: Maybe<Scalars['Float']>;
-  /** The longitude associated with the map */
-  longitude?: Maybe<Scalars['Float']>;
-  /** The country associated with the map */
-  placeId?: Maybe<Scalars['String']>;
-  /** The post code associated with the map */
-  postCode?: Maybe<Scalars['String']>;
-  /** The state associated with the map */
-  state?: Maybe<Scalars['String']>;
-  /** The state abbreviation associated with the map */
-  stateShort?: Maybe<Scalars['String']>;
-  /** The street address associated with the map */
-  streetAddress?: Maybe<Scalars['String']>;
-  /** The street name associated with the map */
-  streetName?: Maybe<Scalars['String']>;
-  /** The street number associated with the map */
-  streetNumber?: Maybe<Scalars['String']>;
-  /** The zoom defined with the map */
-  zoom?: Maybe<Scalars['String']>;
-};
-
 /** The Artist type */
 export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
   __typename?: 'Artist';
@@ -53,7 +22,7 @@ export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate 
   artistInformation?: Maybe<Artist_Artistinformation>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -101,12 +70,12 @@ export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate 
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -155,24 +124,8 @@ export type ArtistToPreviewConnectionEdge = {
 /** Field Group */
 export type Artist_Artistinformation = {
   __typename?: 'Artist_Artistinformation';
-  artistDescription?: Maybe<Scalars['String']>;
-  /** Add the artist location to the map */
-  artistLocation?: Maybe<Acf_GoogleMap>;
   fieldGroupName?: Maybe<Scalars['String']>;
-  flickrUsername?: Maybe<Scalars['String']>;
-  headerImage?: Maybe<MediaItem>;
-  relatedArticles?: Maybe<Array<Maybe<Artist_Artistinformation_RelatedArticles>>>;
-  /** Add Facebook URL */
-  sltFacebookid?: Maybe<Scalars['String']>;
-  /** Add the instagram user handle */
-  sltInstagram?: Maybe<Scalars['String']>;
-  sltTumblrid?: Maybe<Scalars['String']>;
-  sltTwitterid?: Maybe<Scalars['String']>;
-  sltWebsite?: Maybe<Scalars['String']>;
-  sltYoutubeid?: Maybe<Scalars['String']>;
 };
-
-export type Artist_Artistinformation_RelatedArticles = Post;
 
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
 export type Avatar = {
@@ -324,7 +277,7 @@ export type BlockEditorPreview = Node & ContentNode & DatabaseIdentifier & NodeW
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -370,12 +323,12 @@ export type BlockEditorPreview = Node & ContentNode & DatabaseIdentifier & NodeW
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** URI path for the resource */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -445,7 +398,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   contentNodes?: Maybe<CategoryToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -453,7 +406,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -478,7 +431,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -1134,7 +1087,7 @@ export type ContentNode = {
   dateGmt?: Maybe<Scalars['String']>;
   /** The desired slug of the post */
   desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn't exist or is greater than 15 seconds */
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
   editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
   /** The RSS enclosure for the object */
   enclosure?: Maybe<Scalars['String']>;
@@ -1142,7 +1095,7 @@ export type ContentNode = {
   enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
   /** Connection between the ContentNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post->guid and the guid column in the "post_objects" database table. */
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the node. */
   id: Scalars['ID'];
@@ -1162,14 +1115,14 @@ export type ContentNode = {
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
   /** Whether the object is a node in the preview state */
   previewRevisionId?: Maybe<Scalars['ID']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post->post_name field and the post_name column in the database for the "post_objects" table. */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** URI path for the resource */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -4608,7 +4561,7 @@ export type EnqueuedScript = Node & EnqueuedAsset & {
   extra?: Maybe<Scalars['String']>;
   /** The handle of the enqueued asset */
   handle?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The ID of the enqueued asset */
   id: Scalars['ID'];
   /** The source of the asset */
   src?: Maybe<Scalars['String']>;
@@ -4627,7 +4580,7 @@ export type EnqueuedStylesheet = Node & EnqueuedAsset & {
   extra?: Maybe<Scalars['String']>;
   /** The handle of the enqueued asset */
   handle?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The ID of the enqueued asset */
   id: Scalars['ID'];
   /** The source of the asset */
   src?: Maybe<Scalars['String']>;
@@ -4863,7 +4816,7 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   comments?: Maybe<MediaItemToCommentConnection>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -4932,12 +4885,12 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   srcSet?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -5083,10 +5036,20 @@ export enum MediaItemSizeEnum {
   MediumLarge = 'MEDIUM_LARGE',
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
+  /** MediaItem with the 100x100 size */
+  '100X100' = '_100X100',
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
+  /** MediaItem with the 1600x1067 size */
+  '1600X1067' = '_1600X1067',
+  /** MediaItem with the 1600x1600 size */
+  '1600X1600' = '_1600X1600',
+  /** MediaItem with the 1920x1080 size */
+  '1920X1080' = '_1920X1080',
   /** MediaItem with the 2048x2048 size */
-  '2048X2048' = '_2048X2048'
+  '2048X2048' = '_2048X2048',
+  /** MediaItem with the 900x600 size */
+  '900X600' = '_900X600'
 }
 
 /** The status of the media item object. */
@@ -5306,7 +5269,7 @@ export type MenuItemLinkable = {
   /** The unique resource identifier path */
   id: Scalars['ID'];
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -5318,7 +5281,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Post | Page | Artist | Category | Tag;
+export type MenuItemObjectUnion = Post | Page | Artist | Category | Tag | PostFormat;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -5758,7 +5721,7 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -5839,12 +5802,12 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -6164,7 +6127,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -6241,7 +6204,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   status?: Maybe<Scalars['String']>;
   /** Connection between the post type and the tag type */
   tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** Connection between the post type and the TermNode type */
   terms?: Maybe<PostToTermNodeConnection>;
@@ -6249,8 +6212,8 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   title?: Maybe<Scalars['String']>;
   /** URLs queued to be pinged. */
   toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -6370,13 +6333,13 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & {
+export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
   __typename?: 'PostFormat';
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -6384,7 +6347,7 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -6408,7 +6371,7 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -7247,7 +7210,7 @@ export type Post_Featuredimagesettings = {
 export type Post_Postsettingsfield = {
   __typename?: 'Post_Postsettingsfield';
   addToMap?: Maybe<Scalars['Boolean']>;
-  /** Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;https://admin.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt; */
+  /** Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt; */
   artistPost?: Maybe<Array<Maybe<Post_Postsettingsfield_ArtistPost>>>;
   fieldGroupName?: Maybe<Scalars['String']>;
   relatedArticle?: Maybe<Array<Maybe<Post_Postsettingsfield_RelatedArticle>>>;
@@ -7375,7 +7338,7 @@ export type ReusableBlock = Node & ContentNode & DatabaseIdentifier & NodeWithTe
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -7425,12 +7388,12 @@ export type ReusableBlock = Node & ContentNode & DatabaseIdentifier & NodeWithTe
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** URI path for the resource */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -7497,12 +7460,6 @@ export type ReusableBlockToPreviewConnectionEdge = {
 /** The root mutation */
 export type RootMutation = {
   __typename?: 'RootMutation';
-  /** The payload for the UpdateCategory mutation */
-  updateCategory?: Maybe<UpdateCategoryPayload>;
-  /** The payload for the UpdatePostFormat mutation */
-  updatePostFormat?: Maybe<UpdatePostFormatPayload>;
-  /** The payload for the UpdateTag mutation */
-  updateTag?: Maybe<UpdateTagPayload>;
   /** The payload for the createArtist mutation */
   createArtist?: Maybe<CreateArtistPayload>;
   /** The payload for the createCategory mutation */
@@ -7555,6 +7512,8 @@ export type RootMutation = {
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmailPayload>;
   /** The payload for the updateArtist mutation */
   updateArtist?: Maybe<UpdateArtistPayload>;
+  /** The payload for the UpdateCategory mutation */
+  updateCategory?: Maybe<UpdateCategoryPayload>;
   /** The payload for the updateComment mutation */
   updateComment?: Maybe<UpdateCommentPayload>;
   /** The payload for the updateMediaItem mutation */
@@ -7563,30 +7522,16 @@ export type RootMutation = {
   updatePage?: Maybe<UpdatePagePayload>;
   /** The payload for the updatePost mutation */
   updatePost?: Maybe<UpdatePostPayload>;
+  /** The payload for the UpdatePostFormat mutation */
+  updatePostFormat?: Maybe<UpdatePostFormatPayload>;
   /** The payload for the updateReusableBlock mutation */
   updateReusableBlock?: Maybe<UpdateReusableBlockPayload>;
   /** The payload for the updateSettings mutation */
   updateSettings?: Maybe<UpdateSettingsPayload>;
+  /** The payload for the UpdateTag mutation */
+  updateTag?: Maybe<UpdateTagPayload>;
   /** The payload for the updateUser mutation */
   updateUser?: Maybe<UpdateUserPayload>;
-};
-
-
-/** The root mutation */
-export type RootMutationUpdateCategoryArgs = {
-  input: UpdateCategoryInput;
-};
-
-
-/** The root mutation */
-export type RootMutationUpdatePostFormatArgs = {
-  input: UpdatePostFormatInput;
-};
-
-
-/** The root mutation */
-export type RootMutationUpdateTagArgs = {
-  input: UpdateTagInput;
 };
 
 
@@ -7747,6 +7692,12 @@ export type RootMutationUpdateArtistArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateCategoryArgs = {
+  input: UpdateCategoryInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateCommentArgs = {
   input: UpdateCommentInput;
 };
@@ -7771,6 +7722,12 @@ export type RootMutationUpdatePostArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdatePostFormatArgs = {
+  input: UpdatePostFormatInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateReusableBlockArgs = {
   input: UpdateReusableBlockInput;
 };
@@ -7783,6 +7740,12 @@ export type RootMutationUpdateSettingsArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateTagArgs = {
+  input: UpdateTagInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
@@ -7790,6 +7753,8 @@ export type RootMutationUpdateUserArgs = {
 /** The root entry point into the Graph */
 export type RootQuery = {
   __typename?: 'RootQuery';
+  /** Entry point to get all settings for the site */
+  allSettings?: Maybe<Settings>;
   /** An object of the Artist Type. Artists information */
   artist?: Maybe<Artist>;
   /**
@@ -7797,6 +7762,10 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   artistBy?: Maybe<Artist>;
+  /** Connection between the RootQuery type and the Artist type */
+  artists?: Maybe<RootQueryToArtistConnection>;
+  /** Connection between the RootQuery type and the BlockEditorContentNode type */
+  blockEditorContentNodes?: Maybe<BlockEditorContentNodeConnection>;
   /** An object of the BlockEditorPreview Type.  */
   blockEditorPreview?: Maybe<BlockEditorPreview>;
   /**
@@ -7804,19 +7773,6 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   blockEditorPreviewBy?: Maybe<BlockEditorPreview>;
-  /** An object of the ReusableBlock Type.  */
-  reusableBlock?: Maybe<ReusableBlock>;
-  /**
-   * A ReusableBlock object
-   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
-   */
-  reusableBlockBy?: Maybe<ReusableBlock>;
-  /** Entry point to get all settings for the site */
-  allSettings?: Maybe<Settings>;
-  /** Connection between the RootQuery type and the Artist type */
-  artists?: Maybe<RootQueryToArtistConnection>;
-  /** Connection between the RootQuery type and the BlockEditorContentNode type */
-  blockEditorContentNodes?: Maybe<BlockEditorContentNodeConnection>;
   /** Connection between the RootQuery type and the BlockEditorPreview type */
   blockEditorPreviews?: Maybe<RootQueryToBlockEditorPreviewConnection>;
   /** Connection between the RootQuery type and the category type */
@@ -7835,7 +7791,9 @@ export type RootQuery = {
   contentType?: Maybe<ContentType>;
   /** Connection between the RootQuery type and the ContentType type */
   contentTypes?: Maybe<RootQueryToContentTypeConnection>;
+  /** Fields of the &#039;DiscussionSettings&#039; settings group */
   discussionSettings?: Maybe<DiscussionSettings>;
+  /** Fields of the &#039;GeneralSettings&#039; settings group */
   generalSettings?: Maybe<GeneralSettings>;
   /** An object of the mediaItem Type.  */
   mediaItem?: Maybe<MediaItem>;
@@ -7884,11 +7842,19 @@ export type RootQuery = {
   postFormats?: Maybe<RootQueryToPostFormatConnection>;
   /** Connection between the RootQuery type and the post type */
   posts?: Maybe<RootQueryToPostConnection>;
+  /** Fields of the &#039;ReadingSettings&#039; settings group */
   readingSettings?: Maybe<ReadingSettings>;
   /** Connection between the RootQuery type and the EnqueuedScript type */
   registeredScripts?: Maybe<RootQueryToEnqueuedScriptConnection>;
   /** Connection between the RootQuery type and the EnqueuedStylesheet type */
   registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
+  /** An object of the ReusableBlock Type.  */
+  reusableBlock?: Maybe<ReusableBlock>;
+  /**
+   * A ReusableBlock object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  reusableBlockBy?: Maybe<ReusableBlock>;
   /** Connection between the RootQuery type and the ReusableBlock type */
   reusableBlocks?: Maybe<RootQueryToReusableBlockConnection>;
   /** Connection between the RootQuery type and the ContentRevisionUnion type */
@@ -7919,6 +7885,7 @@ export type RootQuery = {
   users?: Maybe<RootQueryToUserConnection>;
   /** Returns the current user */
   viewer?: Maybe<User>;
+  /** Fields of the &#039;WritingSettings&#039; settings group */
   writingSettings?: Maybe<WritingSettings>;
 };
 
@@ -7941,40 +7908,6 @@ export type RootQueryArtistByArgs = {
 
 
 /** The root entry point into the Graph */
-export type RootQueryBlockEditorPreviewArgs = {
-  id: Scalars['ID'];
-  idType?: Maybe<BlockEditorPreviewIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryBlockEditorPreviewByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  blockEditorPreviewId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryReusableBlockArgs = {
-  id: Scalars['ID'];
-  idType?: Maybe<ReusableBlockIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryReusableBlockByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  reusableBlockId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-};
-
-
-/** The root entry point into the Graph */
 export type RootQueryArtistsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -7991,6 +7924,23 @@ export type RootQueryBlockEditorContentNodesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<BlockEditorContentNodeConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorPreviewArgs = {
+  id: Scalars['ID'];
+  idType?: Maybe<BlockEditorPreviewIdType>;
+  asPreview?: Maybe<Scalars['Boolean']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorPreviewByArgs = {
+  id?: Maybe<Scalars['ID']>;
+  blockEditorPreviewId?: Maybe<Scalars['Int']>;
+  uri?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
 
@@ -8245,6 +8195,23 @@ export type RootQueryRegisteredStylesheetsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryReusableBlockArgs = {
+  id: Scalars['ID'];
+  idType?: Maybe<ReusableBlockIdType>;
+  asPreview?: Maybe<Scalars['Boolean']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryReusableBlockByArgs = {
+  id?: Maybe<Scalars['ID']>;
+  reusableBlockId?: Maybe<Scalars['Int']>;
+  uri?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
 
@@ -9083,6 +9050,8 @@ export type RootQueryToPostConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Whether to only include sticky posts */
+  onlySticky?: Maybe<Scalars['Boolean']>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -9501,35 +9470,35 @@ export type SendPasswordResetEmailPayload = {
 /** All of the registered settings */
 export type Settings = {
   __typename?: 'Settings';
-  /** Allow people to submit comments on new posts. */
+  /** Settings of the the string Settings Group */
   discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']>;
-  /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
+  /** Settings of the the string Settings Group */
   discussionSettingsDefaultPingStatus?: Maybe<Scalars['String']>;
-  /** A date format for all date strings. */
+  /** Settings of the the string Settings Group */
   generalSettingsDateFormat?: Maybe<Scalars['String']>;
-  /** Site tagline. */
+  /** Settings of the the string Settings Group */
   generalSettingsDescription?: Maybe<Scalars['String']>;
-  /** This address is used for admin purposes, like new user notification. */
+  /** Settings of the the string Settings Group */
   generalSettingsEmail?: Maybe<Scalars['String']>;
-  /** WordPress locale code. */
+  /** Settings of the the string Settings Group */
   generalSettingsLanguage?: Maybe<Scalars['String']>;
-  /** A day number of the week that the week should start on. */
+  /** Settings of the the integer Settings Group */
   generalSettingsStartOfWeek?: Maybe<Scalars['Int']>;
-  /** A time format for all time strings. */
+  /** Settings of the the string Settings Group */
   generalSettingsTimeFormat?: Maybe<Scalars['String']>;
-  /** A city in the same timezone as you. */
+  /** Settings of the the string Settings Group */
   generalSettingsTimezone?: Maybe<Scalars['String']>;
-  /** Site title. */
+  /** Settings of the the string Settings Group */
   generalSettingsTitle?: Maybe<Scalars['String']>;
-  /** Site URL. */
+  /** Settings of the the string Settings Group */
   generalSettingsUrl?: Maybe<Scalars['String']>;
-  /** Blog pages show at most. */
+  /** Settings of the the integer Settings Group */
   readingSettingsPostsPerPage?: Maybe<Scalars['Int']>;
-  /** Default post category. */
+  /** Settings of the the integer Settings Group */
   writingSettingsDefaultCategory?: Maybe<Scalars['Int']>;
-  /** Default post format. */
+  /** Settings of the the string Settings Group */
   writingSettingsDefaultPostFormat?: Maybe<Scalars['String']>;
-  /** Convert emoticons like :-) and :-P to graphics on display. */
+  /** Settings of the the boolean Settings Group */
   writingSettingsUseSmilies?: Maybe<Scalars['Boolean']>;
 };
 
@@ -9540,7 +9509,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   contentNodes?: Maybe<TagToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -9548,7 +9517,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -9572,7 +9541,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -9897,7 +9866,7 @@ export type TermNode = {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
