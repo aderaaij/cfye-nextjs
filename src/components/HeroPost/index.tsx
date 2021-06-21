@@ -1,6 +1,6 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { Post, PostExcerptFieldsFragment } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
 import { limitText } from 'utils/limitCharacters';

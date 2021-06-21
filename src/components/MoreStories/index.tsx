@@ -1,4 +1,4 @@
-import { PostExcerptFieldsFragment, RootQueryToPostConnection } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import HeroPost from '../HeroPost';
 
 interface Props {

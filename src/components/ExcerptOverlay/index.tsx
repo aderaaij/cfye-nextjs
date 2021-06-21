@@ -1,7 +1,7 @@
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Post, PostExcerptFieldsFragment } from 'types';
+import { PostExcerptFieldsFragment } from 'types';
 import TagList from '@/components/TagList';
 import styles from './ExcerptOverlay.module.scss';
 import { limitText } from 'utils/limitCharacters';
