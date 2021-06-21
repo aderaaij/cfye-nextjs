@@ -1,7 +1,7 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
-import HeroPost from '@/components/HeroPost';
+import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_TAGS } from '@/graphql/queries/allTags';
@@ -32,7 +32,7 @@ const TagPage: React.FC<Props> = ({ data }) => {
       )}
       <div className="category-wrap">
         {categoryPosts.edges.map(({ node }, index) => (
-          <HeroPost key={node.id} post={node} isEven={isEven(index)} />
+          <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
         ))}
       </div>
     </Layout>

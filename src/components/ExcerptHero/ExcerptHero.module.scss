@@ -12,7 +12,11 @@
 
   &::before {
     content: '';
-    background: lighten(#333, 77%);
+    background: linear-gradient(
+      -90deg,
+      rgba(#3f2b96, 0.5) 0%,
+      rgba(#a8c0ff, 0.5) 100%
+    );
     grid-row: 2 / span 3;
     grid-column: 5 / span 2;
   }
@@ -167,7 +171,6 @@
   line-height: 1.25;
   letter-spacing: 0.1px;
   margin: 0;
-  font-weight: 700;
 
   a {
     color: var(--cfye);
@@ -175,7 +178,7 @@
   }
 
   @media screen and (min-width: 1024px) {
-    font-size: 5em;
+    font-size: 4em;
   }
 }
 

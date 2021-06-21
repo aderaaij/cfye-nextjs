@@ -12,25 +12,40 @@
 }
 
 .image-wrap {
-  grid-column: 3 / span 4;
-  grid-row: 1 / span 3;
+  grid-column: 1 / -1;
+  grid-row: 1 / span 1;
+  max-height: 100vh;
+  overflow: hidden;
   position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
 }
 
 .title-wrap {
-  grid-column: 7 / span 3;
-  grid-row: 2 / span 1;
+  grid-column: 5 / span 4;
+  grid-row: 1 / span 1;
   position: relative;
   z-index: 2;
+  margin-top: auto;
+  padding-bottom: 2em;
 }
 
 .title {
-  font-size: 64px;
-  letter-spacing: 0.1px;
+  font-size: 4em;
+  letter-spacing: 0.2px;
   margin: 0;
-  grid-row: 1 / span 3;
   display: flex;
-  height: 100%;
   align-items: center;
   z-index: 1;
   color: var(--cfye);

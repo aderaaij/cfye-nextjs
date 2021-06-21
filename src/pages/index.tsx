@@ -1,7 +1,7 @@
 import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
 import { FrontpagePostsQuery } from 'types';
-import HeroPost from '@/components/HeroPost';
+import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
@@ -36,14 +36,14 @@ const Index: React.FC<Props> = ({ data }) => {
       />
 
       <div className="content-width content-width--container">
-        {featuredPost && <HeroPost post={featuredPost} isEven={false} />}
+        {featuredPost && <ExcerptHero post={featuredPost} isEven={false} />}
         <Excerpts edges={newWorkPosts.edges} />
 
         {/* <hr className="fp-hr" /> */}
 
         <h2 className="section-title">Interviews</h2>
         {featuredInterview && (
-          <HeroPost post={featuredInterview} isEven={true} />
+          <ExcerptHero post={featuredInterview} isEven={true} />
         )}
         <Excerpts isEven={true} edges={interviewsPosts.edges.slice(1)} />
       </div>
@@ -58,7 +58,7 @@ const Index: React.FC<Props> = ({ data }) => {
         <h2 className="section-title">Features</h2>
         {featuresPosts && (
           <div className="full-width">
-            <HeroPost post={featuresPosts?.edges[0].node} isEven={false} />
+            <ExcerptHero post={featuresPosts?.edges[0].node} isEven={false} />
           </div>
         )}
         <Excerpts edges={featuresPosts.edges.slice(1)} />

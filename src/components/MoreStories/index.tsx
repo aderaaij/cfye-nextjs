@@ -1,5 +1,5 @@
 import { PostExcerptFieldsFragment } from 'types';
-import HeroPost from '../HeroPost';
+import ExcerptHero from '../ExcerptHero';
 
 interface Props {
   posts: Array<PostExcerptFieldsFragment>;
@@ -9,7 +9,7 @@ const MoreStories: React.FC<Props> = ({ posts }) => {
   return (
     <section>
       {posts.map(({ node }) => (
-        <HeroPost key={node.id} post={node} />
+        <ExcerptHero key={node.id} post={node} />
       ))}
     </section>
   );

@@ -38,7 +38,7 @@ const PostHeader: React.FC<Props> = ({
           title={title}
           coverImage={coverImage}
           priority={true}
-          sizes={{ width: 900, height: 900 }}
+          sizes={{ width: 1600, height: 1200 }}
         />
       </motion.div>
       <header className={styles['title-wrap']}>

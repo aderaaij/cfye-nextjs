@@ -7,13 +7,14 @@ import { limitText } from 'utils/limitCharacters';
 import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
 import TagList from '@/components/TagList';
-import styles from './HeroPost.module.scss';
+import styles from './ExcerptHero.module.scss';
+
 interface Props {
   post: PostExcerptFieldsFragment['node'];
   isEven?: boolean;
 }
 
-const HeroPost: React.FC<Props> = ({ post, isEven }) => {
+const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
   const {
     slug,
     featuredImageSettings,
@@ -92,4 +93,4 @@ const HeroPost: React.FC<Props> = ({ post, isEven }) => {
     </article>
   );
 };
-export default HeroPost;
+export default ExcerptHero;
