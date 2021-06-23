@@ -1,0 +1,47 @@
+.article {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+  margin-bottom: 0.5em;
+
+  @media screen and (min-width: 1024px) {
+    display: block;
+  }
+}
+
+.image-wrap {
+  width: 140px;
+  overflow: hidden;
+
+  @media screen and (min-width: 1024px) {
+    width: auto;
+    height: auto;
+  }
+}
+
+.title {
+  font-size: 1.25rem;
+  margin: 0;
+
+  @media screen and (min-width: 1024px) {
+    width: auto;
+    height: auto;
+    font-size: 2.5em;
+  }
+
+  a {
+    color: var(--cfye);
+  }
+}
+
+.text-wrap {
+  grid-column: span 2;
+}
+
+.text {
+  display: none;
+
+  @media screen and (min-width: 1024px) {
+    display: block;
+  }
+}
