@@ -18,7 +18,7 @@ export const FRONTPAGE_QUERY = gql`
       }
     }
     newWorkPosts: posts(
-      first: 5
+      first: 4
       where: { categoryId: 954, onlySticky: false }
     ) {
       edges {
@@ -27,7 +27,7 @@ export const FRONTPAGE_QUERY = gql`
       }
     }
     interviewsPosts: posts(
-      first: 7
+      first: 5
       where: { categoryId: 11, onlySticky: false }
     ) {
       edges {
@@ -42,7 +42,7 @@ export const FRONTPAGE_QUERY = gql`
       }
     }
     featuresPosts: posts(
-      first: 7
+      first: 5
       where: { categoryId: 13, onlySticky: false }
     ) {
       edges {

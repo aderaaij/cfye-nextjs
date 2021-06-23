@@ -46,7 +46,7 @@ h4,
 h5,
 h6 {
   font-family: var(--header-font);
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal;
   color: var(--cfye);
 }
@@ -106,7 +106,10 @@ p {
   display: grid;
   grid-template-rows: auto;
   row-gap: 8vw;
-  margin: 4vw 0;
+
+  @media screen and (min-width: 1024px) {
+    margin: 4vw 0;
+  }
 
   &--container {
     grid-column: 1 / -1;

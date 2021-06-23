@@ -1,14 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './ArtistsExcerpt.module.scss';
-
 import { MediaItem } from 'types';
 import { limitText } from 'utils/limitCharacters';
 
 interface Props {
   title: string;
   image: MediaItem;
-
   slug: string;
 }
 

@@ -5,9 +5,9 @@ import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
-import Excerpts from '@/components/Excerpts';
 import FullWidthPost from '@/components/FullWidthPost';
 import MetaPage from '@/components/MetaPage';
+import ExcerptsSmall from '@/components/ExcerptsSmall';
 interface Props {
   data: FrontpagePostsQuery;
 }
@@ -37,15 +37,13 @@ const Index: React.FC<Props> = ({ data }) => {
 
       <div className="content-width content-width--container">
         {featuredPost && <ExcerptHero post={featuredPost} isEven={false} />}
-        <Excerpts edges={newWorkPosts.edges} />
-
-        {/* <hr className="fp-hr" /> */}
+        <ExcerptsSmall edges={newWorkPosts.edges} />
 
         <h2 className="section-title">Interviews</h2>
         {featuredInterview && (
           <ExcerptHero post={featuredInterview} isEven={true} />
         )}
-        <Excerpts isEven={true} edges={interviewsPosts.edges.slice(1)} />
+        <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
       </div>
 
       {featuredCfyeXPost && (
@@ -61,7 +59,7 @@ const Index: React.FC<Props> = ({ data }) => {
             <ExcerptHero post={featuresPosts?.edges[0].node} isEven={false} />
           </div>
         )}
-        <Excerpts edges={featuresPosts.edges.slice(1)} />
+        <ExcerptsSmall edges={featuresPosts.edges.slice(1)} />
       </div>
     </Layout>
   );

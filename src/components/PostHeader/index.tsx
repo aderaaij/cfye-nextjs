@@ -27,6 +27,7 @@ const PostHeader: React.FC<Props> = ({
   date,
   featuredImageSettings,
   slug,
+  author,
 }) => {
   return (
     <div className={styles['post-header']}>
@@ -45,7 +46,12 @@ const PostHeader: React.FC<Props> = ({
         <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
           {title}
         </motion.h3>
-        <Date dateString={date} />
+        <div className={styles['header-meta']}>
+          <Date dateString={date} />
+          <span className={styles['author-meta']}>
+            {author.firstName} {author.lastName}
+          </span>
+        </div>
       </header>
     </div>
   );

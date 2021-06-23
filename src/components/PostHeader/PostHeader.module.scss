@@ -50,3 +50,16 @@
   z-index: 1;
   color: var(--cfye);
 }
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.author-meta {
+  color: var(--meta);
+  font-family: var(--header-font);
+  text-transform: uppercase;
+  margin-left: 1em;
+}

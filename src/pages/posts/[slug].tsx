@@ -75,7 +75,7 @@ const Post: React.FC<Props> = () => {
               <PostBody blocks={post.blocks} content={post.content} />
               <footer>
                 {/* {post.postSettingsField?.artistPost?.title} */}
-                {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
+                {/* {post.tags.edges.length > 0 && <Tags tags={post.tags} />} */}
               </footer>
             </motion.article>
           </>
