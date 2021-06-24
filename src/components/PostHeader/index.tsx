@@ -46,12 +46,12 @@ const PostHeader: React.FC<Props> = ({
         <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
           {title}
         </motion.h3>
-        <div className={styles['header-meta']}>
+        {/* <div className={styles['header-meta']}>
           <Date dateString={date} />
           <span className={styles['author-meta']}>
             {author.firstName} {author.lastName}
           </span>
-        </div>
+        </div> */}
       </header>
     </div>
   );

@@ -2,10 +2,10 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: var(--grid-columns-template);
-  grid-template-rows: var(--grid-row-size);
-  grid-auto-rows: var(--grid-row-size);
-  grid-auto-flow: row;
-  gap: var(--grid-gap-size);
+  // display: grid;
+  // grid-template-columns: var(--grid-columns-template);
+  // grid-template-rows: var(--grid-row-size);
+  // grid-auto-rows: var(--grid-row-size);
+  // grid-auto-flow: row;
+  // gap: var(--grid-gap-size);
 }

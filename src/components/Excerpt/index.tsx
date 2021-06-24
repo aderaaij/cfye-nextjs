@@ -13,16 +13,20 @@ const Excerpt: React.FC<Props> = ({ node }) => {
   return (
     <article className={styles['article']}>
       <div className={styles['image-wrap']}>
-        <Image
-          placeholder="blur"
-          blurDataURL={node.featuredImage.node.thumbnail}
-          src={node.featuredImage.node.sourceUrl}
-          className={styles['image']}
-          width={1200}
-          height={800}
-          layout="intrinsic"
-          objectFit="fill"
-        />
+        <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
+          <a>
+            <Image
+              placeholder="blur"
+              blurDataURL={node.featuredImage.node.thumbnail}
+              src={node.featuredImage.node.sourceUrl}
+              className={styles['image']}
+              width={1200}
+              height={800}
+              layout="intrinsic"
+              objectFit="fill"
+            />
+          </a>
+        </Link>
       </div>
 
       <div className={styles['text-wrap']}>

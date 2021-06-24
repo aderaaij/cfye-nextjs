@@ -2,25 +2,25 @@
   grid-column: 3 / 10;
   padding: 0;
   position: relative;
-  margin: 0;
+  margin: 4em 0;
 
   img {
     width: 100%;
     height: auto;
-    max-height: 100vh;
+    // max-height: 100vh;
     object-fit: contain;
     display: block;
   }
 
   &.is-style-cover-screen {
     grid-column: 1 / -1;
-    height: 100vh;
+    margin: 4em 0;
   }
 
   &.is-style-cover-screen img {
     width: 100%;
-    height: 100%;
     object-fit: cover;
+    aspect-ratio: 16 / 9;
   }
 
   figcaption {

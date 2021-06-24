@@ -6,8 +6,9 @@
   --header-font: protipo-narrow, sans-serif;
   --body-font: maecenas, serif;
   --grid-row-size: 14.2vw;
-  --grid-gap-size: 2vw;
-  --grid-columns-template: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  --grid-gap-size: 2em;
+  --grid-columns-template: 1vw 2vw 4% repeat(5, 1fr) 4% 2vw 1vw;
+  // --grid-columns-template-simple:  1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
   --max-width: 2160px;
 }
 
@@ -136,15 +137,14 @@ p {
 
 .main {
   display: grid;
-  grid-template-columns: 1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  grid-template-columns: 1vw 2vw 4% repeat(5, 1fr) 4% 2vw 1vw;
   gap: var(--grid-gap-size);
   width: 100%;
-  max-width: 2160px;
   margin: 0 auto;
 }
 
 .category-wrap {
   grid-column: 3 / -3;
   display: grid;
-  gap: 4vw;
+  gap: 2em;
 }

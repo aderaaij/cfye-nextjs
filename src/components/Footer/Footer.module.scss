@@ -10,7 +10,7 @@
     display: grid;
     grid-template-columns: var(--grid-columns-template);
     grid-column-gap: var(--grid-gap-size);
-    grid-row-gap: 4em;
+    grid-row-gap: 2em;
     grid-template-rows: auto;
   }
 }
