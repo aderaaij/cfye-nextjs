@@ -3,7 +3,7 @@ import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
 import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
-import { POSTS_QUERY } from '@/graphql/queries/posts';
+import { POSTS_QUERY_OFFSET } from '@/graphql/queries/posts_offset';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
@@ -44,11 +44,12 @@ export const getStaticProps = async ({
   params,
 }): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
+  console.log((parseInt(params.page) - 1) * 20);
   const res = await apolloClient.query({
-    query: POSTS_QUERY,
+    query: POSTS_QUERY_OFFSET,
     variables: {
-      after: '',
-      first: 10,
+      offset: (parseInt(params.page) - 1) * 20,
+      size: 20,
       categoryName: params.slug,
       id: params.slug,
     },
@@ -62,16 +63,24 @@ export const getStaticProps = async ({
   };
 };
 
-export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
+export const getStaticPaths = async (
+  ...args
+): Promise<GetStaticPathsResult> => {
+  console.log(args);
   const apolloClient: ApolloClient<any> = initializeApollo();
   const categoryData = await apolloClient.query({
     query: ALL_CATEGORIES,
   });
+
+  const paths = [];
+  categoryData.data.categories.edges.forEach(({ node }) => {
+    const totalPages = Math.ceil(node.count / 20);
+    for (let page = 2; page <= totalPages; page++) {
+      paths.push(`/category/${node.slug}/${page}`);
+    }
+  });
   return {
-    paths:
-      categoryData.data.categories.edges.map(({ node }) => {
-        return `/category/${node.slug}`;
-      }) || [],
+    paths: paths,
     fallback: false,
   };
 };

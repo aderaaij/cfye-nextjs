@@ -2,14 +2,12 @@ import { gql } from '@apollo/client';
 import { POST_EXCERPT_FIELDS } from '../fragments/PostExcerptFields';
 export const FRONTPAGE_QUERY = gql`
   ${POST_EXCERPT_FIELDS}
-  query frontpagePosts($first: Int!, $after: String) {
+  query frontpagePosts {
     settings: allSettings {
       generalSettingsDescription
       generalSettingsTitle
     }
     stickyPosts: posts(
-      first: $first
-      after: $after
       where: { onlySticky: true, orderby: { field: DATE, order: DESC } }
     ) {
       edges {

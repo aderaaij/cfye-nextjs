@@ -37,9 +37,15 @@ const Index: React.FC<Props> = ({ data }) => {
 
       <div className="content-width content-width--container">
         {featuredPost && <ExcerptHero post={featuredPost} isEven={false} />}
+
+        <h2 className="sep-title">
+          <span>New Work</span>
+        </h2>
         <ExcerptsSmall edges={newWorkPosts.edges} />
 
-        <h2 className="section-title">Interviews</h2>
+        <h2 className="sep-title">
+          <span>Interviews</span>
+        </h2>
         {featuredInterview && (
           <ExcerptHero post={featuredInterview} isEven={true} />
         )}
@@ -53,7 +59,9 @@ const Index: React.FC<Props> = ({ data }) => {
       )}
 
       <div className="content-width content-width--container">
-        <h2 className="section-title">Features</h2>
+        <h2 className="sep-title">
+          <span>Features</span>
+        </h2>
         {featuresPosts && (
           <div className="full-width">
             <ExcerptHero post={featuresPosts?.edges[0].node} isEven={false} />
@@ -71,11 +79,8 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
 
   const result = await apolloClient.query({
+    fetchPolicy: 'no-cache',
     query: FRONTPAGE_QUERY,
-    variables: {
-      after: '',
-      first: 10,
-    },
   });
   return {
     props: {

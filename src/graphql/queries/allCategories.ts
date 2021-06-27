@@ -10,6 +10,7 @@ export const ALL_CATEGORIES = gql`
           description
           name
           slug
+          count
         }
       }
     }

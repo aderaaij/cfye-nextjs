@@ -5,10 +5,11 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { relayStylePagination } from '@apollo/client/utilities';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
-
+// https://developers.wpengine.com/blog/apollo-client-cache-rehydration-in-next-js
 function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
@@ -17,7 +18,14 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     }),
 
     cache: new InMemoryCache({
-      resultCaching: false,
+      // resultCaching: false,
+      typePolicies: {
+        Query: {
+          fields: {
+            posts: relayStylePagination(['categoryPosts']),
+          },
+        },
+      },
     }),
   });
 }

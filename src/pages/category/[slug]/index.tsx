@@ -4,7 +4,7 @@ import { ApolloClient } from '@apollo/client';
 import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
-import { ALL_TAGS } from '@/graphql/queries/allTags';
+import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
@@ -12,22 +12,21 @@ import MetaPage from '@/components/MetaPage';
 interface Props {
   data: CategoryPostsQuery;
 }
-const TagPage: React.FC<Props> = ({ data }) => {
+const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const { categoryPosts, tagDetails } = data;
+  const { categoryPosts, categoryDetails } = data;
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
   };
-
   return (
     <Layout preview={false}>
-      {tagDetails && (
+      {categoryDetails && (
         <MetaPage
-          description={tagDetails.description}
-          title={tagDetails.name}
+          description={categoryDetails.description}
+          title={categoryDetails.name}
         />
       )}
       <div className="category-wrap">
@@ -39,7 +38,7 @@ const TagPage: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default TagPage;
+export default CategoryPage;
 
 export const getStaticProps = async ({
   params,
@@ -50,7 +49,7 @@ export const getStaticProps = async ({
     variables: {
       after: '',
       first: 20,
-      tagName: params.slug,
+      categoryName: params.slug,
       id: params.slug,
     },
   });
@@ -65,14 +64,14 @@ export const getStaticProps = async ({
 
 export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const apolloClient: ApolloClient<any> = initializeApollo();
-  const tagData = await apolloClient.query({
-    query: ALL_TAGS,
+  const categoryData = await apolloClient.query({
+    query: ALL_CATEGORIES,
   });
   return {
     paths:
-      tagData.data.tags.edges.map(({ node }) => {
-        return `/tag/${node.slug}`;
+      categoryData.data.categories.edges.map(({ node }) => {
+        return `/category/${node.slug}`;
       }) || [],
-    fallback: true,
+    fallback: false,
   };
 };

@@ -106,10 +106,10 @@ p {
 .content-width {
   display: grid;
   grid-template-rows: auto;
-  row-gap: 8vw;
+  row-gap: 4em;
 
   @media screen and (min-width: 1024px) {
-    margin: 4vw 0;
+    margin: 4em 0;
   }
 
   &--container {
@@ -146,5 +146,30 @@ p {
 .category-wrap {
   grid-column: 3 / -3;
   display: grid;
-  gap: 2em;
+  gap: 8em;
+  margin: 8em 0;
+}
+
+.sep-title {
+  font-style: italic;
+  // text-transform: uppercase;
+  font-size: 3rem;
+  line-height: 0.75;
+  position: relative;
+
+  span {
+    background: #fff;
+    display: inline;
+    padding-right: 1rem;
+  }
+
+  &::before {
+    content: '';
+    z-index: -1;
+    width: 100%;
+    height: 2px;
+    background-color: var(--cfye);
+    position: absolute;
+    top: 50%;
+  }
 }
