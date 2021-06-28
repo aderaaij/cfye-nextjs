@@ -1,0 +1,10 @@
+.pagination {
+  display: flex;
+  gap: 1em;
+  font-family: var(--header-font);
+  text-transform: uppercase;
+
+  a {
+    color: var(--cfye);
+  }
+}
