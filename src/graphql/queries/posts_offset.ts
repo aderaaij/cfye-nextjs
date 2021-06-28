@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { POST_EXCERPT_FIELDS } from '../fragments/PostExcerptFields';
 export const POSTS_QUERY_OFFSET = gql`
   ${POST_EXCERPT_FIELDS}
-  query categoryPosts(
+  query categoryPostsOffset(
     $categoryName: String
     $tagName: String
     $id: ID!
@@ -21,6 +21,11 @@ export const POSTS_QUERY_OFFSET = gql`
         endCursor
         startCursor
         hasNextPage
+        offsetPagination {
+          hasMore
+          hasPrevious
+          total
+        }
       }
       edges {
         cursor

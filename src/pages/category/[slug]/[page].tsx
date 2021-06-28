@@ -6,18 +6,28 @@ import Layout from '@/components/Layout';
 import { POSTS_QUERY_OFFSET } from '@/graphql/queries/posts_offset';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
-import { CategoryPostsQuery } from 'types';
+import { CategoryPostsOffsetQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
+import { useRouter } from 'next/router';
+import Pagination from '@/components/Pagination';
 
 interface Props {
-  data: CategoryPostsQuery;
+  data: CategoryPostsOffsetQuery;
 }
 const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const { categoryPosts, categoryDetails } = data;
+  const router = useRouter();
+  const currentPage: string = Array.isArray(router.query.page)
+    ? router.query.page[0]
+    : router.query.page;
 
+  const currentSlug: string = Array.isArray(router.query.slug)
+    ? router.query.slug[0]
+    : router.query.slug;
+
+  const { categoryPosts, categoryDetails } = data;
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
   };
@@ -30,6 +40,11 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
         />
       )}
       <div className="category-wrap">
+        <Pagination
+          offsetPagination={categoryPosts.pageInfo.offsetPagination}
+          slug={currentSlug}
+          currentPage={parseInt(currentPage)}
+        />
         {categoryPosts.edges.map(({ node }, index) => (
           <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
         ))}
@@ -44,7 +59,6 @@ export const getStaticProps = async ({
   params,
 }): Promise<GetStaticPropsResult<any>> => {
   const apolloClient = initializeApollo();
-  console.log((parseInt(params.page) - 1) * 20);
   const res = await apolloClient.query({
     query: POSTS_QUERY_OFFSET,
     variables: {
@@ -63,10 +77,7 @@ export const getStaticProps = async ({
   };
 };
 
-export const getStaticPaths = async (
-  ...args
-): Promise<GetStaticPathsResult> => {
-  console.log(args);
+export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const apolloClient: ApolloClient<any> = initializeApollo();
   const categoryData = await apolloClient.query({
     query: ALL_CATEGORIES,

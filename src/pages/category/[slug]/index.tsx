@@ -8,6 +8,7 @@ import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
 import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
+import Pagination from '@/components/Pagination';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -16,7 +17,10 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
+  const postCount = 20;
   const { categoryPosts, categoryDetails } = data;
+  const { offsetPagination } = categoryPosts.pageInfo;
+  const totalPages = Math.ceil(offsetPagination.total / postCount);
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
@@ -33,6 +37,13 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
         {categoryPosts.edges.map(({ node }, index) => (
           <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
         ))}
+        {totalPages > 1 && (
+          <Pagination
+            offsetPagination={offsetPagination}
+            currentPage={1}
+            slug={categoryDetails.name.toLocaleLowerCase()}
+          />
+        )}
       </div>
     </Layout>
   );

@@ -5686,6 +5686,25 @@ export type NodeWithTrackbacks = {
   toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+/** Offset pagination input type */
+export type OffsetPagination = {
+  /** Number of post to show per page. Passed to posts_per_page of WP_Query. */
+  offset?: Maybe<Scalars['Int']>;
+  /** Number of post to show per page. Passed to posts_per_page of WP_Query. */
+  size?: Maybe<Scalars['Int']>;
+};
+
+/** Get information about the offset pagination state */
+export type OffsetPaginationPageInfo = {
+  __typename?: 'OffsetPaginationPageInfo';
+  /** True if there is one or more nodes available in this connection. Eg. you can increase the offset at least by one. */
+  hasMore?: Maybe<Scalars['Boolean']>;
+  /** True when offset can be decresed eg. offset is 0&lt; */
+  hasPrevious?: Maybe<Scalars['Boolean']>;
+  /** Total amount of nodes in this connection */
+  total?: Maybe<Scalars['Int']>;
+};
+
 /** The cardinality of the connection order */
 export enum OrderEnum {
   /** Sort the query result set in an ascending order */
@@ -8370,6 +8389,8 @@ export type RootQueryToArtistConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate Artists with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -8436,6 +8457,8 @@ export type RootQueryToBlockEditorPreviewConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate BlockEditorPreviews with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -8644,6 +8667,8 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate content nodes with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -8828,6 +8853,8 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate MediaItems with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -8956,6 +8983,8 @@ export type RootQueryToPageConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate Pages with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -9050,6 +9079,8 @@ export type RootQueryToPostConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate Posts with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** Whether to only include sticky posts */
   onlySticky?: Maybe<Scalars['Boolean']>;
   /** What paramater to use to order the objects by. */
@@ -9186,6 +9217,8 @@ export type RootQueryToReusableBlockConnectionWhereArgs = {
   nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
   notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Paginate ReusableBlocks with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
@@ -9416,6 +9449,8 @@ export type RootQueryToUserConnectionWhereArgs = {
   nicenameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** An array of nicenames to exclude. Users matching one of these nicenames will not be included in results. */
   nicenameNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Paginate users with offsets */
+  offsetPagination?: Maybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<UsersConnectionOrderbyInput>>>;
   /** An array of role names that users must match to be included in results. Note that this is an inclusive list: users must match *each* role. */
@@ -12098,6 +12133,8 @@ export type WpPageInfo = {
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'];
+  /** Get information about the offset pagination state in the current connection */
+  offsetPagination?: Maybe<OffsetPaginationPageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']>;
 };
@@ -12253,7 +12290,7 @@ export type Unnamed_1_Query = (
       { __typename?: 'RootQueryToCategoryConnectionEdge' }
       & { node?: Maybe<(
         { __typename?: 'Category' }
-        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug'>
+        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
       )> }
     )>>> }
   )> }
@@ -12324,10 +12361,7 @@ export type ArtistsQuery = (
   )> }
 );
 
-export type FrontpagePostsQueryVariables = Exact<{
-  first: Scalars['Int'];
-  after?: Maybe<Scalars['String']>;
-}>;
+export type FrontpagePostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FrontpagePostsQuery = (
@@ -12560,6 +12594,44 @@ export type CategoryPostsQuery = (
     & { pageInfo?: Maybe<(
       { __typename?: 'WPPageInfo' }
       & Pick<WpPageInfo, 'endCursor' | 'startCursor' | 'hasNextPage'>
+      & { offsetPagination?: Maybe<(
+        { __typename?: 'OffsetPaginationPageInfo' }
+        & Pick<OffsetPaginationPageInfo, 'hasMore' | 'hasPrevious' | 'total'>
+      )> }
+    )>, edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToPostConnectionEdge' }
+      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
+      & PostExcerptFieldsFragment
+    )>>> }
+  )>, categoryDetails?: Maybe<(
+    { __typename?: 'Category' }
+    & Pick<Category, 'id' | 'description' | 'name'>
+  )>, tagDetails?: Maybe<(
+    { __typename?: 'Tag' }
+    & Pick<Tag, 'id' | 'description' | 'name'>
+  )> }
+);
+
+export type CategoryPostsOffsetQueryVariables = Exact<{
+  categoryName?: Maybe<Scalars['String']>;
+  tagName?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  offset: Scalars['Int'];
+  size: Scalars['Int'];
+}>;
+
+
+export type CategoryPostsOffsetQuery = (
+  { __typename?: 'RootQuery' }
+  & { categoryPosts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
+    & { pageInfo?: Maybe<(
+      { __typename?: 'WPPageInfo' }
+      & Pick<WpPageInfo, 'endCursor' | 'startCursor' | 'hasNextPage'>
+      & { offsetPagination?: Maybe<(
+        { __typename?: 'OffsetPaginationPageInfo' }
+        & Pick<OffsetPaginationPageInfo, 'hasMore' | 'hasPrevious' | 'total'>
+      )> }
     )>, edges?: Maybe<Array<Maybe<(
       { __typename?: 'RootQueryToPostConnectionEdge' }
       & Pick<RootQueryToPostConnectionEdge, 'cursor'>

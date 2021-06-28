@@ -22,6 +22,11 @@ export const POSTS_QUERY = gql`
         endCursor
         startCursor
         hasNextPage
+        offsetPagination {
+          hasMore
+          hasPrevious
+          total
+        }
       }
       edges {
         cursor
