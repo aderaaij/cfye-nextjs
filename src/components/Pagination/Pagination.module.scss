@@ -6,5 +6,33 @@
 
   a {
     color: var(--cfye);
+    padding: 1em;
+  }
+
+  &.is-active {
+    border: 1px solid var(--cfye);
+    border: 3px;
+  }
+}
+
+.numbersList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.listItem {
+  border: 1px solid #ececec;
+  display: flex;
+  margin: 0 0.25em;
+  transition: border 0.2s ease-in;
+
+  &:hover {
+    border: 1px solid var(--cfye);
+  }
+
+  &--active {
+    border-color: var(--cfye);
   }
 }

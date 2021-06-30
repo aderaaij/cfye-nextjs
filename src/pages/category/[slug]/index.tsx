@@ -1,14 +1,14 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
-import ExcerptHero from '@/components/ExcerptHero';
-import Layout from '@/components/Layout';
+import { CategoryPostsQuery } from 'types';
+import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
-import { initializeApollo } from '@/lib/apolloClient';
-import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
 import Pagination from '@/components/Pagination';
+import ExcerptHero from '@/components/ExcerptHero';
+import Layout from '@/components/Layout';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -41,6 +41,7 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
           <Pagination
             offsetPagination={offsetPagination}
             currentPage={1}
+            taxonomy={'category'}
             slug={categoryDetails.name.toLocaleLowerCase()}
           />
         )}

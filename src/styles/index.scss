@@ -6,9 +6,9 @@
   --header-font: protipo-narrow, sans-serif;
   --body-font: maecenas, serif;
   --grid-row-size: 14.2vw;
-  --grid-gap-size: 2em;
-  --grid-columns-template: 1vw 2vw 4% repeat(5, 1fr) 4% 2vw 1vw;
-  // --grid-columns-template-simple:  1vw 2vw 4vw repeat(5, 1fr) 4vw 2vw 1vw;
+  --grid-gap-size: 1em;
+  --grid-columns-template: minmax(1em, 1vw) minmax(2em, 2vw) 4% repeat(5, 1fr)
+    4% minmax(2em, 2vw) minmax(1em, 1vw);
   --max-width: 2160px;
 }
 
@@ -113,7 +113,7 @@ p {
   }
 
   &--container {
-    grid-column: 1 / -1;
+    grid-column: 2 / -2;
 
     @media screen and (min-width: 1024px) {
       grid-column: 3 / -3;
@@ -137,8 +137,8 @@ p {
 
 .main {
   display: grid;
-  grid-template-columns: 1vw 2vw 4% repeat(5, 1fr) 4% 2vw 1vw;
-  gap: var(--grid-gap-size);
+  grid-template-columns: var(--grid-columns-template);
+  // gap: var(--grid-gap-size);
   width: 100%;
   margin: 0 auto;
 }
@@ -152,7 +152,6 @@ p {
 
 .sep-title {
   font-style: italic;
-  // text-transform: uppercase;
   font-size: 3rem;
   line-height: 0.75;
   position: relative;

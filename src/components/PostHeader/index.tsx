@@ -1,5 +1,5 @@
 import { ImageProps } from 'next/image';
-
+import Link from 'next/link';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.scss';
@@ -46,12 +46,17 @@ const PostHeader: React.FC<Props> = ({
         <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
           {title}
         </motion.h3>
-        {/* <div className={styles['header-meta']}>
+        <div className={styles['header-meta']}>
           <Date dateString={date} />
           <span className={styles['author-meta']}>
-            {author.firstName} {author.lastName}
+            By{' '}
+            <Link href={author.slug}>
+              <a>
+                {author.firstName} {author.lastName}
+              </a>
+            </Link>
           </span>
-        </div> */}
+        </div>
       </header>
     </div>
   );

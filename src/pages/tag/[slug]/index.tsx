@@ -8,6 +8,7 @@ import { ALL_TAGS } from '@/graphql/queries/allTags';
 import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
+import Pagination from '@/components/Pagination';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -34,6 +35,12 @@ const TagPage: React.FC<Props> = ({ data }) => {
         {categoryPosts.edges.map(({ node }, index) => (
           <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
         ))}
+        <Pagination
+          offsetPagination={categoryPosts.pageInfo.offsetPagination}
+          slug={tagDetails.name.toLocaleLowerCase()}
+          taxonomy={'tag'}
+          currentPage={1}
+        />
       </div>
     </Layout>
   );

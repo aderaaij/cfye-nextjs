@@ -5,7 +5,6 @@
   flex-direction: column;
 
   @media screen and (min-width: 768px) {
-    // padding: 0 1em;
     display: grid;
     grid-template-columns: 4% repeat(5, 1fr) 4%;
     gap: var(--grid-gap-size);
@@ -151,7 +150,6 @@
   p {
     margin: 0;
     font-size: 1.375em;
-    // display: none;
     max-width: 90ch;
 
     @media screen and (min-width: 1024px) {
@@ -174,14 +172,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  // align-items: center;
   justify-content: center;
   z-index: 1;
-  padding: 0 1em;
-
-  @media screen and (min-width: 768px) {
-    padding: 0;
-  }
 }
 
 .title {
@@ -230,11 +222,6 @@
   color: var(--meta);
   font-style: italic;
   font-size: 1.125em;
-  padding: 0 1em;
-
-  @media screen and (min-width: 768px) {
-    padding: 0;
-  }
 
   a {
     color: var(--cfye);

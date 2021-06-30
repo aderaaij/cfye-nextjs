@@ -1,13 +1,13 @@
 import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
 import { FrontpagePostsQuery } from 'types';
-import ExcerptHero from '@/components/ExcerptHero';
-import Layout from '@/components/Layout';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
 import FullWidthPost from '@/components/FullWidthPost';
 import MetaPage from '@/components/MetaPage';
 import ExcerptsSmall from '@/components/ExcerptsSmall';
+import ExcerptHero from '@/components/ExcerptHero';
+import Layout from '@/components/Layout';
 interface Props {
   data: FrontpagePostsQuery;
 }

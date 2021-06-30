@@ -1,13 +1,16 @@
 .post-header {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: var(--grid-columns-template);
 
   @media screen and (min-width: 768px) {
-    display: grid;
-    grid-template-columns: var(--grid-columns-template);
-    gap: var(--grid-gap-size);
     margin: 0 auto;
+    gap: var(--grid-gap-size);
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-bottom: 2em;
   }
 }
 
@@ -19,47 +22,82 @@
   position: relative;
 
   &::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0) 40%,
-      rgba(0, 0, 0, 1) 100%
-    );
+    @media screen and (min-width: 768px) {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 40%,
+        rgba(0, 0, 0, 1) 100%
+      );
+    }
   }
 }
 
 .title-wrap {
-  grid-column: 5 / span 4;
-  grid-row: 1 / span 1;
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  padding-bottom: 2em;
+  grid-column: 2 / -2;
+
+  @media screen and (min-width: 768px) {
+    grid-column: 4 / -4;
+    grid-row: 1 / span 1;
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media screen and (min-width: 1280px) {
+    grid-column: 5 / span 4;
+  }
 }
 
 .title {
-  font-size: 4em;
+  font-size: 2em;
   letter-spacing: 0.2px;
-  margin: 0;
+  margin: 1em 0 0;
   display: flex;
   align-items: center;
   z-index: 1;
   color: var(--cfye);
+  text-align: left;
+
+  @media screen and (min-width: 768px) {
+    font-size: 3.25em;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 1024px) {
+    font-size: 4em;
+  }
 }
 
 .header-meta {
   display: flex;
   align-items: center;
-  color: #fff;
+  position: relative;
+  z-index: 2;
+  color: var(--meta);
+  font-family: var(--body-font);
+  font-size: 1.125em;
+  font-weight: 300;
+  margin: 0.5em 0 1em;
+
+  @media screen and (min-width: 768px) {
+    color: #fff;
+  }
 }
 
 .author-meta {
-  color: var(--meta);
-  font-family: var(--header-font);
-  text-transform: uppercase;
   margin-left: 1em;
+
+  a {
+    color: var(--meta);
+    text-decoration: underline;
+
+    @media screen and (min-width: 768px) {
+      color: #fff;
+    }
+  }
 }

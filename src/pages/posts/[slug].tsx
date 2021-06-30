@@ -1,10 +1,8 @@
+import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
+import { motion } from 'framer-motion';
 import { useQuery } from '@apollo/client';
-import PostBody from '@/components/PostBody';
-import PostHeader from '@/components/PostHeader';
-import Layout from '@/components/Layout';
-import PostTitle from '@/components/PostTitle';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
   Post as GeneratedPostType,
@@ -15,11 +13,13 @@ import {
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
-import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Tags from '@/components/Tags';
-import styles from './Post.module.scss';
-import { motion } from 'framer-motion';
 import MetaPage from '@/components/MetaPage';
+import PostBody from '@/components/PostBody';
+import PostHeader from '@/components/PostHeader';
+import Layout from '@/components/Layout';
+import PostTitle from '@/components/PostTitle';
+import styles from './Post.module.scss';
 
 interface Props {
   data: PostBySlugQuery;

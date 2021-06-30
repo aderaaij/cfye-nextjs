@@ -2,7 +2,11 @@
   grid-column: 3 / 10;
   padding: 0;
   position: relative;
-  margin: 4em 0;
+  margin: 2em 0;
+
+  @media screen and (min-width: 768px) {
+    margin: 4em 0;
+  }
 
   img {
     width: 100%;
@@ -14,7 +18,11 @@
 
   &.is-style-cover-screen {
     grid-column: 1 / -1;
-    margin: 4em 0;
+    margin: 2em 0;
+
+    @media screen and (min-width: 768px) {
+      margin: 4em 0;
+    }
   }
 
   &.is-style-cover-screen img {

@@ -5,6 +5,7 @@ export const AuthorFields = gql`
     name
     firstName
     lastName
+    slug
     avatar {
       url
     }

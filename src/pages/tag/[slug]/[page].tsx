@@ -5,7 +5,7 @@ import { ApolloClient } from '@apollo/client';
 import { CategoryPostsOffsetQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY_OFFSET } from '@/graphql/queries/posts_offset';
-import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
+import { ALL_TAGS } from '@/graphql/queries/allTags';
 import MetaPage from '@/components/MetaPage';
 import Pagination from '@/components/Pagination';
 import ExcerptHero from '@/components/ExcerptHero';
@@ -14,7 +14,7 @@ import Layout from '@/components/Layout';
 interface Props {
   data: CategoryPostsOffsetQuery;
 }
-const CategoryPage: React.FC<Props> = ({ data }) => {
+const TagPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
@@ -46,15 +46,15 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
         <Pagination
           offsetPagination={categoryPosts.pageInfo.offsetPagination}
           slug={currentSlug}
+          taxonomy={'tag'}
           currentPage={parseInt(currentPage)}
-          taxonomy={'category'}
         />
       </div>
     </Layout>
   );
 };
 
-export default CategoryPage;
+export default TagPage;
 
 export const getStaticProps = async ({
   params,
@@ -65,7 +65,7 @@ export const getStaticProps = async ({
     variables: {
       offset: (parseInt(params.page) - 1) * 20,
       size: 20,
-      categoryName: params.slug,
+      tagName: params.slug,
       id: params.slug,
     },
   });
@@ -80,15 +80,18 @@ export const getStaticProps = async ({
 
 export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const apolloClient: ApolloClient<any> = initializeApollo();
-  const categoryData = await apolloClient.query({
-    query: ALL_CATEGORIES,
+  const tagData = await apolloClient.query({
+    query: ALL_TAGS,
   });
 
   const paths = [];
-  categoryData.data.categories.edges.forEach(({ node }) => {
+  tagData.data.tags.edges.forEach(({ node }) => {
+    console.log(node.count);
     const totalPages = Math.ceil(node.count / 20);
+    console.log(totalPages);
     for (let page = 2; page <= totalPages; page++) {
-      paths.push(`/category/${node.slug}/${page}`);
+      console.log(node.slug, page);
+      paths.push(`/tag/${node.slug}/${page}`);
     }
   });
   return {
