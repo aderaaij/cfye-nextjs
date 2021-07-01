@@ -6,6 +6,10 @@
   @media screen and (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--grid-gap-size);
+    gap: 2em;
+  }
+
+  @media screen and (min-width: 1280px) {
+    gap: 3em;
   }
 }
