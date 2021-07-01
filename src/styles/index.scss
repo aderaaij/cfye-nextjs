@@ -138,7 +138,7 @@ p {
 .main {
   display: grid;
   grid-template-columns: var(--grid-columns-template);
-  // gap: var(--grid-gap-size);
+  gap: var(--grid-gap-size);
   width: 100%;
   margin: 0 auto;
 }
@@ -170,5 +170,18 @@ p {
     background-color: var(--cfye);
     position: absolute;
     top: 50%;
+  }
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: var(--grid-columns-template);
+  grid-auto-flow: dense;
+  width: 100%;
+  overflow-x: hidden;
+
+  @media screen and (min-width: 768px) {
+    gap: var(--grid-gap-size);
+    row-gap: 0;
   }
 }

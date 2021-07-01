@@ -7,6 +7,7 @@
   @media screen and (min-width: 768px) {
     margin: 0 auto;
     gap: var(--grid-gap-size);
+    min-height: 512px;
   }
 
   @media screen and (min-width: 768px) {
@@ -17,7 +18,7 @@
 .image-wrap {
   grid-column: 1 / -1;
   grid-row: 1 / span 1;
-  max-height: 100vh;
+  // max-height: 100vh;
   overflow: hidden;
   position: relative;
 

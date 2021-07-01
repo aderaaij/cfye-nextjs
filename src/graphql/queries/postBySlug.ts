@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { AuthorFields } from '../fragments/AuthorFields';
 import { PostFields } from '../fragments/PostFields';
+import { ArtistSummary } from '../fragments/ArtistSummary';
 
 export const POST_QUERY = gql`
   query PostBySlug($id: ID!, $idType: PostIdType!) {
@@ -14,16 +15,7 @@ export const POST_QUERY = gql`
       postSettingsField {
         artistPost {
           ... on Artist {
-            id
-            title
-            featuredImage {
-              node {
-                id
-                srcSet(size: LARGE)
-                sourceUrl(size: LARGE)
-                thumbnail: sourceUrl(size: THUMBNAIL)
-              }
-            }
+            ...ArtistSummary
           }
         }
       }
@@ -39,4 +31,5 @@ export const POST_QUERY = gql`
   }
   ${PostFields}
   ${AuthorFields}
+  ${ArtistSummary}
 `;

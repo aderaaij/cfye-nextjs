@@ -52,11 +52,11 @@ const Index: React.FC<Props> = ({ data }) => {
         <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
       </div>
 
-      {featuredCfyeXPost && (
+      {/* {featuredCfyeXPost && (
         <div className="content-width content-width--full">
           <FullWidthPost post={featuredCfyeXPost} />
         </div>
-      )}
+      )} */}
 
       <div className="content-width content-width--container">
         <h2 className="sep-title">

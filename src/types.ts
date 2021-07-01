@@ -11,6 +11,37 @@ export type Scalars = {
   Float: number;
 };
 
+/** Google Map field */
+export type Acf_GoogleMap = {
+  __typename?: 'ACF_GoogleMap';
+  /** The city associated with the map */
+  city?: Maybe<Scalars['String']>;
+  /** The country associated with the map */
+  country?: Maybe<Scalars['String']>;
+  /** The country abbreviation associated with the map */
+  countryShort?: Maybe<Scalars['String']>;
+  /** The latitude associated with the map */
+  latitude?: Maybe<Scalars['Float']>;
+  /** The longitude associated with the map */
+  longitude?: Maybe<Scalars['Float']>;
+  /** The country associated with the map */
+  placeId?: Maybe<Scalars['String']>;
+  /** The post code associated with the map */
+  postCode?: Maybe<Scalars['String']>;
+  /** The state associated with the map */
+  state?: Maybe<Scalars['String']>;
+  /** The state abbreviation associated with the map */
+  stateShort?: Maybe<Scalars['String']>;
+  /** The street address associated with the map */
+  streetAddress?: Maybe<Scalars['String']>;
+  /** The street name associated with the map */
+  streetName?: Maybe<Scalars['String']>;
+  /** The street number associated with the map */
+  streetNumber?: Maybe<Scalars['String']>;
+  /** The zoom defined with the map */
+  zoom?: Maybe<Scalars['String']>;
+};
+
 /** The Artist type */
 export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
   __typename?: 'Artist';
@@ -124,8 +155,24 @@ export type ArtistToPreviewConnectionEdge = {
 /** Field Group */
 export type Artist_Artistinformation = {
   __typename?: 'Artist_Artistinformation';
+  artistDescription?: Maybe<Scalars['String']>;
+  /** Add the artist location to the map */
+  artistLocation?: Maybe<Acf_GoogleMap>;
   fieldGroupName?: Maybe<Scalars['String']>;
+  flickrUsername?: Maybe<Scalars['String']>;
+  headerImage?: Maybe<MediaItem>;
+  relatedArticles?: Maybe<Array<Maybe<Artist_Artistinformation_RelatedArticles>>>;
+  /** Add Facebook URL */
+  sltFacebookid?: Maybe<Scalars['String']>;
+  /** Add the instagram user handle */
+  sltInstagram?: Maybe<Scalars['String']>;
+  sltTumblrid?: Maybe<Scalars['String']>;
+  sltTwitterid?: Maybe<Scalars['String']>;
+  sltWebsite?: Maybe<Scalars['String']>;
+  sltYoutubeid?: Maybe<Scalars['String']>;
 };
+
+export type Artist_Artistinformation_RelatedArticles = Post;
 
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
 export type Avatar = {
@@ -12150,9 +12197,25 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
+export type ArtistSummaryFragment = (
+  { __typename?: 'Artist' }
+  & Pick<Artist, 'id' | 'title'>
+  & { featuredImage?: Maybe<(
+    { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+    & { node?: Maybe<(
+      { __typename?: 'MediaItem' }
+      & Pick<MediaItem, 'id' | 'srcSet' | 'sourceUrl'>
+      & { thumbnail: MediaItem['sourceUrl'] }
+    )> }
+  )>, artistInformation?: Maybe<(
+    { __typename?: 'Artist_Artistinformation' }
+    & Pick<Artist_Artistinformation, 'artistDescription' | 'fieldGroupName' | 'flickrUsername' | 'sltFacebookid' | 'sltInstagram' | 'sltTumblrid' | 'sltTwitterid' | 'sltWebsite' | 'sltYoutubeid'>
+  )> }
+);
+
 export type AuthorFieldsFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'name' | 'firstName' | 'lastName'>
+  & Pick<User, 'name' | 'firstName' | 'lastName' | 'slug'>
   & { avatar?: Maybe<(
     { __typename?: 'Avatar' }
     & Pick<Avatar, 'url'>
@@ -12324,7 +12387,7 @@ export type Unnamed_3_Query = (
       { __typename?: 'RootQueryToTagConnectionEdge' }
       & { node?: Maybe<(
         { __typename?: 'Tag' }
-        & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug'>
+        & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
       )> }
     )>>> }
   )> }
@@ -12554,15 +12617,7 @@ export type PostBySlugQuery = (
       { __typename?: 'Post_Postsettingsfield' }
       & { artistPost?: Maybe<Array<Maybe<(
         { __typename?: 'Artist' }
-        & Pick<Artist, 'id' | 'title'>
-        & { featuredImage?: Maybe<(
-          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-          & { node?: Maybe<(
-            { __typename?: 'MediaItem' }
-            & Pick<MediaItem, 'id' | 'srcSet' | 'sourceUrl'>
-            & { thumbnail: MediaItem['sourceUrl'] }
-          )> }
-        )> }
+        & ArtistSummaryFragment
       )>>> }
     )> }
     & PostFieldsFragment

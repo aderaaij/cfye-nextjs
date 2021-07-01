@@ -2,6 +2,7 @@ import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import { motion } from 'framer-motion';
+import cx from 'classnames';
 import { useQuery } from '@apollo/client';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
@@ -13,13 +14,13 @@ import {
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
-import Tags from '@/components/Tags';
 import MetaPage from '@/components/MetaPage';
 import PostBody from '@/components/PostBody';
 import PostHeader from '@/components/PostHeader';
 import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
 import styles from './Post.module.scss';
+import ArtistSummary from '@/components/ArtistSummary';
 
 interface Props {
   data: PostBySlugQuery;
@@ -39,6 +40,7 @@ const Post: React.FC<Props> = () => {
   }
 
   const { post } = data;
+
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
   }
@@ -73,9 +75,12 @@ const Post: React.FC<Props> = () => {
               />
 
               <PostBody blocks={post.blocks} content={post.content} />
-              <footer>
-                {/* {post.postSettingsField?.artistPost?.title} */}
-                {/* {post.tags.edges.length > 0 && <Tags tags={post.tags} />} */}
+              <footer className={cx(styles['footer'], 'main-grid')}>
+                {post.postSettingsField?.artistPost?.length && (
+                  <ArtistSummary
+                    artist={post.postSettingsField?.artistPost[0]}
+                  />
+                )}
               </footer>
             </motion.article>
           </>
