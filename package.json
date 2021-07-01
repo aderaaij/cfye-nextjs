@@ -1,6 +1,6 @@
 {
-  "name": "wp-headless-client-nextjs",
-  "version": "1.0.1",
+  "name": "cfye-nextjs",
+  "version": "1.0.2",
   "scripts": {
     "dev": "next",
     "build": "next build",
