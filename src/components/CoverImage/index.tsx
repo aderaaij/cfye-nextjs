@@ -30,6 +30,7 @@ const CoverImage: React.FC<Props> = ({
   return (
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
+        className={styles['image']}
         placeholder="blur"
         blurDataURL={coverImage.thumbnail}
         src={coverImage.sourceUrl}

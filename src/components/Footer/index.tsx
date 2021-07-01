@@ -4,7 +4,7 @@ const Footer: React.FC<any> = ({}) => {
   return (
     <footer className={styles['footer']}>
       <div className={styles['inner']}>
-        <ul className={styles['link-list']}>
+        {/* <ul className={styles['link-list']}>
           <li>
             <a>About</a>
           </li>
@@ -23,8 +23,7 @@ const Footer: React.FC<any> = ({}) => {
           <li>
             <a>Twitter</a>
           </li>
-        </ul>
-
+        </ul> */}
         <span className={styles['tagline']}>
           <img className={styles['logo']} src="/images/cfye_logo.svg" />{' '}
           Slangin' Dope <br /> Since 2008
