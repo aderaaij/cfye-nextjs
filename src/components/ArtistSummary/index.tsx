@@ -9,7 +9,6 @@ interface Props {
 
 const ArtistSummary: React.FC<Props> = ({ artist }) => {
   const { artistInformation } = artist;
-  console.log({ artist });
   return (
     <div className={styles['artist-summary']}>
       <div className={styles['image-link-wrap']}>

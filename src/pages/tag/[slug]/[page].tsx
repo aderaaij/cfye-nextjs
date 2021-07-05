@@ -86,11 +86,8 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
 
   const paths = [];
   tagData.data.tags.edges.forEach(({ node }) => {
-    console.log(node.count);
     const totalPages = Math.ceil(node.count / 20);
-    console.log(totalPages);
     for (let page = 2; page <= totalPages; page++) {
-      console.log(node.slug, page);
       paths.push(`/tag/${node.slug}/${page}`);
     }
   });
