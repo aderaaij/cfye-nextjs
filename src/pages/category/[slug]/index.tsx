@@ -9,6 +9,8 @@ import MetaPage from '@/components/MetaPage';
 import Pagination from '@/components/Pagination';
 import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
+import { useRouter } from 'next/router';
+import { returnSlugString } from 'utils/helpers';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -21,7 +23,7 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
   const { categoryPosts, categoryDetails } = data;
   const { offsetPagination } = categoryPosts.pageInfo;
   const totalPages = Math.ceil(offsetPagination.total / postCount);
-
+  const router = useRouter();
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
   };
@@ -42,7 +44,7 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
             offsetPagination={offsetPagination}
             currentPage={1}
             taxonomy={'category'}
-            slug={categoryDetails.name.toLocaleLowerCase()}
+            slug={returnSlugString(router)}
           />
         )}
       </div>

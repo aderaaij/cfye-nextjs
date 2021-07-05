@@ -37,6 +37,7 @@ const Pagination: React.FC<Props> = ({
       <ul className={styles['numbersList']}>
         {pageArray.map((item) => (
           <li
+            key={item}
             className={cx(styles['listItem'], {
               [styles['listItem--active']]: item + 1 === currentPage,
             })}

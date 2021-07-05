@@ -10,6 +10,7 @@ import MetaPage from '@/components/MetaPage';
 import Pagination from '@/components/Pagination';
 import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
+import { returnPageString, returnSlugString } from 'utils/helpers';
 
 interface Props {
   data: CategoryPostsOffsetQuery;
@@ -19,14 +20,6 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
     return <ErrorPage statusCode={501} />;
   }
   const router = useRouter();
-  const currentPage: string = Array.isArray(router.query.page)
-    ? router.query.page[0]
-    : router.query.page;
-
-  const currentSlug: string = Array.isArray(router.query.slug)
-    ? router.query.slug[0]
-    : router.query.slug;
-
   const { categoryPosts, categoryDetails } = data;
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
@@ -45,8 +38,8 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
         ))}
         <Pagination
           offsetPagination={categoryPosts.pageInfo.offsetPagination}
-          slug={currentSlug}
-          currentPage={parseInt(currentPage)}
+          slug={returnSlugString(router)}
+          currentPage={parseInt(returnPageString(router))}
           taxonomy={'category'}
         />
       </div>

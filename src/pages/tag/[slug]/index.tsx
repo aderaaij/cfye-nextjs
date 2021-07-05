@@ -9,6 +9,8 @@ import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
 import MetaPage from '@/components/MetaPage';
 import Pagination from '@/components/Pagination';
+import { useRouter } from 'next/router';
+import { returnSlugString } from 'utils/helpers';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -21,6 +23,7 @@ const TagPage: React.FC<Props> = ({ data }) => {
   const { categoryPosts, tagDetails } = data;
   const { offsetPagination } = categoryPosts.pageInfo;
   const totalPages = Math.ceil(offsetPagination.total / postCount);
+  const router = useRouter();
 
   const isEven = (n: number): boolean => {
     return n % 2 == 0;
@@ -41,7 +44,7 @@ const TagPage: React.FC<Props> = ({ data }) => {
         {totalPages > 1 && (
           <Pagination
             offsetPagination={categoryPosts.pageInfo.offsetPagination}
-            slug={tagDetails.name.toLocaleLowerCase()}
+            slug={returnSlugString(router)}
             taxonomy={'tag'}
             currentPage={1}
           />
