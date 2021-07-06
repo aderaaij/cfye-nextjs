@@ -23,7 +23,7 @@ const Excerpt: React.FC<Props> = ({ node }) => {
               width={1200}
               height={800}
               layout="intrinsic"
-              objectFit="fill"
+              objectFit="cover"
             />
           </a>
         </Link>
