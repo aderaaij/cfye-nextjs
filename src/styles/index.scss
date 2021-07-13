@@ -9,7 +9,7 @@
   --grid-gap-size: 1em;
   --grid-columns-template: minmax(1em, 1vw) minmax(2em, 2vw) 4% repeat(5, 1fr)
     4% minmax(2em, 2vw) minmax(1em, 1vw);
-  --max-width: 2160px;
+  --max-width: 1920px;
 }
 
 @import 'entry-content';
@@ -90,15 +90,6 @@ p {
   height: 50%;
 }
 
-.fp-hr {
-  display: block;
-  width: 100%;
-  height: 1px;
-  background-color: #ec008c;
-  border: none;
-  margin: 0;
-}
-
 /**
  * Content width
  **/
@@ -106,7 +97,7 @@ p {
 .content-width {
   display: grid;
   grid-template-rows: auto;
-  row-gap: 4em;
+  gap: 4em;
 
   @media screen and (min-width: 1024px) {
     margin: 4em 0;
@@ -114,10 +105,6 @@ p {
 
   &--container {
     grid-column: 2 / -2;
-
-    @media screen and (min-width: 1024px) {
-      grid-column: 3 / -3;
-    }
   }
 
   &--full {
@@ -137,7 +124,10 @@ p {
 
 .main {
   display: grid;
-  grid-template-columns: var(--grid-columns-template);
+  grid-template-columns:
+    minmax(2em, 1fr)
+    minmax(min-content, 1920px)
+    minmax(2em, 1fr);
   gap: var(--grid-gap-size);
   width: 100%;
   margin: 0 auto;
@@ -184,4 +174,10 @@ p {
     gap: var(--grid-gap-size);
     row-gap: 0;
   }
+}
+
+.component-container {
+  display: grid;
+  grid-template-columns: 3em minmax(1fr, 1920px) 3em;
+  gap: 0;
 }

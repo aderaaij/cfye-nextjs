@@ -1,9 +1,10 @@
 import styles from './Footer.module.scss';
+import cx from 'classnames';
 
 const Footer: React.FC<any> = ({}) => {
   return (
-    <footer className={styles['footer']}>
-      <div className={styles['inner']}>
+    <footer className={cx(styles['footer'], 'main')}>
+      <div className="content-width content-width--container">
         {/* <ul className={styles['link-list']}>
           <li>
             <a>About</a>

@@ -4,15 +4,15 @@
   background: #000;
   color: #fff;
   overflow: hidden;
-  padding: 4em 1em;
+  padding: 4em 0;
 
-  @media screen and (min-width: 768px) {
-    display: grid;
-    grid-template-columns: var(--grid-columns-template);
-    grid-column-gap: var(--grid-gap-size);
-    grid-row-gap: 2em;
-    grid-template-rows: auto;
-  }
+  // @media screen and (min-width: 768px) {
+  //   display: grid;
+  //   grid-template-columns: var(--grid-columns-template);
+  //   grid-column-gap: var(--grid-gap-size);
+  //   grid-row-gap: 2em;
+  //   grid-template-rows: auto;
+  // }
 }
 
 .inner {
