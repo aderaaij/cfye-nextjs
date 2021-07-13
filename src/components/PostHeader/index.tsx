@@ -53,12 +53,7 @@ const PostHeader: React.FC<Props> = ({
         <div className={styles['header-meta']}>
           <Date dateString={date} />
           <span className={styles['author-meta']}>
-            By{' '}
-            <Link href={author.slug}>
-              <a>
-                {author.firstName} {author.lastName}
-              </a>
-            </Link>
+            By {author.firstName} {author.lastName}
           </span>
         </div>
       </header>

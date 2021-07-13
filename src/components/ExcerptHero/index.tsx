@@ -76,12 +76,7 @@ const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
         )}
       </div>
       <div className={styles['author-wrap']}>
-        Written by{' '}
-        <Link as={`/posts/${post.slug}`} href="/posts/[slug]">
-          <a>
-            {author.node.firstName} {author.node.lastName}
-          </a>
-        </Link>
+        Written by {author.node.firstName} {author.node.lastName}
         {tags && <TagList isEven={isEven} tags={tags} context="heroExcerpt" />}
       </div>
 
