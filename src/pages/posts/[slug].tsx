@@ -24,14 +24,19 @@ import ArtistSummary from '@/components/ArtistSummary';
 
 interface Props {
   data: PostBySlugQuery;
+  variables: {
+    id: string | number;
+    idType: PostIdType;
+  };
 }
 
-const Post: React.FC<Props> = () => {
+const Post: React.FC<Props> = ({ variables }) => {
   const router = useRouter();
+  const isDatabaseId = !isNaN(Number(router.query.slug));
   const { error, data } = useQuery(POST_QUERY, {
     variables: {
-      id: router.query.slug,
-      idType: PostIdType.Slug,
+      id: isDatabaseId ? Number(router.query.slug) : router.query.slug,
+      idType: isDatabaseId ? PostIdType.DatabaseId : PostIdType.Slug,
     },
   });
 
@@ -41,7 +46,11 @@ const Post: React.FC<Props> = () => {
 
   const { post } = data;
 
-  if (!router.isFallback && !post?.slug) {
+  if (
+    variables.idType !== PostIdType.DatabaseId &&
+    !router.isFallback &&
+    !post?.slug
+  ) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -105,6 +114,7 @@ export const getStaticProps = async ({
     : params.slug === postPreview.slug;
   const isDraft =
     isSamePost && postPreview?.status === PostStatusEnum.Draft.toLowerCase();
+
   // const isRevision =
   //   isSamePost && postPreview?.status === PostStatusEnum.Publish.toLowerCase();
 
@@ -119,6 +129,11 @@ export const getStaticProps = async ({
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      variables: {
+        id: isDraft ? postPreview.id : params.slug,
+        idType: isDraft ? PostFormatIdType.DatabaseId : PostFormatIdType.Slug,
+      },
+      test: 0,
     },
     revalidate: 1,
   };
@@ -129,8 +144,6 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
   const res = await apolloClient.query({
     query: ALL_POSTS_WITH_SLUG_QUERY,
   });
-  // const edges: RootQueryToPostConnection['edges'] = apolloClient.cache.extract()
-  //   .ROOT_QUERY.posts.edges;
   return {
     paths:
       res.data.posts.edges.map(({ node }) => {

@@ -1,22 +1,33 @@
 import { useMemo } from 'react';
 import {
   ApolloClient,
-  HttpLink,
+  createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { relayStylePagination } from '@apollo/client/utilities';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+const httpLink = createHttpLink({
+  uri: API_URL,
+});
+const authLink = setContext((_, { headers }) => {
+  const token = process.env.WORDPRESS_AUTH_REFRESH_TOKEN;
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 // https://developers.wpengine.com/blog/apollo-client-cache-rehydration-in-next-js
 function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: new HttpLink({
-      uri: API_URL,
-    }),
-
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache({
       // resultCaching: false,
       typePolicies: {

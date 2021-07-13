@@ -32,15 +32,19 @@ const PostHeader: React.FC<Props> = ({
   return (
     <div className={styles['post-header']}>
       <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
-        <CoverImage
-          absolute={false}
-          objectFit={featuredImageSettings.imageFit as ImageProps['objectFit']}
-          backgroundColor={featuredImageSettings.backgroundColor}
-          title={title}
-          coverImage={coverImage}
-          priority={true}
-          sizes={{ width: 1600, height: 900 }}
-        />
+        {coverImage && (
+          <CoverImage
+            absolute={false}
+            objectFit={
+              featuredImageSettings.imageFit as ImageProps['objectFit']
+            }
+            backgroundColor={featuredImageSettings.backgroundColor}
+            title={title}
+            coverImage={coverImage}
+            priority={true}
+            sizes={{ width: 1600, height: 900 }}
+          />
+        )}
       </motion.div>
       <header className={styles['title-wrap']}>
         <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
