@@ -30,7 +30,7 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
       <meta
         property="og:image"
         key="image"
-        content={image ? image : 'images/cfye_logo.png'}
+        content={image ? image : '/images/cfye_logo.png'}
       />
 
       <meta name="twitter:card" content="summary" />

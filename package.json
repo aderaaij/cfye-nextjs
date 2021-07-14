@@ -34,6 +34,7 @@
     "postcss": "^8.3.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-inview": "^4.3.10",
     "react-intersection-observer": "^8.29.1",
     "sass": "^1.32.8",
     "string-strip-html": "^8.3.0"
