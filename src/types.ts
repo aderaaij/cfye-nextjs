@@ -43,7 +43,7 @@ export type Acf_GoogleMap = {
 };
 
 /** The Artist type */
-export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
+export type Artist = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
   __typename?: 'Artist';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -79,10 +79,14 @@ export type Artist = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate 
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the artists object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -268,6 +272,8 @@ export type BlockEditorContentNodeConnectionEdge = {
 
 /** Arguments for filtering the BlockEditorContentNodeConnection connection */
 export type BlockEditorContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -305,7 +311,7 @@ export type BlockEditorContentNodeConnectionWhereArgs = {
 };
 
 /** The BlockEditorPreview type */
-export type BlockEditorPreview = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & {
+export type BlockEditorPreview = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & {
   __typename?: 'BlockEditorPreview';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -344,10 +350,14 @@ export type BlockEditorPreview = Node & ContentNode & DatabaseIdentifier & NodeW
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the wgg_preview object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   lastUpdateTime?: Maybe<Scalars['String']>;
@@ -374,7 +384,7 @@ export type BlockEditorPreview = Node & ContentNode & DatabaseIdentifier & NodeW
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
+  /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
 
@@ -430,7 +440,7 @@ export type BlockEditorPreviewToPreviewConnectionEdge = {
 export type BlockUnion = CgbBlockCfyeBlocksBlock | CoreParagraphBlock | CoreImageBlock | CoreHeadingBlock | CoreGalleryBlock | CoreListBlock | CoreQuoteBlock | CoreShortcodeBlock | CoreArchivesBlock | CoreAudioBlock | CoreButtonBlock | CoreButtonsBlock | CoreCalendarBlock | CoreCategoriesBlock | CoreCodeBlock | CoreColumnsBlock | CoreColumnBlock | CoreCoverBlock | CoreEmbedBlock | CoreFileBlock | CoreGroupBlock | CoreFreeformBlock | CoreHtmlBlock | CoreMediaTextBlock | CoreLatestCommentsBlock | CoreLatestPostsBlock | CoreMissingBlock | CoreMoreBlock | CoreNextpageBlock | CorePreformattedBlock | CorePullquoteBlock | CoreRssBlock | CoreSearchBlock | CoreSeparatorBlock | CoreBlock | CoreSocialLinksBlock | CoreSocialLinkBlock | CoreSpacerBlock | CoreSubheadBlock | CoreTableBlock | CoreTagCloudBlock | CoreTextColumnsBlock | CoreVerseBlock | CoreVideoBlock;
 
 /** The category type */
-export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & HierarchicalTermNode & MenuItemLinkable & {
+export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
   __typename?: 'Category';
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
@@ -455,8 +465,12 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -473,6 +487,8 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   slug?: Maybe<Scalars['String']>;
   /** Connection between the category type and the Taxonomy type */
   taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was assigned to the &quot;category&quot; taxonomy */
+  TaxonomyFields?: Maybe<Category_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -658,6 +674,8 @@ export type CategoryToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the CategoryToContentNodeConnection connection */
 export type CategoryToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfCategoryEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -792,6 +810,13 @@ export type CategoryToTaxonomyConnectionEdge = {
   __typename?: 'CategoryToTaxonomyConnectionEdge';
   /** The nodes of the connection, without the edges */
   node?: Maybe<Taxonomy>;
+};
+
+/** Field Group */
+export type Category_Taxonomyfields = {
+  __typename?: 'Category_Taxonomyfields';
+  featuredTaxonomyImage?: Maybe<MediaItem>;
+  fieldGroupName?: Maybe<Scalars['String']>;
 };
 
 /** cgb/block-cfye-blocks block */
@@ -1144,12 +1169,16 @@ export type ContentNode = {
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the node. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -1168,7 +1197,7 @@ export type ContentNode = {
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
-  /** URI path for the resource */
+  /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
 
@@ -1297,12 +1326,16 @@ export type ContentType = Node & UniformResourceIdentifiable & {
   hierarchical?: Maybe<Scalars['Boolean']>;
   /** The globally unique identifier of the post-type object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
   /** Whether this page is set to the blog posts page. */
   isPostsPage: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** Display name of the content type. */
   label?: Maybe<Scalars['String']>;
   /** Details about the content type labels. */
@@ -1402,6 +1435,8 @@ export type ContentTypeToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ContentTypeToContentNodeConnection connection */
 export type ContentTypeToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -1457,6 +1492,24 @@ export type ContentTypeToTaxonomyConnectionEdge = {
   /** The item at the end of the edge */
   node?: Maybe<Taxonomy>;
 };
+
+/** Allowed Content Types of the Category taxonomy. */
+export enum ContentTypesOfCategoryEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
+
+/** Allowed Content Types of the PostFormat taxonomy. */
+export enum ContentTypesOfPostFormatEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
+
+/** Allowed Content Types of the Tag taxonomy. */
+export enum ContentTypesOfTagEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
 
 /** core/archives block */
 export type CoreArchivesBlock = Block & {
@@ -4269,8 +4322,12 @@ export type CreateUserInput = {
   nickname?: Maybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: Maybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: Maybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: Maybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
@@ -4714,6 +4771,8 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = {
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
 export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -4772,6 +4831,8 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = {
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
 export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -4823,6 +4884,29 @@ export type HierarchicalTermNode = {
   parentId?: Maybe<Scalars['ID']>;
 };
 
+/** Input for the login mutation */
+export type LoginInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The plain-text password for the user logging in. */
+  password: Scalars['String'];
+  /** The username used for login. Typically a unique or email address depending on specific configuration */
+  username: Scalars['String'];
+};
+
+/** The payload for the login mutation */
+export type LoginPayload = {
+  __typename?: 'LoginPayload';
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  refreshToken?: Maybe<Scalars['String']>;
+  /** The user that was logged in */
+  user?: Maybe<User>;
+};
+
 /** File details for a Media Item */
 export type MediaDetails = {
   __typename?: 'MediaDetails';
@@ -4839,7 +4923,7 @@ export type MediaDetails = {
 };
 
 /** The mediaItem type */
-export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithAuthor & NodeWithComments & HierarchicalContentNode & {
+export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithAuthor & NodeWithComments & HierarchicalContentNode & {
   __typename?: 'MediaItem';
   /** Alternative text to display when resource is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -4887,10 +4971,14 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the attachment object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -5290,7 +5378,7 @@ export type MenuItem = Node & DatabaseIdentifier & {
   /** The globally unique identifier of the parent nav menu item object. */
   parentId?: Maybe<Scalars['ID']>;
   /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
-  path: Scalars['String'];
+  path?: Maybe<Scalars['String']>;
   /** Target attribute for the menu item link. */
   target?: Maybe<Scalars['String']>;
   /** Title attribute for the menu item link */
@@ -5761,7 +5849,7 @@ export enum OrderEnum {
 }
 
 /** The page type */
-export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithComments & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & BlockEditorContentNode & {
+export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithComments & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & BlockEditorContentNode & {
   __typename?: 'Page';
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
@@ -5815,6 +5903,8 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the page object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
   /** Whether this page is set to the blog posts page. */
@@ -5827,6 +5917,8 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** True if the node is a revision of another node */
   isRevision?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -6169,7 +6261,7 @@ export type Plugin = Node & {
 };
 
 /** The post type */
-export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithExcerpt & NodeWithComments & NodeWithTrackbacks & NodeWithRevisions & MenuItemLinkable & BlockEditorContentNode & {
+export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithExcerpt & NodeWithComments & NodeWithTrackbacks & NodeWithRevisions & MenuItemLinkable & BlockEditorContentNode & {
   __typename?: 'Post';
   /** Connection between the NodeWithAuthor type and the User type */
   author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
@@ -6222,6 +6314,8 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the post object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
@@ -6230,6 +6324,8 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   isRevision?: Maybe<Scalars['Boolean']>;
   /** Whether this page is sticky */
   isSticky: Scalars['Boolean'];
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -6399,7 +6495,7 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
+export type PostFormat = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
   __typename?: 'PostFormat';
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
@@ -6415,8 +6511,12 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -6514,6 +6614,8 @@ export type PostFormatToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the PostFormatToContentNodeConnection connection */
 export type PostFormatToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfPostFormatEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -7293,6 +7395,23 @@ export type ReadingSettings = {
   postsPerPage?: Maybe<Scalars['Int']>;
 };
 
+/** Input for the refreshJwtAuthToken mutation */
+export type RefreshJwtAuthTokenInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
+  jwtRefreshToken: Scalars['String'];
+};
+
+/** The payload for the refreshJwtAuthToken mutation */
+export type RefreshJwtAuthTokenPayload = {
+  __typename?: 'RefreshJwtAuthTokenPayload';
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 /** Input for the registerUser mutation */
 export type RegisterUserInput = {
   /** User's AOL IM account. */
@@ -7319,8 +7438,12 @@ export type RegisterUserInput = {
   nickname?: Maybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: Maybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: Maybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: Maybe<Scalars['String']>;
   /** A string that contains the user's username. */
@@ -7389,7 +7512,7 @@ export type RestoreCommentPayload = {
 };
 
 /** The ReusableBlock type */
-export type ReusableBlock = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & BlockEditorContentNode & {
+export type ReusableBlock = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & BlockEditorContentNode & {
   __typename?: 'ReusableBlock';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -7424,10 +7547,14 @@ export type ReusableBlock = Node & ContentNode & DatabaseIdentifier & NodeWithTe
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the wp_block object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -7458,7 +7585,7 @@ export type ReusableBlock = Node & ContentNode & DatabaseIdentifier & NodeWithTe
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
+  /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
 
@@ -7568,6 +7695,10 @@ export type RootMutation = {
   deleteUser?: Maybe<DeleteUserPayload>;
   /** Increase the count. */
   increaseCount?: Maybe<Scalars['Int']>;
+  /** The payload for the login mutation */
+  login?: Maybe<LoginPayload>;
+  /** The payload for the refreshJwtAuthToken mutation */
+  refreshJwtAuthToken?: Maybe<RefreshJwtAuthTokenPayload>;
   /** The payload for the registerUser mutation */
   registerUser?: Maybe<RegisterUserPayload>;
   /** The payload for the resetUserPassword mutation */
@@ -7724,6 +7855,18 @@ export type RootMutationDeleteUserArgs = {
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
   count?: Maybe<Scalars['Int']>;
+};
+
+
+/** The root mutation */
+export type RootMutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+/** The root mutation */
+export type RootMutationRefreshJwtAuthTokenArgs = {
+  input: RefreshJwtAuthTokenInput;
 };
 
 
@@ -8758,6 +8901,8 @@ export type RootQueryToContentRevisionUnionConnectionEdge = {
 
 /** Arguments for filtering the RootQueryToContentRevisionUnionConnection connection */
 export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -9585,7 +9730,7 @@ export type Settings = {
 };
 
 /** The tag type */
-export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
+export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
   __typename?: 'Tag';
   /** Connection between the tag type and the ContentNode type */
   contentNodes?: Maybe<TagToContentNodeConnection>;
@@ -9601,8 +9746,12 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -9618,6 +9767,8 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   tagId?: Maybe<Scalars['Int']>;
   /** Connection between the tag type and the Taxonomy type */
   taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was assigned to the &quot;post_tag&quot; taxonomy */
+  TaxonomyFields?: Maybe<Tag_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -9700,6 +9851,8 @@ export type TagToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the TagToContentNodeConnection connection */
 export type TagToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfTagEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -9829,6 +9982,13 @@ export type TagToTaxonomyConnectionEdge = {
   node?: Maybe<Taxonomy>;
 };
 
+/** Field Group */
+export type Tag_Taxonomyfields = {
+  __typename?: 'Tag_Taxonomyfields';
+  featuredTaxonomyImage?: Maybe<MediaItem>;
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
 /** A taxonomy object */
 export type Taxonomy = Node & {
   __typename?: 'Taxonomy';
@@ -9933,10 +10093,14 @@ export type TermNode = {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -10989,6 +11153,10 @@ export enum TimezoneEnum {
 export type UniformResourceIdentifiable = {
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
@@ -11412,8 +11580,12 @@ export type UpdateUserInput = {
   nickname?: Maybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: Maybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: Maybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: Maybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
@@ -11462,8 +11634,22 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   firstName?: Maybe<Scalars['String']>;
   /** The globally unique identifier for the user object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
+  isJwtAuthSecretRevoked: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
+  jwtAuthExpiration?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests for authentication/authorization */
+  jwtAuthToken?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  jwtRefreshToken?: Maybe<Scalars['String']>;
+  /** A unique secret tied to the users JWT token that can be revoked or refreshed. Revoking the secret prevents JWT tokens from being issued to the user. Refreshing the token invalidates previously issued tokens, but allows new tokens to be issued. */
+  jwtUserSecret?: Maybe<Scalars['String']>;
   /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
   lastName?: Maybe<Scalars['String']>;
   /** The preferred language locale set for the user. Value derived from get_user_locale(). */
@@ -11815,6 +12001,8 @@ export type UserToContentRevisionUnionConnectionEdge = {
 
 /** Arguments for filtering the UserToContentRevisionUnionConnection connection */
 export type UserToContentRevisionUnionConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -12342,27 +12530,21 @@ export type RevisionsFragment = (
   )> }
 );
 
+export type TaxonomyFieldsFragment = (
+  { __typename?: 'RootQueryToTagConnection' }
+  & { edges?: Maybe<Array<Maybe<(
+    { __typename?: 'RootQueryToTagConnectionEdge' }
+    & { node?: Maybe<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
+    )> }
+  )>>> }
+);
+
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type Unnamed_1_Query = (
-  { __typename?: 'RootQuery' }
-  & { categories?: Maybe<(
-    { __typename?: 'RootQueryToCategoryConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToCategoryConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Category' }
-        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
-      )> }
-    )>>> }
-  )> }
-);
-
-export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Unnamed_2_Query = (
   { __typename?: 'RootQuery' }
   & { posts?: Maybe<(
     { __typename?: 'RootQueryToPostConnection' }
@@ -12376,20 +12558,48 @@ export type Unnamed_2_Query = (
   )> }
 );
 
+export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_2_Query = (
+  { __typename?: 'RootQuery' }
+  & { categories?: Maybe<(
+    { __typename?: 'RootQueryToCategoryConnection' }
+    & { edges?: Maybe<Array<Maybe<(
+      { __typename?: 'RootQueryToCategoryConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
+      )> }
+    )>>> }
+  )> }
+);
+
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type Unnamed_3_Query = (
   { __typename?: 'RootQuery' }
-  & { tags?: Maybe<(
-    { __typename?: 'RootQueryToTagConnection' }
+  & { posts?: Maybe<(
+    { __typename?: 'RootQueryToPostConnection' }
     & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToTagConnectionEdge' }
+      { __typename?: 'RootQueryToPostConnectionEdge' }
       & { node?: Maybe<(
-        { __typename?: 'Tag' }
-        & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
+        { __typename?: 'Post' }
+        & Pick<Post, 'slug'>
       )> }
     )>>> }
+  )> }
+);
+
+export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_4_Query = (
+  { __typename?: 'RootQuery' }
+  & { tags?: Maybe<(
+    { __typename?: 'RootQueryToTagConnection' }
+    & TaxonomyFieldsFragment
   )> }
 );
 

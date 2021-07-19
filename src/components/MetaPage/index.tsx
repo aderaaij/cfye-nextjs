@@ -12,6 +12,7 @@ const MetaPage: React.FC<Props> = ({ title, description, image }) => {
   return (
     <Head>
       <title>{title} | CFYE.com</title>
+
       {router && (
         <meta
           property="og:url"

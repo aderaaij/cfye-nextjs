@@ -14,6 +14,7 @@ export const PostFields = gql`
       node {
         sourceUrl
         thumbnail: sourceUrl(size: THUMBNAIL)
+
         id
         srcSet
         sizes

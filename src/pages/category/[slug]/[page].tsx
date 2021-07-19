@@ -1,16 +1,12 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
 import { CategoryPostsOffsetQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY_OFFSET } from '@/graphql/queries/posts_offset';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
-import MetaPage from '@/components/MetaPage';
-import Pagination from '@/components/Pagination';
-import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
-import { returnPageString, returnSlugString } from 'utils/helpers';
+import TaxonomyPage from '@/components/TaxonomyPage';
 
 interface Props {
   data: CategoryPostsOffsetQuery;
@@ -19,30 +15,14 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const router = useRouter();
   const { categoryPosts, categoryDetails } = data;
-  const isEven = (n: number): boolean => {
-    return n % 2 == 0;
-  };
   return (
     <Layout preview={false}>
-      {categoryDetails && (
-        <MetaPage
-          description={categoryDetails.description}
-          title={categoryDetails.name}
-        />
-      )}
-      <div className="category-wrap">
-        {categoryPosts.edges.map(({ node }, index) => (
-          <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
-        ))}
-        <Pagination
-          offsetPagination={categoryPosts.pageInfo.offsetPagination}
-          slug={returnSlugString(router)}
-          currentPage={parseInt(returnPageString(router))}
-          taxonomy={'category'}
-        />
-      </div>
+      <TaxonomyPage
+        posts={categoryPosts}
+        details={categoryDetails}
+        taxonomy="category"
+      />
     </Layout>
   );
 };

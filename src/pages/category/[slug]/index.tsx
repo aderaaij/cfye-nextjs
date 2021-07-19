@@ -5,12 +5,8 @@ import { CategoryPostsQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
-import MetaPage from '@/components/MetaPage';
-import Pagination from '@/components/Pagination';
-import ExcerptHero from '@/components/ExcerptHero';
 import Layout from '@/components/Layout';
-import { useRouter } from 'next/router';
-import { returnSlugString } from 'utils/helpers';
+import TaxonomyPage from '@/components/TaxonomyPage';
 
 interface Props {
   data: CategoryPostsQuery;
@@ -19,35 +15,14 @@ const CategoryPage: React.FC<Props> = ({ data }) => {
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
-  const postCount = 20;
   const { categoryPosts, categoryDetails } = data;
-  const { offsetPagination } = categoryPosts.pageInfo;
-  const totalPages = Math.ceil(offsetPagination.total / postCount);
-  const router = useRouter();
-  const isEven = (n: number): boolean => {
-    return n % 2 == 0;
-  };
   return (
     <Layout preview={false}>
-      {categoryDetails && (
-        <MetaPage
-          description={categoryDetails.description}
-          title={categoryDetails.name}
-        />
-      )}
-      <div className="category-wrap">
-        {categoryPosts.edges.map(({ node }, index) => (
-          <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
-        ))}
-        {totalPages > 1 && (
-          <Pagination
-            offsetPagination={offsetPagination}
-            currentPage={1}
-            taxonomy={'category'}
-            slug={returnSlugString(router)}
-          />
-        )}
-      </div>
+      <TaxonomyPage
+        posts={categoryPosts}
+        details={categoryDetails}
+        taxonomy="category"
+      />
     </Layout>
   );
 };
