@@ -43,7 +43,22 @@
   font-family: var(--header-font);
   text-transform: lowercase;
 
+  li {
+    margin-right: 1em;
+  }
+
   a {
-    color: var(--cfye);
+    color: #666;
+
+    &:hover {
+      color: var(--cfye);
+    }
+  }
+
+  svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
   }
 }
