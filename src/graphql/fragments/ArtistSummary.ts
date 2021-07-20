@@ -16,9 +16,7 @@ export const ArtistSummary = gql`
       artistDescription
       fieldGroupName
       flickrUsername
-      sltFacebookid
       sltInstagram
-      sltTumblrid
       sltTwitterid
       sltWebsite
       sltYoutubeid

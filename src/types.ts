@@ -166,11 +166,8 @@ export type Artist_Artistinformation = {
   flickrUsername?: Maybe<Scalars['String']>;
   headerImage?: Maybe<MediaItem>;
   relatedArticles?: Maybe<Array<Maybe<Artist_Artistinformation_RelatedArticles>>>;
-  /** Add Facebook URL */
-  sltFacebookid?: Maybe<Scalars['String']>;
   /** Add the instagram user handle */
   sltInstagram?: Maybe<Scalars['String']>;
-  sltTumblrid?: Maybe<Scalars['String']>;
   sltTwitterid?: Maybe<Scalars['String']>;
   sltWebsite?: Maybe<Scalars['String']>;
   sltYoutubeid?: Maybe<Scalars['String']>;
@@ -12397,7 +12394,7 @@ export type ArtistSummaryFragment = (
     )> }
   )>, artistInformation?: Maybe<(
     { __typename?: 'Artist_Artistinformation' }
-    & Pick<Artist_Artistinformation, 'artistDescription' | 'fieldGroupName' | 'flickrUsername' | 'sltFacebookid' | 'sltInstagram' | 'sltTumblrid' | 'sltTwitterid' | 'sltWebsite' | 'sltYoutubeid'>
+    & Pick<Artist_Artistinformation, 'artistDescription' | 'fieldGroupName' | 'flickrUsername' | 'sltInstagram' | 'sltTwitterid' | 'sltWebsite' | 'sltYoutubeid'>
   )> }
 );
 
