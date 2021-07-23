@@ -1,5 +1,6 @@
 module.exports = {
   extends: ['stylelint-config-standard'],
+  plugins: ['stylelint-order'],
   rules: {
     'at-rule-no-unknown': [
       true,
@@ -15,6 +16,12 @@ module.exports = {
       true,
       {
         ignorePseudoClasses: ['global'],
+      },
+    ],
+    'order/order': [
+      ['custom-properties', 'declarations'],
+      {
+        disableFix: true,
       },
     ],
   },

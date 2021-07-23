@@ -1,12 +1,13 @@
-import parse from 'html-react-parser';
 import Link from 'next/link';
+import { ImageProps } from 'next/image';
+import { motion } from 'framer-motion';
+import parse from 'html-react-parser';
 import { PostExcerptFieldsFragment } from 'types';
 import cx from 'classnames';
 import CoverImage from '@/components/CoverImage';
 import { limitText } from 'utils/limitCharacters';
-import { ImageProps } from 'next/image';
-import { motion } from 'framer-motion';
 import TagList from '@/components/TagList';
+import Button from '@/components/Button';
 import styles from './ExcerptHero.module.scss';
 
 interface Props {
@@ -82,8 +83,14 @@ const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
 
       <div className={styles['text-wrap']}>
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
-          <a>{parse(excerpt)}</a>
+          <a className={styles['text-link']}>{parse(excerpt)}</a>
         </Link>
+        <Button
+          type="link"
+          as={`/posts/${slug}`}
+          url="/posts/[slug]"
+          text="read more"
+        />
       </div>
     </article>
   );

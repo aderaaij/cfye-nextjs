@@ -9,6 +9,7 @@ import '../styles/index.scss';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
+
   return (
     <>
       <Head>

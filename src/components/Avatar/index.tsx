@@ -4,7 +4,7 @@ interface Props {
   isEven?: boolean;
 }
 
-const Avatar: React.FC<Props> = ({ author, isEven }) => {
+const Avatar: React.FC<Props> = ({ author }) => {
   const name =
     author.firstName && author.lastName
       ? `${author.firstName} ${author.lastName}`

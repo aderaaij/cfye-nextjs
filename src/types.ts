@@ -12600,6 +12600,30 @@ export type Unnamed_4_Query = (
   )> }
 );
 
+export type AristBySlugQueryVariables = Exact<{
+  id: Scalars['ID'];
+  idType: ArtistIdType;
+}>;
+
+
+export type AristBySlugQuery = (
+  { __typename?: 'RootQuery' }
+  & { artist?: Maybe<(
+    { __typename?: 'Artist' }
+    & Pick<Artist, 'slug' | 'id' | 'title'>
+    & { featuredImage?: Maybe<(
+      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'MediaItem' }
+        & Pick<MediaItem, 'id' | 'sourceUrl'>
+      )> }
+    )>, artistInformation?: Maybe<(
+      { __typename?: 'Artist_Artistinformation' }
+      & Pick<Artist_Artistinformation, 'artistDescription' | 'sltWebsite' | 'sltYoutubeid' | 'sltTwitterid' | 'sltInstagram' | 'flickrUsername'>
+    )> }
+  )> }
+);
+
 export type ArtistsQueryVariables = Exact<{
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;

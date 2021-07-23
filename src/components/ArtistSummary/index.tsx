@@ -25,7 +25,10 @@ const ArtistSummary: React.FC<Props> = ({ artist }) => {
       <div className={styles['content-wrap']}>
         <h2>About {artist.title}</h2>
         <p>
-          {limitText(stripHtml(artistInformation.artistDescription).result, 60)}
+          {limitText(
+            stripHtml(artistInformation.artistDescription).result,
+            200
+          )}
         </p>
         <ul className={styles['link-list']}>
           {artistInformation.sltWebsite && (

@@ -3,10 +3,9 @@ import ErrorPage from 'next/error';
 import { FrontpagePostsQuery } from 'types';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
-import FullWidthPost from '@/components/FullWidthPost';
 import MetaPage from '@/components/MetaPage';
 import ExcerptsSmall from '@/components/ExcerptsSmall';
-import ExcerptHero from '@/components/ExcerptHero';
+import ExcerptFeature from '@/components/ExcerptFeature';
 import Layout from '@/components/Layout';
 interface Props {
   data: FrontpagePostsQuery;
@@ -21,54 +20,63 @@ const Index: React.FC<Props> = ({ data }) => {
     stickyPosts,
     newWorkPosts,
     interviewsPosts,
-    cfyeXPosts,
     featuresPosts,
   } = data;
   const featuredPost = stickyPosts?.edges[0].node;
   const featuredInterview = interviewsPosts?.edges[0]?.node;
-  const featuredCfyeXPost = cfyeXPosts?.edges[0]?.node;
 
   return (
-    <Layout preview={false}>
+    <Layout preview={false} pageType="home">
       <MetaPage
         title={settings.generalSettingsTitle}
         description={settings.generalSettingsDescription}
       />
 
-      <div className="content-width content-width--container">
-        {featuredPost && <ExcerptHero post={featuredPost} isEven={false} />}
-
-        <h2 className="sep-title">
-          <span>New Work</span>
-        </h2>
-        <ExcerptsSmall edges={newWorkPosts.edges} />
-
-        <h2 className="sep-title">
-          <span>Interviews</span>
-        </h2>
-        {featuredInterview && (
-          <ExcerptHero post={featuredInterview} isEven={true} />
-        )}
-        <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} />
-      </div>
-
-      {/* {featuredCfyeXPost && (
-        <div className="content-width content-width--full">
-          <FullWidthPost post={featuredCfyeXPost} />
+      <div className="container container--bg-grey">
+        <div className="container__full-width">
+          <ExcerptFeature post={featuredPost} isEven={false} />
         </div>
-      )} */}
-
-      <div className="content-width content-width--container">
-        <h2 className="sep-title">
-          <span>Features</span>
-        </h2>
-        {featuresPosts && (
-          <div className="full-width">
-            <ExcerptHero post={featuresPosts?.edges[0].node} isEven={false} />
-          </div>
-        )}
-        <ExcerptsSmall edges={featuresPosts.edges.slice(1)} />
       </div>
+
+      {newWorkPosts?.edges.length && (
+        <div className="container">
+          <div className="container__full-width">
+            <ExcerptsSmall edges={newWorkPosts.edges} rowSize={3} />
+          </div>
+        </div>
+      )}
+
+      {featuredInterview && (
+        <div className="container container--bg-grey">
+          <div className="container__full-width">
+            <ExcerptFeature post={featuredInterview} isEven={false} />
+          </div>
+        </div>
+      )}
+
+      {interviewsPosts?.edges.length && (
+        <div className="container">
+          <div className="container__full-width">
+            <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} rowSize={3} />
+          </div>
+        </div>
+      )}
+
+      {featuresPosts && (
+        <div className="container container--bg-grey">
+          <div className="container__full-width">
+            <ExcerptFeature post={featuresPosts.edges[0].node} isEven={false} />
+          </div>
+        </div>
+      )}
+
+      {featuresPosts?.edges.length && (
+        <div className="container">
+          <div className="container__full-width">
+            <ExcerptsSmall edges={featuresPosts.edges.slice(1)} rowSize={3} />
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

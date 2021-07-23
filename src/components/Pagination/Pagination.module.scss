@@ -2,16 +2,16 @@
   display: flex;
   gap: 1em;
   font-family: var(--header-font);
+  font-weight: 700;
   text-transform: uppercase;
 
   a {
     color: var(--cfye);
-    padding: 1em;
+    padding: 0.5em 0;
   }
 
   &.is-active {
-    border: 1px solid var(--cfye);
-    border: 3px;
+    border: 2px solid var(--cfye);
   }
 }
 
@@ -20,19 +20,35 @@
   margin: 0;
   padding: 0;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .listItem {
-  border: 1px solid #ececec;
+  border: 2px solid #ececec;
   display: flex;
   margin: 0 0.25em;
+  width: 32px;
+  justify-content: center;
   transition: border 0.2s ease-in;
 
   &:hover {
-    border: 1px solid var(--cfye);
+    border: 2px solid var(--cfye);
   }
 
   &--active {
     border-color: var(--cfye);
+  }
+}
+
+.next-prev {
+  display: flex;
+
+  span {
+    margin-right: 0.25rem;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 }

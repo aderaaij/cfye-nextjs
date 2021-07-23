@@ -26,10 +26,12 @@
 }
 
 .tagline {
+  display: flex;
   font-size: 2em;
-  font-weight: 700;
+  font-weight: 800;
   font-family: var(--header-font);
   color: var(--cfye);
+  letter-spacing: 1px;
 
   @media screen and (min-width: 768px) {
     font-size: 2em;
@@ -39,8 +41,7 @@
 .logo {
   width: 74px;
   height: 74px;
-  margin: 0 0.25em 0 0;
-  float: left;
+  margin: 0 1rem 0 0;
 }
 
 .link-list {

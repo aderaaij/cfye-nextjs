@@ -1,0 +1,50 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: maecenas, serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--header-font);
+  font-weight: 800;
+  font-style: normal;
+  color: var(--cfye);
+}
+
+a {
+  text-decoration: none;
+}
+
+a > h1 {
+  text-decoration: none;
+}
+
+a > h2 {
+  text-decoration: none;
+}
+
+a > h3 {
+  text-decoration: none;
+}
+
+p {
+  font-size: 1.25em;
+  line-height: 1.5;
+  color: --var(text);
+}

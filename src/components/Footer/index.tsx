@@ -4,8 +4,9 @@ import cx from 'classnames';
 const Footer: React.FC<any> = ({}) => {
   return (
     <footer className={cx(styles['footer'], 'main')}>
-      <div className="content-width content-width--container">
-        {/* <ul className={styles['link-list']}>
+      <div className="container">
+        <div className="container__full-width">
+          {/* <ul className={styles['link-list']}>
           <li>
             <a>About</a>
           </li>
@@ -25,10 +26,11 @@ const Footer: React.FC<any> = ({}) => {
             <a>Twitter</a>
           </li>
         </ul> */}
-        <span className={styles['tagline']}>
-          <img className={styles['logo']} src="/images/cfye_logo.svg" />{' '}
-          Slangin' Dope <br /> Since 2008
-        </span>
+          <span className={styles['tagline']}>
+            <img className={styles['logo']} src="/images/cfye_logo.svg" />{' '}
+            Slangin' Dope <br /> Since 2008
+          </span>
+        </div>
       </div>
     </footer>
   );

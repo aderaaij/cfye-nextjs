@@ -1,5 +1,16 @@
+.nav-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.logo-wrap {
+  width: 50%;
+  height: 50%;
+}
+
 .nav-bar {
-  height: 48px;
+  // height: 48px;
   width: 100vw;
   background: #ec008c;
   z-index: 10;

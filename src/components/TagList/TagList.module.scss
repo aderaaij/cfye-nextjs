@@ -1,6 +1,25 @@
 .tag-list-wrap {
   display: flex;
-  margin-bottom: 0.5em;
+  font-family: var(--header-font);
+  font-size: 0.75em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  color: var(--meta);
+
+  @media screen and (min-width: 768px) {
+    font-size: 0.875em;
+  }
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+
+    @media screen and (min-width: 768px) {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
 
   &--heroExcerpt,
   &--default {
@@ -19,12 +38,7 @@
     }
   }
 
-  &--is-even {
-    justify-content: flex-end;
-  }
-
   span {
-    font-style: italic;
     color: var(--meta);
     margin-right: 0.5em;
   }
@@ -36,11 +50,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  font-style: italic;
 
   a {
-    // color: var(--cfye);
-
     &:hover {
       text-decoration: underline;
     }

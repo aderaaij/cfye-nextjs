@@ -1,7 +1,4 @@
 .article {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1em;
   margin-bottom: 0.5em;
 
   @media screen and (min-width: 1024px) {
@@ -10,18 +7,29 @@
 }
 
 .image-wrap {
-  width: 140px;
+  width: 100%;
   overflow: hidden;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 
   @media screen and (min-width: 1024px) {
     width: auto;
     height: auto;
+    margin-bottom: 1em;
+  }
+
+  > a {
+    display: block;
   }
 }
 
+.taxonomy-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+
 .title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin: 0;
 
   @media screen and (min-width: 1024px) {
@@ -32,6 +40,12 @@
 
   a {
     color: var(--cfye);
+  }
+
+  &--small {
+    @media screen and (min-width: 1024px) {
+      font-size: 1.5em;
+    }
   }
 }
 

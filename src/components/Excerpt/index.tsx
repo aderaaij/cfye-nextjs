@@ -1,15 +1,16 @@
-import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
+import cx from 'classnames';
 import { PostExcerptFieldsFragment } from 'types';
-import TagList from '../TagList';
+import TagList from '@/components/TagList';
 import styles from './Excerpt.module.scss';
 
 interface Props {
   node: PostExcerptFieldsFragment['node'];
+  type?: 'small';
 }
 
-const Excerpt: React.FC<Props> = ({ node }) => {
+const Excerpt: React.FC<Props> = ({ node, type }) => {
   return (
     <article className={styles['article']}>
       <div className={styles['image-wrap']}>
@@ -30,13 +31,19 @@ const Excerpt: React.FC<Props> = ({ node }) => {
       </div>
 
       <div className={styles['text-wrap']}>
-        <h3 className={styles['title']}>
+        <div className={styles['taxonomy-wrap']}>
+          <TagList tags={node.categories} context="articleExcerpt" />
+          <TagList tags={node.tags} context="articleExcerpt" />
+        </div>
+        <h3
+          className={cx(styles['title'], {
+            [styles[`title--${type}`]]: type,
+          })}
+        >
           <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
             <a>{node.title}</a>
           </Link>
         </h3>
-        <TagList tags={node.tags} context="articleExcerpt" />
-        <div className={styles['text']}>{parse(node.excerpt)}</div>
       </div>
     </article>
   );

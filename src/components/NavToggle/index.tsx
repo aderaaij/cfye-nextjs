@@ -87,10 +87,10 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
       ref={hoverRef}
       onClick={() => {
         router.push('/');
-        // toggle();
+        toggle();
       }}
     >
-      {/* <motion.ul
+      <motion.ul
         className="nav-toggle__bars"
         initial="closed"
         animate={buttonState}
@@ -114,7 +114,7 @@ const NavToggle: React.FC<Props> = ({ toggle, isActive }) => {
             active: { rotate: -45, y: '-10px', scale: 1 },
           }}
         ></motion.li>
-      </motion.ul> */}
+      </motion.ul>
       <SiteLogo buttonState="closed" />
     </button>
   );

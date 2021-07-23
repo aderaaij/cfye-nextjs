@@ -26,12 +26,44 @@ const Pagination: React.FC<Props> = ({
     <div className={styles['pagination']}>
       {newerPage && currentPage !== 2 && (
         <Link href={`${basePath}${currentPage - 1}`}>
-          <a>{'< newer'}</a>
+          <a className={styles['next-prev']}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Arrow Back</title>
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="square"
+                strokeMiterlimit="10"
+                strokeWidth="48"
+                d="M244 400L100 256l144-144M120 256h292"
+              />
+            </svg>
+          </a>
         </Link>
       )}
       {newerPage && currentPage == 2 && (
         <Link href={basePath}>
-          <a>{'< newer'}</a>
+          <a className={styles['next-prev']}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Arrow Back</title>
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="square"
+                strokeMiterlimit="10"
+                strokeWidth="48"
+                d="M244 400L100 256l144-144M120 256h292"
+              />
+            </svg>
+          </a>
         </Link>
       )}
       <ul className={styles['numbersList']}>
@@ -57,7 +89,23 @@ const Pagination: React.FC<Props> = ({
       </ul>
       {olderPage && (
         <Link href={`${basePath}${currentPage + 1}`}>
-          <a>{'older >'}</a>
+          <a className={styles['next-prev']}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Arrow Forward</title>
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="square"
+                strokeMiterlimit="10"
+                strokeWidth="48"
+                d="M268 112l144 144-144 144M392 256H100"
+              />
+            </svg>
+          </a>
         </Link>
       )}
     </div>

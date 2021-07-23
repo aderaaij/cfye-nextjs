@@ -2,17 +2,22 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  // max-width: var(--max-width);
-  // padding: 0 2em;
-  // margin: 0 auto;
+  row-gap: 2em;
 
   @media screen and (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2em;
+    padding: 0;
   }
 
   @media screen and (min-width: 1280px) {
-    gap: 3em;
+    gap: 4em;
+  }
+
+  &--3 {
+    @media screen and (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 }

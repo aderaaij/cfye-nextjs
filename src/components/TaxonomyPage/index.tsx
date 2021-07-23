@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { CategoryPostsOffsetQuery } from 'types';
 import { returnPageString, returnSlugString } from 'utils/helpers';
-import ExcerptHero from '../ExcerptHero';
-import MetaPage from '../MetaPage';
-import Pagination from '../Pagination';
+import ExcerptFeature from '@/components/ExcerptFeature';
+import MetaPage from '@/components/MetaPage';
+import Pagination from '@/components/Pagination';
 
 interface Props {
   posts: CategoryPostsOffsetQuery['categoryPosts'];
@@ -28,20 +28,29 @@ const TaxonomyPage: React.FC<Props> = ({ posts, details, taxonomy }) => {
           image={posts.edges[0]?.node.featuredImage?.node.sourceUrl}
         />
       )}
-      <div className="category-wrap">
-        {posts.edges.map(({ node }, index) => (
-          <ExcerptHero key={node.id} post={node} isEven={isEven(index)} />
-        ))}
-        {totalPages > 1 && (
-          <Pagination
-            offsetPagination={posts.pageInfo.offsetPagination}
-            slug={returnSlugString(router)}
-            taxonomy={taxonomy}
-            currentPage={
-              returnPageString(router) ? parseInt(returnPageString(router)) : 1
-            }
-          />
-        )}
+      <div className="container">
+        <div className="category-wrap">
+          {posts.edges.map(({ node }, index) => (
+            <ExcerptFeature
+              key={node.id}
+              post={node}
+              isEven={isEven(index)}
+              type="small"
+            />
+          ))}
+          {totalPages > 1 && (
+            <Pagination
+              offsetPagination={posts.pageInfo.offsetPagination}
+              slug={returnSlugString(router)}
+              taxonomy={taxonomy}
+              currentPage={
+                returnPageString(router)
+                  ? parseInt(returnPageString(router))
+                  : 1
+              }
+            />
+          )}
+        </div>
       </div>
     </>
   );
