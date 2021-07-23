@@ -19,8 +19,8 @@ import PostBody from '@/components/PostBody';
 import PostHeader from '@/components/PostHeader';
 import Layout from '@/components/Layout';
 import PostTitle from '@/components/PostTitle';
-import styles from './Post.module.scss';
 import ArtistSummary from '@/components/ArtistSummary';
+import styles from './Post.module.scss';
 
 interface Props {
   data: PostBySlugQuery;
@@ -39,7 +39,6 @@ const Post: React.FC<Props> = ({ variables }) => {
       idType: isDatabaseId ? PostIdType.DatabaseId : PostIdType.Slug,
     },
   });
-
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
@@ -84,7 +83,7 @@ const Post: React.FC<Props> = ({ variables }) => {
               />
 
               <PostBody blocks={post.blocks} content={post.content} />
-              <footer className={cx(styles['footer'], 'main-grid')}>
+              <footer className={cx(styles['footer'])}>
                 {post.postSettingsField?.artistPost?.length && (
                   <ArtistSummary
                     artist={post.postSettingsField?.artistPost[0]}
@@ -100,6 +99,22 @@ const Post: React.FC<Props> = ({ variables }) => {
 };
 
 export default Post;
+
+export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
+  const apolloClient: any = initializeApollo();
+  const res = await apolloClient.query({
+    query: ALL_POSTS_WITH_SLUG_QUERY,
+  });
+  return {
+    paths:
+      res.data.posts.edges.map(({ node }) => {
+        if (node) {
+          return `/posts/${node.slug}`;
+        }
+      }) || [],
+    fallback: true,
+  };
+};
 
 export const getStaticProps = async ({
   params,
@@ -135,21 +150,5 @@ export const getStaticProps = async ({
       },
     },
     revalidate: 60,
-  };
-};
-
-export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
-  const apolloClient: any = initializeApollo();
-  const res = await apolloClient.query({
-    query: ALL_POSTS_WITH_SLUG_QUERY,
-  });
-  return {
-    paths:
-      res.data.posts.edges.map(({ node }) => {
-        if (node) {
-          return `/posts/${node.slug}`;
-        }
-      }) || [],
-    fallback: true,
   };
 };

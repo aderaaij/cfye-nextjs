@@ -1,68 +1,87 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
-import { initializeApollo } from '@/lib/apolloClient';
 import ErrorPage from 'next/error';
+import { motion } from 'framer-motion';
+import { useQuery } from '@apollo/client';
+import { initializeApollo } from '@/lib/apolloClient';
 import {
   Post as GeneratedPostType,
+  PostIdType,
   PostStatusEnum,
   PostFormatIdType,
-  AristBySlugQuery,
+  PostBySlugQuery,
+  ArtistBySlugQuery,
+  ArtistBySlugQueryVariables,
   ArtistIdType,
 } from 'types';
 import { ALL_ARTISTS_WITH_SLUG_QUERY } from '@/graphql/queries/allArtistsWithSlug';
 import { ARTIST_QUERY } from '@/graphql/queries/artistBySlug';
-import { useQuery } from '@apollo/client';
+import { returnSlugString } from 'utils/helpers';
 import Layout from '@/components/Layout';
-import MetaPage from '@/components/MetaPage';
+import PostTitle from '@/components/PostTitle';
+import ArtistHero from '@/components/ArtistHero';
+import ExcerptFeature from '@/components/ExcerptFeature';
 
 interface Props {
-  data: AristBySlugQuery;
+  data: PostBySlugQuery;
   variables: {
-    id: string | string[] | number;
-    idType: ArtistIdType;
+    id: string;
+    idType: PostIdType;
   };
 }
 
 const Artist: React.FC<Props> = () => {
   const router = useRouter();
   const isDatabaseId = !isNaN(Number(router.query.slug));
-
-  const { data } = useQuery<AristBySlugQuery, Props['variables']>(
-    ARTIST_QUERY,
-    {
-      variables: {
-        id: isDatabaseId ? Number(router.query.slug) : router.query.slug,
-        idType: isDatabaseId ? ArtistIdType.DatabaseId : ArtistIdType.Slug,
-      },
-    }
-  );
+  const { error, data } = useQuery<
+    ArtistBySlugQuery,
+    ArtistBySlugQueryVariables
+  >(ARTIST_QUERY, {
+    variables: {
+      id: returnSlugString(router),
+      idType: isDatabaseId ? ArtistIdType.DatabaseId : ArtistIdType.Slug,
+    },
+  });
 
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
+
   const { artist } = data;
   if (!router.isFallback && !artist?.slug) {
     return <ErrorPage statusCode={404} />;
   }
+  // console.log({ error });
   // if (error) return <ErrorPage statusCode={501} />;
   return (
-    <Layout preview={false}>
-      <MetaPage
-        title={artist.title}
-        description={data.artist.artistInformation.artistDescription}
-        image={artist.featuredImage?.node?.sourceUrl}
-      />
-      <div className="content-width content-width--container">
-        <div>
-          <h1>{artist.title}</h1>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: data.artist.artistInformation.artistDescription,
-            }}
-          />
-        </div>
-      </div>
-    </Layout>
+    <>
+      <Layout preview={false} pageType="artist">
+        {router.isFallback ? (
+          <PostTitle>Loading…</PostTitle>
+        ) : (
+          <>
+            <div className="container container--bg-grey">
+              <div className="container__full-width">
+                <ArtistHero artist={artist} isEven={false} />
+              </div>
+            </div>
+            <div className="container">
+              <div className="container__full-width">
+                {artist.artistInformation.relatedArticles.map((article) => {
+                  return (
+                    <ExcerptFeature
+                      post={article}
+                      type="small"
+                      isEven={false}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+      </Layout>
+    </>
   );
 };
 

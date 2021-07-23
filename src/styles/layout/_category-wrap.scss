@@ -1,0 +1,11 @@
+.category-wrap {
+  grid-column: 3 / -3;
+  display: grid;
+  gap: 2em;
+  margin: 2em 0;
+
+  @media screen and(min-width: 1024px) {
+    margin: 0 0 8em;
+    gap: 4em;
+  }
+}

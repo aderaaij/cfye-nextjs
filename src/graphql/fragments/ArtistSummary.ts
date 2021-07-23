@@ -4,6 +4,7 @@ export const ArtistSummary = gql`
   fragment ArtistSummary on Artist {
     id
     title
+    slug
     featuredImage {
       node {
         id

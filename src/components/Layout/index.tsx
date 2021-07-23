@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 interface Props {
   preview: boolean;
-  pageType?: string;
+  pageType?: 'home' | 'artist';
 }
 
 const Layout: React.FC<Props> = ({ preview, children, pageType }) => {

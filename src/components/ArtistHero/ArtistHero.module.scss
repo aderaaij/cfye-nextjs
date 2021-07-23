@@ -55,12 +55,6 @@
   @media screen and (min-width: 768px) {
     margin: 4em 0;
   }
-
-  &--small {
-    @media screen and (min-width: 768px) {
-      margin: 0;
-    }
-  }
 }
 
 .title {
@@ -89,6 +83,14 @@
 
 .text-wrap {
   margin-bottom: 2em;
+
+  a {
+    color: var(--cfye);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   @media screen and (min-width: 768px) {
     margin-bottom: 0;

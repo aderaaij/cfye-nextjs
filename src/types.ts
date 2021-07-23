@@ -12384,7 +12384,7 @@ export type WritingSettings = {
 
 export type ArtistSummaryFragment = (
   { __typename?: 'Artist' }
-  & Pick<Artist, 'id' | 'title'>
+  & Pick<Artist, 'id' | 'title' | 'slug'>
   & { featuredImage?: Maybe<(
     { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
     & { node?: Maybe<(
@@ -12600,13 +12600,13 @@ export type Unnamed_4_Query = (
   )> }
 );
 
-export type AristBySlugQueryVariables = Exact<{
+export type ArtistBySlugQueryVariables = Exact<{
   id: Scalars['ID'];
   idType: ArtistIdType;
 }>;
 
 
-export type AristBySlugQuery = (
+export type ArtistBySlugQuery = (
   { __typename?: 'RootQuery' }
   & { artist?: Maybe<(
     { __typename?: 'Artist' }
@@ -12616,10 +12616,50 @@ export type AristBySlugQuery = (
       & { node?: Maybe<(
         { __typename?: 'MediaItem' }
         & Pick<MediaItem, 'id' | 'sourceUrl'>
+        & { thumbnail: MediaItem['sourceUrl'] }
       )> }
     )>, artistInformation?: Maybe<(
       { __typename?: 'Artist_Artistinformation' }
       & Pick<Artist_Artistinformation, 'artistDescription' | 'sltWebsite' | 'sltYoutubeid' | 'sltTwitterid' | 'sltInstagram' | 'flickrUsername'>
+      & { relatedArticles?: Maybe<Array<Maybe<(
+        { __typename?: 'Post' }
+        & Pick<Post, 'id' | 'title' | 'excerpt' | 'slug' | 'date' | 'isSticky'>
+        & { tags?: Maybe<(
+          { __typename?: 'PostToTagConnection' }
+          & { edges?: Maybe<Array<Maybe<(
+            { __typename?: 'PostToTagConnectionEdge' }
+            & { node?: Maybe<(
+              { __typename?: 'Tag' }
+              & Pick<Tag, 'id' | 'name' | 'slug'>
+            )> }
+          )>>> }
+        )>, categories?: Maybe<(
+          { __typename?: 'PostToCategoryConnection' }
+          & { edges?: Maybe<Array<Maybe<(
+            { __typename?: 'PostToCategoryConnectionEdge' }
+            & { node?: Maybe<(
+              { __typename?: 'Category' }
+              & Pick<Category, 'id' | 'name' | 'slug'>
+            )> }
+          )>>> }
+        )>, featuredImageSettings?: Maybe<(
+          { __typename?: 'Post_Featuredimagesettings' }
+          & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
+        )>, featuredImage?: Maybe<(
+          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+          & FeaturedImageFieldsFragment
+        )>, author?: Maybe<(
+          { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'User' }
+            & Pick<User, 'name' | 'firstName' | 'lastName'>
+            & { avatar?: Maybe<(
+              { __typename?: 'Avatar' }
+              & Pick<Avatar, 'url'>
+            )> }
+          )> }
+        )> }
+      )>>> }
     )> }
   )> }
 );

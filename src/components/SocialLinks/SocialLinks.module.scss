@@ -1,3 +1,26 @@
 .link-list {
   display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    width: 24px;
+    height: 24px;
+    margin-right: 1em;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    a {
+      color: var(--meta);
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--cfye);
+      }
+    }
+  }
 }

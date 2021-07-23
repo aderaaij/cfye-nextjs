@@ -1,11 +1,10 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { PostExcerptFieldsFragment } from 'types';
-import cx from 'classnames';
-import CoverImage from '@/components/CoverImage';
-import { limitText } from 'utils/limitCharacters';
-import { ImageProps } from 'next/image';
 import { motion } from 'framer-motion';
+import Image, { ImageProps } from 'next/image';
+import cx from 'classnames';
+import { PostExcerptFieldsFragment } from 'types';
+import { limitText } from 'utils/limitCharacters';
 import TagList from '@/components/TagList';
 import styles from './ExcerptFeature.module.scss';
 import Button from '../Button';
@@ -52,18 +51,45 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
           className={styles['image-wrap']}
         >
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
-            <a>
-              <CoverImage
-                absolute={true}
-                objectFit={
-                  featuredImageSettings.imageFit as ImageProps['objectFit']
-                }
-                backgroundColor={featuredImageSettings.backgroundColor}
-                cover={true}
-                title={title}
-                sizes={imageSizes[type]}
-                coverImage={featuredImage.node}
-              />
+            <a
+              className={cx({ [styles['image-link']]: type === 'hero' })}
+              style={
+                featuredImageSettings.backgroundColor
+                  ? { backgroundColor: featuredImageSettings.backgroundColor }
+                  : null
+              }
+            >
+              {type === 'hero' ? (
+                <Image
+                  className={styles['image']}
+                  placeholder="blur"
+                  blurDataURL={featuredImage.node.thumbnail}
+                  src={featuredImage.node.sourceUrl}
+                  quality={90}
+                  priority={true}
+                  objectFit={
+                    featuredImageSettings.imageFit as ImageProps['objectFit']
+                  }
+                  layout={'fill'}
+                  alt={title}
+                />
+              ) : (
+                <Image
+                  className={styles['image']}
+                  placeholder="blur"
+                  blurDataURL={featuredImage.node.thumbnail}
+                  src={featuredImage.node.sourceUrl}
+                  quality={90}
+                  priority={true}
+                  objectFit={
+                    featuredImageSettings.imageFit as ImageProps['objectFit']
+                  }
+                  layout="responsive"
+                  width={imageSizes[type].width}
+                  height={imageSizes[type].height}
+                  alt={title}
+                />
+              )}
             </a>
           </Link>
         </motion.div>
@@ -82,10 +108,15 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
           )}
         </div>
 
-        <div className={styles['content']}>
+        <div
+          className={cx(styles['content'], {
+            [styles[`content--${type}`]]: type === 'small',
+          })}
+        >
           <div className={styles['author-wrap']}>
             By {author.node.firstName} {author.node.lastName}
           </div>
+
           <h3
             className={cx(styles['title'], {
               [styles['title--small']]: type === 'small',

@@ -1,0 +1,13 @@
+.main {
+  &--home {
+    margin-bottom: 8rem;
+    display: grid;
+    row-gap: 6em;
+  }
+
+  &--artist {
+    margin-bottom: 8rem;
+    display: grid;
+    row-gap: 6em;
+  }
+}
