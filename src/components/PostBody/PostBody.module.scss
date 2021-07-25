@@ -78,6 +78,10 @@
 .paragraph-container {
   grid-column: 4 / -4;
 
+  strong {
+    font-weight: 600;
+  }
+
   p {
     display: block;
     font-size: 1.125em;
