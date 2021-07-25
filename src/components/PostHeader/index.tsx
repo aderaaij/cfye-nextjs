@@ -1,4 +1,4 @@
-import { ImageProps } from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.scss';
@@ -32,17 +32,33 @@ const PostHeader: React.FC<Props> = ({
     <div className={styles['post-header']}>
       <motion.div layoutId={`image-${slug}`} className={styles['image-wrap']}>
         {coverImage && (
-          <CoverImage
-            absolute={false}
-            objectFit={
-              featuredImageSettings.imageFit as ImageProps['objectFit']
-            }
-            backgroundColor={featuredImageSettings.backgroundColor}
-            title={title}
-            coverImage={coverImage}
-            priority={true}
-            sizes={{ width: 1600, height: 900 }}
-          />
+          <>
+            {/* <Image
+              className={styles['image']}
+              placeholder="blur"
+              blurDataURL={coverImage.thumbnail}
+              src={coverImage.sourceUrl}
+              quality={90}
+              priority={true}
+              objectFit={
+                featuredImageSettings.imageFit as ImageProps['objectFit']
+              }
+              width={1600}
+              height={900}
+              alt={title}
+            /> */}
+            <CoverImage
+              absolute={false}
+              objectFit={
+                featuredImageSettings.imageFit as ImageProps['objectFit']
+              }
+              backgroundColor={featuredImageSettings.backgroundColor}
+              title={title}
+              coverImage={coverImage}
+              priority={true}
+              sizes={{ width: 1600, height: 900 }}
+            />
+          </>
         )}
       </motion.div>
       <header className={styles['title-wrap']}>

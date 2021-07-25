@@ -1,7 +1,6 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
-import { motion } from 'framer-motion';
 import { useQuery } from '@apollo/client';
 import { initializeApollo } from '@/lib/apolloClient';
 import {
@@ -51,8 +50,7 @@ const Artist: React.FC<Props> = () => {
   if (!router.isFallback && !artist?.slug) {
     return <ErrorPage statusCode={404} />;
   }
-  // console.log({ error });
-  // if (error) return <ErrorPage statusCode={501} />;
+  if (error) return <ErrorPage statusCode={501} />;
   return (
     <>
       <Layout preview={false} pageType="artist">
@@ -61,15 +59,16 @@ const Artist: React.FC<Props> = () => {
         ) : (
           <>
             <div className="container container--bg-grey">
-              <div className="container__full-width">
+              <div className="container__content-width">
                 <ArtistHero artist={artist} isEven={false} />
               </div>
             </div>
             <div className="container">
-              <div className="container__full-width">
+              <div className="container__content-width">
                 {artist.artistInformation.relatedArticles.map((article) => {
                   return (
                     <ExcerptFeature
+                      key={article.id}
                       post={article}
                       type="small"
                       isEven={false}

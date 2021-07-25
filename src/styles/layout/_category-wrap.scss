@@ -2,7 +2,7 @@
   grid-column: 3 / -3;
   display: grid;
   gap: 2em;
-  margin: 2em 0;
+  margin: 0 0 2em;
 
   @media screen and(min-width: 1024px) {
     margin: 0 0 8em;

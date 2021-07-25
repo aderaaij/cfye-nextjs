@@ -40,7 +40,7 @@ const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
           layoutId={`image-${slug}`}
           className={styles['image-wrap']}
         >
-          <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <Link href="/posts/[slug]">
             <a>
               <CoverImage
                 absolute={true}
@@ -58,7 +58,7 @@ const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
       )}
       <div className={styles['title-wrap']}>
         <motion.h3 layoutId={`title-${slug}`} className={styles['title']}>
-          <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <Link href="/posts/[slug]">
             <a>{limitText(title, 60)} </a>
           </Link>
         </motion.h3>
@@ -82,7 +82,7 @@ const ExcerptHero: React.FC<Props> = ({ post, isEven }) => {
       </div>
 
       <div className={styles['text-wrap']}>
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+        <Link href="/posts/[slug]">
           <a className={styles['text-link']}>{parse(excerpt)}</a>
         </Link>
         <Button

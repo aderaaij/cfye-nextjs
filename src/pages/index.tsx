@@ -33,14 +33,14 @@ const Index: React.FC<Props> = ({ data }) => {
       />
 
       <div className="container container--bg-grey">
-        <div className="container__full-width">
+        <div className="container__content-width">
           <ExcerptFeature post={featuredPost} isEven={false} />
         </div>
       </div>
 
       {newWorkPosts?.edges.length && (
         <div className="container">
-          <div className="container__full-width">
+          <div className="container__content-width">
             <ExcerptsSmall edges={newWorkPosts.edges} rowSize={3} />
           </div>
         </div>
@@ -48,7 +48,7 @@ const Index: React.FC<Props> = ({ data }) => {
 
       {featuredInterview && (
         <div className="container container--bg-grey">
-          <div className="container__full-width">
+          <div className="container__content-width">
             <ExcerptFeature post={featuredInterview} isEven={false} />
           </div>
         </div>
@@ -56,7 +56,7 @@ const Index: React.FC<Props> = ({ data }) => {
 
       {interviewsPosts?.edges.length && (
         <div className="container">
-          <div className="container__full-width">
+          <div className="container__content-width">
             <ExcerptsSmall edges={interviewsPosts.edges.slice(1)} rowSize={3} />
           </div>
         </div>
@@ -64,7 +64,7 @@ const Index: React.FC<Props> = ({ data }) => {
 
       {featuresPosts && (
         <div className="container container--bg-grey">
-          <div className="container__full-width">
+          <div className="container__content-width">
             <ExcerptFeature post={featuresPosts.edges[0].node} isEven={false} />
           </div>
         </div>
@@ -72,7 +72,7 @@ const Index: React.FC<Props> = ({ data }) => {
 
       {featuresPosts?.edges.length && (
         <div className="container">
-          <div className="container__full-width">
+          <div className="container__content-width">
             <ExcerptsSmall edges={featuresPosts.edges.slice(1)} rowSize={3} />
           </div>
         </div>

@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   // position: fixed;
-  // top: 0;
+  top: 0;
   z-index: 201;
 
   &__inner {
@@ -17,6 +17,8 @@
     border: none;
     background: none;
     padding: 0;
+    cursor: pointer;
+    display: block;
   }
 
   &__menu-icon {

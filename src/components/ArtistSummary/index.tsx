@@ -15,13 +15,17 @@ const ArtistSummary: React.FC<Props> = ({ artist }) => {
     <div className={styles['artist-summary']}>
       <div className={styles['image-link-wrap']}>
         <div className={styles['avatar-wrap']}>
-          <Image
-            className={styles['avatar']}
-            src={artist.featuredImage.node.thumbnail}
-            width={150}
-            height={150}
-            objectFit="contain"
-          />
+          <Link as={`/artists/${artist.slug}`} href="/artists/[slug]">
+            <a>
+              <Image
+                className={styles['avatar']}
+                src={artist.featuredImage.node.thumbnail}
+                width={150}
+                height={150}
+                objectFit="contain"
+              />
+            </a>
+          </Link>
         </div>
       </div>
       <div className={styles['content-wrap']}>

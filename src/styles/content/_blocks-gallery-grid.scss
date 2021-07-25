@@ -1,11 +1,7 @@
 .blocks-gallery-grid {
   list-style: none;
+  display: grid;
   margin: 0;
   padding: 0;
-  // display: grid;
-  // grid-template-columns: var(--grid-columns-template);
-  // grid-template-rows: var(--grid-row-size);
-  // grid-auto-rows: var(--grid-row-size);
-  // grid-auto-flow: row;
-  // gap: var(--grid-gap-size);
+  gap: 2em;
 }

@@ -52,7 +52,6 @@ const Post: React.FC<Props> = ({ variables }) => {
   ) {
     return <ErrorPage statusCode={404} />;
   }
-
   if (error) return <ErrorPage statusCode={501} />;
   return (
     <>
@@ -67,8 +66,8 @@ const Post: React.FC<Props> = ({ variables }) => {
         ) : (
           <>
             <motion.article
-              // initial={{ scale: 0.8, opacity: 0 }}
-              // animate={{ scale: 1, opacity: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               layoutId={`article-${post.slug}`}
               className={styles['article']}
             >
@@ -84,11 +83,15 @@ const Post: React.FC<Props> = ({ variables }) => {
 
               <PostBody blocks={post.blocks} content={post.content} />
               <footer className={cx(styles['footer'])}>
-                {post.postSettingsField?.artistPost?.length && (
-                  <ArtistSummary
-                    artist={post.postSettingsField?.artistPost[0]}
-                  />
-                )}
+                <div className="container">
+                  <div className="container__paragraph-width">
+                    {post.postSettingsField?.artistPost?.length && (
+                      <ArtistSummary
+                        artist={post.postSettingsField?.artistPost[0]}
+                      />
+                    )}
+                  </div>
+                </div>
               </footer>
             </motion.article>
           </>

@@ -5,7 +5,7 @@ const Footer: React.FC<any> = ({}) => {
   return (
     <footer className={cx(styles['footer'], 'main')}>
       <div className="container">
-        <div className="container__full-width">
+        <div className="container__content-width">
           {/* <ul className={styles['link-list']}>
           <li>
             <a>About</a>

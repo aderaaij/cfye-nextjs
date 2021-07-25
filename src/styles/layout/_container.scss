@@ -23,10 +23,26 @@
     }
   }
 
-  &__full-width {
+  &__content-width {
     display: grid;
     grid-column: 2 / -2;
     row-gap: 4em;
     grid-auto-rows: 1fr;
+  }
+
+  &__paragraph-width {
+    display: grid;
+    grid-column: 2 / -2;
+    // row-gap: 4em;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr 1fr minmax(min-content, 620px) 1fr 1fr;
+
+    > p {
+      grid-column: 3 / -3;
+    }
+  }
+
+  &__full-width {
+    grid-column: 1 / -1;
   }
 }

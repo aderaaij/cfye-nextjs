@@ -1,0 +1,122 @@
+.post-body {
+  display: grid;
+  grid-template-columns: 1em 1fr 1fr minmax(min-content, 680px) 1fr 1fr 2em;
+  // grid-template-columns: var(--grid-columns-template);
+  // grid-auto-flow: dense;
+  // width: 100%;
+  // overflow-x: hidden;
+
+  @media screen and (min-width: 768px) {
+    // gap: var(--grid-gap-size);
+    // row-gap: 0;
+    grid-template-columns: 2em 1fr 1fr minmax(min-content, 680px) 1fr 1fr 2em;
+  }
+
+  // .wp-block-quote {
+  //   grid-column: 2 / -2;
+
+  //   @media screen and (min-width: 768px) {
+  //     grid-column: 2 / -2;
+  //   }
+
+  //   @media screen and (min-width: 1280px) {
+  //     grid-column: 4 / -4;
+  //   }
+  // }
+
+  // .wp-block-gallery {
+  //   grid-column: 1 / -1;
+
+  //   @media screen and (min-width: 768px) {
+  //     grid-column: 2 / -2;
+  //   }
+  // }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    grid-column: 2 / -2;
+
+    @media screen and (min-width: 768px) {
+      grid-column: 4 / -4;
+    }
+
+    @media screen and (min-width: 1280px) {
+      grid-column: 5 / -5;
+    }
+  }
+
+  // &__hr {
+  //   grid-column: 2 / -2;
+  //   display: block;
+  //   margin: 4em 0;
+  //   padding: 0;
+  //   height: 2px;
+  //   width: 100%;
+  //   background-color: var(--cfye);
+  //   border: none;
+
+  //   @media screen and (min-width: 768px) {
+  //     grid-column: 4 / span 5;
+  //   }
+  // }
+
+  h2 {
+    font-size: 2.5em;
+    margin-top: 0;
+  }
+
+  h3 {
+    font-size: 2em;
+    margin-bottom: 0;
+  }
+}
+
+.paragraph-container {
+  grid-column: 4 / -4;
+
+  p {
+    display: block;
+    font-size: 1.125em;
+    line-height: 1.5;
+    margin: 1rem 0;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.375em;
+      line-height: 1.75;
+    }
+  }
+
+  br {
+    display: none;
+  }
+
+  p a {
+    color: var(--cfye);
+  }
+
+  p + p {
+    margin: 1em 0;
+  }
+}
+
+.gallery-container {
+  grid-column: 2 / -2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.image-container {
+  grid-column: 2 / -2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+
+  &--full {
+    max-width: 100%;
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+}

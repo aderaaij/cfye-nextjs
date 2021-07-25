@@ -1,20 +1,26 @@
 import Link from 'next/link';
+import { useContext } from 'react';
+import { AppContext } from '../../contexts/MenuContext';
 
 const SiteNav: React.FC = () => {
+  const { isMenuActive, toggleMenu } = useContext(AppContext);
   return (
     <nav className="site-nav">
       <div className="site-nav__container container">
         <div className="site-nav__inner">
-          <button className="site-nav__menu-button">
+          <button
+            onClick={() => toggleMenu(!isMenuActive)}
+            className="site-nav__menu-button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               data-name="Layer 1"
               viewBox="0 0 100 100"
               className="site-nav__menu-icon"
             >
-              <rect width="56" height="8" x="22" y="26" />
-              <rect width="40" height="8" x="22" y="46" />
-              <rect width="24" height="8" x="22" y="66" />
+              <rect fill="currentColor" width="56" height="8" x="22" y="26" />
+              <rect fill="currentColor" width="40" height="8" x="22" y="46" />
+              <rect fill="currentColor" width="24" height="8" x="22" y="66" />
             </svg>
           </button>
           <Link href="/">
