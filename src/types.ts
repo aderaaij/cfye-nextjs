@@ -12538,6 +12538,153 @@ export type TaxonomyFieldsFragment = (
   )>>> }
 );
 
+export type AboutPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AboutPageQuery = (
+  { __typename?: 'RootQuery' }
+  & { page?: Maybe<(
+    { __typename?: 'Page' }
+    & Pick<Page, 'id' | 'title' | 'content'>
+    & { blocks?: Maybe<Array<(
+      { __typename?: 'CgbBlockCfyeBlocksBlock' }
+      & Pick<CgbBlockCfyeBlocksBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreArchivesBlock' }
+      & Pick<CoreArchivesBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreAudioBlock' }
+      & Pick<CoreAudioBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreBlock' }
+      & Pick<CoreBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreButtonBlock' }
+      & Pick<CoreButtonBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreButtonsBlock' }
+      & Pick<CoreButtonsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCalendarBlock' }
+      & Pick<CoreCalendarBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCategoriesBlock' }
+      & Pick<CoreCategoriesBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCodeBlock' }
+      & Pick<CoreCodeBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreColumnBlock' }
+      & Pick<CoreColumnBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreColumnsBlock' }
+      & Pick<CoreColumnsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreCoverBlock' }
+      & Pick<CoreCoverBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreEmbedBlock' }
+      & Pick<CoreEmbedBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreFileBlock' }
+      & Pick<CoreFileBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreFreeformBlock' }
+      & Pick<CoreFreeformBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreGalleryBlock' }
+      & Pick<CoreGalleryBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreGroupBlock' }
+      & Pick<CoreGroupBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreHeadingBlock' }
+      & Pick<CoreHeadingBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreHtmlBlock' }
+      & Pick<CoreHtmlBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreImageBlock' }
+      & Pick<CoreImageBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreLatestCommentsBlock' }
+      & Pick<CoreLatestCommentsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreLatestPostsBlock' }
+      & Pick<CoreLatestPostsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreListBlock' }
+      & Pick<CoreListBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMediaTextBlock' }
+      & Pick<CoreMediaTextBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMissingBlock' }
+      & Pick<CoreMissingBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreMoreBlock' }
+      & Pick<CoreMoreBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreNextpageBlock' }
+      & Pick<CoreNextpageBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreParagraphBlock' }
+      & Pick<CoreParagraphBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CorePreformattedBlock' }
+      & Pick<CorePreformattedBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CorePullquoteBlock' }
+      & Pick<CorePullquoteBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreQuoteBlock' }
+      & Pick<CoreQuoteBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreRssBlock' }
+      & Pick<CoreRssBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSearchBlock' }
+      & Pick<CoreSearchBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSeparatorBlock' }
+      & Pick<CoreSeparatorBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreShortcodeBlock' }
+      & Pick<CoreShortcodeBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSocialLinkBlock' }
+      & Pick<CoreSocialLinkBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSocialLinksBlock' }
+      & Pick<CoreSocialLinksBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSpacerBlock' }
+      & Pick<CoreSpacerBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreSubheadBlock' }
+      & Pick<CoreSubheadBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTableBlock' }
+      & Pick<CoreTableBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTagCloudBlock' }
+      & Pick<CoreTagCloudBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreTextColumnsBlock' }
+      & Pick<CoreTextColumnsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreVerseBlock' }
+      & Pick<CoreVerseBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    ) | (
+      { __typename?: 'CoreVideoBlock' }
+      & Pick<CoreVideoBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
+    )>>, featuredImage?: Maybe<(
+      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
+      & FeaturedImageFieldsFragment
+    )> }
+  )> }
+);
+
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
