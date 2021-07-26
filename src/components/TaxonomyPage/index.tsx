@@ -24,7 +24,9 @@ const TaxonomyPage: React.FC<Props> = ({ posts, details, taxonomy }) => {
       {details && (
         <MetaPage
           description={details.description}
-          title={`${details.name} - page ${returnPageString(router)}`}
+          title={`${details.name} - Page ${
+            returnPageString(router) ? returnPageString(router) : 1
+          }`}
           image={posts.edges[0]?.node.featuredImage?.node.sourceUrl}
         />
       )}
