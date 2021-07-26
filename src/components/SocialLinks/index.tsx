@@ -19,9 +19,7 @@ const SocialLinks: React.FC<Props> = ({ artistInformation }) => {
       )}
       {artistInformation.sltInstagram && (
         <li>
-          <a
-            href={`https://instagram.com.com/${artistInformation.sltInstagram}`}
-          >
+          <a href={`https://instagram.com/${artistInformation.sltInstagram}`}>
             <svg>
               <use xlinkHref={sprite.src + '#logo-instagram'}></use>
             </svg>
