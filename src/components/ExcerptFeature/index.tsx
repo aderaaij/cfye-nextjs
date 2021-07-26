@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image, { ImageProps } from 'next/image';
 import cx from 'classnames';
+import { useInView } from 'react-intersection-observer';
 import { PostExcerptFieldsFragment } from 'types';
 import { limitText } from 'utils/limitCharacters';
 import TagList from '@/components/TagList';
 import styles from './ExcerptFeature.module.scss';
 import Button from '../Button';
+import { useEffect, useState } from 'react';
 
 interface Props {
   post: PostExcerptFieldsFragment['node'];
@@ -26,6 +28,44 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
     tags,
     excerpt,
   } = post;
+  const [isOpen, setOpen] = useState(false);
+  const [containerRef, inView] = useInView({ threshold: 0.5 });
+
+  const contentVariants = {
+    open: {
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+    closed: {
+      transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    },
+  };
+
+  const imagevariants = {
+    closed: {
+      x: 0,
+      opacity: 0,
+      scale: 0.5,
+      transition: {
+        type: 'spring',
+        stiffness: 20,
+        restDelta: 2,
+      },
+    },
+    open: { x: 0, opacity: 1, scale: 1 },
+  };
+  const childVariants = {
+    open: {
+      x: 0,
+      opacity: 1,
+    },
+    closed: {
+      x: 100,
+      opacity: 0,
+      transition: {
+        x: { stiffness: 1000 },
+      },
+    },
+  };
 
   const imageSizes = {
     hero: { width: 900, height: 900 },
@@ -36,17 +76,24 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
     hero: 400,
     small: 120,
   };
+
+  useEffect(() => {
+    if (inView) {
+      setOpen(true);
+    }
+  }, [inView]);
   return (
-    <article
+    <motion.article
+      initial={false}
+      animate={isOpen ? 'open' : 'closed'}
+      ref={containerRef}
       className={cx(styles['featured-post'], {
         [styles['hero-post--is-even']]: isEven,
       })}
     >
       {post.featuredImage && (
         <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -100, opacity: 0 }}
+          variants={imagevariants}
           layoutId={`image-${slug}`}
           className={styles['image-wrap']}
         >
@@ -94,21 +141,18 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
           </Link>
         </motion.div>
       )}
-      <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1, transition: { delay: 0.3 } }}
-        className={styles['content-wrap']}
-      >
-        <div className={styles['meta-top']}>
+      <motion.div variants={contentVariants} className={styles['content-wrap']}>
+        <motion.div variants={childVariants} className={styles['meta-top']}>
           {categories && (
             <TagList isEven={isEven} tags={categories} context="heroExcerpt" />
           )}
           {tags && (
             <TagList isEven={isEven} tags={tags} context="heroExcerpt" />
           )}
-        </div>
+        </motion.div>
 
-        <div
+        <motion.div
+          variants={childVariants}
           className={cx(styles['content'], {
             [styles[`content--${type}`]]: type === 'small',
           })}
@@ -130,9 +174,9 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
           <div className={styles['text-wrap']}>
             {parse(limitText(excerpt, characterLimit[type]))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className={styles['meta-bottom']}>
+        <motion.div variants={childVariants} className={styles['meta-bottom']}>
           {type === 'hero' && (
             <Button
               type="link"
@@ -141,9 +185,9 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
               text="read more"
             />
           )}
-        </div>
+        </motion.div>
       </motion.div>
-    </article>
+    </motion.article>
   );
 };
 export default ExcerptFeature;
