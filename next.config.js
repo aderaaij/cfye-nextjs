@@ -17,4 +17,13 @@ module.exports = {
     }
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/:slug([\\w-]+)(-\\d+)',
+        destination: '/posts/:slug',
+        permanent: true,
+      },
+    ];
+  },
 };
