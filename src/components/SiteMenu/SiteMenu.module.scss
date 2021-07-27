@@ -3,6 +3,7 @@
   height: 100vh;
   position: fixed;
   overflow: hidden;
+  opacity: 0;
   top: 0;
   left: 0;
   background: #eee;
@@ -11,9 +12,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  pointer-events: none;
 
   @media screen and (min-width: 768px) {
     padding: 0 2em;
+  }
+
+  &--active {
+    pointer-events: all;
   }
 }
 
