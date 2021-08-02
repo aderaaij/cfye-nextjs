@@ -1,6 +1,6 @@
 import parse from 'html-react-parser';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Image, { ImageProps } from 'next/image';
 import cx from 'classnames';
 import { useInView } from 'react-intersection-observer';
@@ -33,25 +33,36 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
 
   const contentVariants = {
     open: {
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+      transition: { staggerChildren: 0.3, delayChildren: 0.2 },
     },
     closed: {
       transition: { staggerChildren: 0.05, staggerDirection: -1 },
     },
   };
 
-  const imagevariants = {
-    closed: {
-      x: 0,
-      opacity: 0,
-      scale: 0.5,
+  const imageVariants: Variants = {
+    open: {
+      opacity: 1,
+      scale: 1,
       transition: {
-        type: 'spring',
-        stiffness: 20,
-        restDelta: 2,
+        scale: {
+          type: 'spring',
+          stiffness: 150,
+          bounce: 0,
+          damping: 10,
+        },
       },
     },
-    open: { x: 0, opacity: 1, scale: 1 },
+    closed: {
+      opacity: 0,
+      scale: 0.8,
+      transition: {
+        scale: {
+          type: 'spring',
+          // stiffness: 5000,
+        },
+      },
+    },
   };
   const childVariants = {
     open: {
@@ -62,7 +73,7 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
       x: 100,
       opacity: 0,
       transition: {
-        x: { stiffness: 1000 },
+        x: { stiffness: 100 },
       },
     },
   };
@@ -93,7 +104,7 @@ const ExcerptFeature: React.FC<Props> = ({ post, isEven, type = 'hero' }) => {
     >
       {post.featuredImage && (
         <motion.div
-          variants={imagevariants}
+          variants={imageVariants}
           layoutId={`image-${slug}`}
           className={styles['image-wrap']}
         >

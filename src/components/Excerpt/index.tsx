@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { PostExcerptFieldsFragment } from 'types';
 import TagList from '@/components/TagList';
 import styles from './Excerpt.module.scss';
+import { motion, Variants } from 'framer-motion';
 
 interface Props {
   node: PostExcerptFieldsFragment['node'];
@@ -11,8 +12,18 @@ interface Props {
 }
 
 const Excerpt: React.FC<Props> = ({ node, type }) => {
+  const variants: Variants = {
+    open: {
+      opacity: 1,
+      scale: 1,
+    },
+    closed: {
+      scale: 0.6,
+      opacity: 0,
+    },
+  };
   return (
-    <article className={styles['article']}>
+    <motion.article className={styles['article']} variants={variants}>
       <div className={styles['image-wrap']}>
         <Link as={`/posts/${node.slug}`} href="/posts/[slug]">
           <a>
@@ -45,7 +56,7 @@ const Excerpt: React.FC<Props> = ({ node, type }) => {
           </Link>
         </h3>
       </div>
-    </article>
+    </motion.article>
   );
 };
 export default Excerpt;
