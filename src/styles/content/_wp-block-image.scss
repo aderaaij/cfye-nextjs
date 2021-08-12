@@ -1,17 +1,24 @@
 .wp-block-image {
-  grid-column: 3 / 10;
   padding: 0;
   position: relative;
   margin: 2em 0;
+  grid-column: 1 / -1;
 
   @media screen and (min-width: 768px) {
     margin: 4em 0;
+    grid-column: 3 / -3;
+  }
+
+  &.size-medium {
+    @media screen and (min-width: 768px) {
+      margin: 4em 0;
+      grid-column: 4 / -4;
+    }
   }
 
   img {
     width: 100%;
     height: auto;
-    // max-height: 100vh;
     object-fit: contain;
     display: block;
   }
@@ -28,7 +35,6 @@
   &.is-style-cover-screen img {
     width: 100%;
     object-fit: cover;
-    // aspect-ratio: 16 / 9;
   }
 
   figcaption {

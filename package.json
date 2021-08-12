@@ -40,10 +40,10 @@
     "string-strip-html": "^8.3.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.18.0",
-    "@graphql-codegen/typescript": "^1.17.11",
-    "@graphql-codegen/typescript-operations": "^1.18.1",
-    "@graphql-codegen/typescript-resolvers": "^1.17.10",
+    "@graphql-codegen/cli": "^2.0.1",
+    "@graphql-codegen/typescript": "^2.0.0",
+    "@graphql-codegen/typescript-operations": "^2.0.1",
+    "@graphql-codegen/typescript-resolvers": "^2.0.0",
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.4.0",

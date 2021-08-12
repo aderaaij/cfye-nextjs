@@ -42,6 +42,23 @@ export type Acf_GoogleMap = {
   zoom?: Maybe<Scalars['String']>;
 };
 
+/** A Field Group registered by ACF */
+export type AcfFieldGroup = {
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
+/** ACF Link field */
+export type AcfLink = {
+  __typename?: 'AcfLink';
+  /** The target of the link (_blank, etc) */
+  target?: Maybe<Scalars['String']>;
+  /** The title of the link */
+  title?: Maybe<Scalars['String']>;
+  /** The url of the link */
+  url?: Maybe<Scalars['String']>;
+};
+
 /** The Artist type */
 export type Artist = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
   __typename?: 'Artist';
@@ -50,6 +67,7 @@ export type Artist = Node & ContentNode & UniformResourceIdentifiable & Database
    * @deprecated Deprecated in favor of the databaseId field
    */
   artistId: Scalars['Int'];
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Artist information&quot; was set to Show in GraphQL. */
   artistInformation?: Maybe<Artist_Artistinformation>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
@@ -105,7 +123,7 @@ export type Artist = Node & ContentNode & UniformResourceIdentifiable & Database
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
@@ -152,16 +170,17 @@ export enum ArtistIdType {
 /** Connection between the Artist type and the Artist type */
 export type ArtistToPreviewConnectionEdge = {
   __typename?: 'ArtistToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Artist>;
 };
 
 /** Field Group */
-export type Artist_Artistinformation = {
+export type Artist_Artistinformation = AcfFieldGroup & {
   __typename?: 'Artist_Artistinformation';
   artistDescription?: Maybe<Scalars['String']>;
   /** Add the artist location to the map */
   artistLocation?: Maybe<Acf_GoogleMap>;
+  /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
   flickrUsername?: Maybe<Scalars['String']>;
   headerImage?: Maybe<MediaItem>;
@@ -430,11 +449,11 @@ export enum BlockEditorPreviewIdType {
 /** Connection between the BlockEditorPreview type and the BlockEditorPreview type */
 export type BlockEditorPreviewToPreviewConnectionEdge = {
   __typename?: 'BlockEditorPreviewToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<BlockEditorPreview>;
 };
 
-export type BlockUnion = CgbBlockCfyeBlocksBlock | CoreParagraphBlock | CoreImageBlock | CoreHeadingBlock | CoreGalleryBlock | CoreListBlock | CoreQuoteBlock | CoreShortcodeBlock | CoreArchivesBlock | CoreAudioBlock | CoreButtonBlock | CoreButtonsBlock | CoreCalendarBlock | CoreCategoriesBlock | CoreCodeBlock | CoreColumnsBlock | CoreColumnBlock | CoreCoverBlock | CoreEmbedBlock | CoreFileBlock | CoreGroupBlock | CoreFreeformBlock | CoreHtmlBlock | CoreMediaTextBlock | CoreLatestCommentsBlock | CoreLatestPostsBlock | CoreMissingBlock | CoreMoreBlock | CoreNextpageBlock | CorePreformattedBlock | CorePullquoteBlock | CoreRssBlock | CoreSearchBlock | CoreSeparatorBlock | CoreBlock | CoreSocialLinksBlock | CoreSocialLinkBlock | CoreSpacerBlock | CoreSubheadBlock | CoreTableBlock | CoreTagCloudBlock | CoreTextColumnsBlock | CoreVerseBlock | CoreVideoBlock;
+export type BlockUnion = CgbBlockCfyeBlocksBlock | CoreParagraphBlock | CoreImageBlock | CoreHeadingBlock | CoreGalleryBlock | CoreListBlock | CoreQuoteBlock | CoreShortcodeBlock | CoreArchivesBlock | CoreAudioBlock | CoreButtonBlock | CoreButtonsBlock | CoreCalendarBlock | CoreCategoriesBlock | CoreCodeBlock | CoreColumnsBlock | CoreColumnBlock | CoreCoverBlock | CoreEmbedBlock | CoreFileBlock | CoreGroupBlock | CoreFreeformBlock | CoreHtmlBlock | CoreMediaTextBlock | CoreLatestCommentsBlock | CoreLatestPostsBlock | CoreMissingBlock | CoreMoreBlock | CoreNextpageBlock | CorePageListBlock | CorePreformattedBlock | CorePullquoteBlock | CoreRssBlock | CoreSearchBlock | CoreSeparatorBlock | CoreBlock | CoreSocialLinksBlock | CoreSocialLinkBlock | CoreSpacerBlock | CoreTableBlock | CoreTagCloudBlock | CoreTextColumnsBlock | CoreVerseBlock | CoreVideoBlock | CoreSiteLogoBlock | CoreSiteTaglineBlock | CoreSiteTitleBlock | CoreQueryBlock | CorePostTemplateBlock | CoreQueryTitleBlock | CoreQueryPaginationBlock | CoreQueryPaginationNextBlock | CoreQueryPaginationNumbersBlock | CoreQueryPaginationPreviousBlock | CorePostTitleBlock | CorePostContentBlock | CorePostDateBlock | CorePostExcerptBlock | CorePostFeaturedImageBlock | CorePostTermsBlock | CoreLoginoutBlock;
 
 /** The category type */
 export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
@@ -484,7 +503,7 @@ export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseI
   slug?: Maybe<Scalars['String']>;
   /** Connection between the category type and the Taxonomy type */
   taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was assigned to the &quot;category&quot; taxonomy */
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
   TaxonomyFields?: Maybe<Category_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
@@ -712,7 +731,7 @@ export type CategoryToContentNodeConnectionWhereArgs = {
 /** Connection between the category type and the category type */
 export type CategoryToParentCategoryConnectionEdge = {
   __typename?: 'CategoryToParentCategoryConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Category>;
 };
 
@@ -805,14 +824,15 @@ export type CategoryToPostConnectionWhereArgs = {
 /** Connection between the category type and the Taxonomy type */
 export type CategoryToTaxonomyConnectionEdge = {
   __typename?: 'CategoryToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
 /** Field Group */
-export type Category_Taxonomyfields = {
+export type Category_Taxonomyfields = AcfFieldGroup & {
   __typename?: 'Category_Taxonomyfields';
   featuredTaxonomyImage?: Maybe<MediaItem>;
+  /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
 };
 
@@ -1012,21 +1032,21 @@ export type CommentToCommentConnectionWhereArgs = {
 /** Connection between the Comment type and the Commenter type */
 export type CommentToCommenterConnectionEdge = {
   __typename?: 'CommentToCommenterConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Commenter>;
 };
 
 /** Connection between the Comment type and the ContentNode type */
 export type CommentToContentNodeConnectionEdge = {
   __typename?: 'CommentToContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
 /** Connection between the Comment type and the Comment type */
 export type CommentToParentCommentConnectionEdge = {
   __typename?: 'CommentToParentCommentConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Comment>;
 };
 
@@ -1229,14 +1249,14 @@ export enum ContentNodeIdTypeEnum {
 /** Connection between the ContentNode type and the ContentType type */
 export type ContentNodeToContentTypeConnectionEdge = {
   __typename?: 'ContentNodeToContentTypeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentType>;
 };
 
 /** Connection between the ContentNode type and the User type */
 export type ContentNodeToEditLastConnectionEdge = {
   __typename?: 'ContentNodeToEditLastConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -1245,7 +1265,7 @@ export type ContentNodeToEditLockConnectionEdge = {
   __typename?: 'ContentNodeToEditLockConnectionEdge';
   /** The timestamp for when the node was last edited */
   lockTimestamp?: Maybe<Scalars['String']>;
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -1290,7 +1310,7 @@ export type ContentNodeToEnqueuedStylesheetConnectionEdge = {
 };
 
 /** A union of Content Node Types that support revisions */
-export type ContentRevisionUnion = Post | Page;
+export type ContentRevisionUnion = Post | Page | ReusableBlock;
 
 /** The template assigned to a node of content */
 export type ContentTemplate = {
@@ -1647,8 +1667,8 @@ export type CoreButtonBlockAttributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1660,15 +1680,15 @@ export type CoreButtonBlockAttributes = {
   width?: Maybe<Scalars['Float']>;
 };
 
-export type CoreButtonBlockAttributesUnion = CoreButtonBlockAttributes | CoreButtonBlockDeprecatedV1Attributes | CoreButtonBlockDeprecatedV2Attributes | CoreButtonBlockDeprecatedV3Attributes | CoreButtonBlockDeprecatedV4Attributes | CoreButtonBlockDeprecatedV5Attributes | CoreButtonBlockDeprecatedV6Attributes;
+export type CoreButtonBlockAttributesUnion = CoreButtonBlockAttributes | CoreButtonBlockDeprecatedV1Attributes | CoreButtonBlockDeprecatedV2Attributes | CoreButtonBlockDeprecatedV3Attributes | CoreButtonBlockDeprecatedV4Attributes | CoreButtonBlockDeprecatedV5Attributes | CoreButtonBlockDeprecatedV6Attributes | CoreButtonBlockDeprecatedV7Attributes | CoreButtonBlockDeprecatedV8Attributes;
 
 export type CoreButtonBlockDeprecatedV1Attributes = {
   __typename?: 'CoreButtonBlockDeprecatedV1Attributes';
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1685,8 +1705,8 @@ export type CoreButtonBlockDeprecatedV2Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1703,8 +1723,8 @@ export type CoreButtonBlockDeprecatedV3Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1721,8 +1741,8 @@ export type CoreButtonBlockDeprecatedV4Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1739,8 +1759,8 @@ export type CoreButtonBlockDeprecatedV5Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1757,8 +1777,44 @@ export type CoreButtonBlockDeprecatedV6Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
-  borderRadius?: Maybe<Scalars['Float']>;
   className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV7Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV7Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV8Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV8Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   linkTarget?: Maybe<Scalars['String']>;
   placeholder?: Maybe<Scalars['String']>;
@@ -1933,8 +1989,10 @@ export type CoreColumnBlock = Block & {
 export type CoreColumnBlockAttributes = {
   __typename?: 'CoreColumnBlockAttributes';
   anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
-  templateLock?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
   verticalAlignment?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['String']>;
 };
@@ -1944,8 +2002,10 @@ export type CoreColumnBlockAttributesUnion = CoreColumnBlockAttributes | CoreCol
 export type CoreColumnBlockDeprecatedV1Attributes = {
   __typename?: 'CoreColumnBlockDeprecatedV1Attributes';
   anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
-  templateLock?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
   verticalAlignment?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['String']>;
 };
@@ -2263,10 +2323,12 @@ export type CoreFileBlockAttributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
+  displayPreview?: Maybe<Scalars['Boolean']>;
   downloadButtonText?: Maybe<Scalars['String']>;
   fileName?: Maybe<Scalars['String']>;
   href?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
+  previewHeight: Scalars['Float'];
   showDownloadButton: Scalars['Boolean'];
   textLinkHref?: Maybe<Scalars['String']>;
   textLinkTarget?: Maybe<Scalars['String']>;
@@ -2497,24 +2559,24 @@ export type CoreGroupBlockAttributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   tagName: Scalars['String'];
-  templateLock?: Maybe<Scalars['String']>;
   textColor?: Maybe<Scalars['String']>;
 };
 
-export type CoreGroupBlockAttributesUnion = CoreGroupBlockAttributes | CoreGroupBlockDeprecatedV1Attributes | CoreGroupBlockDeprecatedV2Attributes | CoreGroupBlockDeprecatedV3Attributes;
+export type CoreGroupBlockAttributesUnion = CoreGroupBlockAttributes | CoreGroupBlockDeprecatedV1Attributes | CoreGroupBlockDeprecatedV2Attributes | CoreGroupBlockDeprecatedV3Attributes | CoreGroupBlockDeprecatedV4Attributes;
 
 export type CoreGroupBlockDeprecatedV1Attributes = {
   __typename?: 'CoreGroupBlockDeprecatedV1Attributes';
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   tagName: Scalars['String'];
-  templateLock?: Maybe<Scalars['String']>;
   textColor?: Maybe<Scalars['String']>;
 };
 
@@ -2523,10 +2585,10 @@ export type CoreGroupBlockDeprecatedV2Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   tagName: Scalars['String'];
-  templateLock?: Maybe<Scalars['String']>;
   textColor?: Maybe<Scalars['String']>;
 };
 
@@ -2535,10 +2597,22 @@ export type CoreGroupBlockDeprecatedV3Attributes = {
   align?: Maybe<Scalars['String']>;
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   tagName: Scalars['String'];
-  templateLock?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreGroupBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  tagName: Scalars['String'];
   textColor?: Maybe<Scalars['String']>;
 };
 
@@ -2907,11 +2981,42 @@ export type CoreListBlockAttributes = {
   fontSize?: Maybe<Scalars['String']>;
   gradient?: Maybe<Scalars['String']>;
   ordered: Scalars['Boolean'];
+  placeholder?: Maybe<Scalars['String']>;
   reversed?: Maybe<Scalars['Boolean']>;
   start?: Maybe<Scalars['Float']>;
   textColor?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   values: Scalars['String'];
+};
+
+/** core/loginout block */
+export type CoreLoginoutBlock = Block & {
+  __typename?: 'CoreLoginoutBlock';
+  attributes?: Maybe<CoreLoginoutBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreLoginoutBlockAttributes = {
+  __typename?: 'CoreLoginoutBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+  displayLoginAsForm: Scalars['Boolean'];
+  redirectToCurrent: Scalars['Boolean'];
 };
 
 /** core/media-text block */
@@ -3124,6 +3229,34 @@ export type CoreNextpageBlock = Block & {
   saveContent?: Maybe<Scalars['String']>;
 };
 
+/** core/page-list block */
+export type CorePageListBlock = Block & {
+  __typename?: 'CorePageListBlock';
+  attributes?: Maybe<CorePageListBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePageListBlockAttributes = {
+  __typename?: 'CorePageListBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+};
+
 /** core/paragraph block */
 export type CoreParagraphBlock = Block & {
   __typename?: 'CoreParagraphBlock';
@@ -3233,6 +3366,236 @@ export type CoreParagraphBlockDeprecatedV5Attributes = {
   textColor?: Maybe<Scalars['String']>;
 };
 
+/** core/post-content block */
+export type CorePostContentBlock = Block & {
+  __typename?: 'CorePostContentBlock';
+  attributes?: Maybe<CorePostContentBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostContentBlockAttributes = {
+  __typename?: 'CorePostContentBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/post-date block */
+export type CorePostDateBlock = Block & {
+  __typename?: 'CorePostDateBlock';
+  attributes?: Maybe<CorePostDateBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostDateBlockAttributes = {
+  __typename?: 'CorePostDateBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  format?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-excerpt block */
+export type CorePostExcerptBlock = Block & {
+  __typename?: 'CorePostExcerptBlock';
+  attributes?: Maybe<CorePostExcerptBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostExcerptBlockAttributes = {
+  __typename?: 'CorePostExcerptBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  moreText?: Maybe<Scalars['String']>;
+  showMoreOnNewLine: Scalars['Boolean'];
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-featured-image block */
+export type CorePostFeaturedImageBlock = Block & {
+  __typename?: 'CorePostFeaturedImageBlock';
+  attributes?: Maybe<CorePostFeaturedImageBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostFeaturedImageBlockAttributes = {
+  __typename?: 'CorePostFeaturedImageBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+};
+
+/** core/post-template block */
+export type CorePostTemplateBlock = Block & {
+  __typename?: 'CorePostTemplateBlock';
+  attributes?: Maybe<CorePostTemplateBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTemplateBlockAttributes = {
+  __typename?: 'CorePostTemplateBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/post-terms block */
+export type CorePostTermsBlock = Block & {
+  __typename?: 'CorePostTermsBlock';
+  attributes?: Maybe<CorePostTermsBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTermsBlockAttributes = {
+  __typename?: 'CorePostTermsBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  term?: Maybe<Scalars['String']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-title block */
+export type CorePostTitleBlock = Block & {
+  __typename?: 'CorePostTitleBlock';
+  attributes?: Maybe<CorePostTitleBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTitleBlockAttributes = {
+  __typename?: 'CorePostTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  level: Scalars['Float'];
+  linkTarget: Scalars['String'];
+  rel: Scalars['String'];
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
 /** core/preformatted block */
 export type CorePreformattedBlock = Block & {
   __typename?: 'CorePreformattedBlock';
@@ -3259,9 +3622,12 @@ export type CorePreformattedBlock = Block & {
 export type CorePreformattedBlockAttributes = {
   __typename?: 'CorePreformattedBlockAttributes';
   anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 /** core/pullquote block */
@@ -3352,6 +3718,219 @@ export type CorePullquoteBlockDeprecatedV4Attributes = {
   mainColor?: Maybe<Scalars['String']>;
   textColor?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
+};
+
+/** core/query block */
+export type CoreQueryBlock = Block & {
+  __typename?: 'CoreQueryBlock';
+  attributes?: Maybe<CoreQueryBlockAttributesUnion>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryBlockAttributes = {
+  __typename?: 'CoreQueryBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayLayout: Scalars['String'];
+  gradient?: Maybe<Scalars['String']>;
+  query: Scalars['String'];
+  queryId?: Maybe<Scalars['Float']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryBlockAttributesUnion = CoreQueryBlockAttributes | CoreQueryBlockDeprecatedV1Attributes;
+
+export type CoreQueryBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreQueryBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayLayout: Scalars['String'];
+  gradient?: Maybe<Scalars['String']>;
+  query: Scalars['String'];
+  queryId?: Maybe<Scalars['Float']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination block */
+export type CoreQueryPaginationBlock = Block & {
+  __typename?: 'CoreQueryPaginationBlock';
+  attributes?: Maybe<CoreQueryPaginationBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationBlockAttributes = {
+  __typename?: 'CoreQueryPaginationBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-next block */
+export type CoreQueryPaginationNextBlock = Block & {
+  __typename?: 'CoreQueryPaginationNextBlock';
+  attributes?: Maybe<CoreQueryPaginationNextBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationNextBlockAttributes = {
+  __typename?: 'CoreQueryPaginationNextBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-numbers block */
+export type CoreQueryPaginationNumbersBlock = Block & {
+  __typename?: 'CoreQueryPaginationNumbersBlock';
+  attributes?: Maybe<CoreQueryPaginationNumbersBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationNumbersBlockAttributes = {
+  __typename?: 'CoreQueryPaginationNumbersBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-previous block */
+export type CoreQueryPaginationPreviousBlock = Block & {
+  __typename?: 'CoreQueryPaginationPreviousBlock';
+  attributes?: Maybe<CoreQueryPaginationPreviousBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationPreviousBlockAttributes = {
+  __typename?: 'CoreQueryPaginationPreviousBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-title block */
+export type CoreQueryTitleBlock = Block & {
+  __typename?: 'CoreQueryTitleBlock';
+  attributes?: Maybe<CoreQueryTitleBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryTitleBlockAttributes = {
+  __typename?: 'CoreQueryTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 /** core/quote block */
@@ -3549,6 +4128,106 @@ export type CoreShortcodeBlockAttributes = {
   text?: Maybe<Scalars['String']>;
 };
 
+/** core/site-logo block */
+export type CoreSiteLogoBlock = Block & {
+  __typename?: 'CoreSiteLogoBlock';
+  attributes?: Maybe<CoreSiteLogoBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteLogoBlockAttributes = {
+  __typename?: 'CoreSiteLogoBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  linkTarget: Scalars['String'];
+  width?: Maybe<Scalars['Float']>;
+};
+
+/** core/site-tagline block */
+export type CoreSiteTaglineBlock = Block & {
+  __typename?: 'CoreSiteTaglineBlock';
+  attributes?: Maybe<CoreSiteTaglineBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteTaglineBlockAttributes = {
+  __typename?: 'CoreSiteTaglineBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/site-title block */
+export type CoreSiteTitleBlock = Block & {
+  __typename?: 'CoreSiteTitleBlock';
+  attributes?: Maybe<CoreSiteTitleBlockAttributes>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteTitleBlockAttributes = {
+  __typename?: 'CoreSiteTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
 /** core/social-link block */
 export type CoreSocialLinkBlock = Block & {
   __typename?: 'CoreSocialLinkBlock';
@@ -3663,36 +4342,7 @@ export type CoreSpacerBlockAttributes = {
   anchor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   height: Scalars['Float'];
-};
-
-/** core/subhead block */
-export type CoreSubheadBlock = Block & {
-  __typename?: 'CoreSubheadBlock';
-  attributes?: Maybe<CoreSubheadBlockAttributes>;
-  /** Server side rendered content. */
-  dynamicContent?: Maybe<Scalars['String']>;
-  /** Gutenberg blocks */
-  innerBlocks?: Maybe<Array<Block>>;
-  /** Is block rendered server side. */
-  isDynamic: Scalars['Boolean'];
-  /** Name of the block. */
-  name: Scalars['String'];
-  order: Scalars['Int'];
-  /** Original HTML content. */
-  originalContent?: Maybe<Scalars['String']>;
-  /** Parent post. */
-  parentNode: Node;
-  /** Parent post id. */
-  parentNodeDatabaseId: Scalars['Int'];
-  /** Original HTML content with inner blocks. */
-  saveContent?: Maybe<Scalars['String']>;
-};
-
-export type CoreSubheadBlockAttributes = {
-  __typename?: 'CoreSubheadBlockAttributes';
-  align?: Maybe<Scalars['String']>;
-  className?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 /** core/table block */
@@ -3724,11 +4374,14 @@ export type CoreTableBlockAttributes = {
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
   body: Array<Maybe<CoreTableBlockAttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
   caption: Scalars['String'];
   className?: Maybe<Scalars['String']>;
   foot: Array<Maybe<CoreTableBlockAttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
   hasFixedLayout: Scalars['Boolean'];
   head: Array<Maybe<CoreTableBlockAttributesHead>>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 export type CoreTableBlockAttributesBody = {
@@ -3770,7 +4423,7 @@ export type CoreTableBlockAttributesHeadCells = {
   tag: Scalars['String'];
 };
 
-export type CoreTableBlockAttributesUnion = CoreTableBlockAttributes | CoreTableBlockDeprecatedV1Attributes;
+export type CoreTableBlockAttributesUnion = CoreTableBlockAttributes | CoreTableBlockDeprecatedV1Attributes | CoreTableBlockDeprecatedV2Attributes;
 
 export type CoreTableBlockDeprecatedV1Attributes = {
   __typename?: 'CoreTableBlockDeprecatedV1Attributes';
@@ -3778,11 +4431,14 @@ export type CoreTableBlockDeprecatedV1Attributes = {
   anchor?: Maybe<Scalars['String']>;
   backgroundColor?: Maybe<Scalars['String']>;
   body: Array<Maybe<CoreTableBlockDeprecatedV1AttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
   caption: Scalars['String'];
   className?: Maybe<Scalars['String']>;
   foot: Array<Maybe<CoreTableBlockDeprecatedV1AttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
   hasFixedLayout: Scalars['Boolean'];
   head: Array<Maybe<CoreTableBlockDeprecatedV1AttributesHead>>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 export type CoreTableBlockDeprecatedV1AttributesBody = {
@@ -3818,6 +4474,61 @@ export type CoreTableBlockDeprecatedV1AttributesHead = {
 
 export type CoreTableBlockDeprecatedV1AttributesHeadCells = {
   __typename?: 'CoreTableBlockDeprecatedV1AttributesHeadCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreTableBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  body: Array<Maybe<CoreTableBlockDeprecatedV2AttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
+  caption: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  foot: Array<Maybe<CoreTableBlockDeprecatedV2AttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
+  hasFixedLayout: Scalars['Boolean'];
+  head: Array<Maybe<CoreTableBlockDeprecatedV2AttributesHead>>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesBody = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesBody';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesBodyCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesBodyCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesBodyCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2AttributesFoot = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesFoot';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesFootCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesFootCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesFootCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2AttributesHead = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesHead';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesHeadCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesHeadCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesHeadCells';
   align?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   scope?: Maybe<Scalars['String']>;
@@ -3917,10 +4628,13 @@ export type CoreVerseBlock = Block & {
 export type CoreVerseBlockAttributes = {
   __typename?: 'CoreVerseBlockAttributes';
   anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
   textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 export type CoreVerseBlockAttributesUnion = CoreVerseBlockAttributes | CoreVerseBlockDeprecatedV1Attributes;
@@ -3928,10 +4642,13 @@ export type CoreVerseBlockAttributesUnion = CoreVerseBlockAttributes | CoreVerse
 export type CoreVerseBlockDeprecatedV1Attributes = {
   __typename?: 'CoreVerseBlockDeprecatedV1Attributes';
   anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
   className?: Maybe<Scalars['String']>;
   content: Scalars['String'];
   fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
   textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
 };
 
 /** core/video block */
@@ -4869,7 +5586,7 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
 export type HierarchicalContentNodeToParentContentNodeConnectionEdge = {
   __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
@@ -5418,7 +6135,7 @@ export type MenuItemObjectUnion = Post | Page | Artist | Category | Tag | PostFo
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
   __typename?: 'MenuItemToMenuConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Menu>;
 };
 
@@ -5457,7 +6174,7 @@ export type MenuItemToMenuItemConnectionWhereArgs = {
 /** Connection between the MenuItem type and the MenuItemLinkable type */
 export type MenuItemToMenuItemLinkableConnectionEdge = {
   __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<MenuItemLinkable>;
 };
 
@@ -5649,6 +6366,8 @@ export enum MimeTypeEnum {
   ImagePng = 'IMAGE_PNG',
   /** MimeType image/tiff */
   ImageTiff = 'IMAGE_TIFF',
+  /** MimeType image/webp */
+  ImageWebp = 'IMAGE_WEBP',
   /** MimeType image/x-icon */
   ImageXIcon = 'IMAGE_X_ICON',
   /** MimeType text/calendar */
@@ -5716,7 +6435,7 @@ export type NodeWithAuthor = {
 /** Connection between the NodeWithAuthor type and the User type */
 export type NodeWithAuthorToUserConnectionEdge = {
   __typename?: 'NodeWithAuthorToUserConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -5754,18 +6473,86 @@ export type NodeWithExcerptExcerptArgs = {
 
 /** A node that can have a featured image set */
 export type NodeWithFeaturedImage = {
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
   featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
   /** The database identifier for the featured image node assigned to the content node */
   featuredImageDatabaseId?: Maybe<Scalars['Int']>;
   /** Globally unique ID of the featured image assigned to the node */
   featuredImageId?: Maybe<Scalars['ID']>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The unique resource identifier path */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** The template assigned to a node of content */
+  template?: Maybe<ContentTemplate>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** A node that can have a featured image set */
+export type NodeWithFeaturedImageEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+
+/** A node that can have a featured image set */
+export type NodeWithFeaturedImageEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
 export type NodeWithFeaturedImageToMediaItemConnectionEdge = {
   __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<MediaItem>;
 };
 
@@ -5786,7 +6573,7 @@ export type NodeWithRevisions = {
 /** Connection between the NodeWithRevisions type and the ContentNode type */
 export type NodeWithRevisionsToContentNodeConnectionEdge = {
   __typename?: 'NodeWithRevisionsToContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
@@ -5888,8 +6675,6 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
   /** Connection between the ContentNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;FAQ&quot; was assigned to an individual post of the post_type: &quot;page&quot;. The group will be present in the Schema for the &quot;pages&quot; Type, but will only resolve if the entity has content saved. */
-  faq?: Maybe<Page_Faq>;
   /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
   featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
   /** The database identifier for the featured image node assigned to the content node */
@@ -5951,13 +6736,11 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
   /** Connection between the page type and the page type */
   revisions?: Maybe<PageToRevisionConnection>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Sites we like&quot; was assigned to an individual post of the post_type: &quot;page&quot;. The group will be present in the Schema for the &quot;pages&quot; Type, but will only resolve if the entity has content saved. */
-  sitesWeLike?: Maybe<Page_Siteswelike>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
@@ -6130,7 +6913,7 @@ export type PageToCommentConnectionWhereArgs = {
 /** Connection between the page type and the page type */
 export type PageToPreviewConnectionEdge = {
   __typename?: 'PageToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Page>;
 };
 
@@ -6198,40 +6981,6 @@ export type PageToRevisionConnectionWhereArgs = {
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
-};
-
-/** Field Group */
-export type Page_Faq = {
-  __typename?: 'Page_Faq';
-  fieldGroupName?: Maybe<Scalars['String']>;
-  /** Q &amp; A Fields */
-  qAndA?: Maybe<Array<Maybe<Page_Faq_QAndA>>>;
-};
-
-/** Field Group */
-export type Page_Faq_QAndA = {
-  __typename?: 'Page_Faq_qAndA';
-  fieldGroupName?: Maybe<Scalars['String']>;
-  qaAnswer?: Maybe<Scalars['String']>;
-  qaQuestion?: Maybe<Scalars['String']>;
-};
-
-/** Field Group */
-export type Page_Siteswelike = {
-  __typename?: 'Page_Siteswelike';
-  fieldGroupName?: Maybe<Scalars['String']>;
-  friends?: Maybe<Array<Maybe<Page_Siteswelike_Friends>>>;
-};
-
-/** Field Group */
-export type Page_Siteswelike_Friends = {
-  __typename?: 'Page_Siteswelike_friends';
-  fieldGroupName?: Maybe<Scalars['String']>;
-  friendsDes?: Maybe<Scalars['String']>;
-  friendsLink?: Maybe<Scalars['String']>;
-  friendsLogo?: Maybe<MediaItem>;
-  friendsThumbnail?: Maybe<MediaItem>;
-  friendsTitle?: Maybe<Scalars['String']>;
 };
 
 /** An plugin object */
@@ -6306,6 +7055,7 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   featuredImageDatabaseId?: Maybe<Scalars['Int']>;
   /** Globally unique ID of the featured image assigned to the node */
   featuredImageId?: Maybe<Scalars['ID']>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Featured Image Settings&quot; was set to Show in GraphQL. */
   featuredImageSettings?: Maybe<Post_Featuredimagesettings>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
@@ -6342,6 +7092,7 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
    * @deprecated Deprecated in favor of the databaseId field
    */
   postId: Scalars['Int'];
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Post fields&quot; was set to Show in GraphQL. */
   postSettingsField?: Maybe<Post_Postsettingsfield>;
   /** Connection between the post type and the post type */
   preview?: Maybe<PostToPreviewConnectionEdge>;
@@ -6363,7 +7114,7 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   status?: Maybe<Scalars['String']>;
   /** Connection between the post type and the tag type */
   tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** Connection between the post type and the TermNode type */
   terms?: Maybe<PostToTermNodeConnection>;
@@ -6738,7 +7489,7 @@ export type PostFormatToPostConnectionWhereArgs = {
 /** Connection between the postFormat type and the Taxonomy type */
 export type PostFormatToTaxonomyConnectionEdge = {
   __typename?: 'PostFormatToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -7088,7 +7839,7 @@ export type PostToPostFormatConnectionWhereArgs = {
 /** Connection between the post type and the post type */
 export type PostToPreviewConnectionEdge = {
   __typename?: 'PostToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Post>;
 };
 
@@ -7364,19 +8115,21 @@ export type PostTypeLabelDetails = {
 };
 
 /** Field Group */
-export type Post_Featuredimagesettings = {
+export type Post_Featuredimagesettings = AcfFieldGroup & {
   __typename?: 'Post_Featuredimagesettings';
   backgroundColor?: Maybe<Scalars['String']>;
+  /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
   imageFit?: Maybe<Scalars['String']>;
 };
 
 /** Field Group */
-export type Post_Postsettingsfield = {
+export type Post_Postsettingsfield = AcfFieldGroup & {
   __typename?: 'Post_Postsettingsfield';
   addToMap?: Maybe<Scalars['Boolean']>;
   /** Choose the artist to display artist information. When the artist doesn&#039;t exist in the database yet, please add it &lt;a href=&quot;http://loc.cfye.com/wp-admin/edit.php?post_type=artists&quot; target=&quot;_blank&quot; &gt;via this link&lt;/a&gt; */
   artistPost?: Maybe<Array<Maybe<Post_Postsettingsfield_ArtistPost>>>;
+  /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
   relatedArticle?: Maybe<Array<Maybe<Post_Postsettingsfield_RelatedArticle>>>;
 };
@@ -7509,7 +8262,7 @@ export type RestoreCommentPayload = {
 };
 
 /** The ReusableBlock type */
-export type ReusableBlock = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & BlockEditorContentNode & {
+export type ReusableBlock = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithRevisions & BlockEditorContentNode & {
   __typename?: 'ReusableBlock';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -7550,6 +8303,8 @@ export type ReusableBlock = Node & ContentNode & UniformResourceIdentifiable & D
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** True if the node is a revision of another node */
+  isRevision?: Maybe<Scalars['Boolean']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
@@ -7574,6 +8329,10 @@ export type ReusableBlock = Node & ContentNode & UniformResourceIdentifiable & D
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
   /** Whether the object is a node in the preview state */
   previewRevisionId?: Maybe<Scalars['ID']>;
+  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+  /** Connection between the ReusableBlock type and the ReusableBlock type */
+  revisions?: Maybe<ReusableBlockToRevisionConnection>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
@@ -7624,6 +8383,16 @@ export type ReusableBlockPreviewBlocksFromJsonArgs = {
 
 
 /** The ReusableBlock type */
+export type ReusableBlockRevisionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ReusableBlockToRevisionConnectionWhereArgs>;
+};
+
+
+/** The ReusableBlock type */
 export type ReusableBlockTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -7643,8 +8412,66 @@ export enum ReusableBlockIdType {
 /** Connection between the ReusableBlock type and the ReusableBlock type */
 export type ReusableBlockToPreviewConnectionEdge = {
   __typename?: 'ReusableBlockToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ReusableBlock>;
+};
+
+/** Connection between the ReusableBlock type and the ReusableBlock type */
+export type ReusableBlockToRevisionConnection = {
+  __typename?: 'ReusableBlockToRevisionConnection';
+  /** Edges for the ReusableBlockToRevisionConnection connection */
+  edges?: Maybe<Array<Maybe<ReusableBlockToRevisionConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<ReusableBlock>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ReusableBlockToRevisionConnectionEdge = {
+  __typename?: 'ReusableBlockToRevisionConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<ReusableBlock>;
+};
+
+/** Arguments for filtering the ReusableBlockToRevisionConnection connection */
+export type ReusableBlockToRevisionConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
 };
 
 /** The root mutation */
@@ -9764,7 +10591,7 @@ export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdenti
   tagId?: Maybe<Scalars['Int']>;
   /** Connection between the tag type and the Taxonomy type */
   taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was assigned to the &quot;post_tag&quot; taxonomy */
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
   TaxonomyFields?: Maybe<Tag_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
@@ -9975,14 +10802,15 @@ export type TagToPostConnectionWhereArgs = {
 /** Connection between the tag type and the Taxonomy type */
 export type TagToTaxonomyConnectionEdge = {
   __typename?: 'TagToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
 /** Field Group */
-export type Tag_Taxonomyfields = {
+export type Tag_Taxonomyfields = AcfFieldGroup & {
   __typename?: 'Tag_Taxonomyfields';
   featuredTaxonomyImage?: Maybe<MediaItem>;
+  /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars['String']>;
 };
 
@@ -12382,370 +13210,44 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-export type ArtistSummaryFragment = (
-  { __typename?: 'Artist' }
-  & Pick<Artist, 'id' | 'title' | 'slug'>
-  & { featuredImage?: Maybe<(
-    { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-    & { node?: Maybe<(
-      { __typename?: 'MediaItem' }
-      & Pick<MediaItem, 'id' | 'srcSet' | 'sourceUrl'>
-      & { thumbnail: MediaItem['sourceUrl'] }
-    )> }
-  )>, artistInformation?: Maybe<(
-    { __typename?: 'Artist_Artistinformation' }
-    & Pick<Artist_Artistinformation, 'artistDescription' | 'fieldGroupName' | 'flickrUsername' | 'sltInstagram' | 'sltTwitterid' | 'sltWebsite' | 'sltYoutubeid'>
-  )> }
-);
+export type ArtistSummaryFragment = { __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, srcSet?: Maybe<string>, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, fieldGroupName?: Maybe<string>, flickrUsername?: Maybe<string>, sltInstagram?: Maybe<string>, sltTwitterid?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string> }> };
 
-export type AuthorFieldsFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'name' | 'firstName' | 'lastName' | 'slug'>
-  & { avatar?: Maybe<(
-    { __typename?: 'Avatar' }
-    & Pick<Avatar, 'url'>
-  )> }
-);
+export type AuthorFieldsFragment = { __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> };
 
-export type FeaturedImageFieldsFragment = (
-  { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-  & { node?: Maybe<(
-    { __typename?: 'MediaItem' }
-    & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'id'>
-    & { thumbnail: MediaItem['sourceUrl'] }
-  )> }
-);
+export type FeaturedImageFieldsFragment = { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> };
 
-export type PostExcerptFieldsFragment = (
-  { __typename?: 'RootQueryToPostConnectionEdge' }
-  & { node?: Maybe<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'excerpt' | 'slug' | 'date' | 'isSticky'>
-    & { tags?: Maybe<(
-      { __typename?: 'PostToTagConnection' }
-      & { edges?: Maybe<Array<Maybe<(
-        { __typename?: 'PostToTagConnectionEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'Tag' }
-          & Pick<Tag, 'id' | 'name' | 'slug'>
-        )> }
-      )>>> }
-    )>, categories?: Maybe<(
-      { __typename?: 'PostToCategoryConnection' }
-      & { edges?: Maybe<Array<Maybe<(
-        { __typename?: 'PostToCategoryConnectionEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'Category' }
-          & Pick<Category, 'id' | 'name' | 'slug'>
-        )> }
-      )>>> }
-    )>, featuredImageSettings?: Maybe<(
-      { __typename?: 'Post_Featuredimagesettings' }
-      & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
-    )>, featuredImage?: Maybe<(
-      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-      & FeaturedImageFieldsFragment
-    )>, author?: Maybe<(
-      { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'name' | 'firstName' | 'lastName'>
-        & { avatar?: Maybe<(
-          { __typename?: 'Avatar' }
-          & Pick<Avatar, 'url'>
-        )> }
-      )> }
-    )> }
-  )> }
-);
+export type PostExcerptFieldsFragment = { __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> };
 
-export type PostFieldsFragment = (
-  { __typename?: 'Post' }
-  & Pick<Post, 'title' | 'excerpt' | 'slug' | 'date'>
-  & { featuredImageSettings?: Maybe<(
-    { __typename?: 'Post_Featuredimagesettings' }
-    & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
-  )>, featuredImage?: Maybe<(
-    { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-    & { node?: Maybe<(
-      { __typename?: 'MediaItem' }
-      & Pick<MediaItem, 'sourceUrl' | 'id' | 'srcSet' | 'sizes'>
-      & { thumbnail: MediaItem['sourceUrl'] }
-      & { mediaDetails?: Maybe<(
-        { __typename?: 'MediaDetails' }
-        & { sizes?: Maybe<Array<Maybe<(
-          { __typename?: 'MediaSize' }
-          & Pick<MediaSize, 'sourceUrl'>
-        )>>> }
-      )> }
-    )> }
-  )>, author?: Maybe<(
-    { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
-    & { node?: Maybe<(
-      { __typename?: 'User' }
-      & AuthorFieldsFragment
-    )> }
-  )>, categories?: Maybe<(
-    { __typename?: 'PostToCategoryConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'PostToCategoryConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Category' }
-        & Pick<Category, 'name'>
-      )> }
-    )>>> }
-  )>, tags?: Maybe<(
-    { __typename?: 'PostToTagConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'PostToTagConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Tag' }
-        & Pick<Tag, 'name'>
-      )> }
-    )>>> }
-  )> }
-);
+export type PostFieldsFragment = { __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> };
 
-export type RevisionsFragment = (
-  { __typename?: 'Post' }
-  & { revisions?: Maybe<(
-    { __typename?: 'PostToRevisionConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'PostToRevisionConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'title' | 'excerpt' | 'content'>
-        & { author?: Maybe<(
-          { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
-          & { node?: Maybe<(
-            { __typename?: 'User' }
-            & AuthorFieldsFragment
-          )> }
-        )> }
-      )> }
-    )>>> }
-  )> }
-);
+export type RevisionsFragment = { __typename?: 'Post', revisions?: Maybe<{ __typename?: 'PostToRevisionConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToRevisionConnectionEdge', node?: Maybe<{ __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, content?: Maybe<string>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }> };
 
-export type TaxonomyFieldsFragment = (
-  { __typename?: 'RootQueryToTagConnection' }
-  & { edges?: Maybe<Array<Maybe<(
-    { __typename?: 'RootQueryToTagConnectionEdge' }
-    & { node?: Maybe<(
-      { __typename?: 'Tag' }
-      & Pick<Tag, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
-    )> }
-  )>>> }
-);
+export type TaxonomyFieldsFragment = { __typename?: 'RootQueryToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> };
 
 export type AboutPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AboutPageQuery = (
-  { __typename?: 'RootQuery' }
-  & { page?: Maybe<(
-    { __typename?: 'Page' }
-    & Pick<Page, 'id' | 'title' | 'content'>
-    & { blocks?: Maybe<Array<(
-      { __typename?: 'CgbBlockCfyeBlocksBlock' }
-      & Pick<CgbBlockCfyeBlocksBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreArchivesBlock' }
-      & Pick<CoreArchivesBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreAudioBlock' }
-      & Pick<CoreAudioBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreBlock' }
-      & Pick<CoreBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreButtonBlock' }
-      & Pick<CoreButtonBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreButtonsBlock' }
-      & Pick<CoreButtonsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCalendarBlock' }
-      & Pick<CoreCalendarBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCategoriesBlock' }
-      & Pick<CoreCategoriesBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCodeBlock' }
-      & Pick<CoreCodeBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreColumnBlock' }
-      & Pick<CoreColumnBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreColumnsBlock' }
-      & Pick<CoreColumnsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCoverBlock' }
-      & Pick<CoreCoverBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreEmbedBlock' }
-      & Pick<CoreEmbedBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreFileBlock' }
-      & Pick<CoreFileBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreFreeformBlock' }
-      & Pick<CoreFreeformBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreGalleryBlock' }
-      & Pick<CoreGalleryBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreGroupBlock' }
-      & Pick<CoreGroupBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreHeadingBlock' }
-      & Pick<CoreHeadingBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreHtmlBlock' }
-      & Pick<CoreHtmlBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreImageBlock' }
-      & Pick<CoreImageBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreLatestCommentsBlock' }
-      & Pick<CoreLatestCommentsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreLatestPostsBlock' }
-      & Pick<CoreLatestPostsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreListBlock' }
-      & Pick<CoreListBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMediaTextBlock' }
-      & Pick<CoreMediaTextBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMissingBlock' }
-      & Pick<CoreMissingBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMoreBlock' }
-      & Pick<CoreMoreBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreNextpageBlock' }
-      & Pick<CoreNextpageBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreParagraphBlock' }
-      & Pick<CoreParagraphBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CorePreformattedBlock' }
-      & Pick<CorePreformattedBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CorePullquoteBlock' }
-      & Pick<CorePullquoteBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreQuoteBlock' }
-      & Pick<CoreQuoteBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreRssBlock' }
-      & Pick<CoreRssBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSearchBlock' }
-      & Pick<CoreSearchBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSeparatorBlock' }
-      & Pick<CoreSeparatorBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreShortcodeBlock' }
-      & Pick<CoreShortcodeBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSocialLinkBlock' }
-      & Pick<CoreSocialLinkBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSocialLinksBlock' }
-      & Pick<CoreSocialLinksBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSpacerBlock' }
-      & Pick<CoreSpacerBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSubheadBlock' }
-      & Pick<CoreSubheadBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTableBlock' }
-      & Pick<CoreTableBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTagCloudBlock' }
-      & Pick<CoreTagCloudBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTextColumnsBlock' }
-      & Pick<CoreTextColumnsBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreVerseBlock' }
-      & Pick<CoreVerseBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreVideoBlock' }
-      & Pick<CoreVideoBlock, 'dynamicContent' | 'originalContent' | 'saveContent'>
-    )>>, featuredImage?: Maybe<(
-      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-      & FeaturedImageFieldsFragment
-    )> }
-  )> }
-);
+export type AboutPageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, content?: Maybe<string>, blocks?: Maybe<Array<{ __typename?: 'CgbBlockCfyeBlocksBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreArchivesBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreAudioBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreButtonBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreButtonsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreCalendarBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreCategoriesBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreCodeBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreColumnBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreColumnsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreCoverBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreEmbedBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreFileBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreFreeformBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreGalleryBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreGroupBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreHeadingBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreHtmlBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreImageBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreLatestCommentsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreLatestPostsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreListBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreLoginoutBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreMediaTextBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreMissingBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreMoreBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreNextpageBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePageListBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreParagraphBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostContentBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostDateBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostExcerptBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostFeaturedImageBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostTemplateBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostTermsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePostTitleBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePreformattedBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CorePullquoteBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationNextBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationNumbersBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationPreviousBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryTitleBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreQuoteBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreRssBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSearchBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSeparatorBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreShortcodeBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteLogoBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteTaglineBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteTitleBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSocialLinkBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSocialLinksBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreSpacerBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreTableBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreTagCloudBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreTextColumnsBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreVerseBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> } | { __typename?: 'CoreVideoBlock', dynamicContent?: Maybe<string>, originalContent?: Maybe<string>, saveContent?: Maybe<string> }>>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }> }> };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = (
-  { __typename?: 'RootQuery' }
-  & { posts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'slug'>
-      )> }
-    )>>> }
-  )> }
-);
+export type Unnamed_1_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string> }> }>>> }> };
 
 export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_2_Query = (
-  { __typename?: 'RootQuery' }
-  & { categories?: Maybe<(
-    { __typename?: 'RootQueryToCategoryConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToCategoryConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Category' }
-        & Pick<Category, 'id' | 'databaseId' | 'description' | 'name' | 'slug' | 'count'>
-      )> }
-    )>>> }
-  )> }
-);
+export type Unnamed_2_Query = { __typename?: 'RootQuery', categories?: Maybe<{ __typename?: 'RootQueryToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> }> };
 
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_3_Query = (
-  { __typename?: 'RootQuery' }
-  & { posts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'slug'>
-      )> }
-    )>>> }
-  )> }
-);
+export type Unnamed_3_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string> }> }>>> }> };
 
 export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_4_Query = (
-  { __typename?: 'RootQuery' }
-  & { tags?: Maybe<(
-    { __typename?: 'RootQueryToTagConnection' }
-    & TaxonomyFieldsFragment
-  )> }
-);
+export type Unnamed_4_Query = { __typename?: 'RootQuery', tags?: Maybe<{ __typename?: 'RootQueryToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> }> };
 
 export type ArtistBySlugQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -12753,63 +13255,7 @@ export type ArtistBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ArtistBySlugQuery = (
-  { __typename?: 'RootQuery' }
-  & { artist?: Maybe<(
-    { __typename?: 'Artist' }
-    & Pick<Artist, 'slug' | 'id' | 'title'>
-    & { featuredImage?: Maybe<(
-      { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'MediaItem' }
-        & Pick<MediaItem, 'id' | 'sourceUrl'>
-        & { thumbnail: MediaItem['sourceUrl'] }
-      )> }
-    )>, artistInformation?: Maybe<(
-      { __typename?: 'Artist_Artistinformation' }
-      & Pick<Artist_Artistinformation, 'artistDescription' | 'sltWebsite' | 'sltYoutubeid' | 'sltTwitterid' | 'sltInstagram' | 'flickrUsername'>
-      & { relatedArticles?: Maybe<Array<Maybe<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'id' | 'title' | 'excerpt' | 'slug' | 'date' | 'isSticky'>
-        & { tags?: Maybe<(
-          { __typename?: 'PostToTagConnection' }
-          & { edges?: Maybe<Array<Maybe<(
-            { __typename?: 'PostToTagConnectionEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'Tag' }
-              & Pick<Tag, 'id' | 'name' | 'slug'>
-            )> }
-          )>>> }
-        )>, categories?: Maybe<(
-          { __typename?: 'PostToCategoryConnection' }
-          & { edges?: Maybe<Array<Maybe<(
-            { __typename?: 'PostToCategoryConnectionEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'Category' }
-              & Pick<Category, 'id' | 'name' | 'slug'>
-            )> }
-          )>>> }
-        )>, featuredImageSettings?: Maybe<(
-          { __typename?: 'Post_Featuredimagesettings' }
-          & Pick<Post_Featuredimagesettings, 'imageFit' | 'backgroundColor'>
-        )>, featuredImage?: Maybe<(
-          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-          & FeaturedImageFieldsFragment
-        )>, author?: Maybe<(
-          { __typename?: 'NodeWithAuthorToUserConnectionEdge' }
-          & { node?: Maybe<(
-            { __typename?: 'User' }
-            & Pick<User, 'name' | 'firstName' | 'lastName'>
-            & { avatar?: Maybe<(
-              { __typename?: 'Avatar' }
-              & Pick<Avatar, 'url'>
-            )> }
-          )> }
-        )> }
-      )>>> }
-    )> }
-  )> }
-);
+export type ArtistBySlugQuery = { __typename?: 'RootQuery', artist?: Maybe<{ __typename?: 'Artist', slug?: Maybe<string>, id: string, title?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string>, sltTwitterid?: Maybe<string>, sltInstagram?: Maybe<string>, flickrUsername?: Maybe<string>, relatedArticles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }>>> }> }> };
 
 export type ArtistsQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -12817,76 +13263,12 @@ export type ArtistsQueryVariables = Exact<{
 }>;
 
 
-export type ArtistsQuery = (
-  { __typename?: 'RootQuery' }
-  & { artists?: Maybe<(
-    { __typename?: 'RootQueryToArtistConnection' }
-    & { pageInfo?: Maybe<(
-      { __typename?: 'WPPageInfo' }
-      & Pick<WpPageInfo, 'endCursor' | 'startCursor'>
-    )>, edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToArtistConnectionEdge' }
-      & Pick<RootQueryToArtistConnectionEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename?: 'Artist' }
-        & Pick<Artist, 'id' | 'title' | 'slug'>
-        & { featuredImage?: Maybe<(
-          { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge' }
-          & { node?: Maybe<(
-            { __typename?: 'MediaItem' }
-            & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'id'>
-          )> }
-        )> }
-      )> }
-    )>>> }
-  )> }
-);
+export type ArtistsQuery = { __typename?: 'RootQuery', artists?: Maybe<{ __typename?: 'RootQueryToArtistConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToArtistConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string }> }> }> }>>> }> };
 
 export type FrontpagePostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FrontpagePostsQuery = (
-  { __typename?: 'RootQuery' }
-  & { settings?: Maybe<(
-    { __typename?: 'Settings' }
-    & Pick<Settings, 'generalSettingsDescription' | 'generalSettingsTitle'>
-  )>, stickyPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, newWorkPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, interviewsPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, cfyeXPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, featuresPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )> }
-);
+export type FrontpagePostsQuery = { __typename?: 'RootQuery', settings?: Maybe<{ __typename?: 'Settings', generalSettingsDescription?: Maybe<string>, generalSettingsTitle?: Maybe<string> }>, stickyPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, newWorkPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, interviewsPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, cfyeXPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, featuresPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }> };
 
 export type PostBySlugQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -12894,162 +13276,7 @@ export type PostBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PostBySlugQuery = (
-  { __typename?: 'RootQuery' }
-  & { post?: Maybe<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'content'>
-    & { blocks?: Maybe<Array<(
-      { __typename?: 'CgbBlockCfyeBlocksBlock' }
-      & Pick<CgbBlockCfyeBlocksBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreArchivesBlock' }
-      & Pick<CoreArchivesBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreAudioBlock' }
-      & Pick<CoreAudioBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreBlock' }
-      & Pick<CoreBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreButtonBlock' }
-      & Pick<CoreButtonBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreButtonsBlock' }
-      & Pick<CoreButtonsBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCalendarBlock' }
-      & Pick<CoreCalendarBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCategoriesBlock' }
-      & Pick<CoreCategoriesBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCodeBlock' }
-      & Pick<CoreCodeBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreColumnBlock' }
-      & Pick<CoreColumnBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreColumnsBlock' }
-      & Pick<CoreColumnsBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreCoverBlock' }
-      & Pick<CoreCoverBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreEmbedBlock' }
-      & Pick<CoreEmbedBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreFileBlock' }
-      & Pick<CoreFileBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreFreeformBlock' }
-      & Pick<CoreFreeformBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreGalleryBlock' }
-      & Pick<CoreGalleryBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreGroupBlock' }
-      & Pick<CoreGroupBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreHeadingBlock' }
-      & Pick<CoreHeadingBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreHtmlBlock' }
-      & Pick<CoreHtmlBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreImageBlock' }
-      & Pick<CoreImageBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreLatestCommentsBlock' }
-      & Pick<CoreLatestCommentsBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreLatestPostsBlock' }
-      & Pick<CoreLatestPostsBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreListBlock' }
-      & Pick<CoreListBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMediaTextBlock' }
-      & Pick<CoreMediaTextBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMissingBlock' }
-      & Pick<CoreMissingBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreMoreBlock' }
-      & Pick<CoreMoreBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreNextpageBlock' }
-      & Pick<CoreNextpageBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreParagraphBlock' }
-      & Pick<CoreParagraphBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CorePreformattedBlock' }
-      & Pick<CorePreformattedBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CorePullquoteBlock' }
-      & Pick<CorePullquoteBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreQuoteBlock' }
-      & Pick<CoreQuoteBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreRssBlock' }
-      & Pick<CoreRssBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSearchBlock' }
-      & Pick<CoreSearchBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSeparatorBlock' }
-      & Pick<CoreSeparatorBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreShortcodeBlock' }
-      & Pick<CoreShortcodeBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSocialLinkBlock' }
-      & Pick<CoreSocialLinkBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSocialLinksBlock' }
-      & Pick<CoreSocialLinksBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSpacerBlock' }
-      & Pick<CoreSpacerBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreSubheadBlock' }
-      & Pick<CoreSubheadBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTableBlock' }
-      & Pick<CoreTableBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTagCloudBlock' }
-      & Pick<CoreTagCloudBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreTextColumnsBlock' }
-      & Pick<CoreTextColumnsBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreVerseBlock' }
-      & Pick<CoreVerseBlock, 'name' | 'order' | 'saveContent'>
-    ) | (
-      { __typename?: 'CoreVideoBlock' }
-      & Pick<CoreVideoBlock, 'name' | 'order' | 'saveContent'>
-    )>>, postSettingsField?: Maybe<(
-      { __typename?: 'Post_Postsettingsfield' }
-      & { artistPost?: Maybe<Array<Maybe<(
-        { __typename?: 'Artist' }
-        & ArtistSummaryFragment
-      )>>> }
-    )> }
-    & PostFieldsFragment
-  )>, posts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Post' }
-        & PostFieldsFragment
-      )> }
-    )>>> }
-  )> }
-);
+export type PostBySlugQuery = { __typename?: 'RootQuery', post?: Maybe<{ __typename?: 'Post', content?: Maybe<string>, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, blocks?: Maybe<Array<{ __typename?: 'CgbBlockCfyeBlocksBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreArchivesBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreAudioBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreButtonBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreButtonsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreCalendarBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreCategoriesBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreCodeBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreColumnBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreColumnsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreCoverBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreEmbedBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreFileBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreFreeformBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreGalleryBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreGroupBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreHeadingBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreHtmlBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreImageBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreLatestCommentsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreLatestPostsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreListBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreLoginoutBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreMediaTextBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreMissingBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreMoreBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreNextpageBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePageListBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreParagraphBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostContentBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostDateBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostExcerptBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostFeaturedImageBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostTemplateBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostTermsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePostTitleBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePreformattedBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CorePullquoteBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationNextBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationNumbersBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryPaginationPreviousBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQueryTitleBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreQuoteBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreRssBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSearchBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSeparatorBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreShortcodeBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteLogoBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteTaglineBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSiteTitleBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSocialLinkBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSocialLinksBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreSpacerBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreTableBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreTagCloudBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreTextColumnsBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreVerseBlock', name: string, order: number, saveContent?: Maybe<string> } | { __typename?: 'CoreVideoBlock', name: string, order: number, saveContent?: Maybe<string> }>>, postSettingsField?: Maybe<{ __typename?: 'Post_Postsettingsfield', artistPost?: Maybe<Array<Maybe<{ __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, srcSet?: Maybe<string>, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, fieldGroupName?: Maybe<string>, flickrUsername?: Maybe<string>, sltInstagram?: Maybe<string>, sltTwitterid?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> }>, posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> }> }>>> }> };
 
 export type CategoryPostsQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -13060,30 +13287,7 @@ export type CategoryPostsQueryVariables = Exact<{
 }>;
 
 
-export type CategoryPostsQuery = (
-  { __typename?: 'RootQuery' }
-  & { categoryPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { pageInfo?: Maybe<(
-      { __typename?: 'WPPageInfo' }
-      & Pick<WpPageInfo, 'endCursor' | 'startCursor' | 'hasNextPage'>
-      & { offsetPagination?: Maybe<(
-        { __typename?: 'OffsetPaginationPageInfo' }
-        & Pick<OffsetPaginationPageInfo, 'hasMore' | 'hasPrevious' | 'total'>
-      )> }
-    )>, edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, categoryDetails?: Maybe<(
-    { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'description' | 'name'>
-  )>, tagDetails?: Maybe<(
-    { __typename?: 'Tag' }
-    & Pick<Tag, 'id' | 'description' | 'name'>
-  )> }
-);
+export type CategoryPostsQuery = { __typename?: 'RootQuery', categoryPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string>, hasNextPage: boolean, offsetPagination?: Maybe<{ __typename?: 'OffsetPaginationPageInfo', hasMore?: Maybe<boolean>, hasPrevious?: Maybe<boolean>, total?: Maybe<number> }> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, categoryDetails?: Maybe<{ __typename?: 'Category', id: string, description?: Maybe<string>, name?: Maybe<string> }>, tagDetails?: Maybe<{ __typename?: 'Tag', id: string, description?: Maybe<string>, name?: Maybe<string> }> };
 
 export type CategoryPostsOffsetQueryVariables = Exact<{
   categoryName?: Maybe<Scalars['String']>;
@@ -13094,30 +13298,7 @@ export type CategoryPostsOffsetQueryVariables = Exact<{
 }>;
 
 
-export type CategoryPostsOffsetQuery = (
-  { __typename?: 'RootQuery' }
-  & { categoryPosts?: Maybe<(
-    { __typename?: 'RootQueryToPostConnection' }
-    & { pageInfo?: Maybe<(
-      { __typename?: 'WPPageInfo' }
-      & Pick<WpPageInfo, 'endCursor' | 'startCursor' | 'hasNextPage'>
-      & { offsetPagination?: Maybe<(
-        { __typename?: 'OffsetPaginationPageInfo' }
-        & Pick<OffsetPaginationPageInfo, 'hasMore' | 'hasPrevious' | 'total'>
-      )> }
-    )>, edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPostConnectionEdge' }
-      & Pick<RootQueryToPostConnectionEdge, 'cursor'>
-      & PostExcerptFieldsFragment
-    )>>> }
-  )>, categoryDetails?: Maybe<(
-    { __typename?: 'Category' }
-    & Pick<Category, 'id' | 'description' | 'name'>
-  )>, tagDetails?: Maybe<(
-    { __typename?: 'Tag' }
-    & Pick<Tag, 'id' | 'description' | 'name'>
-  )> }
-);
+export type CategoryPostsOffsetQuery = { __typename?: 'RootQuery', categoryPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string>, hasNextPage: boolean, offsetPagination?: Maybe<{ __typename?: 'OffsetPaginationPageInfo', hasMore?: Maybe<boolean>, hasPrevious?: Maybe<boolean>, total?: Maybe<number> }> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, categoryDetails?: Maybe<{ __typename?: 'Category', id: string, description?: Maybe<string>, name?: Maybe<string> }>, tagDetails?: Maybe<{ __typename?: 'Tag', id: string, description?: Maybe<string>, name?: Maybe<string> }> };
 
 export type PreviewPostQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -13125,10 +13306,4 @@ export type PreviewPostQueryVariables = Exact<{
 }>;
 
 
-export type PreviewPostQuery = (
-  { __typename?: 'RootQuery' }
-  & { post?: Maybe<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'databaseId' | 'slug' | 'status'>
-  )> }
-);
+export type PreviewPostQuery = { __typename?: 'RootQuery', post?: Maybe<{ __typename?: 'Post', databaseId: number, slug?: Maybe<string>, status?: Maybe<string> }> };

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import styles from './TagList.module.scss';
 import sprite from '../../../public/sprite.svg';
 interface Props {
-  tags: Post['tags'] | Post['categories'];
+  tags: any;
   context?: 'heroExcerpt' | 'articleExcerpt' | 'default';
   isEven?: boolean;
 }

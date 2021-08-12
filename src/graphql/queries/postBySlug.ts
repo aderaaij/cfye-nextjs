@@ -19,7 +19,7 @@ export const POST_QUERY = gql`
           }
         }
       }
-      content
+      content(format: RENDERED)
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
       edges {
