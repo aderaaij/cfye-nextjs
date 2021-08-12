@@ -14,7 +14,7 @@ const PostBody: React.FC<Props> = ({ content }) => {
   return (
     <div className="container">
       <div className={cx('container__full-width', styles['post-body'])}>
-        {parse(content)}
+        {content ? parse(content) : null}
       </div>
     </div>
   );
