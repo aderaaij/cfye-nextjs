@@ -7,11 +7,6 @@ export const ABOUT_QUERY = gql`
     page(id: "about", idType: URI) {
       id
       title
-      blocks {
-        dynamicContent
-        originalContent
-        saveContent
-      }
       content
       featuredImage {
         ...FeaturedImageFields

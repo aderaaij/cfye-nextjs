@@ -81,7 +81,7 @@ const Post: React.FC<Props> = ({ variables }) => {
                 featuredImageSettings={post.featuredImageSettings}
               />
 
-              <PostBody blocks={post.blocks} content={post.content} />
+              <PostBody content={post.content} />
               <footer className={cx(styles['footer'])}>
                 <div className="container">
                   <div className="container__paragraph-width">

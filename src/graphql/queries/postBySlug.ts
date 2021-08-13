@@ -7,11 +7,6 @@ export const POST_QUERY = gql`
   query PostBySlug($id: ID!, $idType: PostIdType!) {
     post(id: $id, idType: $idType) {
       ...PostFields
-      blocks {
-        name
-        order
-        saveContent
-      }
       postSettingsField {
         artistPost {
           ... on Artist {

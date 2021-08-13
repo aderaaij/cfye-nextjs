@@ -1,14 +1,11 @@
 import parse from 'html-react-parser';
 import cx from 'classnames';
-import { Block } from 'types';
+import { Post } from 'types';
 
 import styles from './PostBody.module.scss';
-interface BlockWithTypeName extends Block {
-  __typename: string;
-}
+
 interface Props {
-  content: string;
-  blocks: Array<BlockWithTypeName>;
+  content: Post['content'];
 }
 const PostBody: React.FC<Props> = ({ content }) => {
   return (

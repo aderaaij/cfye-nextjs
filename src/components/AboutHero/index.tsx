@@ -1,9 +1,8 @@
 import parse from 'html-react-parser';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import cx from 'classnames';
-import { AboutPageQuery, ArtistBySlugQuery } from 'types';
+import { AboutPageQuery } from 'types';
 import { limitText } from 'utils/limitCharacters';
 import styles from './AboutHero.module.scss';
 // import SocialLinks from '../SocialLinks';
