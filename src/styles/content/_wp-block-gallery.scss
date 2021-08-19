@@ -11,6 +11,16 @@
     margin: 4em 0;
   }
 
+  &.is-style-default {
+    @media screen and (min-width: 768px) {
+      grid-column: 2 / -2;
+    }
+
+    @media screen and (min-width: 1280px) {
+      grid-column: 3 / -3;
+    }
+  }
+
   &.columns-2 {
     .blocks-gallery-grid {
       @media screen and(min-width: 768px) {
