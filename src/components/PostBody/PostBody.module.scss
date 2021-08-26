@@ -89,6 +89,22 @@
       line-height: 1.75;
     }
 
+    img {
+      width: 50%;
+      height: auto;
+      float: left;
+      margin-right: 0.5em;
+
+      @media screen and (min-width: 1280px) {
+        float: left;
+        width: 80%;
+        margin-right: 0.5em;
+        margin-bottom: 0.1em;
+        height: auto;
+        margin-left: -40%;
+      }
+    }
+
     a {
       color: var(--cfye);
     }
