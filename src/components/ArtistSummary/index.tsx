@@ -53,7 +53,7 @@ const ArtistSummary: React.FC<Props> = ({ artist }) => {
           {artistInformation.sltInstagram && (
             <li>
               <a
-                href={`https://instagram.com.com/${artistInformation.sltInstagram}`}
+                href={`https://instagram.com/${artistInformation.sltInstagram}`}
               >
                 <svg>
                   <use xlinkHref={sprite.src + '#logo-instagram'}></use>
