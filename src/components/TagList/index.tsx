@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Post } from 'types';
 import cx from 'classnames';
 import styles from './TagList.module.scss';
 import sprite from '../../../public/sprite.svg';

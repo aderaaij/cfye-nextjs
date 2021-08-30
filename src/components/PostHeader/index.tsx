@@ -1,4 +1,4 @@
-import Image, { ImageProps } from 'next/image';
+import { ImageProps } from 'next/image';
 import Date from '@/components/Date';
 import CoverImage from '@/components/CoverImage';
 import styles from './PostHeader.module.scss';
