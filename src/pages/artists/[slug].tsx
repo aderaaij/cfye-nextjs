@@ -131,7 +131,7 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult> => {
 
   return {
     paths:
-      res.data.posts.edges.map(({ node }) => {
+      res.data.artists.edges.map(({ node }) => {
         if (node) {
           return `/artists/${node.slug}`;
         }

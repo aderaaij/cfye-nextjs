@@ -2,10 +2,11 @@ import { gql } from '@apollo/client';
 
 export const ALL_ARTISTS_WITH_SLUG_QUERY = gql`
   {
-    posts(first: 10000) {
+    artists(first: 1000) {
       edges {
         node {
           slug
+          modified
         }
       }
     }

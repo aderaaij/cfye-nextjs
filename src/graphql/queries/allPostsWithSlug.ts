@@ -6,6 +6,7 @@ export const ALL_POSTS_WITH_SLUG_QUERY = gql`
       edges {
         node {
           slug
+          modified
         }
       }
     }

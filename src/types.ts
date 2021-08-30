@@ -9103,7 +9103,7 @@ export type AboutPageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typena
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string> }> }>>> }> };
+export type Unnamed_1_Query = { __typename?: 'RootQuery', artists?: Maybe<{ __typename?: 'RootQueryToArtistConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToArtistConnectionEdge', node?: Maybe<{ __typename?: 'Artist', slug?: Maybe<string>, modified?: Maybe<string> }> }>>> }> };
 
 export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9113,7 +9113,7 @@ export type Unnamed_2_Query = { __typename?: 'RootQuery', categories?: Maybe<{ _
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_3_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string> }> }>>> }> };
+export type Unnamed_3_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string>, modified?: Maybe<string> }> }>>> }> };
 
 export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
 
