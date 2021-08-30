@@ -33,14 +33,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const postsFields = postsQuery?.data?.posts?.edges.map(({ node }) => {
     return {
       loc: `${url}/posts/${node.slug}`,
-      lastmod: node.modified,
+      lastmod: new Date(node.modified).toISOString(),
     };
   });
 
   const artistsFields = artistsQuery?.data?.artists?.edges.map(({ node }) => {
     return {
       loc: `${url}/artists/${node.slug}`,
-      lastmod: node.modified,
+      lastmod: new Date(node.modified).toISOString(),
     };
   });
 
