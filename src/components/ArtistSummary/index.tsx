@@ -29,7 +29,7 @@ const ArtistSummary: React.FC<Props> = ({ artist }) => {
         </div>
       </div>
       <div className={styles['content-wrap']}>
-        <h2>
+        <h2 className={styles['content-title']}>
           <Link as={`/artists/${artist.slug}`} href="/artists/[slug]">
             <a>About {artist.title}</a>
           </Link>
@@ -39,7 +39,11 @@ const ArtistSummary: React.FC<Props> = ({ artist }) => {
             stripHtml(artistInformation.artistDescription).result,
             200
           )}
+          <Link as={`/artists/${artist.slug}`} href="/artists/[slug]">
+            <a className={styles['content-read-more']}>View profile</a>
+          </Link>
         </p>
+
         <ul className={styles['link-list']}>
           {artistInformation.sltWebsite && (
             <li>
