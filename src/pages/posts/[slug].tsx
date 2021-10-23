@@ -152,6 +152,6 @@ export const getStaticProps = async ({
         idType: isDraft ? PostFormatIdType.DatabaseId : PostFormatIdType.Slug,
       },
     },
-    revalidate: 600,
+    // revalidate: 600,
   };
 };
