@@ -21,4 +21,4 @@ A NextJS starter for WordPress installations with WPGraphQL, including TypeScrip
 
 ### Generating Types
 
-By running `yarn generate:codegen` you can generate types right from your WPGraphQL schema and the operations defined in `.src/graphql/**/*`. You can see and updat the confing in the `codegen.yml` file in the root of your project. The endpoint is loaded from the `.env.local` file.
+By running `yarn generate:codegen` you can generate types right from your WPGraphQL schema and the operations defined in `.src/graphql/**/*`. You can see and update the confing in the `codegen.yml` file in the root of your project. The endpoint is loaded from the `.env.local` file.
