@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-standard'],
+  extends: ['plugin:@next/next/recommended', 'stylelint-config-standard'],
   plugins: ['stylelint-order'],
   rules: {
     'at-rule-no-unknown': [
