@@ -37,6 +37,14 @@
     }
   }
 
+  figure.wp-block-video {
+    grid-column: 1 / -1;
+
+    @media screen and (min-width: 768px) {
+      grid-column: 2 / -2;
+    }
+  }
+
   h1,
   h2,
   h3,
