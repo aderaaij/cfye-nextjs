@@ -16,10 +16,10 @@ import {
 import { ALL_ARTISTS_WITH_SLUG_QUERY } from '@/graphql/queries/allArtistsWithSlug';
 import { ARTIST_QUERY } from '@/graphql/queries/artistBySlug';
 import { returnSlugString } from 'utils/helpers';
-import Layout from '@/components/Layout';
-import PostTitle from '@/components/PostTitle';
-import ArtistHero from '@/components/ArtistHero';
-import ExcerptFeature from '@/components/ExcerptFeature';
+import { Layout } from '@/components/Common';
+import { PostTitle } from '@/components/Post';
+import { ArtistHero } from '@/components/ArtistHero';
+import { ExcerptFeature } from '@/components/PostExcerpts';
 
 interface Props {
   data: PostBySlugQuery;

@@ -1,12 +1,12 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
 import { ApolloClient } from '@apollo/client';
-import Layout from '@/components/Layout';
+import { Layout } from '@/components/Common';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_TAGS } from '@/graphql/queries/allTags';
 import { initializeApollo } from '@/lib/apolloClient';
 import { CategoryPostsQuery } from 'types';
-import TaxonomyPage from '@/components/TaxonomyPage';
+import { TaxonomyPage } from '@/components/TaxonomyPage';
 
 interface Props {
   data: CategoryPostsQuery;

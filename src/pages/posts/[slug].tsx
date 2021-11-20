@@ -14,12 +14,10 @@ import {
 } from 'types';
 import { POST_QUERY } from '@/graphql/queries/postBySlug';
 import { ALL_POSTS_WITH_SLUG_QUERY } from '@/graphql/queries/allPostsWithSlug';
-import MetaPage from '@/components/MetaPage';
-import PostBody from '@/components/PostBody';
-import PostHeader from '@/components/PostHeader';
-import Layout from '@/components/Layout';
-import PostTitle from '@/components/PostTitle';
-import ArtistSummary from '@/components/ArtistSummary';
+import { PageMeta } from '@/components/Shared';
+import { PostBody, PostHeader, PostTitle } from '@/components/Post';
+import { Layout } from '@/components/Common';
+import { ArtistSummary } from '@/components/ArtistSummary';
 import styles from './Post.module.scss';
 
 interface Props {
@@ -56,7 +54,7 @@ const Post: React.FC<Props> = ({ variables }) => {
   return (
     <>
       <Layout preview={false}>
-        <MetaPage
+        <PageMeta
           title={post.title}
           description={post.excerpt}
           image={post.featuredImage?.node?.sourceUrl}

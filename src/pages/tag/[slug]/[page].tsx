@@ -5,8 +5,8 @@ import { CategoryPostsOffsetQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY_OFFSET } from '@/graphql/queries/posts_offset';
 import { ALL_TAGS } from '@/graphql/queries/allTags';
-import Layout from '@/components/Layout';
-import TaxonomyPage from '@/components/TaxonomyPage';
+import { Layout } from '@/components/Common';
+import { TaxonomyPage } from '@/components/TaxonomyPage';
 
 interface Props {
   data: CategoryPostsOffsetQuery;

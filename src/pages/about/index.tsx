@@ -1,11 +1,14 @@
 import { GetStaticPropsResult } from 'next';
 import ErrorPage from 'next/error';
+
 import { AboutPageQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
-import Layout from '@/components/Layout';
+
 import { ABOUT_QUERY } from '@/graphql/queries/aboutQuery';
-import AboutHero from '@/components/AboutHero';
-import MetaPage from '@/components/MetaPage';
+
+import { AboutHero } from '@/components/AboutHero';
+import { PageMeta } from '@/components/Shared';
+import { Layout } from '@/components/Common';
 interface Props {
   data: AboutPageQuery;
 }
@@ -17,7 +20,7 @@ const Index: React.FC<Props> = ({ data }) => {
   const { page } = data;
   return (
     <Layout preview={false} pageType="home">
-      <MetaPage title={page.title} description={page.content} />
+      <PageMeta title={page.title} description={page.content} />
 
       <div className="container container--bg-grey">
         <div className="container__content-width">

@@ -3,10 +3,9 @@ import ErrorPage from 'next/error';
 import { FrontpagePostsQuery } from 'types';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
 import { initializeApollo } from '@/lib/apolloClient';
-import MetaPage from '@/components/MetaPage';
-import ExcerptsSmall from '@/components/ExcerptsSmall';
-import ExcerptFeature from '@/components/ExcerptFeature';
-import Layout from '@/components/Layout';
+import { PageMeta } from '@/components/Shared';
+import { ExcerptsSmall, ExcerptFeature } from '@/components/PostExcerpts';
+import { Layout } from '@/components/Common';
 interface Props {
   data: FrontpagePostsQuery;
 }
@@ -27,7 +26,7 @@ const Index: React.FC<Props> = ({ data }) => {
 
   return (
     <Layout preview={false} pageType="home">
-      <MetaPage
+      <PageMeta
         title={settings.generalSettingsTitle}
         description={settings.generalSettingsDescription}
       />

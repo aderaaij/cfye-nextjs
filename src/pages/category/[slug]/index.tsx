@@ -5,8 +5,8 @@ import { CategoryPostsQuery } from 'types';
 import { initializeApollo } from '@/lib/apolloClient';
 import { POSTS_QUERY } from '@/graphql/queries/posts';
 import { ALL_CATEGORIES } from '@/graphql/queries/allCategories';
-import Layout from '@/components/Layout';
-import TaxonomyPage from '@/components/TaxonomyPage';
+import { Layout } from '@/components/Common';
+import { TaxonomyPage } from '@/components/TaxonomyPage';
 
 interface Props {
   data: CategoryPostsQuery;

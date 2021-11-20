@@ -1,13 +1,12 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
-import { useApollo } from '../lib/apolloClient';
-import SiteNav from '@/components/SiteNav/';
-import SiteMenu from '@/components/SiteMenu/';
-import Footer from '@/components/Footer';
+
+import { useApollo } from '@/lib/apolloClient';
+import { SiteNav, SiteMenu, Footer } from '@/components/Common';
 import AppWrapper from '../contexts/MenuContext';
 import '../styles/index.scss';
-import { useState } from 'react';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
