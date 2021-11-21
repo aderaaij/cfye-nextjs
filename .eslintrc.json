@@ -10,6 +10,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
+  "extends": ["next"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "react", "prettier"],
   "rules": {

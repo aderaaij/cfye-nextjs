@@ -7,3 +7,4 @@ Host: https://www.cfye.com
 
 # Sitemaps
 Sitemap: https://www.cfye.com/sitemap.xml
+Sitemap: https://www.cfye.com/server-sitemap.xml

@@ -27,8 +27,12 @@ export const Footer: React.FC<any> = ({}) => {
           </li>
         </ul> */}
           <span className={styles['tagline']}>
-            <img className={styles['logo']} src="/images/cfye_logo.svg" />{' '}
-            Slangin' Dope <br /> Since 2008
+            <img
+              alt="CFYE Logo"
+              className={styles['logo']}
+              src="/images/cfye_logo.svg"
+            />{' '}
+            Slangin&apos; Dope <br /> Since 2008
           </span>
         </div>
       </div>
