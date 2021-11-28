@@ -37,9 +37,7 @@ interface Props {
 
 const Post: React.FC<Props> = ({ variables, plaiceholder }) => {
   const router = useRouter();
-
   const { setPlaiceholders } = usePlaiceholderActionsContext();
-  console.log({ plaiceholder });
   useEffect((): void => {
     setPlaiceholders({ [plaiceholder?.id]: plaiceholder });
   }, [plaiceholder, setPlaiceholders]);
