@@ -37,8 +37,8 @@ export const ArtistHero: React.FC<Props> = ({
           <div className={cx({ [styles['image-link']]: type === 'hero' })}>
             <Image
               className={styles['image']}
-              placeholder="blur"
-              blurDataURL={featuredImage.node.thumbnail}
+              // placeholder="blur"
+              // blurDataURL={featuredImage.node.thumbnail}
               src={featuredImage.node.sourceUrl}
               quality={90}
               priority={true}

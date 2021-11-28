@@ -9,9 +9,68 @@ import { limitText } from 'utils/limitCharacters';
 import { TagList, Button } from '@/components/Shared';
 import styles from './ExcerptFeature.module.scss';
 import { useEffect, useState } from 'react';
+import { usePlaiceholderStateContext } from 'contexts/PlaiceholderContext';
+
+const imageVariants: Variants = {
+  open: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      scale: {
+        type: 'spring',
+        stiffness: 150,
+        bounce: 0,
+        damping: 10,
+      },
+    },
+  },
+  closed: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      scale: {
+        type: 'spring',
+      },
+    },
+  },
+};
+
+const childVariants = {
+  open: {
+    x: 0,
+    opacity: 1,
+  },
+  closed: {
+    x: 100,
+    opacity: 0,
+    transition: {
+      x: { stiffness: 100 },
+    },
+  },
+};
+
+const imageSizes = {
+  hero: { width: 900, height: 900 },
+  small: { width: 900, height: 600 },
+};
+
+const contentVariants = {
+  open: {
+    transition: { staggerChildren: 0.3, delayChildren: 0.2 },
+  },
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+  },
+};
+
+const characterLimit = {
+  hero: 400,
+  small: 120,
+};
 
 interface Props {
   post: PostExcerptFieldsFragment['node'];
+  image?: any;
   isEven?: boolean;
   type?: 'hero' | 'small';
 }
@@ -31,71 +90,27 @@ export const ExcerptFeature: React.FC<Props> = ({
     tags,
     excerpt,
   } = post;
+
   const [isOpen, setOpen] = useState(false);
+
+  const [plaiceholder, setPlaiceholder] = useState(null);
+
   const [containerRef, inView] = useInView({ threshold: 0.5 });
 
-  const contentVariants = {
-    open: {
-      transition: { staggerChildren: 0.3, delayChildren: 0.2 },
-    },
-    closed: {
-      transition: { staggerChildren: 0.05, staggerDirection: -1 },
-    },
-  };
+  const plaiceholderState = usePlaiceholderStateContext();
 
-  const imageVariants: Variants = {
-    open: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        scale: {
-          type: 'spring',
-          stiffness: 150,
-          bounce: 0,
-          damping: 10,
-        },
-      },
-    },
-    closed: {
-      opacity: 0,
-      scale: 0.8,
-      transition: {
-        scale: {
-          type: 'spring',
-          // stiffness: 5000,
-        },
-      },
-    },
-  };
-  const childVariants = {
-    open: {
-      x: 0,
-      opacity: 1,
-    },
-    closed: {
-      x: 100,
-      opacity: 0,
-      transition: {
-        x: { stiffness: 100 },
-      },
-    },
-  };
-
-  const imageSizes = {
-    hero: { width: 900, height: 900 },
-    small: { width: 900, height: 600 },
-  };
-
-  const characterLimit = {
-    hero: 400,
-    small: 120,
-  };
+  useEffect(() => {
+    if (plaiceholderState[featuredImage.node.id]) {
+      setPlaiceholder(plaiceholderState[featuredImage.node.id]);
+    }
+  }, [plaiceholderState, featuredImage.node.id]);
 
   useEffect(() => {
     if (inView) {
       setOpen(true);
     }
   }, [inView]);
+
   return (
     <motion.article
       initial={false}
@@ -123,11 +138,12 @@ export const ExcerptFeature: React.FC<Props> = ({
               {type === 'hero' ? (
                 <Image
                   className={styles['image']}
-                  placeholder="blur"
-                  blurDataURL={featuredImage.node.thumbnail}
+                  placeholder={plaiceholder ? 'blur' : 'empty'}
+                  {...(plaiceholder
+                    ? { blurDataURL: plaiceholder.base64 }
+                    : {})}
                   src={featuredImage.node.sourceUrl}
                   quality={90}
-                  priority={true}
                   objectFit={
                     featuredImageSettings.imageFit as ImageProps['objectFit']
                   }
@@ -137,11 +153,12 @@ export const ExcerptFeature: React.FC<Props> = ({
               ) : (
                 <Image
                   className={styles['image']}
-                  placeholder="blur"
-                  blurDataURL={featuredImage.node.thumbnail}
+                  placeholder={plaiceholder ? 'blur' : 'empty'}
+                  {...(plaiceholder
+                    ? { blurDataURL: plaiceholder.base64 }
+                    : {})}
                   src={featuredImage.node.sourceUrl}
                   quality={90}
-                  priority={true}
                   objectFit={
                     featuredImageSettings.imageFit as ImageProps['objectFit']
                   }

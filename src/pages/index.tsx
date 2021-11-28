@@ -1,4 +1,5 @@
 import { GetStaticPropsResult } from 'next';
+import { getPlaiceholder } from 'plaiceholder';
 import ErrorPage from 'next/error';
 import { FrontpagePostsQuery } from 'types';
 import { FRONTPAGE_QUERY } from '@/graphql/queries/frontpage';
@@ -6,11 +7,20 @@ import { initializeApollo } from '@/lib/apolloClient';
 import { PageMeta } from '@/components/Shared';
 import { ExcerptsSmall, ExcerptFeature } from '@/components/PostExcerpts';
 import { Layout } from '@/components/Common';
+import { usePlaiceholderActionsContext } from 'contexts/PlaiceholderContext';
+import { useEffect } from 'react';
 interface Props {
   data: FrontpagePostsQuery;
+  plaiceHolders: any;
 }
 
-const Index: React.FC<Props> = ({ data }) => {
+const Index: React.FC<Props> = ({ data, plaiceHolders }) => {
+  const { setImages } = usePlaiceholderActionsContext();
+
+  useEffect(() => {
+    setImages(plaiceHolders);
+  }, [plaiceHolders, setImages]);
+
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
@@ -89,9 +99,28 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
     fetchPolicy: 'no-cache',
     query: FRONTPAGE_QUERY,
   });
+
+  const plaiceHolders = {};
+
+  await Promise.all(
+    Object.keys(result.data).map(async (key) => {
+      if (key.includes('Posts')) {
+        await Promise.all(
+          result.data[key].edges.map(async (item) => {
+            const { base64, img } = await getPlaiceholder(
+              item.node.featuredImage.node.sourceUrl
+            );
+            plaiceHolders[item.node.featuredImage.node.id] = { base64, img };
+          })
+        );
+      }
+    })
+  );
+
   return {
     props: {
       data: result.data,
+      plaiceHolders,
     },
     // revalidate: 600,
   };

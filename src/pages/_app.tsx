@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/lib/apolloClient';
 import { SiteNav, SiteMenu, Footer } from '@/components/Common';
 import AppWrapper from '../contexts/MenuContext';
+import { PlaiceholderProvider } from '../contexts/PlaiceholderContext';
 import '../styles/index.scss';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
@@ -18,12 +19,14 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <AppWrapper value={value}>
-        <SiteNav />
-        <SiteMenu />
-        <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} key={router.asPath} />
-          <Footer />
-        </ApolloProvider>
+        <PlaiceholderProvider>
+          <SiteNav />
+          <SiteMenu />
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} key={router.asPath} />
+            <Footer />
+          </ApolloProvider>
+        </PlaiceholderProvider>
       </AppWrapper>
     </>
   );

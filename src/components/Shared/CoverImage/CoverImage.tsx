@@ -31,8 +31,8 @@ export const CoverImage: React.FC<Props> = ({
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
         className={styles['image']}
-        placeholder="blur"
-        blurDataURL={coverImage.thumbnail}
+        // placeholder="blur"
+        // blurDataURL={coverImage.thumbnail}
         src={coverImage.sourceUrl}
         quality={90}
         priority={priority}
