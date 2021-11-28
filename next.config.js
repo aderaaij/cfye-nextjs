@@ -1,6 +1,7 @@
+const { withPlaiceholder } = require('@plaiceholder/next');
 const constants = require('./config/constants');
 
-module.exports = {
+module.exports = withPlaiceholder({
   env: {
     ...constants,
   },
@@ -26,4 +27,4 @@ module.exports = {
       },
     ];
   },
-};
+});
