@@ -15,6 +15,7 @@ const httpLink = createHttpLink({
 });
 const authLink = setContext((_, { headers }) => {
   const token = process.env.WORDPRESS_AUTH_REFRESH_TOKEN;
+
   return {
     headers: {
       ...headers,
@@ -45,6 +46,7 @@ export function initializeApollo(
   initialState: NormalizedCacheObject = null
 ): ApolloClient<NormalizedCacheObject> {
   const _apolloClient = apolloClient ?? createApolloClient();
+
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
   if (initialState) {
