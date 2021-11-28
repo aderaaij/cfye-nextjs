@@ -1,4 +1,10 @@
+import {
+  usePlaiceholderActionsContext,
+  usePlaiceholderStateContext,
+} from 'contexts/PlaiceholderContext';
 import Image, { ImageProps } from 'next/image';
+import { useEffect, useState } from 'react';
+
 import { FeaturedImageFieldsFragment } from 'types';
 import styles from './CoverImage.module.scss';
 
@@ -27,12 +33,21 @@ export const CoverImage: React.FC<Props> = ({
   priority = false,
   sizes = { width: 1200, height: 800 },
 }) => {
+  const [plaiceholder, setPlaiceholder] = useState(null);
+  const plaiceholderState = usePlaiceholderStateContext();
+
+  useEffect(() => {
+    if (plaiceholderState[coverImage.id]) {
+      setPlaiceholder(plaiceholderState[coverImage.id]);
+    }
+  }, [plaiceholderState, coverImage.id]);
+
   return (
     <div className={styles['wrapper']} style={{ backgroundColor: bg }}>
       <Image
         className={styles['image']}
-        // placeholder="blur"
-        // blurDataURL={coverImage.thumbnail}
+        placeholder={plaiceholder ? 'blur' : 'empty'}
+        {...(plaiceholder ? { blurDataURL: plaiceholder.base64 } : {})}
         src={coverImage.sourceUrl}
         quality={90}
         priority={priority}

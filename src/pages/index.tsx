@@ -7,19 +7,22 @@ import { initializeApollo } from '@/lib/apolloClient';
 import { PageMeta } from '@/components/Shared';
 import { ExcerptsSmall, ExcerptFeature } from '@/components/PostExcerpts';
 import { Layout } from '@/components/Common';
-import { usePlaiceholderActionsContext } from 'contexts/PlaiceholderContext';
+import {
+  PlaiceholderState,
+  usePlaiceholderActionsContext,
+} from 'contexts/PlaiceholderContext';
 import { useEffect } from 'react';
 interface Props {
   data: FrontpagePostsQuery;
-  plaiceHolders: any;
+  plaiceHolders: PlaiceholderState;
 }
 
 const Index: React.FC<Props> = ({ data, plaiceHolders }) => {
-  const { setImages } = usePlaiceholderActionsContext();
+  const { setPlaiceholders } = usePlaiceholderActionsContext();
 
   useEffect(() => {
-    setImages(plaiceHolders);
-  }, [plaiceHolders, setImages]);
+    setPlaiceholders(plaiceHolders);
+  }, [plaiceHolders, setPlaiceholders]);
 
   if (!data) {
     return <ErrorPage statusCode={501} />;
@@ -110,7 +113,11 @@ export const getStaticProps = async (): Promise<GetStaticPropsResult<any>> => {
             const { base64, img } = await getPlaiceholder(
               item.node.featuredImage.node.sourceUrl
             );
-            plaiceHolders[item.node.featuredImage.node.id] = { base64, img };
+            plaiceHolders[item.node.featuredImage.node.id] = {
+              base64,
+              img,
+              id: item.node.featuredImage.node,
+            };
           })
         );
       }

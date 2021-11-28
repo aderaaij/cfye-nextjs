@@ -17,7 +17,7 @@ export type PlaiceholderState = {
 };
 
 export type PlaiceholderActions = {
-  setImages: (images: PlaiceholderState) => void;
+  setPlaiceholders: (images: PlaiceholderState) => void;
 };
 
 export const PlaiceholderStateContext = createContext<PlaiceholderState>(null);
@@ -41,7 +41,7 @@ export const PlaiceholderProvider: React.FC = ({ children }) => {
 
   const actions = useMemo<PlaiceholderActions>(
     () => ({
-      setImages: (images) => {
+      setPlaiceholders: (images) => {
         setPlaiceholderState((prevState) => ({
           ...prevState,
           ...images,

@@ -19,6 +19,12 @@ import { PostBody, PostHeader, PostTitle } from '@/components/Post';
 import { Layout } from '@/components/Common';
 import { ArtistSummary } from '@/components/ArtistSummary';
 import styles from './Post.module.scss';
+import { getPlaiceholder } from 'plaiceholder';
+import {
+  PlaiceHolderImage,
+  usePlaiceholderActionsContext,
+} from 'contexts/PlaiceholderContext';
+import { useEffect } from 'react';
 
 interface Props {
   data: PostBySlugQuery;
@@ -26,17 +32,27 @@ interface Props {
     id: string | number;
     idType: PostIdType;
   };
+  plaiceholder: PlaiceHolderImage;
 }
 
-const Post: React.FC<Props> = ({ variables }) => {
+const Post: React.FC<Props> = ({ variables, plaiceholder }) => {
   const router = useRouter();
+
+  const { setPlaiceholders } = usePlaiceholderActionsContext();
+  console.log({ plaiceholder });
+  useEffect((): void => {
+    setPlaiceholders({ [plaiceholder?.id]: plaiceholder });
+  }, [plaiceholder, setPlaiceholders]);
+
   const isDatabaseId = !isNaN(Number(router.query.slug));
+
   const { error, data } = useQuery(POST_QUERY, {
     variables: {
       id: isDatabaseId ? Number(router.query.slug) : router.query.slug,
       idType: isDatabaseId ? PostIdType.DatabaseId : PostIdType.Slug,
     },
   });
+
   if (!data) {
     return <ErrorPage statusCode={501} />;
   }
@@ -50,52 +66,49 @@ const Post: React.FC<Props> = ({ variables }) => {
   ) {
     return <ErrorPage statusCode={404} />;
   }
-  if (error) return <ErrorPage statusCode={501} />;
-  return (
-    <>
-      <Layout preview={false}>
-        <PageMeta
-          title={post.title}
-          description={post.excerpt}
-          image={post.featuredImage?.node?.sourceUrl}
-        />
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <motion.article
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              layoutId={`article-${post.slug}`}
-              className={styles['article']}
-            >
-              <PostHeader
-                title={post.title}
-                slug={post.slug}
-                coverImage={post.featuredImage?.node}
-                date={post.date}
-                author={post.author?.node}
-                categories={post.categories}
-                featuredImageSettings={post.featuredImageSettings}
-              />
 
-              <PostBody content={post.content} />
-              <footer className={cx(styles['footer'])}>
-                <div className="container">
-                  <div className="container__paragraph-width">
-                    {post.postSettingsField?.artistPost?.length && (
-                      <ArtistSummary
-                        artist={post.postSettingsField?.artistPost[0]}
-                      />
-                    )}
-                  </div>
-                </div>
-              </footer>
-            </motion.article>
-          </>
-        )}
-      </Layout>
-    </>
+  if (error) return <ErrorPage statusCode={501} />;
+
+  return (
+    <Layout preview={false}>
+      <PageMeta
+        title={post.title}
+        description={post.excerpt}
+        image={post.featuredImage?.node?.sourceUrl}
+      />
+      {router.isFallback ? (
+        <PostTitle>Loading…</PostTitle>
+      ) : (
+        <motion.article
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          layoutId={`article-${post.slug}`}
+          className={styles['article']}
+        >
+          <PostHeader
+            title={post.title}
+            slug={post.slug}
+            coverImage={post.featuredImage?.node}
+            date={post.date}
+            author={post.author?.node}
+            categories={post.categories}
+            featuredImageSettings={post.featuredImageSettings}
+          />
+          <PostBody content={post.content} />
+          <footer className={cx(styles['footer'])}>
+            <div className="container">
+              <div className="container__paragraph-width">
+                {post.postSettingsField?.artistPost?.length && (
+                  <ArtistSummary
+                    artist={post.postSettingsField?.artistPost[0]}
+                  />
+                )}
+              </div>
+            </div>
+          </footer>
+        </motion.article>
+      )}
+    </Layout>
   );
 };
 
@@ -134,13 +147,23 @@ export const getStaticProps = async ({
   // const isRevision =
   //   isSamePost && postPreview?.status === PostStatusEnum.Publish.toLowerCase();
 
-  await apolloClient.query({
+  const res = await apolloClient.query({
     query: POST_QUERY,
     variables: {
       id: isDraft ? postPreview.id : params.slug,
       idType: isDraft ? PostFormatIdType.DatabaseId : PostFormatIdType.Slug,
     },
   });
+
+  const { base64, img } = await getPlaiceholder(
+    res.data?.post.featuredImage?.node.sourceUrl
+  );
+
+  const heroPlaiceholder = {
+    base64,
+    img,
+    id: res.data.post.featuredImage.node.id,
+  };
 
   return {
     props: {
@@ -149,6 +172,7 @@ export const getStaticProps = async ({
         id: isDraft ? postPreview.id : params.slug,
         idType: isDraft ? PostFormatIdType.DatabaseId : PostFormatIdType.Slug,
       },
+      plaiceholder: heroPlaiceholder,
     },
     // revalidate: 600,
   };

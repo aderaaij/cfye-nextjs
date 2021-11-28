@@ -24,6 +24,7 @@ export const ArtistSummary: React.FC<Props> = ({ artist }) => {
                 width={150}
                 height={150}
                 objectFit="contain"
+                alt=""
               />
             </a>
           </Link>
