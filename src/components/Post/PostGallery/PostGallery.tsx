@@ -24,10 +24,10 @@ export const PostGallery: React.FC<PostGalleryProps> = ({ block }) => {
   }, [block.attributes?.className]);
 
   const urls = block.cdnContent.match(/https?:\/\/[^\s]+/g);
-  const imageUrls = urls.filter((url) =>
-    url.includes('cdn.cfye.com/app/uploads')
-  );
-  const imagePairs = imageUrls.reduce((result, value, index, array) => {
+  const imageUrls = urls
+    ? urls.filter((url) => url.includes('cdn.cfye.com/app/uploads'))
+    : undefined;
+  const imagePairs = imageUrls?.reduce((result, value, index, array) => {
     if (index % 2 === 0) result.push(array.slice(index, index + 2));
     return result;
   }, []);
@@ -52,7 +52,7 @@ export const PostGallery: React.FC<PostGalleryProps> = ({ block }) => {
               },
             }}
           >
-            {imagePairs.map((image) => (
+            {imagePairs?.map((image) => (
               <SwiperSlide key={image[0]}>
                 <img
                   className={cx(styles['gallery-img'])}
