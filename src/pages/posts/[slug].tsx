@@ -92,7 +92,7 @@ const Post: React.FC<Props> = ({ variables, plaiceholder }) => {
             categories={post.categories}
             featuredImageSettings={post.featuredImageSettings}
           />
-          <PostBody content={post.content} />
+          <PostBody content={post.content} blocks={post.blocks} />
           <footer className={cx(styles['footer'])}>
             <div className="container">
               <div className="container__paragraph-width">

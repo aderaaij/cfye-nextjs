@@ -15,6 +15,25 @@ export const POST_QUERY = gql`
         }
       }
       content(format: RENDERED)
+      blocks {
+        cdnContent
+        saveContent
+        name
+        ... on CoreGalleryBlock {
+          attributes {
+            ... on CoreGalleryBlockAttributes {
+              align
+              anchor
+              className
+              images {
+                url
+              }
+              columns
+              caption
+            }
+          }
+        }
+      }
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
       edges {

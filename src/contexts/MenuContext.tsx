@@ -22,4 +22,4 @@ const AppWrapper: React.FC<Props> = ({ children, value }) => {
 
 export default AppWrapper;
 
-export const useAppContext = () => useContext(AppContext);
+export const useAppContext = (): any => useContext(AppContext);

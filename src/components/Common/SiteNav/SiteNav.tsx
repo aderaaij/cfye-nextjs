@@ -30,6 +30,7 @@ export const SiteNav: React.FC = () => {
                 width={48}
                 height={48}
                 src="/images/cfye_logo.svg"
+                alt="CFYE Logo"
               />
             </a>
           </Link>

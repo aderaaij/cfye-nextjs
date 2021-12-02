@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -9,6 +10,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  BlockAttributesObject: any;
 };
 
 /** Google Map field */
@@ -48,19 +50,8 @@ export type AcfFieldGroup = {
   fieldGroupName?: Maybe<Scalars['String']>;
 };
 
-/** ACF Link field */
-export type AcfLink = {
-  __typename?: 'AcfLink';
-  /** The target of the link (_blank, etc) */
-  target?: Maybe<Scalars['String']>;
-  /** The title of the link */
-  title?: Maybe<Scalars['String']>;
-  /** The url of the link */
-  url?: Maybe<Scalars['String']>;
-};
-
 /** The Artist type */
-export type Artist = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithFeaturedImage & MenuItemLinkable & {
+export type Artist = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
   __typename?: 'Artist';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -125,6 +116,8 @@ export type Artist = Node & ContentNode & UniformResourceIdentifiable & Database
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Test&quot; was set to Show in GraphQL. */
+  testFields?: Maybe<Artist_Testfields>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** The unique resource identifier path */
@@ -134,25 +127,25 @@ export type Artist = Node & ContentNode & UniformResourceIdentifiable & Database
 
 /** The Artist type */
 export type ArtistEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The Artist type */
 export type ArtistEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The Artist type */
 export type ArtistTitleArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -194,6 +187,14 @@ export type Artist_Artistinformation = AcfFieldGroup & {
 
 export type Artist_Artistinformation_RelatedArticles = Post;
 
+/** Field Group */
+export type Artist_Testfields = AcfFieldGroup & {
+  __typename?: 'Artist_Testfields';
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  test?: Maybe<Scalars['String']>;
+};
+
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
 export type Avatar = {
   __typename?: 'Avatar';
@@ -233,9 +234,236 @@ export enum AvatarRatingEnum {
   X = 'X'
 }
 
+/** Gutenberg block interface */
+export type Block = {
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+/** Gutenberg post interface */
+export type BlockEditorContentNode = {
+  /** Gutenberg blocks */
+  blocks?: Maybe<Array<Block>>;
+  /** Gutenberg blocks as json string */
+  blocksJSON?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  /** Previewed gutenberg blocks */
+  previewBlocks?: Maybe<Array<Block>>;
+  /** Previewed Gutenberg blocks as json string */
+  previewBlocksJSON?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the RootQuery type and the BlockEditorContentNode type */
+export type BlockEditorContentNodeConnection = {
+  __typename?: 'BlockEditorContentNodeConnection';
+  /** Edges for the BlockEditorContentNodeConnection connection */
+  edges?: Maybe<Array<Maybe<BlockEditorContentNodeConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<BlockEditorContentNode>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type BlockEditorContentNodeConnectionEdge = {
+  __typename?: 'BlockEditorContentNodeConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<BlockEditorContentNode>;
+};
+
+/** Arguments for filtering the BlockEditorContentNodeConnection connection */
+export type BlockEditorContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** The BlockEditorPreview type */
+export type BlockEditorPreview = ContentNode & DatabaseIdentifier & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
+  __typename?: 'BlockEditorPreview';
+  /** Connection between the NodeWithAuthor type and the User type */
+  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+  /** The database identifier of the author of the node */
+  authorDatabaseId?: Maybe<Scalars['Int']>;
+  /** The globally unique identifier of the author of the node */
+  authorId?: Maybe<Scalars['ID']>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  blockEditorPreviewId: Scalars['Int'];
+  blocks?: Maybe<Array<Block>>;
+  blocksJSON?: Maybe<Scalars['String']>;
+  /** The content of the post. */
+  content?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The globally unique identifier of the wgg_preview object. */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  lastUpdateTime?: Maybe<Scalars['String']>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
+  /** Connection between the BlockEditorPreview type and the BlockEditorPreview type */
+  preview?: Maybe<BlockEditorPreviewToPreviewConnectionEdge>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  previewed?: Maybe<BlockEditorContentNode>;
+  previewedDatabaseId?: Maybe<Scalars['Int']>;
+  previewedParentDatabaseId?: Maybe<Scalars['Int']>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** The template assigned to the node */
+  template?: Maybe<ContentTemplate>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title?: Maybe<Scalars['String']>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** The BlockEditorPreview type */
+export type BlockEditorPreviewContentArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The BlockEditorPreview type */
+export type BlockEditorPreviewEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The BlockEditorPreview type */
+export type BlockEditorPreviewEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The BlockEditorPreview type */
+export type BlockEditorPreviewTitleArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum BlockEditorPreviewIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
+
+/** Connection between the BlockEditorPreview type and the BlockEditorPreview type */
+export type BlockEditorPreviewToPreviewConnectionEdge = {
+  __typename?: 'BlockEditorPreviewToPreviewConnectionEdge';
+  /** The node of the connection, without the edges */
+  node?: Maybe<BlockEditorPreview>;
+};
+
 /** The category type */
-export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
+export type Category = DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Category';
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
+  TaxonomyFields?: Maybe<Category_Taxonomyfields>;
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
   /**
@@ -281,8 +509,6 @@ export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseI
   slug?: Maybe<Scalars['String']>;
   /** Connection between the category type and the Taxonomy type */
   taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
-  TaxonomyFields?: Maybe<Category_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -294,58 +520,58 @@ export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseI
 
 /** The category type */
 export type CategoryAncestorsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The category type */
 export type CategoryChildrenArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<CategoryToCategoryConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryToCategoryConnectionWhereArgs>;
 };
 
 
 /** The category type */
 export type CategoryContentNodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<CategoryToContentNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryToContentNodeConnectionWhereArgs>;
 };
 
 
 /** The category type */
 export type CategoryEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The category type */
 export type CategoryEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The category type */
 export type CategoryPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<CategoryToPostConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryToPostConnectionWhereArgs>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -405,45 +631,45 @@ export type CategoryToCategoryConnectionEdge = {
 /** Arguments for filtering the CategoryToCategoryConnection connection */
 export type CategoryToCategoryConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the category type and the ContentNode type */
@@ -469,41 +695,41 @@ export type CategoryToContentNodeConnectionEdge = {
 /** Arguments for filtering the CategoryToContentNodeConnection connection */
 export type CategoryToContentNodeConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypesOfCategoryEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfCategoryEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the category type and the category type */
@@ -536,67 +762,67 @@ export type CategoryToPostConnectionEdge = {
 /** Arguments for filtering the CategoryToPostConnection connection */
 export type CategoryToPostConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the category type and the Taxonomy type */
@@ -614,8 +840,40 @@ export type Category_Taxonomyfields = AcfFieldGroup & {
   fieldGroupName?: Maybe<Scalars['String']>;
 };
 
+/** cgb/block-cfye-blocks block */
+export type CgbBlockCfyeBlocksBlock = Block & {
+  __typename?: 'CgbBlockCfyeBlocksBlock';
+  attributes?: Maybe<CgbBlockCfyeBlocksBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CgbBlockCfyeBlocksBlockAttributes = {
+  __typename?: 'CgbBlockCfyeBlocksBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+};
+
 /** A Comment object */
-export type Comment = Node & DatabaseIdentifier & {
+export type Comment = DatabaseIdentifier & Node & {
   __typename?: 'Comment';
   /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
   agent?: Maybe<Scalars['String']>;
@@ -661,27 +919,27 @@ export type Comment = Node & DatabaseIdentifier & {
 
 /** A Comment object */
 export type CommentContentArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** A Comment object */
 export type CommentParentArgs = {
-  where?: Maybe<CommentToParentCommentConnectionWhereArgs>;
+  where?: InputMaybe<CommentToParentCommentConnectionWhereArgs>;
 };
 
 
 /** A Comment object */
 export type CommentRepliesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<CommentToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CommentToCommentConnectionWhereArgs>;
 };
 
 /** A Comment Author object */
-export type CommentAuthor = Node & Commenter & {
+export type CommentAuthor = Commenter & Node & {
   __typename?: 'CommentAuthor';
   /** Identifies the primary key from the database. */
   databaseId: Scalars['Int'];
@@ -720,63 +978,63 @@ export type CommentToCommentConnectionEdge = {
 /** Arguments for filtering the CommentToCommentConnection connection */
 export type CommentToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the Comment type and the Commenter type */
@@ -803,63 +1061,63 @@ export type CommentToParentCommentConnectionEdge = {
 /** Arguments for filtering the CommentToParentCommentConnection connection */
 export type CommentToParentCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The author of a comment */
@@ -971,19 +1229,19 @@ export type ContentNode = {
 
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -1060,7 +1318,7 @@ export type ContentNodeToEnqueuedStylesheetConnectionEdge = {
 };
 
 /** A union of Content Node Types that support revisions */
-export type ContentRevisionUnion = Post | Page;
+export type ContentRevisionUnion = Page | Post | ReusableBlock;
 
 /** The template assigned to a node of content */
 export type ContentTemplate = {
@@ -1140,20 +1398,20 @@ export type ContentType = Node & UniformResourceIdentifiable & {
 
 /** An Post Type object */
 export type ContentTypeConnectedTaxonomiesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** An Post Type object */
 export type ContentTypeContentNodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentTypeToContentNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContentTypeToContentNodeConnectionWhereArgs>;
 };
 
 /** Allowed Content Types */
@@ -1165,7 +1423,11 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Page = 'PAGE',
   /** The Type of Content object */
-  Post = 'POST'
+  Post = 'POST',
+  /** The Type of Content object */
+  WggPreview = 'WGG_PREVIEW',
+  /** The Type of Content object */
+  WpBlock = 'WP_BLOCK'
 }
 
 /** The Type of Identifier used to fetch a single Content Type node. To be used along with the "id" field. Default is "ID". */
@@ -1199,41 +1461,41 @@ export type ContentTypeToContentNodeConnectionEdge = {
 /** Arguments for filtering the ContentTypeToContentNodeConnection connection */
 export type ContentTypeToContentNodeConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the ContentType type and the Taxonomy type */
@@ -1274,22 +1536,3512 @@ export enum ContentTypesOfTagEnum {
   Post = 'POST'
 }
 
+/** core/archives block */
+export type CoreArchivesBlock = Block & {
+  __typename?: 'CoreArchivesBlock';
+  attributes?: Maybe<CoreArchivesBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreArchivesBlockAttributes = {
+  __typename?: 'CoreArchivesBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayAsDropdown: Scalars['Boolean'];
+  showPostCounts: Scalars['Boolean'];
+};
+
+/** core/audio block */
+export type CoreAudioBlock = Block & {
+  __typename?: 'CoreAudioBlock';
+  attributes?: Maybe<CoreAudioBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreAudioBlockAttributes = {
+  __typename?: 'CoreAudioBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  autoplay?: Maybe<Scalars['Boolean']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  loop?: Maybe<Scalars['Boolean']>;
+  preload?: Maybe<Scalars['String']>;
+  src?: Maybe<Scalars['String']>;
+};
+
+export type CoreAudioBlockAttributesUnion = CoreAudioBlockAttributes | CoreAudioBlockDeprecatedV1Attributes;
+
+export type CoreAudioBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreAudioBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  autoplay?: Maybe<Scalars['Boolean']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  loop?: Maybe<Scalars['Boolean']>;
+  preload?: Maybe<Scalars['String']>;
+  src?: Maybe<Scalars['String']>;
+};
+
+/** core/block block */
+export type CoreBlock = Block & {
+  __typename?: 'CoreBlock';
+  attributes?: Maybe<CoreBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  reusableBlock: Node;
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreBlockAttributes = {
+  __typename?: 'CoreBlockAttributes';
+  ref?: Maybe<Scalars['Float']>;
+};
+
+/** core/button block */
+export type CoreButtonBlock = Block & {
+  __typename?: 'CoreButtonBlock';
+  attributes?: Maybe<CoreButtonBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreButtonBlockAttributes = {
+  __typename?: 'CoreButtonBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockAttributesUnion = CoreButtonBlockAttributes | CoreButtonBlockDeprecatedV1Attributes | CoreButtonBlockDeprecatedV2Attributes | CoreButtonBlockDeprecatedV3Attributes | CoreButtonBlockDeprecatedV4Attributes | CoreButtonBlockDeprecatedV5Attributes | CoreButtonBlockDeprecatedV6Attributes | CoreButtonBlockDeprecatedV7Attributes | CoreButtonBlockDeprecatedV8Attributes;
+
+export type CoreButtonBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV5Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV5Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV6Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV6Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV7Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV7Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreButtonBlockDeprecatedV8Attributes = {
+  __typename?: 'CoreButtonBlockDeprecatedV8Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  text?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+/** core/buttons block */
+export type CoreButtonsBlock = Block & {
+  __typename?: 'CoreButtonsBlock';
+  attributes?: Maybe<CoreButtonsBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreButtonsBlockAttributes = {
+  __typename?: 'CoreButtonsBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  contentJustification?: Maybe<Scalars['String']>;
+  orientation: Scalars['String'];
+};
+
+export type CoreButtonsBlockAttributesUnion = CoreButtonsBlockAttributes | CoreButtonsBlockDeprecatedV1Attributes;
+
+export type CoreButtonsBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreButtonsBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  contentJustification?: Maybe<Scalars['String']>;
+  orientation: Scalars['String'];
+};
+
+/** core/calendar block */
+export type CoreCalendarBlock = Block & {
+  __typename?: 'CoreCalendarBlock';
+  attributes?: Maybe<CoreCalendarBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreCalendarBlockAttributes = {
+  __typename?: 'CoreCalendarBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  month?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
+/** core/categories block */
+export type CoreCategoriesBlock = Block & {
+  __typename?: 'CoreCategoriesBlock';
+  attributes?: Maybe<CoreCategoriesBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreCategoriesBlockAttributes = {
+  __typename?: 'CoreCategoriesBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayAsDropdown: Scalars['Boolean'];
+  showHierarchy: Scalars['Boolean'];
+  showPostCounts: Scalars['Boolean'];
+};
+
+/** core/code block */
+export type CoreCodeBlock = Block & {
+  __typename?: 'CoreCodeBlock';
+  attributes?: Maybe<CoreCodeBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreCodeBlockAttributes = {
+  __typename?: 'CoreCodeBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+};
+
+/** core/column block */
+export type CoreColumnBlock = Block & {
+  __typename?: 'CoreColumnBlock';
+  attributes?: Maybe<CoreColumnBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnBlockAttributes = {
+  __typename?: 'CoreColumnBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnBlockAttributesUnion = CoreColumnBlockAttributes | CoreColumnBlockDeprecatedV1Attributes;
+
+export type CoreColumnBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreColumnBlockDeprecatedV1Attributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['String']>;
+};
+
+/** core/columns block */
+export type CoreColumnsBlock = Block & {
+  __typename?: 'CoreColumnsBlock';
+  attributes?: Maybe<CoreColumnsBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnsBlockAttributes = {
+  __typename?: 'CoreColumnsBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnsBlockAttributesUnion = CoreColumnsBlockAttributes | CoreColumnsBlockDeprecatedV1Attributes | CoreColumnsBlockDeprecatedV2Attributes | CoreColumnsBlockDeprecatedV3Attributes;
+
+export type CoreColumnsBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreColumnsBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnsBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreColumnsBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreColumnsBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreColumnsBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+/** core/cover block */
+export type CoreCoverBlock = Block & {
+  __typename?: 'CoreCoverBlock';
+  attributes?: Maybe<CoreCoverBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockAttributes = {
+  __typename?: 'CoreCoverBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockAttributesUnion = CoreCoverBlockAttributes | CoreCoverBlockDeprecatedV1Attributes | CoreCoverBlockDeprecatedV2Attributes | CoreCoverBlockDeprecatedV3Attributes | CoreCoverBlockDeprecatedV4Attributes | CoreCoverBlockDeprecatedV5Attributes | CoreCoverBlockDeprecatedV6Attributes;
+
+export type CoreCoverBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockDeprecatedV5Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV5Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreCoverBlockDeprecatedV6Attributes = {
+  __typename?: 'CoreCoverBlockDeprecatedV6Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundType: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  contentPosition?: Maybe<Scalars['String']>;
+  customGradient?: Maybe<Scalars['String']>;
+  customOverlayColor?: Maybe<Scalars['String']>;
+  dimRatio: Scalars['Float'];
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  hasParallax: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  isRepeated: Scalars['Boolean'];
+  minHeight?: Maybe<Scalars['Float']>;
+  minHeightUnit?: Maybe<Scalars['String']>;
+  overlayColor?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** core/embed block */
+export type CoreEmbedBlock = Block & {
+  __typename?: 'CoreEmbedBlock';
+  attributes?: Maybe<CoreEmbedBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreEmbedBlockAttributes = {
+  __typename?: 'CoreEmbedBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  allowResponsive: Scalars['Boolean'];
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  previewable: Scalars['Boolean'];
+  providerNameSlug?: Maybe<Scalars['String']>;
+  responsive: Scalars['Boolean'];
+  type?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreEmbedBlockAttributesUnion = CoreEmbedBlockAttributes | CoreEmbedBlockDeprecatedV1Attributes;
+
+export type CoreEmbedBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreEmbedBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  allowResponsive: Scalars['Boolean'];
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  previewable: Scalars['Boolean'];
+  providerNameSlug?: Maybe<Scalars['String']>;
+  responsive: Scalars['Boolean'];
+  type?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** core/file block */
+export type CoreFileBlock = Block & {
+  __typename?: 'CoreFileBlock';
+  attributes?: Maybe<CoreFileBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreFileBlockAttributes = {
+  __typename?: 'CoreFileBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayPreview?: Maybe<Scalars['Boolean']>;
+  downloadButtonText?: Maybe<Scalars['String']>;
+  fileName?: Maybe<Scalars['String']>;
+  href?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  previewHeight: Scalars['Float'];
+  showDownloadButton: Scalars['Boolean'];
+  textLinkHref?: Maybe<Scalars['String']>;
+  textLinkTarget?: Maybe<Scalars['String']>;
+};
+
+/** core/freeform block */
+export type CoreFreeformBlock = Block & {
+  __typename?: 'CoreFreeformBlock';
+  attributes?: Maybe<CoreFreeformBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreFreeformBlockAttributes = {
+  __typename?: 'CoreFreeformBlockAttributes';
+  content?: Maybe<Scalars['String']>;
+};
+
+/** core/gallery block */
+export type CoreGalleryBlock = Block & {
+  __typename?: 'CoreGalleryBlock';
+  attributes?: Maybe<CoreGalleryBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockAttributes = {
+  __typename?: 'CoreGalleryBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockAttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockAttributesImages = {
+  __typename?: 'CoreGalleryBlockAttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockAttributesUnion = CoreGalleryBlockAttributes | CoreGalleryBlockDeprecatedV1Attributes | CoreGalleryBlockDeprecatedV2Attributes | CoreGalleryBlockDeprecatedV3Attributes | CoreGalleryBlockDeprecatedV4Attributes | CoreGalleryBlockDeprecatedV5Attributes;
+
+export type CoreGalleryBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreGalleryBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockDeprecatedV1AttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockDeprecatedV1AttributesImages = {
+  __typename?: 'CoreGalleryBlockDeprecatedV1AttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreGalleryBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockDeprecatedV2AttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockDeprecatedV2AttributesImages = {
+  __typename?: 'CoreGalleryBlockDeprecatedV2AttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreGalleryBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockDeprecatedV3AttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockDeprecatedV3AttributesImages = {
+  __typename?: 'CoreGalleryBlockDeprecatedV3AttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreGalleryBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockDeprecatedV4AttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockDeprecatedV4AttributesImages = {
+  __typename?: 'CoreGalleryBlockDeprecatedV4AttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoreGalleryBlockDeprecatedV5Attributes = {
+  __typename?: 'CoreGalleryBlockDeprecatedV5Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  columns?: Maybe<Scalars['Float']>;
+  ids: Array<Maybe<Scalars['Float']>>;
+  imageCrop: Scalars['Boolean'];
+  images: Array<Maybe<CoreGalleryBlockDeprecatedV5AttributesImages>>;
+  linkTo?: Maybe<Scalars['String']>;
+  sizeSlug: Scalars['String'];
+};
+
+export type CoreGalleryBlockDeprecatedV5AttributesImages = {
+  __typename?: 'CoreGalleryBlockDeprecatedV5AttributesImages';
+  alt: Scalars['String'];
+  caption?: Maybe<Scalars['String']>;
+  fullUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** core/group block */
+export type CoreGroupBlock = Block & {
+  __typename?: 'CoreGroupBlock';
+  attributes?: Maybe<CoreGroupBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockAttributes = {
+  __typename?: 'CoreGroupBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockAttributesUnion = CoreGroupBlockAttributes | CoreGroupBlockDeprecatedV1Attributes | CoreGroupBlockDeprecatedV2Attributes | CoreGroupBlockDeprecatedV3Attributes | CoreGroupBlockDeprecatedV4Attributes;
+
+export type CoreGroupBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreGroupBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreGroupBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreGroupBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreGroupBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreGroupBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  borderColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/heading block */
+export type CoreHeadingBlock = Block & {
+  __typename?: 'CoreHeadingBlock';
+  attributes?: Maybe<CoreHeadingBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreHeadingBlockAttributes = {
+  __typename?: 'CoreHeadingBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreHeadingBlockAttributesUnion = CoreHeadingBlockAttributes | CoreHeadingBlockDeprecatedV1Attributes | CoreHeadingBlockDeprecatedV2Attributes | CoreHeadingBlockDeprecatedV3Attributes | CoreHeadingBlockDeprecatedV4Attributes;
+
+export type CoreHeadingBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreHeadingBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreHeadingBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreHeadingBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreHeadingBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreHeadingBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreHeadingBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreHeadingBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/html block */
+export type CoreHtmlBlock = Block & {
+  __typename?: 'CoreHtmlBlock';
+  attributes?: Maybe<CoreHtmlBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreHtmlBlockAttributes = {
+  __typename?: 'CoreHtmlBlockAttributes';
+  content?: Maybe<Scalars['String']>;
+};
+
+/** core/image block */
+export type CoreImageBlock = Block & {
+  __typename?: 'CoreImageBlock';
+  attributes?: Maybe<CoreImageBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreImageBlockAttributes = {
+  __typename?: 'CoreImageBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  alt: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Float']>;
+  href?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  sizeSlug?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreImageBlockAttributesUnion = CoreImageBlockAttributes | CoreImageBlockDeprecatedV1Attributes | CoreImageBlockDeprecatedV2Attributes | CoreImageBlockDeprecatedV3Attributes;
+
+export type CoreImageBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreImageBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  alt: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Float']>;
+  href?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  sizeSlug?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreImageBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreImageBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  alt: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Float']>;
+  href?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  sizeSlug?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+export type CoreImageBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreImageBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  alt: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Float']>;
+  href?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  rel?: Maybe<Scalars['String']>;
+  sizeSlug?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
+};
+
+/** core/latest-comments block */
+export type CoreLatestCommentsBlock = Block & {
+  __typename?: 'CoreLatestCommentsBlock';
+  attributes?: Maybe<CoreLatestCommentsBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreLatestCommentsBlockAttributes = {
+  __typename?: 'CoreLatestCommentsBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  commentsToShow: Scalars['Float'];
+  displayAvatar: Scalars['Boolean'];
+  displayDate: Scalars['Boolean'];
+  displayExcerpt: Scalars['Boolean'];
+};
+
+/** core/latest-posts block */
+export type CoreLatestPostsBlock = Block & {
+  __typename?: 'CoreLatestPostsBlock';
+  attributes?: Maybe<CoreLatestPostsBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreLatestPostsBlockAttributes = {
+  __typename?: 'CoreLatestPostsBlockAttributes';
+  addLinkToFeaturedImage: Scalars['Boolean'];
+  align?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Maybe<Scalars['BlockAttributesObject']>>>;
+  className?: Maybe<Scalars['String']>;
+  columns: Scalars['Float'];
+  displayAuthor: Scalars['Boolean'];
+  displayFeaturedImage: Scalars['Boolean'];
+  displayPostContent: Scalars['Boolean'];
+  displayPostContentRadio: Scalars['String'];
+  displayPostDate: Scalars['Boolean'];
+  excerptLength: Scalars['Float'];
+  featuredImageAlign?: Maybe<Scalars['String']>;
+  featuredImageSizeHeight?: Maybe<Scalars['Float']>;
+  featuredImageSizeSlug: Scalars['String'];
+  featuredImageSizeWidth?: Maybe<Scalars['Float']>;
+  order: Scalars['String'];
+  orderBy: Scalars['String'];
+  postLayout: Scalars['String'];
+  postsToShow: Scalars['Float'];
+  selectedAuthor?: Maybe<Scalars['Float']>;
+};
+
+export type CoreLatestPostsBlockAttributesUnion = CoreLatestPostsBlockAttributes | CoreLatestPostsBlockDeprecatedV1Attributes;
+
+export type CoreLatestPostsBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreLatestPostsBlockDeprecatedV1Attributes';
+  addLinkToFeaturedImage: Scalars['Boolean'];
+  align?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Maybe<Scalars['BlockAttributesObject']>>>;
+  className?: Maybe<Scalars['String']>;
+  columns: Scalars['Float'];
+  displayAuthor: Scalars['Boolean'];
+  displayFeaturedImage: Scalars['Boolean'];
+  displayPostContent: Scalars['Boolean'];
+  displayPostContentRadio: Scalars['String'];
+  displayPostDate: Scalars['Boolean'];
+  excerptLength: Scalars['Float'];
+  featuredImageAlign?: Maybe<Scalars['String']>;
+  featuredImageSizeHeight?: Maybe<Scalars['Float']>;
+  featuredImageSizeSlug: Scalars['String'];
+  featuredImageSizeWidth?: Maybe<Scalars['Float']>;
+  order: Scalars['String'];
+  orderBy: Scalars['String'];
+  postLayout: Scalars['String'];
+  postsToShow: Scalars['Float'];
+  selectedAuthor?: Maybe<Scalars['Float']>;
+};
+
+/** core/list block */
+export type CoreListBlock = Block & {
+  __typename?: 'CoreListBlock';
+  attributes?: Maybe<CoreListBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreListBlockAttributes = {
+  __typename?: 'CoreListBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  ordered: Scalars['Boolean'];
+  placeholder?: Maybe<Scalars['String']>;
+  reversed?: Maybe<Scalars['Boolean']>;
+  start?: Maybe<Scalars['Float']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  values: Scalars['String'];
+};
+
+/** core/loginout block */
+export type CoreLoginoutBlock = Block & {
+  __typename?: 'CoreLoginoutBlock';
+  attributes?: Maybe<CoreLoginoutBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreLoginoutBlockAttributes = {
+  __typename?: 'CoreLoginoutBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+  displayLoginAsForm: Scalars['Boolean'];
+  redirectToCurrent: Scalars['Boolean'];
+};
+
+/** core/media-text block */
+export type CoreMediaTextBlock = Block & {
+  __typename?: 'CoreMediaTextBlock';
+  attributes?: Maybe<CoreMediaTextBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreMediaTextBlockAttributes = {
+  __typename?: 'CoreMediaTextBlockAttributes';
+  align: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  href?: Maybe<Scalars['String']>;
+  imageFill?: Maybe<Scalars['Boolean']>;
+  isStackedOnMobile: Scalars['Boolean'];
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  mediaAlt: Scalars['String'];
+  mediaId?: Maybe<Scalars['Float']>;
+  mediaLink?: Maybe<Scalars['String']>;
+  mediaPosition: Scalars['String'];
+  mediaSizeSlug?: Maybe<Scalars['String']>;
+  mediaType?: Maybe<Scalars['String']>;
+  mediaUrl?: Maybe<Scalars['String']>;
+  mediaWidth: Scalars['Float'];
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreMediaTextBlockAttributesUnion = CoreMediaTextBlockAttributes | CoreMediaTextBlockDeprecatedV1Attributes | CoreMediaTextBlockDeprecatedV2Attributes | CoreMediaTextBlockDeprecatedV3Attributes;
+
+export type CoreMediaTextBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreMediaTextBlockDeprecatedV1Attributes';
+  align: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  href?: Maybe<Scalars['String']>;
+  imageFill?: Maybe<Scalars['Boolean']>;
+  isStackedOnMobile: Scalars['Boolean'];
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  mediaAlt: Scalars['String'];
+  mediaId?: Maybe<Scalars['Float']>;
+  mediaLink?: Maybe<Scalars['String']>;
+  mediaPosition: Scalars['String'];
+  mediaSizeSlug?: Maybe<Scalars['String']>;
+  mediaType?: Maybe<Scalars['String']>;
+  mediaUrl?: Maybe<Scalars['String']>;
+  mediaWidth: Scalars['Float'];
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreMediaTextBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreMediaTextBlockDeprecatedV2Attributes';
+  align: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  href?: Maybe<Scalars['String']>;
+  imageFill?: Maybe<Scalars['Boolean']>;
+  isStackedOnMobile: Scalars['Boolean'];
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  mediaAlt: Scalars['String'];
+  mediaId?: Maybe<Scalars['Float']>;
+  mediaLink?: Maybe<Scalars['String']>;
+  mediaPosition: Scalars['String'];
+  mediaSizeSlug?: Maybe<Scalars['String']>;
+  mediaType?: Maybe<Scalars['String']>;
+  mediaUrl?: Maybe<Scalars['String']>;
+  mediaWidth: Scalars['Float'];
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+export type CoreMediaTextBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreMediaTextBlockDeprecatedV3Attributes';
+  align: Scalars['String'];
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  focalPoint?: Maybe<Scalars['BlockAttributesObject']>;
+  gradient?: Maybe<Scalars['String']>;
+  href?: Maybe<Scalars['String']>;
+  imageFill?: Maybe<Scalars['Boolean']>;
+  isStackedOnMobile: Scalars['Boolean'];
+  linkClass?: Maybe<Scalars['String']>;
+  linkDestination?: Maybe<Scalars['String']>;
+  linkTarget?: Maybe<Scalars['String']>;
+  mediaAlt: Scalars['String'];
+  mediaId?: Maybe<Scalars['Float']>;
+  mediaLink?: Maybe<Scalars['String']>;
+  mediaPosition: Scalars['String'];
+  mediaSizeSlug?: Maybe<Scalars['String']>;
+  mediaType?: Maybe<Scalars['String']>;
+  mediaUrl?: Maybe<Scalars['String']>;
+  mediaWidth: Scalars['Float'];
+  rel?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+  verticalAlignment?: Maybe<Scalars['String']>;
+};
+
+/** core/missing block */
+export type CoreMissingBlock = Block & {
+  __typename?: 'CoreMissingBlock';
+  attributes?: Maybe<CoreMissingBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreMissingBlockAttributes = {
+  __typename?: 'CoreMissingBlockAttributes';
+  originalContent?: Maybe<Scalars['String']>;
+  originalName?: Maybe<Scalars['String']>;
+  originalUndelimitedContent?: Maybe<Scalars['String']>;
+};
+
+/** core/more block */
+export type CoreMoreBlock = Block & {
+  __typename?: 'CoreMoreBlock';
+  attributes?: Maybe<CoreMoreBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreMoreBlockAttributes = {
+  __typename?: 'CoreMoreBlockAttributes';
+  customText?: Maybe<Scalars['String']>;
+  noTeaser: Scalars['Boolean'];
+};
+
+/** core/nextpage block */
+export type CoreNextpageBlock = Block & {
+  __typename?: 'CoreNextpageBlock';
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+/** core/page-list block */
+export type CorePageListBlock = Block & {
+  __typename?: 'CorePageListBlock';
+  attributes?: Maybe<CorePageListBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePageListBlockAttributes = {
+  __typename?: 'CorePageListBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/paragraph block */
+export type CoreParagraphBlock = Block & {
+  __typename?: 'CoreParagraphBlock';
+  attributes?: Maybe<CoreParagraphBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockAttributes = {
+  __typename?: 'CoreParagraphBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockAttributesUnion = CoreParagraphBlockAttributes | CoreParagraphBlockDeprecatedV1Attributes | CoreParagraphBlockDeprecatedV2Attributes | CoreParagraphBlockDeprecatedV3Attributes | CoreParagraphBlockDeprecatedV4Attributes | CoreParagraphBlockDeprecatedV5Attributes;
+
+export type CoreParagraphBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreParagraphBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreParagraphBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreParagraphBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockDeprecatedV4Attributes = {
+  __typename?: 'CoreParagraphBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreParagraphBlockDeprecatedV5Attributes = {
+  __typename?: 'CoreParagraphBlockDeprecatedV5Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  direction?: Maybe<Scalars['String']>;
+  dropCap: Scalars['Boolean'];
+  fontSize?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-content block */
+export type CorePostContentBlock = Block & {
+  __typename?: 'CorePostContentBlock';
+  attributes?: Maybe<CorePostContentBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostContentBlockAttributes = {
+  __typename?: 'CorePostContentBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+};
+
+/** core/post-date block */
+export type CorePostDateBlock = Block & {
+  __typename?: 'CorePostDateBlock';
+  attributes?: Maybe<CorePostDateBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostDateBlockAttributes = {
+  __typename?: 'CorePostDateBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  format?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-excerpt block */
+export type CorePostExcerptBlock = Block & {
+  __typename?: 'CorePostExcerptBlock';
+  attributes?: Maybe<CorePostExcerptBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostExcerptBlockAttributes = {
+  __typename?: 'CorePostExcerptBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  moreText?: Maybe<Scalars['String']>;
+  showMoreOnNewLine: Scalars['Boolean'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-featured-image block */
+export type CorePostFeaturedImageBlock = Block & {
+  __typename?: 'CorePostFeaturedImageBlock';
+  attributes?: Maybe<CorePostFeaturedImageBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostFeaturedImageBlockAttributes = {
+  __typename?: 'CorePostFeaturedImageBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+};
+
+/** core/post-template block */
+export type CorePostTemplateBlock = Block & {
+  __typename?: 'CorePostTemplateBlock';
+  attributes?: Maybe<CorePostTemplateBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTemplateBlockAttributes = {
+  __typename?: 'CorePostTemplateBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/post-terms block */
+export type CorePostTermsBlock = Block & {
+  __typename?: 'CorePostTermsBlock';
+  attributes?: Maybe<CorePostTermsBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTermsBlockAttributes = {
+  __typename?: 'CorePostTermsBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  term?: Maybe<Scalars['String']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/post-title block */
+export type CorePostTitleBlock = Block & {
+  __typename?: 'CorePostTitleBlock';
+  attributes?: Maybe<CorePostTitleBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePostTitleBlockAttributes = {
+  __typename?: 'CorePostTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  level: Scalars['Float'];
+  linkTarget: Scalars['String'];
+  rel: Scalars['String'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/preformatted block */
+export type CorePreformattedBlock = Block & {
+  __typename?: 'CorePreformattedBlock';
+  attributes?: Maybe<CorePreformattedBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePreformattedBlockAttributes = {
+  __typename?: 'CorePreformattedBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/pullquote block */
+export type CorePullquoteBlock = Block & {
+  __typename?: 'CorePullquoteBlock';
+  attributes?: Maybe<CorePullquoteBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CorePullquoteBlockAttributes = {
+  __typename?: 'CorePullquoteBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  customMainColor?: Maybe<Scalars['String']>;
+  customTextColor?: Maybe<Scalars['String']>;
+  mainColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type CorePullquoteBlockAttributesUnion = CorePullquoteBlockAttributes | CorePullquoteBlockDeprecatedV1Attributes | CorePullquoteBlockDeprecatedV2Attributes | CorePullquoteBlockDeprecatedV3Attributes | CorePullquoteBlockDeprecatedV4Attributes;
+
+export type CorePullquoteBlockDeprecatedV1Attributes = {
+  __typename?: 'CorePullquoteBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  customMainColor?: Maybe<Scalars['String']>;
+  customTextColor?: Maybe<Scalars['String']>;
+  mainColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type CorePullquoteBlockDeprecatedV2Attributes = {
+  __typename?: 'CorePullquoteBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  customMainColor?: Maybe<Scalars['String']>;
+  customTextColor?: Maybe<Scalars['String']>;
+  mainColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type CorePullquoteBlockDeprecatedV3Attributes = {
+  __typename?: 'CorePullquoteBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  customMainColor?: Maybe<Scalars['String']>;
+  customTextColor?: Maybe<Scalars['String']>;
+  mainColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type CorePullquoteBlockDeprecatedV4Attributes = {
+  __typename?: 'CorePullquoteBlockDeprecatedV4Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  customMainColor?: Maybe<Scalars['String']>;
+  customTextColor?: Maybe<Scalars['String']>;
+  mainColor?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** core/query block */
+export type CoreQueryBlock = Block & {
+  __typename?: 'CoreQueryBlock';
+  attributes?: Maybe<CoreQueryBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryBlockAttributes = {
+  __typename?: 'CoreQueryBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayLayout: Scalars['BlockAttributesObject'];
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  query: Scalars['BlockAttributesObject'];
+  queryId?: Maybe<Scalars['Float']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryBlockAttributesUnion = CoreQueryBlockAttributes | CoreQueryBlockDeprecatedV1Attributes;
+
+export type CoreQueryBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreQueryBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  displayLayout: Scalars['BlockAttributesObject'];
+  gradient?: Maybe<Scalars['String']>;
+  layout?: Maybe<Scalars['BlockAttributesObject']>;
+  query: Scalars['BlockAttributesObject'];
+  queryId?: Maybe<Scalars['Float']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  tagName: Scalars['String'];
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination block */
+export type CoreQueryPaginationBlock = Block & {
+  __typename?: 'CoreQueryPaginationBlock';
+  attributes?: Maybe<CoreQueryPaginationBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationBlockAttributes = {
+  __typename?: 'CoreQueryPaginationBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-next block */
+export type CoreQueryPaginationNextBlock = Block & {
+  __typename?: 'CoreQueryPaginationNextBlock';
+  attributes?: Maybe<CoreQueryPaginationNextBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationNextBlockAttributes = {
+  __typename?: 'CoreQueryPaginationNextBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-numbers block */
+export type CoreQueryPaginationNumbersBlock = Block & {
+  __typename?: 'CoreQueryPaginationNumbersBlock';
+  attributes?: Maybe<CoreQueryPaginationNumbersBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationNumbersBlockAttributes = {
+  __typename?: 'CoreQueryPaginationNumbersBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+};
+
+/** core/query-pagination-previous block */
+export type CoreQueryPaginationPreviousBlock = Block & {
+  __typename?: 'CoreQueryPaginationPreviousBlock';
+  attributes?: Maybe<CoreQueryPaginationPreviousBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryPaginationPreviousBlockAttributes = {
+  __typename?: 'CoreQueryPaginationPreviousBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/query-title block */
+export type CoreQueryTitleBlock = Block & {
+  __typename?: 'CoreQueryTitleBlock';
+  attributes?: Maybe<CoreQueryTitleBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQueryTitleBlockAttributes = {
+  __typename?: 'CoreQueryTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+/** core/quote block */
+export type CoreQuoteBlock = Block & {
+  __typename?: 'CoreQuoteBlock';
+  attributes?: Maybe<CoreQuoteBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreQuoteBlockAttributes = {
+  __typename?: 'CoreQuoteBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+export type CoreQuoteBlockAttributesUnion = CoreQuoteBlockAttributes | CoreQuoteBlockDeprecatedV1Attributes | CoreQuoteBlockDeprecatedV2Attributes | CoreQuoteBlockDeprecatedV3Attributes;
+
+export type CoreQuoteBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreQuoteBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+export type CoreQuoteBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreQuoteBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+export type CoreQuoteBlockDeprecatedV3Attributes = {
+  __typename?: 'CoreQuoteBlockDeprecatedV3Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  citation: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  value: Scalars['String'];
+};
+
+/** core/rss block */
+export type CoreRssBlock = Block & {
+  __typename?: 'CoreRssBlock';
+  attributes?: Maybe<CoreRssBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreRssBlockAttributes = {
+  __typename?: 'CoreRssBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  blockLayout: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  columns: Scalars['Float'];
+  displayAuthor: Scalars['Boolean'];
+  displayDate: Scalars['Boolean'];
+  displayExcerpt: Scalars['Boolean'];
+  excerptLength: Scalars['Float'];
+  feedURL: Scalars['String'];
+  itemsToShow: Scalars['Float'];
+};
+
+/** core/search block */
+export type CoreSearchBlock = Block & {
+  __typename?: 'CoreSearchBlock';
+  attributes?: Maybe<CoreSearchBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSearchBlockAttributes = {
+  __typename?: 'CoreSearchBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  buttonPosition: Scalars['String'];
+  buttonText?: Maybe<Scalars['String']>;
+  buttonUseIcon: Scalars['Boolean'];
+  className?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  placeholder: Scalars['String'];
+  showLabel: Scalars['Boolean'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  width?: Maybe<Scalars['Float']>;
+  widthUnit?: Maybe<Scalars['String']>;
+};
+
+/** core/separator block */
+export type CoreSeparatorBlock = Block & {
+  __typename?: 'CoreSeparatorBlock';
+  attributes?: Maybe<CoreSeparatorBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSeparatorBlockAttributes = {
+  __typename?: 'CoreSeparatorBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  customColor?: Maybe<Scalars['String']>;
+};
+
+/** core/shortcode block */
+export type CoreShortcodeBlock = Block & {
+  __typename?: 'CoreShortcodeBlock';
+  attributes?: Maybe<CoreShortcodeBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreShortcodeBlockAttributes = {
+  __typename?: 'CoreShortcodeBlockAttributes';
+  text?: Maybe<Scalars['String']>;
+};
+
+/** core/site-logo block */
+export type CoreSiteLogoBlock = Block & {
+  __typename?: 'CoreSiteLogoBlock';
+  attributes?: Maybe<CoreSiteLogoBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteLogoBlockAttributes = {
+  __typename?: 'CoreSiteLogoBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  isLink: Scalars['Boolean'];
+  linkTarget: Scalars['String'];
+  width?: Maybe<Scalars['Float']>;
+};
+
+/** core/site-tagline block */
+export type CoreSiteTaglineBlock = Block & {
+  __typename?: 'CoreSiteTaglineBlock';
+  attributes?: Maybe<CoreSiteTaglineBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteTaglineBlockAttributes = {
+  __typename?: 'CoreSiteTaglineBlockAttributes';
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/site-title block */
+export type CoreSiteTitleBlock = Block & {
+  __typename?: 'CoreSiteTitleBlock';
+  attributes?: Maybe<CoreSiteTitleBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSiteTitleBlockAttributes = {
+  __typename?: 'CoreSiteTitleBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  level: Scalars['Float'];
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/social-link block */
+export type CoreSocialLinkBlock = Block & {
+  __typename?: 'CoreSocialLinkBlock';
+  attributes?: Maybe<CoreSocialLinkBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSocialLinkBlockAttributes = {
+  __typename?: 'CoreSocialLinkBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  service?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** core/social-links block */
+export type CoreSocialLinksBlock = Block & {
+  __typename?: 'CoreSocialLinksBlock';
+  attributes?: Maybe<CoreSocialLinksBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSocialLinksBlockAttributes = {
+  __typename?: 'CoreSocialLinksBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  customIconBackgroundColor?: Maybe<Scalars['String']>;
+  customIconColor?: Maybe<Scalars['String']>;
+  iconBackgroundColor?: Maybe<Scalars['String']>;
+  iconBackgroundColorValue?: Maybe<Scalars['String']>;
+  iconColor?: Maybe<Scalars['String']>;
+  iconColorValue?: Maybe<Scalars['String']>;
+  openInNewTab: Scalars['Boolean'];
+  size?: Maybe<Scalars['String']>;
+};
+
+export type CoreSocialLinksBlockAttributesUnion = CoreSocialLinksBlockAttributes | CoreSocialLinksBlockDeprecatedV1Attributes;
+
+export type CoreSocialLinksBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreSocialLinksBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  customIconBackgroundColor?: Maybe<Scalars['String']>;
+  customIconColor?: Maybe<Scalars['String']>;
+  iconBackgroundColor?: Maybe<Scalars['String']>;
+  iconBackgroundColorValue?: Maybe<Scalars['String']>;
+  iconColor?: Maybe<Scalars['String']>;
+  iconColorValue?: Maybe<Scalars['String']>;
+  openInNewTab: Scalars['Boolean'];
+  size?: Maybe<Scalars['String']>;
+};
+
+/** core/spacer block */
+export type CoreSpacerBlock = Block & {
+  __typename?: 'CoreSpacerBlock';
+  attributes?: Maybe<CoreSpacerBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreSpacerBlockAttributes = {
+  __typename?: 'CoreSpacerBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  height: Scalars['Float'];
+  width?: Maybe<Scalars['Float']>;
+};
+
+/** core/table block */
+export type CoreTableBlock = Block & {
+  __typename?: 'CoreTableBlock';
+  attributes?: Maybe<CoreTableBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreTableBlockAttributes = {
+  __typename?: 'CoreTableBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  body: Array<Maybe<CoreTableBlockAttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
+  caption: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  foot: Array<Maybe<CoreTableBlockAttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
+  hasFixedLayout: Scalars['Boolean'];
+  head: Array<Maybe<CoreTableBlockAttributesHead>>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreTableBlockAttributesBody = {
+  __typename?: 'CoreTableBlockAttributesBody';
+  cells: Array<Maybe<CoreTableBlockAttributesBodyCells>>;
+};
+
+export type CoreTableBlockAttributesBodyCells = {
+  __typename?: 'CoreTableBlockAttributesBodyCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockAttributesFoot = {
+  __typename?: 'CoreTableBlockAttributesFoot';
+  cells: Array<Maybe<CoreTableBlockAttributesFootCells>>;
+};
+
+export type CoreTableBlockAttributesFootCells = {
+  __typename?: 'CoreTableBlockAttributesFootCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockAttributesHead = {
+  __typename?: 'CoreTableBlockAttributesHead';
+  cells: Array<Maybe<CoreTableBlockAttributesHeadCells>>;
+};
+
+export type CoreTableBlockAttributesHeadCells = {
+  __typename?: 'CoreTableBlockAttributesHeadCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockAttributesUnion = CoreTableBlockAttributes | CoreTableBlockDeprecatedV1Attributes | CoreTableBlockDeprecatedV2Attributes;
+
+export type CoreTableBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreTableBlockDeprecatedV1Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  body: Array<Maybe<CoreTableBlockDeprecatedV1AttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
+  caption: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  foot: Array<Maybe<CoreTableBlockDeprecatedV1AttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
+  hasFixedLayout: Scalars['Boolean'];
+  head: Array<Maybe<CoreTableBlockDeprecatedV1AttributesHead>>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreTableBlockDeprecatedV1AttributesBody = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesBody';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV1AttributesBodyCells>>;
+};
+
+export type CoreTableBlockDeprecatedV1AttributesBodyCells = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesBodyCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV1AttributesFoot = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesFoot';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV1AttributesFootCells>>;
+};
+
+export type CoreTableBlockDeprecatedV1AttributesFootCells = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesFootCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV1AttributesHead = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesHead';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV1AttributesHeadCells>>;
+};
+
+export type CoreTableBlockDeprecatedV1AttributesHeadCells = {
+  __typename?: 'CoreTableBlockDeprecatedV1AttributesHeadCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2Attributes = {
+  __typename?: 'CoreTableBlockDeprecatedV2Attributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  body: Array<Maybe<CoreTableBlockDeprecatedV2AttributesBody>>;
+  borderColor?: Maybe<Scalars['String']>;
+  caption: Scalars['String'];
+  className?: Maybe<Scalars['String']>;
+  foot: Array<Maybe<CoreTableBlockDeprecatedV2AttributesFoot>>;
+  gradient?: Maybe<Scalars['String']>;
+  hasFixedLayout: Scalars['Boolean'];
+  head: Array<Maybe<CoreTableBlockDeprecatedV2AttributesHead>>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesBody = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesBody';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesBodyCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesBodyCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesBodyCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2AttributesFoot = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesFoot';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesFootCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesFootCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesFootCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+export type CoreTableBlockDeprecatedV2AttributesHead = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesHead';
+  cells: Array<Maybe<CoreTableBlockDeprecatedV2AttributesHeadCells>>;
+};
+
+export type CoreTableBlockDeprecatedV2AttributesHeadCells = {
+  __typename?: 'CoreTableBlockDeprecatedV2AttributesHeadCells';
+  align?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  tag: Scalars['String'];
+};
+
+/** core/tag-cloud block */
+export type CoreTagCloudBlock = Block & {
+  __typename?: 'CoreTagCloudBlock';
+  attributes?: Maybe<CoreTagCloudBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreTagCloudBlockAttributes = {
+  __typename?: 'CoreTagCloudBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  showTagCounts: Scalars['Boolean'];
+  taxonomy: Scalars['String'];
+};
+
+/** core/text-columns block */
+export type CoreTextColumnsBlock = Block & {
+  __typename?: 'CoreTextColumnsBlock';
+  attributes?: Maybe<CoreTextColumnsBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreTextColumnsBlockAttributes = {
+  __typename?: 'CoreTextColumnsBlockAttributes';
+  className?: Maybe<Scalars['String']>;
+  columns: Scalars['Float'];
+  content: Array<Maybe<CoreTextColumnsBlockAttributesContent>>;
+  width?: Maybe<Scalars['String']>;
+};
+
+export type CoreTextColumnsBlockAttributesContent = {
+  __typename?: 'CoreTextColumnsBlockAttributesContent';
+  children?: Maybe<Scalars['String']>;
+};
+
+/** core/verse block */
+export type CoreVerseBlock = Block & {
+  __typename?: 'CoreVerseBlock';
+  attributes?: Maybe<CoreVerseBlockAttributesUnion>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreVerseBlockAttributes = {
+  __typename?: 'CoreVerseBlockAttributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+export type CoreVerseBlockAttributesUnion = CoreVerseBlockAttributes | CoreVerseBlockDeprecatedV1Attributes;
+
+export type CoreVerseBlockDeprecatedV1Attributes = {
+  __typename?: 'CoreVerseBlockDeprecatedV1Attributes';
+  anchor?: Maybe<Scalars['String']>;
+  backgroundColor?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+  fontSize?: Maybe<Scalars['String']>;
+  gradient?: Maybe<Scalars['String']>;
+  style?: Maybe<Scalars['BlockAttributesObject']>;
+  textAlign?: Maybe<Scalars['String']>;
+  textColor?: Maybe<Scalars['String']>;
+};
+
+/** core/video block */
+export type CoreVideoBlock = Block & {
+  __typename?: 'CoreVideoBlock';
+  attributes?: Maybe<CoreVideoBlockAttributes>;
+  /** Block attributes, JSON encoded */
+  attributesJSON?: Maybe<Scalars['String']>;
+  /** Original HTML content with media urls to CDN */
+  cdnContent?: Maybe<Scalars['String']>;
+  /** Server side rendered content. */
+  dynamicContent?: Maybe<Scalars['String']>;
+  /** Gutenberg blocks */
+  innerBlocks?: Maybe<Array<Block>>;
+  /** Is block rendered server side. */
+  isDynamic: Scalars['Boolean'];
+  /** Name of the block. */
+  name: Scalars['String'];
+  order: Scalars['Int'];
+  /** Original HTML content. */
+  originalContent?: Maybe<Scalars['String']>;
+  /** Parent post. */
+  parentNode: Node;
+  /** Parent post id. */
+  parentNodeDatabaseId: Scalars['Int'];
+  /** Original HTML content with inner blocks. */
+  saveContent?: Maybe<Scalars['String']>;
+};
+
+export type CoreVideoBlockAttributes = {
+  __typename?: 'CoreVideoBlockAttributes';
+  align?: Maybe<Scalars['String']>;
+  anchor?: Maybe<Scalars['String']>;
+  autoplay?: Maybe<Scalars['Boolean']>;
+  caption?: Maybe<Scalars['String']>;
+  className?: Maybe<Scalars['String']>;
+  controls: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  loop?: Maybe<Scalars['Boolean']>;
+  muted?: Maybe<Scalars['Boolean']>;
+  playsInline?: Maybe<Scalars['Boolean']>;
+  poster?: Maybe<Scalars['String']>;
+  preload: Scalars['String'];
+  src?: Maybe<Scalars['String']>;
+  tracks: Array<Maybe<Scalars['BlockAttributesObject']>>;
+};
+
 /** Input for the createArtist mutation */
 export type CreateArtistInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createArtist mutation */
@@ -1304,17 +5056,17 @@ export type CreateArtistPayload = {
 /** Input for the createCategory mutation */
 export type CreateCategoryInput = {
   /** The slug that the category will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the category object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The name of the category object to mutate */
   name: Scalars['String'];
   /** The ID of the category that should be set as the parent */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createCategory mutation */
@@ -1329,25 +5081,25 @@ export type CreateCategoryPayload = {
 /** Input for the createComment mutation */
 export type CreateCommentInput = {
   /** The approval status of the comment. */
-  approved?: Maybe<Scalars['String']>;
+  approved?: InputMaybe<Scalars['String']>;
   /** The name of the comment's author. */
-  author?: Maybe<Scalars['String']>;
+  author?: InputMaybe<Scalars['String']>;
   /** The email of the comment's author. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** The url of the comment's author. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
-  commentOn?: Maybe<Scalars['Int']>;
+  commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day ( e.g. 01/31/2017 ) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** Parent comment of current comment. */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Type of comment. */
-  type?: Maybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createComment mutation */
@@ -1364,35 +5116,35 @@ export type CreateCommentPayload = {
 /** Input for the createMediaItem mutation */
 export type CreateMediaItemInput = {
   /** Alternative text to display when mediaItem is not displayed */
-  altText?: Maybe<Scalars['String']>;
+  altText?: InputMaybe<Scalars['String']>;
   /** The userId to assign as the author of the mediaItem */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** The caption for the mediaItem */
-  caption?: Maybe<Scalars['String']>;
+  caption?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the mediaItem */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The date of the mediaItem */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The date (in GMT zone) of the mediaItem */
-  dateGmt?: Maybe<Scalars['String']>;
+  dateGmt?: InputMaybe<Scalars['String']>;
   /** Description of the mediaItem */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The file name of the mediaItem */
-  filePath?: Maybe<Scalars['String']>;
+  filePath?: InputMaybe<Scalars['String']>;
   /** The file type of the mediaItem */
-  fileType?: Maybe<MimeTypeEnum>;
+  fileType?: InputMaybe<MimeTypeEnum>;
   /** The WordPress post ID or the graphQL postId of the parent object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
-  pingStatus?: Maybe<Scalars['String']>;
+  pingStatus?: InputMaybe<Scalars['String']>;
   /** The slug of the mediaItem */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the mediaItem */
-  status?: Maybe<MediaItemStatusEnum>;
+  status?: InputMaybe<MediaItemStatusEnum>;
   /** The title of the mediaItem */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createMediaItem mutation */
@@ -1407,27 +5159,27 @@ export type CreateMediaItemPayload = {
 /** Input for the createPage mutation */
 export type CreatePageInput = {
   /** The userId to assign as the author of the object */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the object */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The content of the object */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The ID of the parent object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createPage mutation */
@@ -1442,15 +5194,15 @@ export type CreatePagePayload = {
 /** Input for the createPostFormat mutation */
 export type CreatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the post_format object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The name of the post_format object to mutate */
   name: Scalars['String'];
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createPostFormat mutation */
@@ -1465,39 +5217,39 @@ export type CreatePostFormatPayload = {
 /** Input for the createPost mutation */
 export type CreatePostInput = {
   /** The userId to assign as the author of the object */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** Set connections between the post and categories */
-  categories?: Maybe<PostCategoriesInput>;
+  categories?: InputMaybe<PostCategoriesInput>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the object */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The content of the object */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The excerpt of the object */
-  excerpt?: Maybe<Scalars['String']>;
+  excerpt?: InputMaybe<Scalars['String']>;
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The ping status for the object */
-  pingStatus?: Maybe<Scalars['String']>;
+  pingStatus?: InputMaybe<Scalars['String']>;
   /** URLs that have been pinged. */
-  pinged?: Maybe<Array<Maybe<Scalars['String']>>>;
+  pinged?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Set connections between the post and postFormats */
-  postFormats?: Maybe<PostPostFormatsInput>;
+  postFormats?: InputMaybe<PostPostFormatsInput>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Set connections between the post and tags */
-  tags?: Maybe<PostTagsInput>;
+  tags?: InputMaybe<PostTagsInput>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
   /** URLs queued to be pinged. */
-  toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
+  toPing?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /** The payload for the createPost mutation */
@@ -1509,18 +5261,47 @@ export type CreatePostPayload = {
   post?: Maybe<Post>;
 };
 
+/** Input for the createReusableBlock mutation */
+export type CreateReusableBlockInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The content of the object */
+  content?: InputMaybe<Scalars['String']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** The payload for the createReusableBlock mutation */
+export type CreateReusableBlockPayload = {
+  __typename?: 'CreateReusableBlockPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
+  reusableBlock?: Maybe<ReusableBlock>;
+};
+
 /** Input for the createTag mutation */
 export type CreateTagInput = {
   /** The slug that the post_tag will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the post_tag object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The name of the post_tag object to mutate */
   name: Scalars['String'];
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createTag mutation */
@@ -1535,45 +5316,45 @@ export type CreateTagPayload = {
 /** Input for the createUser mutation */
 export type CreateUserInput = {
   /** User's AOL IM account. */
-  aim?: Maybe<Scalars['String']>;
+  aim?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** A string containing content about the user. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
-  displayName?: Maybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   /** A string containing the user's email address. */
-  email?: Maybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   /** 	The user's first name. */
-  firstName?: Maybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
   /** User's Jabber account. */
-  jabber?: Maybe<Scalars['String']>;
+  jabber?: InputMaybe<Scalars['String']>;
   /** The user's last name. */
-  lastName?: Maybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
   /** User's locale. */
-  locale?: Maybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
   /** A string that contains a URL-friendly name for the user. The default is the user's username. */
-  nicename?: Maybe<Scalars['String']>;
+  nicename?: InputMaybe<Scalars['String']>;
   /** The user's nickname, defaults to the user's username. */
-  nickname?: Maybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
-  registered?: Maybe<Scalars['String']>;
+  registered?: InputMaybe<Scalars['String']>;
   /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
-  richEditing?: Maybe<Scalars['String']>;
+  richEditing?: InputMaybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
-  roles?: Maybe<Array<Maybe<Scalars['String']>>>;
+  roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** A string that contains the user's username for logging in. */
   username: Scalars['String'];
   /** A string containing the user's URL for the user's web site. */
-  websiteUrl?: Maybe<Scalars['String']>;
+  websiteUrl?: InputMaybe<Scalars['String']>;
   /** User's Yahoo IM account. */
-  yim?: Maybe<Scalars['String']>;
+  yim?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the createUser mutation */
@@ -1594,41 +5375,41 @@ export type DatabaseIdentifier = {
 /** Date values */
 export type DateInput = {
   /** Day of the month (from 1 to 31) */
-  day?: Maybe<Scalars['Int']>;
+  day?: InputMaybe<Scalars['Int']>;
   /** Month number (from 1 to 12) */
-  month?: Maybe<Scalars['Int']>;
+  month?: InputMaybe<Scalars['Int']>;
   /** 4 digit year (e.g. 2017) */
-  year?: Maybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
 };
 
 /** Filter the connection based on input */
 export type DateQueryInput = {
   /** Nodes should be returned after this date */
-  after?: Maybe<DateInput>;
+  after?: InputMaybe<DateInput>;
   /** Nodes should be returned before this date */
-  before?: Maybe<DateInput>;
+  before?: InputMaybe<DateInput>;
   /** Column to query against */
-  column?: Maybe<PostObjectsConnectionDateColumnEnum>;
+  column?: InputMaybe<PostObjectsConnectionDateColumnEnum>;
   /** For after/before, whether exact value should be matched or not */
-  compare?: Maybe<Scalars['String']>;
+  compare?: InputMaybe<Scalars['String']>;
   /** Day of the month (from 1 to 31) */
-  day?: Maybe<Scalars['Int']>;
+  day?: InputMaybe<Scalars['Int']>;
   /** Hour (from 0 to 23) */
-  hour?: Maybe<Scalars['Int']>;
+  hour?: InputMaybe<Scalars['Int']>;
   /** For after/before, whether exact value should be matched or not */
-  inclusive?: Maybe<Scalars['Boolean']>;
+  inclusive?: InputMaybe<Scalars['Boolean']>;
   /** Minute (from 0 to 59) */
-  minute?: Maybe<Scalars['Int']>;
+  minute?: InputMaybe<Scalars['Int']>;
   /** Month number (from 1 to 12) */
-  month?: Maybe<Scalars['Int']>;
+  month?: InputMaybe<Scalars['Int']>;
   /** OR or AND, how the sub-arrays should be compared */
-  relation?: Maybe<RelationEnum>;
+  relation?: InputMaybe<RelationEnum>;
   /** Second (0 to 59) */
-  second?: Maybe<Scalars['Int']>;
+  second?: InputMaybe<Scalars['Int']>;
   /** Week of the year (from 0 to 53) */
-  week?: Maybe<Scalars['Int']>;
+  week?: InputMaybe<Scalars['Int']>;
   /** 4 digit year (e.g. 2017) */
-  year?: Maybe<Scalars['Int']>;
+  year?: InputMaybe<Scalars['Int']>;
 };
 
 /** The template assigned to the node */
@@ -1641,9 +5422,9 @@ export type DefaultTemplate = ContentTemplate & {
 /** Input for the deleteArtist mutation */
 export type DeleteArtistInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
-  forceDelete?: Maybe<Scalars['Boolean']>;
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
   /** The ID of the Artist to delete */
   id: Scalars['ID'];
 };
@@ -1662,7 +5443,7 @@ export type DeleteArtistPayload = {
 /** Input for the deleteCategory mutation */
 export type DeleteCategoryInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the category to delete */
   id: Scalars['ID'];
 };
@@ -1681,9 +5462,9 @@ export type DeleteCategoryPayload = {
 /** Input for the deleteComment mutation */
 export type DeleteCommentInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Whether the comment should be force deleted instead of being moved to the trash */
-  forceDelete?: Maybe<Scalars['Boolean']>;
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
   /** The deleted comment ID */
   id: Scalars['ID'];
 };
@@ -1702,9 +5483,9 @@ export type DeleteCommentPayload = {
 /** Input for the deleteMediaItem mutation */
 export type DeleteMediaItemInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Whether the mediaItem should be force deleted instead of being moved to the trash */
-  forceDelete?: Maybe<Scalars['Boolean']>;
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
   /** The ID of the mediaItem to delete */
   id: Scalars['ID'];
 };
@@ -1723,9 +5504,9 @@ export type DeleteMediaItemPayload = {
 /** Input for the deletePage mutation */
 export type DeletePageInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
-  forceDelete?: Maybe<Scalars['Boolean']>;
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
   /** The ID of the page to delete */
   id: Scalars['ID'];
 };
@@ -1744,7 +5525,7 @@ export type DeletePagePayload = {
 /** Input for the deletePostFormat mutation */
 export type DeletePostFormatInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the postFormat to delete */
   id: Scalars['ID'];
 };
@@ -1763,9 +5544,9 @@ export type DeletePostFormatPayload = {
 /** Input for the deletePost mutation */
 export type DeletePostInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
-  forceDelete?: Maybe<Scalars['Boolean']>;
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
   /** The ID of the post to delete */
   id: Scalars['ID'];
 };
@@ -1781,10 +5562,31 @@ export type DeletePostPayload = {
   post?: Maybe<Post>;
 };
 
+/** Input for the deleteReusableBlock mutation */
+export type DeleteReusableBlockInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete?: InputMaybe<Scalars['Boolean']>;
+  /** The ID of the ReusableBlock to delete */
+  id: Scalars['ID'];
+};
+
+/** The payload for the deleteReusableBlock mutation */
+export type DeleteReusableBlockPayload = {
+  __typename?: 'DeleteReusableBlockPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']>;
+  /** The object before it was deleted */
+  reusableBlock?: Maybe<ReusableBlock>;
+};
+
 /** Input for the deleteTag mutation */
 export type DeleteTagInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the tag to delete */
   id: Scalars['ID'];
 };
@@ -1803,11 +5605,11 @@ export type DeleteTagPayload = {
 /** Input for the deleteUser mutation */
 export type DeleteUserInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the user you want to delete */
   id: Scalars['ID'];
   /** Reassign posts and links to new User ID. */
-  reassignId?: Maybe<Scalars['ID']>;
+  reassignId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The payload for the deleteUser mutation */
@@ -1849,7 +5651,7 @@ export type EnqueuedAsset = {
 };
 
 /** Script enqueued by the CMS */
-export type EnqueuedScript = Node & EnqueuedAsset & {
+export type EnqueuedScript = EnqueuedAsset & Node & {
   __typename?: 'EnqueuedScript';
   /** @todo */
   args?: Maybe<Scalars['Boolean']>;
@@ -1868,7 +5670,7 @@ export type EnqueuedScript = Node & EnqueuedAsset & {
 };
 
 /** Stylesheet enqueued by the CMS */
-export type EnqueuedStylesheet = Node & EnqueuedAsset & {
+export type EnqueuedStylesheet = EnqueuedAsset & Node & {
   __typename?: 'EnqueuedStylesheet';
   /** @todo */
   args?: Maybe<Scalars['Boolean']>;
@@ -1926,21 +5728,21 @@ export type HierarchicalContentNode = {
 
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeAncestorsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeChildrenArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
@@ -1966,41 +5768,41 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = {
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
 export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
@@ -2026,41 +5828,41 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = {
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
 export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
@@ -2081,7 +5883,7 @@ export type HierarchicalTermNode = {
 /** Input for the login mutation */
 export type LoginInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The plain-text password for the user logging in. */
   password: Scalars['String'];
   /** The username used for login. Typically a unique or email address depending on specific configuration */
@@ -2117,7 +5919,7 @@ export type MediaDetails = {
 };
 
 /** The mediaItem type */
-export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithAuthor & NodeWithComments & HierarchicalContentNode & {
+export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNode & Node & NodeWithAuthor & NodeWithComments & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
   __typename?: 'MediaItem';
   /** Alternative text to display when resource is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -2225,91 +6027,91 @@ export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & Datab
 
 /** The mediaItem type */
 export type MediaItemAncestorsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemCaptionArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemChildrenArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<MediaItemToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<MediaItemToCommentConnectionWhereArgs>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemDescriptionArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemFileSizeArgs = {
-  size?: Maybe<MediaItemSizeEnum>;
+  size?: InputMaybe<MediaItemSizeEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemSizesArgs = {
-  size?: Maybe<MediaItemSizeEnum>;
+  size?: InputMaybe<MediaItemSizeEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemSourceUrlArgs = {
-  size?: Maybe<MediaItemSizeEnum>;
+  size?: InputMaybe<MediaItemSizeEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemSrcSetArgs = {
-  size?: Maybe<MediaItemSizeEnum>;
+  size?: InputMaybe<MediaItemSizeEnum>;
 };
 
 
 /** The mediaItem type */
 export type MediaItemTitleArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -2367,6 +6169,8 @@ export enum MediaItemSizeEnum {
   Thumbnail = 'THUMBNAIL',
   /** MediaItem with the 100x100 size */
   '100X100' = '_100X100',
+  /** MediaItem with the 900x600 size */
+  '900X600' = '_900X600',
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
   /** MediaItem with the 1600x1067 size */
@@ -2376,9 +6180,7 @@ export enum MediaItemSizeEnum {
   /** MediaItem with the 1920x1080 size */
   '1920X1080' = '_1920X1080',
   /** MediaItem with the 2048x2048 size */
-  '2048X2048' = '_2048X2048',
-  /** MediaItem with the 900x600 size */
-  '900X600' = '_900X600'
+  '2048X2048' = '_2048X2048'
 }
 
 /** The status of the media item object. */
@@ -2416,63 +6218,63 @@ export type MediaItemToCommentConnectionEdge = {
 /** Arguments for filtering the MediaItemToCommentConnection connection */
 export type MediaItemToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Details of an available size for a media item */
@@ -2495,7 +6297,7 @@ export type MediaSize = {
 };
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
-export type Menu = Node & DatabaseIdentifier & {
+export type Menu = DatabaseIdentifier & Node & {
   __typename?: 'Menu';
   /** The number of items in the menu */
   count?: Maybe<Scalars['Int']>;
@@ -2523,15 +6325,15 @@ export type Menu = Node & DatabaseIdentifier & {
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
 export type MenuMenuItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<MenuToMenuItemConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<MenuToMenuItemConnectionWhereArgs>;
 };
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
-export type MenuItem = Node & DatabaseIdentifier & {
+export type MenuItem = DatabaseIdentifier & Node & {
   __typename?: 'MenuItem';
   /** Connection between the MenuItem type and the MenuItem type */
   childItems?: Maybe<MenuItemToMenuItemConnection>;
@@ -2584,11 +6386,11 @@ export type MenuItem = Node & DatabaseIdentifier & {
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
 export type MenuItemChildItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<MenuItemToMenuItemConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<MenuItemToMenuItemConnectionWhereArgs>;
 };
 
 /** Nodes that can be linked to as Menu Items */
@@ -2610,7 +6412,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Post | Page | Artist | Category | Tag | PostFormat;
+export type MenuItemObjectUnion = Artist | Category | Page | Post | PostFormat | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -2642,13 +6444,13 @@ export type MenuItemToMenuItemConnectionEdge = {
 /** Arguments for filtering the MenuItemToMenuItemConnection connection */
 export type MenuItemToMenuItemConnectionWhereArgs = {
   /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
+  location?: InputMaybe<MenuLocationEnum>;
   /** The database ID of the parent menu object */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
+  parentDatabaseId?: InputMaybe<Scalars['Int']>;
   /** The ID of the parent menu object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the MenuItem type and the MenuItemLinkable type */
@@ -2656,14 +6458,6 @@ export type MenuItemToMenuItemLinkableConnectionEdge = {
   __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
   /** The node of the connection, without the edges */
   node?: Maybe<MenuItemLinkable>;
-};
-
-/** Options for filtering the connection */
-export type MenuItemsWhereArgs = {
-  /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
-  /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
 };
 
 /** Registered menu locations */
@@ -2705,13 +6499,13 @@ export type MenuToMenuItemConnectionEdge = {
 /** Arguments for filtering the MenuToMenuItemConnection connection */
 export type MenuToMenuItemConnectionWhereArgs = {
   /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
+  location?: InputMaybe<MenuLocationEnum>;
   /** The database ID of the parent menu object */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
+  parentDatabaseId?: InputMaybe<Scalars['Int']>;
   /** The ID of the parent menu object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The MimeType of the object */
@@ -2936,7 +6730,7 @@ export type NodeWithContentEditor = {
 
 /** A node that supports the content editor */
 export type NodeWithContentEditorContentArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** A node that can have an excerpt */
@@ -2948,7 +6742,7 @@ export type NodeWithExcerpt = {
 
 /** A node that can have an excerpt */
 export type NodeWithExcerptExcerptArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** A node that can have a featured image set */
@@ -3014,19 +6808,19 @@ export type NodeWithFeaturedImage = {
 
 /** A node that can have a featured image set */
 export type NodeWithFeaturedImageEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** A node that can have a featured image set */
 export type NodeWithFeaturedImageEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
@@ -3072,7 +6866,7 @@ export type NodeWithTitle = {
 
 /** A node that NodeWith a title */
 export type NodeWithTitleTitleArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** A node that can have trackbacks and pingbacks */
@@ -3088,9 +6882,9 @@ export type NodeWithTrackbacks = {
 /** Offset pagination input type */
 export type OffsetPagination = {
   /** Number of post to show per page. Passed to posts_per_page of WP_Query. */
-  offset?: Maybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
   /** Number of post to show per page. Passed to posts_per_page of WP_Query. */
-  size?: Maybe<Scalars['Int']>;
+  size?: InputMaybe<Scalars['Int']>;
 };
 
 /** Get information about the offset pagination state */
@@ -3113,7 +6907,7 @@ export enum OrderEnum {
 }
 
 /** The page type */
-export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithComments & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & {
+export type Page = BlockEditorContentNode & ContentNode & DatabaseIdentifier & HierarchicalContentNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
   __typename?: 'Page';
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
@@ -3123,6 +6917,10 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   authorDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']>;
+  /** Gutenberg blocks */
+  blocks?: Maybe<Array<Block>>;
+  /** Gutenberg blocks as json string */
+  blocksJSON?: Maybe<Scalars['String']>;
   /** Connection between the HierarchicalContentNode type and the ContentNode type */
   children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
   /** The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility. */
@@ -3200,6 +6998,10 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   parentId?: Maybe<Scalars['ID']>;
   /** Connection between the page type and the page type */
   preview?: Maybe<PageToPreviewConnectionEdge>;
+  /** Previewed gutenberg blocks */
+  previewBlocks?: Maybe<Array<Block>>;
+  /** Previewed Gutenberg blocks as json string */
+  previewBlocksJSON?: Maybe<Scalars['String']>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
   /** Whether the object is a node in the preview state */
@@ -3223,71 +7025,71 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
 
 /** The page type */
 export type PageAncestorsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 
 /** The page type */
 export type PageChildrenArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
 
 /** The page type */
 export type PageCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PageToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PageToCommentConnectionWhereArgs>;
 };
 
 
 /** The page type */
 export type PageContentArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** The page type */
 export type PageEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The page type */
 export type PageEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The page type */
 export type PageRevisionsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PageToRevisionConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PageToRevisionConnectionWhereArgs>;
 };
 
 
 /** The page type */
 export type PageTitleArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -3323,63 +7125,63 @@ export type PageToCommentConnectionEdge = {
 /** Arguments for filtering the PageToCommentConnection connection */
 export type PageToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the page type and the page type */
@@ -3412,47 +7214,47 @@ export type PageToRevisionConnectionEdge = {
 /** Arguments for filtering the pageToRevisionConnection connection */
 export type PageToRevisionConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** An plugin object */
@@ -3479,7 +7281,7 @@ export type Plugin = Node & {
 };
 
 /** The post type */
-export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithExcerpt & NodeWithComments & NodeWithTrackbacks & NodeWithRevisions & MenuItemLinkable & {
+export type Post = BlockEditorContentNode & ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & NodeWithTrackbacks & UniformResourceIdentifiable & {
   __typename?: 'Post';
   /** Connection between the NodeWithAuthor type and the User type */
   author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
@@ -3487,6 +7289,10 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   authorDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']>;
+  /** Gutenberg blocks */
+  blocks?: Maybe<Array<Block>>;
+  /** Gutenberg blocks as json string */
+  blocksJSON?: Maybe<Scalars['String']>;
   /** Connection between the post type and the category type */
   categories?: Maybe<PostToCategoryConnection>;
   /** The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility. */
@@ -3564,6 +7370,10 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   postSettingsField?: Maybe<Post_Postsettingsfield>;
   /** Connection between the post type and the post type */
   preview?: Maybe<PostToPreviewConnectionEdge>;
+  /** Previewed gutenberg blocks */
+  previewBlocks?: Maybe<Array<Block>>;
+  /** Previewed Gutenberg blocks as json string */
+  previewBlocksJSON?: Maybe<Scalars['String']>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
   /** Whether the object is a node in the preview state */
@@ -3593,121 +7403,121 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
 
 /** The post type */
 export type PostCategoriesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToCategoryConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToCategoryConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToCommentConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostContentArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** The post type */
 export type PostEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The post type */
 export type PostEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The post type */
 export type PostExcerptArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
 /** The post type */
 export type PostPostFormatsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToPostFormatConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToPostFormatConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostRevisionsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToRevisionConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToRevisionConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostTagsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToTagConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToTagConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostToTermNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostToTermNodeConnectionWhereArgs>;
 };
 
 
 /** The post type */
 export type PostTitleArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 /** Set relationships between the post to categories */
 export type PostCategoriesInput = {
   /** If true, this will append the category to existing related categories. If false, this will replace existing relationships. Default true. */
-  append?: Maybe<Scalars['Boolean']>;
+  append?: InputMaybe<Scalars['Boolean']>;
   /** The input list of items to set. */
-  nodes?: Maybe<Array<Maybe<PostCategoriesNodeInput>>>;
+  nodes?: InputMaybe<Array<InputMaybe<PostCategoriesNodeInput>>>;
 };
 
 /** List of categories to connect the post to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
 export type PostCategoriesNodeInput = {
   /** The description of the category. This field is used to set a description of the category if a new one is created during the mutation. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the category. If present, this will be used to connect to the post. If no existing category exists with this ID, no connection will be made. */
-  id?: Maybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
   /** The name of the category. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** The slug of the category. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
+export type PostFormat = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'PostFormat';
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
@@ -3755,39 +7565,39 @@ export type PostFormat = Node & TermNode & UniformResourceIdentifiable & Databas
 
 /** The postFormat type */
 export type PostFormatContentNodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostFormatToContentNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostFormatToContentNodeConnectionWhereArgs>;
 };
 
 
 /** The postFormat type */
 export type PostFormatEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The postFormat type */
 export type PostFormatEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The postFormat type */
 export type PostFormatPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PostFormatToPostConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PostFormatToPostConnectionWhereArgs>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -3827,41 +7637,41 @@ export type PostFormatToContentNodeConnectionEdge = {
 /** Arguments for filtering the PostFormatToContentNodeConnection connection */
 export type PostFormatToContentNodeConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypesOfPostFormatEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfPostFormatEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the postFormat type and the post type */
@@ -3887,67 +7697,67 @@ export type PostFormatToPostConnectionEdge = {
 /** Arguments for filtering the PostFormatToPostConnection connection */
 export type PostFormatToPostConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the postFormat type and the Taxonomy type */
@@ -3976,9 +7786,6 @@ export enum PostObjectFieldFormatEnum {
   /** Apply the default WordPress rendering */
   Rendered = 'RENDERED'
 }
-
-/** Union between the post, page and media item types */
-export type PostObjectUnion = Post | Page | MediaItem | Artist;
 
 /** The column to use when filtering by date */
 export enum PostObjectsConnectionDateColumnEnum {
@@ -4023,21 +7830,21 @@ export type PostObjectsConnectionOrderbyInput = {
 /** Set relationships between the post to postFormats */
 export type PostPostFormatsInput = {
   /** If true, this will append the postFormat to existing related postFormats. If false, this will replace existing relationships. Default true. */
-  append?: Maybe<Scalars['Boolean']>;
+  append?: InputMaybe<Scalars['Boolean']>;
   /** The input list of items to set. */
-  nodes?: Maybe<Array<Maybe<PostPostFormatsNodeInput>>>;
+  nodes?: InputMaybe<Array<InputMaybe<PostPostFormatsNodeInput>>>;
 };
 
 /** List of postFormats to connect the post to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
 export type PostPostFormatsNodeInput = {
   /** The description of the postFormat. This field is used to set a description of the postFormat if a new one is created during the mutation. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the postFormat. If present, this will be used to connect to the post. If no existing postFormat exists with this ID, no connection will be made. */
-  id?: Maybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
   /** The name of the postFormat. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** The slug of the postFormat. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The status of the object. */
@@ -4073,21 +7880,21 @@ export enum PostStatusEnum {
 /** Set relationships between the post to tags */
 export type PostTagsInput = {
   /** If true, this will append the tag to existing related tags. If false, this will replace existing relationships. Default true. */
-  append?: Maybe<Scalars['Boolean']>;
+  append?: InputMaybe<Scalars['Boolean']>;
   /** The input list of items to set. */
-  nodes?: Maybe<Array<Maybe<PostTagsNodeInput>>>;
+  nodes?: InputMaybe<Array<InputMaybe<PostTagsNodeInput>>>;
 };
 
 /** List of tags to connect the post to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
 export type PostTagsNodeInput = {
   /** The description of the tag. This field is used to set a description of the tag if a new one is created during the mutation. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the tag. If present, this will be used to connect to the post. If no existing tag exists with this ID, no connection will be made. */
-  id?: Maybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
   /** The name of the tag. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** The slug of the tag. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the category type */
@@ -4113,45 +7920,45 @@ export type PostToCategoryConnectionEdge = {
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the post type and the Comment type */
@@ -4177,63 +7984,63 @@ export type PostToCommentConnectionEdge = {
 /** Arguments for filtering the PostToCommentConnection connection */
 export type PostToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the post type and the postFormat type */
@@ -4259,45 +8066,45 @@ export type PostToPostFormatConnectionEdge = {
 /** Arguments for filtering the PostToPostFormatConnection connection */
 export type PostToPostFormatConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the post type and the post type */
@@ -4330,67 +8137,67 @@ export type PostToRevisionConnectionEdge = {
 /** Arguments for filtering the postToRevisionConnection connection */
 export type PostToRevisionConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the post type and the tag type */
@@ -4416,45 +8223,45 @@ export type PostToTagConnectionEdge = {
 /** Arguments for filtering the PostToTagConnection connection */
 export type PostToTagConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the post type and the TermNode type */
@@ -4480,47 +8287,47 @@ export type PostToTermNodeConnectionEdge = {
 /** Arguments for filtering the PostToTermNodeConnection connection */
 export type PostToTermNodeConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
+  taxonomies?: InputMaybe<Array<InputMaybe<TaxonomyEnum>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Details for labels of the PostType */
@@ -4612,7 +8419,7 @@ export type ReadingSettings = {
 /** Input for the refreshJwtAuthToken mutation */
 export type RefreshJwtAuthTokenInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
   jwtRefreshToken: Scalars['String'];
 };
@@ -4629,43 +8436,43 @@ export type RefreshJwtAuthTokenPayload = {
 /** Input for the registerUser mutation */
 export type RegisterUserInput = {
   /** User's AOL IM account. */
-  aim?: Maybe<Scalars['String']>;
+  aim?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** A string containing content about the user. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
-  displayName?: Maybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   /** A string containing the user's email address. */
-  email?: Maybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   /** 	The user's first name. */
-  firstName?: Maybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
   /** User's Jabber account. */
-  jabber?: Maybe<Scalars['String']>;
+  jabber?: InputMaybe<Scalars['String']>;
   /** The user's last name. */
-  lastName?: Maybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
   /** User's locale. */
-  locale?: Maybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
   /** A string that contains a URL-friendly name for the user. The default is the user's username. */
-  nicename?: Maybe<Scalars['String']>;
+  nicename?: InputMaybe<Scalars['String']>;
   /** The user's nickname, defaults to the user's username. */
-  nickname?: Maybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
-  registered?: Maybe<Scalars['String']>;
+  registered?: InputMaybe<Scalars['String']>;
   /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
-  richEditing?: Maybe<Scalars['String']>;
+  richEditing?: InputMaybe<Scalars['String']>;
   /** A string that contains the user's username. */
   username: Scalars['String'];
   /** A string containing the user's URL for the user's web site. */
-  websiteUrl?: Maybe<Scalars['String']>;
+  websiteUrl?: InputMaybe<Scalars['String']>;
   /** User's Yahoo IM account. */
-  yim?: Maybe<Scalars['String']>;
+  yim?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the registerUser mutation */
@@ -4688,13 +8495,13 @@ export enum RelationEnum {
 /** Input for the resetUserPassword mutation */
 export type ResetUserPasswordInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Password reset key */
-  key?: Maybe<Scalars['String']>;
+  key?: InputMaybe<Scalars['String']>;
   /** The user's login (username). */
-  login?: Maybe<Scalars['String']>;
+  login?: InputMaybe<Scalars['String']>;
   /** The new password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the resetUserPassword mutation */
@@ -4709,7 +8516,7 @@ export type ResetUserPasswordPayload = {
 /** Input for the restoreComment mutation */
 export type RestoreCommentInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the comment to be restored */
   id: Scalars['ID'];
 };
@@ -4723,6 +8530,219 @@ export type RestoreCommentPayload = {
   comment?: Maybe<Comment>;
   /** The ID of the restored comment */
   restoredId?: Maybe<Scalars['ID']>;
+};
+
+/** The ReusableBlock type */
+export type ReusableBlock = BlockEditorContentNode & ContentNode & DatabaseIdentifier & Node & NodeWithContentEditor & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
+  __typename?: 'ReusableBlock';
+  /** Gutenberg blocks */
+  blocks?: Maybe<Array<Block>>;
+  /** Gutenberg blocks as json string */
+  blocksJSON?: Maybe<Scalars['String']>;
+  /** The content of the post. */
+  content?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The globally unique identifier of the wp_block object. */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** True if the node is a revision of another node */
+  isRevision?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
+  /** Connection between the ReusableBlock type and the ReusableBlock type */
+  preview?: Maybe<ReusableBlockToPreviewConnectionEdge>;
+  /** Previewed gutenberg blocks */
+  previewBlocks?: Maybe<Array<Block>>;
+  /** Previewed gutenberg blocks */
+  previewBlocksFrom?: Maybe<Array<Block>>;
+  /** Previewed gutenberg blocks as json string */
+  previewBlocksFromJSON?: Maybe<Scalars['String']>;
+  /** Previewed Gutenberg blocks as json string */
+  previewBlocksJSON?: Maybe<Scalars['String']>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  reusableBlockId: Scalars['Int'];
+  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+  /** Connection between the ReusableBlock type and the ReusableBlock type */
+  revisions?: Maybe<ReusableBlockToRevisionConnection>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** The template assigned to the node */
+  template?: Maybe<ContentTemplate>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title?: Maybe<Scalars['String']>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockContentArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockPreviewBlocksFromArgs = {
+  databaseId: Scalars['Int'];
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockPreviewBlocksFromJsonArgs = {
+  databaseId: Scalars['Int'];
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockRevisionsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ReusableBlockToRevisionConnectionWhereArgs>;
+};
+
+
+/** The ReusableBlock type */
+export type ReusableBlockTitleArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum ReusableBlockIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
+
+/** Connection between the ReusableBlock type and the ReusableBlock type */
+export type ReusableBlockToPreviewConnectionEdge = {
+  __typename?: 'ReusableBlockToPreviewConnectionEdge';
+  /** The node of the connection, without the edges */
+  node?: Maybe<ReusableBlock>;
+};
+
+/** Connection between the ReusableBlock type and the ReusableBlock type */
+export type ReusableBlockToRevisionConnection = {
+  __typename?: 'ReusableBlockToRevisionConnection';
+  /** Edges for the ReusableBlockToRevisionConnection connection */
+  edges?: Maybe<Array<Maybe<ReusableBlockToRevisionConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<ReusableBlock>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ReusableBlockToRevisionConnectionEdge = {
+  __typename?: 'ReusableBlockToRevisionConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<ReusableBlock>;
+};
+
+/** Arguments for filtering the ReusableBlockToRevisionConnection connection */
+export type ReusableBlockToRevisionConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The root mutation */
@@ -4742,6 +8762,8 @@ export type RootMutation = {
   createPost?: Maybe<CreatePostPayload>;
   /** The payload for the createPostFormat mutation */
   createPostFormat?: Maybe<CreatePostFormatPayload>;
+  /** The payload for the createReusableBlock mutation */
+  createReusableBlock?: Maybe<CreateReusableBlockPayload>;
   /** The payload for the createTag mutation */
   createTag?: Maybe<CreateTagPayload>;
   /** The payload for the createUser mutation */
@@ -4760,6 +8782,8 @@ export type RootMutation = {
   deletePost?: Maybe<DeletePostPayload>;
   /** The payload for the deletePostFormat mutation */
   deletePostFormat?: Maybe<DeletePostFormatPayload>;
+  /** The payload for the deleteReusableBlock mutation */
+  deleteReusableBlock?: Maybe<DeleteReusableBlockPayload>;
   /** The payload for the deleteTag mutation */
   deleteTag?: Maybe<DeleteTagPayload>;
   /** The payload for the deleteUser mutation */
@@ -4792,6 +8816,8 @@ export type RootMutation = {
   updatePost?: Maybe<UpdatePostPayload>;
   /** The payload for the UpdatePostFormat mutation */
   updatePostFormat?: Maybe<UpdatePostFormatPayload>;
+  /** The payload for the updateReusableBlock mutation */
+  updateReusableBlock?: Maybe<UpdateReusableBlockPayload>;
   /** The payload for the updateSettings mutation */
   updateSettings?: Maybe<UpdateSettingsPayload>;
   /** The payload for the UpdateTag mutation */
@@ -4840,6 +8866,12 @@ export type RootMutationCreatePostArgs = {
 /** The root mutation */
 export type RootMutationCreatePostFormatArgs = {
   input: CreatePostFormatInput;
+};
+
+
+/** The root mutation */
+export type RootMutationCreateReusableBlockArgs = {
+  input: CreateReusableBlockInput;
 };
 
 
@@ -4898,6 +8930,12 @@ export type RootMutationDeletePostFormatArgs = {
 
 
 /** The root mutation */
+export type RootMutationDeleteReusableBlockArgs = {
+  input: DeleteReusableBlockInput;
+};
+
+
+/** The root mutation */
 export type RootMutationDeleteTagArgs = {
   input: DeleteTagInput;
 };
@@ -4911,7 +8949,7 @@ export type RootMutationDeleteUserArgs = {
 
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -4994,6 +9032,12 @@ export type RootMutationUpdatePostFormatArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateReusableBlockArgs = {
+  input: UpdateReusableBlockInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateSettingsArgs = {
   input: UpdateSettingsInput;
 };
@@ -5024,6 +9068,17 @@ export type RootQuery = {
   artistBy?: Maybe<Artist>;
   /** Connection between the RootQuery type and the Artist type */
   artists?: Maybe<RootQueryToArtistConnection>;
+  /** Connection between the RootQuery type and the BlockEditorContentNode type */
+  blockEditorContentNodes?: Maybe<BlockEditorContentNodeConnection>;
+  /** An object of the BlockEditorPreview Type.  */
+  blockEditorPreview?: Maybe<BlockEditorPreview>;
+  /**
+   * A BlockEditorPreview object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  blockEditorPreviewBy?: Maybe<BlockEditorPreview>;
+  /** Connection between the RootQuery type and the BlockEditorPreview type */
+  blockEditorPreviews?: Maybe<RootQueryToBlockEditorPreviewConnection>;
   /** Connection between the RootQuery type and the category type */
   categories?: Maybe<RootQueryToCategoryConnection>;
   /** A 0bject */
@@ -5097,6 +9152,15 @@ export type RootQuery = {
   registeredScripts?: Maybe<RootQueryToEnqueuedScriptConnection>;
   /** Connection between the RootQuery type and the EnqueuedStylesheet type */
   registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
+  /** An object of the ReusableBlock Type.  */
+  reusableBlock?: Maybe<ReusableBlock>;
+  /**
+   * A ReusableBlock object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  reusableBlockBy?: Maybe<ReusableBlock>;
+  /** Connection between the RootQuery type and the ReusableBlock type */
+  reusableBlocks?: Maybe<RootQueryToReusableBlockConnection>;
   /** Connection between the RootQuery type and the ContentRevisionUnion type */
   revisions?: Maybe<RootQueryToContentRevisionUnionConnection>;
   /** A 0bject */
@@ -5132,45 +9196,82 @@ export type RootQuery = {
 
 /** The root entry point into the Graph */
 export type RootQueryArtistArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
-  idType?: Maybe<ArtistIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
+  idType?: InputMaybe<ArtistIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryArtistByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  artistId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
+  artistId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryArtistsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToArtistConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToArtistConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorContentNodesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BlockEditorContentNodeConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorPreviewArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  idType?: InputMaybe<BlockEditorPreviewIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorPreviewByArgs = {
+  blockEditorPreviewId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlockEditorPreviewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToBlockEditorPreviewConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryCategoriesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToCategoryConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToCategoryConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryCategoryArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<CategoryIdType>;
+  idType?: InputMaybe<CategoryIdType>;
 };
 
 
@@ -5182,113 +9283,113 @@ export type RootQueryCommentArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToCommentConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryContentNodeArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
+  contentType?: InputMaybe<ContentTypeEnum>;
   id: Scalars['ID'];
-  idType?: Maybe<ContentNodeIdTypeEnum>;
-  contentType?: Maybe<ContentTypeEnum>;
-  asPreview?: Maybe<Scalars['Boolean']>;
+  idType?: InputMaybe<ContentNodeIdTypeEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryContentNodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToContentNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToContentNodeConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryContentTypeArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<ContentTypeIdTypeEnum>;
+  idType?: InputMaybe<ContentTypeIdTypeEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryContentTypesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
-  idType?: Maybe<MediaItemIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
+  idType?: InputMaybe<MediaItemIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  mediaItemId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  mediaItemId?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToMediaItemConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToMediaItemConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMenuArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<MenuNodeIdTypeEnum>;
+  idType?: InputMaybe<MenuNodeIdTypeEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMenuItemArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<MenuItemNodeIdTypeEnum>;
+  idType?: InputMaybe<MenuItemNodeIdTypeEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMenuItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToMenuItemConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToMenuItemConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryMenusArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToMenuConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToMenuConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryNodeArgs = {
-  id?: Maybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -5300,27 +9401,27 @@ export type RootQueryNodeByUriArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryPageArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
-  idType?: Maybe<PageIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
+  idType?: InputMaybe<PageIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPageByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  pageId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  pageId?: InputMaybe<Scalars['Int']>;
+  uri?: InputMaybe<Scalars['String']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPagesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToPageConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToPageConnectionWhereArgs>;
 };
 
 
@@ -5332,133 +9433,160 @@ export type RootQueryPluginArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryPluginsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPostArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['ID'];
-  idType?: Maybe<PostIdType>;
-  asPreview?: Maybe<Scalars['Boolean']>;
+  idType?: InputMaybe<PostIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPostByArgs = {
-  id?: Maybe<Scalars['ID']>;
-  postId?: Maybe<Scalars['Int']>;
-  uri?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  postId?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPostFormatArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<PostFormatIdType>;
+  idType?: InputMaybe<PostFormatIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPostFormatsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToPostFormatConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToPostFormatConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToPostConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToPostConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryRegisteredScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryRegisteredStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryReusableBlockArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  idType?: InputMaybe<ReusableBlockIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryReusableBlockByArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+  reusableBlockId?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryReusableBlocksArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToReusableBlockConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryRevisionsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToContentRevisionUnionConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToContentRevisionUnionConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTagArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<TagIdType>;
+  idType?: InputMaybe<TagIdType>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTagsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToTagConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToTagConnectionWhereArgs>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTaxonomiesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTaxonomyArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<TaxonomyIdTypeEnum>;
+  idType?: InputMaybe<TaxonomyIdTypeEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTermNodeArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<TermNodeIdTypeEnum>;
-  taxonomy?: Maybe<TaxonomyEnum>;
+  idType?: InputMaybe<TermNodeIdTypeEnum>;
+  taxonomy?: InputMaybe<TaxonomyEnum>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToTermNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToTermNodeConnectionWhereArgs>;
 };
 
 
@@ -5470,17 +9598,17 @@ export type RootQueryThemeArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryThemesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryUserArgs = {
   id: Scalars['ID'];
-  idType?: Maybe<UserNodeIdTypeEnum>;
+  idType?: InputMaybe<UserNodeIdTypeEnum>;
 };
 
 
@@ -5492,20 +9620,20 @@ export type RootQueryUserRoleArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryUserRolesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The root entry point into the Graph */
 export type RootQueryUsersArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToUserConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RootQueryToUserConnectionWhereArgs>;
 };
 
 /** Connection between the RootQuery type and the Artist type */
@@ -5531,41 +9659,111 @@ export type RootQueryToArtistConnectionEdge = {
 /** Arguments for filtering the RootQueryToArtistConnection connection */
 export type RootQueryToArtistConnectionWhereArgs = {
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Paginate Artists with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** Connection between the RootQuery type and the BlockEditorPreview type */
+export type RootQueryToBlockEditorPreviewConnection = {
+  __typename?: 'RootQueryToBlockEditorPreviewConnection';
+  /** Edges for the RootQueryToBlockEditorPreviewConnection connection */
+  edges?: Maybe<Array<Maybe<RootQueryToBlockEditorPreviewConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<BlockEditorPreview>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToBlockEditorPreviewConnectionEdge = {
+  __typename?: 'RootQueryToBlockEditorPreviewConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<BlockEditorPreview>;
+};
+
+/** Arguments for filtering the RootQueryToBlockEditorPreviewConnection connection */
+export type RootQueryToBlockEditorPreviewConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']>;
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']>;
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Paginate BlockEditorPreviews with offsets */
+  offsetPagination?: InputMaybe<OffsetPagination>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  previewedDatabaseId?: InputMaybe<Scalars['Int']>;
+  previewedParentDatabaseId?: InputMaybe<Scalars['Int']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the category type */
@@ -5591,45 +9789,45 @@ export type RootQueryToCategoryConnectionEdge = {
 /** Arguments for filtering the RootQueryToCategoryConnection connection */
 export type RootQueryToCategoryConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the Comment type */
@@ -5655,63 +9853,63 @@ export type RootQueryToCommentConnectionEdge = {
 /** Arguments for filtering the RootQueryToCommentConnection connection */
 export type RootQueryToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the RootQuery type and the ContentNode type */
@@ -5737,43 +9935,43 @@ export type RootQueryToContentNodeConnectionEdge = {
 /** Arguments for filtering the RootQueryToContentNodeConnection connection */
 export type RootQueryToContentNodeConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Paginate content nodes with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the ContentRevisionUnion type */
@@ -5799,41 +9997,41 @@ export type RootQueryToContentRevisionUnionConnectionEdge = {
 /** Arguments for filtering the RootQueryToContentRevisionUnionConnection connection */
 export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the ContentType type */
@@ -5919,49 +10117,49 @@ export type RootQueryToMediaItemConnectionEdge = {
 /** Arguments for filtering the RootQueryToMediaItemConnection connection */
 export type RootQueryToMediaItemConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Paginate MediaItems with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the Menu type */
@@ -5987,11 +10185,11 @@ export type RootQueryToMenuConnectionEdge = {
 /** Arguments for filtering the RootQueryToMenuConnection connection */
 export type RootQueryToMenuConnectionWhereArgs = {
   /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
+  location?: InputMaybe<MenuLocationEnum>;
   /** The slug of the menu to query items for */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the MenuItem type */
@@ -6017,13 +10215,13 @@ export type RootQueryToMenuItemConnectionEdge = {
 /** Arguments for filtering the RootQueryToMenuItemConnection connection */
 export type RootQueryToMenuItemConnectionWhereArgs = {
   /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
+  location?: InputMaybe<MenuLocationEnum>;
   /** The database ID of the parent menu object */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
+  parentDatabaseId?: InputMaybe<Scalars['Int']>;
   /** The ID of the parent menu object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the RootQuery type and the page type */
@@ -6049,49 +10247,49 @@ export type RootQueryToPageConnectionEdge = {
 /** Arguments for filtering the RootQueryToPageConnection connection */
 export type RootQueryToPageConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Paginate Pages with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the Plugin type */
@@ -6137,71 +10335,71 @@ export type RootQueryToPostConnectionEdge = {
 /** Arguments for filtering the RootQueryToPostConnection connection */
 export type RootQueryToPostConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Paginate Posts with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** Whether to only include sticky posts */
-  onlySticky?: Maybe<Scalars['Boolean']>;
+  onlySticky?: InputMaybe<Scalars['Boolean']>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the postFormat type */
@@ -6227,45 +10425,105 @@ export type RootQueryToPostFormatConnectionEdge = {
 /** Arguments for filtering the RootQueryToPostFormatConnection connection */
 export type RootQueryToPostFormatConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Connection between the RootQuery type and the ReusableBlock type */
+export type RootQueryToReusableBlockConnection = {
+  __typename?: 'RootQueryToReusableBlockConnection';
+  /** Edges for the RootQueryToReusableBlockConnection connection */
+  edges?: Maybe<Array<Maybe<RootQueryToReusableBlockConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<ReusableBlock>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToReusableBlockConnectionEdge = {
+  __typename?: 'RootQueryToReusableBlockConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<ReusableBlock>;
+};
+
+/** Arguments for filtering the RootQueryToReusableBlockConnection connection */
+export type RootQueryToReusableBlockConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Paginate ReusableBlocks with offsets */
+  offsetPagination?: InputMaybe<OffsetPagination>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the tag type */
@@ -6291,45 +10549,45 @@ export type RootQueryToTagConnectionEdge = {
 /** Arguments for filtering the RootQueryToTagConnection connection */
 export type RootQueryToTagConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the Taxonomy type */
@@ -6375,47 +10633,47 @@ export type RootQueryToTermNodeConnectionEdge = {
 /** Arguments for filtering the RootQueryToTermNodeConnection connection */
 export type RootQueryToTermNodeConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
+  cacheDomain?: InputMaybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
+  childOf?: InputMaybe<Scalars['Int']>;
   /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
+  childless?: InputMaybe<Scalars['Boolean']>;
   /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
+  descriptionLike?: InputMaybe<Scalars['String']>;
   /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
+  hideEmpty?: InputMaybe<Scalars['Boolean']>;
   /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
+  hierarchical?: InputMaybe<Scalars['Boolean']>;
   /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
+  nameLike?: InputMaybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
+  padCounts?: InputMaybe<Scalars['Boolean']>;
   /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
+  taxonomies?: InputMaybe<Array<InputMaybe<TaxonomyEnum>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  termTaxonomId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the Theme type */
@@ -6461,37 +10719,37 @@ export type RootQueryToUserConnectionEdge = {
 /** Arguments for filtering the RootQueryToUserConnection connection */
 export type RootQueryToUserConnectionWhereArgs = {
   /** Array of userIds to exclude. */
-  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   /** Pass an array of post types to filter results to users who have published posts in those post types. */
-  hasPublishedPosts?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  hasPublishedPosts?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of userIds to include. */
-  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   /** The user login. */
-  login?: Maybe<Scalars['String']>;
+  login?: InputMaybe<Scalars['String']>;
   /** An array of logins to include. Users matching one of these logins will be included in results. */
-  loginIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  loginIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** An array of logins to exclude. Users matching one of these logins will not be included in results. */
-  loginNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  loginNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** The user nicename. */
-  nicename?: Maybe<Scalars['String']>;
+  nicename?: InputMaybe<Scalars['String']>;
   /** An array of nicenames to include. Users matching one of these nicenames will be included in results. */
-  nicenameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nicenameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** An array of nicenames to exclude. Users matching one of these nicenames will not be included in results. */
-  nicenameNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nicenameNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Paginate users with offsets */
-  offsetPagination?: Maybe<OffsetPagination>;
+  offsetPagination?: InputMaybe<OffsetPagination>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<UsersConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<UsersConnectionOrderbyInput>>>;
   /** An array of role names that users must match to be included in results. Note that this is an inclusive list: users must match *each* role. */
-  role?: Maybe<UserRoleEnum>;
+  role?: InputMaybe<UserRoleEnum>;
   /** An array of role names. Matched users must have at least one of these roles. */
-  roleIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
+  roleIn?: InputMaybe<Array<InputMaybe<UserRoleEnum>>>;
   /** An array of role names to exclude. Users matching one or more of these roles will not be included in results. */
-  roleNotIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
+  roleNotIn?: InputMaybe<Array<InputMaybe<UserRoleEnum>>>;
   /** Search keyword. Searches for possible string matches on columns. When "searchColumns" is left empty, it tries to determine which column to search in based on search string. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Array of column names to be searched. Accepts 'ID', 'login', 'nicename', 'email', 'url'. */
-  searchColumns?: Maybe<Array<Maybe<UsersConnectionSearchColumnEnum>>>;
+  searchColumns?: InputMaybe<Array<InputMaybe<UsersConnectionSearchColumnEnum>>>;
 };
 
 /** Connection between the RootQuery type and the UserRole type */
@@ -6517,7 +10775,7 @@ export type RootQueryToUserRoleConnectionEdge = {
 /** Input for the sendPasswordResetEmail mutation */
 export type SendPasswordResetEmailInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** A string that contains the user's username or email address. */
   username: Scalars['String'];
 };
@@ -6567,8 +10825,10 @@ export type Settings = {
 };
 
 /** The tag type */
-export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
+export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Tag';
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
+  TaxonomyFields?: Maybe<Tag_Taxonomyfields>;
   /** Connection between the tag type and the ContentNode type */
   contentNodes?: Maybe<TagToContentNodeConnection>;
   /** The number of objects connected to the object */
@@ -6604,8 +10864,6 @@ export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdenti
   tagId?: Maybe<Scalars['Int']>;
   /** Connection between the tag type and the Taxonomy type */
   taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
-  /** Added to the GraphQL Schema because the ACF Field Group &quot;Taxonomy Fields&quot; was set to Show in GraphQL. */
-  TaxonomyFields?: Maybe<Tag_Taxonomyfields>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -6617,39 +10875,39 @@ export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdenti
 
 /** The tag type */
 export type TagContentNodesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<TagToContentNodeConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TagToContentNodeConnectionWhereArgs>;
 };
 
 
 /** The tag type */
 export type TagEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The tag type */
 export type TagEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** The tag type */
 export type TagPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<TagToPostConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TagToPostConnectionWhereArgs>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -6689,41 +10947,41 @@ export type TagToContentNodeConnectionEdge = {
 /** Arguments for filtering the TagToContentNodeConnection connection */
 export type TagToContentNodeConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypesOfTagEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfTagEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the tag type and the post type */
@@ -6749,67 +11007,67 @@ export type TagToPostConnectionEdge = {
 /** Arguments for filtering the TagToPostConnection connection */
 export type TagToPostConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the tag type and the Taxonomy type */
@@ -6875,10 +11133,10 @@ export type Taxonomy = Node & {
 
 /** A taxonomy object */
 export type TaxonomyConnectedContentTypesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** Allowed taxonomies */
@@ -6956,19 +11214,19 @@ export type TermNode = {
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is "ID". To be used along with the "id" field. */
@@ -7025,9 +11283,6 @@ export type TermNodeToEnqueuedStylesheetConnectionEdge = {
   node?: Maybe<EnqueuedStylesheet>;
 };
 
-/** Union between the Category, Tag and PostFormatPost types */
-export type TermObjectUnion = Category | Tag | PostFormat;
-
 /** Options for ordering the connection by */
 export enum TermObjectsConnectionOrderbyEnum {
   /** Order the connection by item count. */
@@ -7073,920 +11328,6 @@ export type Theme = Node & {
   version?: Maybe<Scalars['String']>;
 };
 
-/** Available timezones */
-export enum TimezoneEnum {
-  /** Abidjan */
-  AfricaAbidjan = 'AFRICA_ABIDJAN',
-  /** Accra */
-  AfricaAccra = 'AFRICA_ACCRA',
-  /** Addis Ababa */
-  AfricaAddisAbaba = 'AFRICA_ADDIS_ABABA',
-  /** Algiers */
-  AfricaAlgiers = 'AFRICA_ALGIERS',
-  /** Asmara */
-  AfricaAsmara = 'AFRICA_ASMARA',
-  /** Bamako */
-  AfricaBamako = 'AFRICA_BAMAKO',
-  /** Bangui */
-  AfricaBangui = 'AFRICA_BANGUI',
-  /** Banjul */
-  AfricaBanjul = 'AFRICA_BANJUL',
-  /** Bissau */
-  AfricaBissau = 'AFRICA_BISSAU',
-  /** Blantyre */
-  AfricaBlantyre = 'AFRICA_BLANTYRE',
-  /** Brazzaville */
-  AfricaBrazzaville = 'AFRICA_BRAZZAVILLE',
-  /** Bujumbura */
-  AfricaBujumbura = 'AFRICA_BUJUMBURA',
-  /** Cairo */
-  AfricaCairo = 'AFRICA_CAIRO',
-  /** Casablanca */
-  AfricaCasablanca = 'AFRICA_CASABLANCA',
-  /** Ceuta */
-  AfricaCeuta = 'AFRICA_CEUTA',
-  /** Conakry */
-  AfricaConakry = 'AFRICA_CONAKRY',
-  /** Dakar */
-  AfricaDakar = 'AFRICA_DAKAR',
-  /** Dar es Salaam */
-  AfricaDarEsSalaam = 'AFRICA_DAR_ES_SALAAM',
-  /** Djibouti */
-  AfricaDjibouti = 'AFRICA_DJIBOUTI',
-  /** Douala */
-  AfricaDouala = 'AFRICA_DOUALA',
-  /** El Aaiun */
-  AfricaElAaiun = 'AFRICA_EL_AAIUN',
-  /** Freetown */
-  AfricaFreetown = 'AFRICA_FREETOWN',
-  /** Gaborone */
-  AfricaGaborone = 'AFRICA_GABORONE',
-  /** Harare */
-  AfricaHarare = 'AFRICA_HARARE',
-  /** Johannesburg */
-  AfricaJohannesburg = 'AFRICA_JOHANNESBURG',
-  /** Juba */
-  AfricaJuba = 'AFRICA_JUBA',
-  /** Kampala */
-  AfricaKampala = 'AFRICA_KAMPALA',
-  /** Khartoum */
-  AfricaKhartoum = 'AFRICA_KHARTOUM',
-  /** Kigali */
-  AfricaKigali = 'AFRICA_KIGALI',
-  /** Kinshasa */
-  AfricaKinshasa = 'AFRICA_KINSHASA',
-  /** Lagos */
-  AfricaLagos = 'AFRICA_LAGOS',
-  /** Libreville */
-  AfricaLibreville = 'AFRICA_LIBREVILLE',
-  /** Lome */
-  AfricaLome = 'AFRICA_LOME',
-  /** Luanda */
-  AfricaLuanda = 'AFRICA_LUANDA',
-  /** Lubumbashi */
-  AfricaLubumbashi = 'AFRICA_LUBUMBASHI',
-  /** Lusaka */
-  AfricaLusaka = 'AFRICA_LUSAKA',
-  /** Malabo */
-  AfricaMalabo = 'AFRICA_MALABO',
-  /** Maputo */
-  AfricaMaputo = 'AFRICA_MAPUTO',
-  /** Maseru */
-  AfricaMaseru = 'AFRICA_MASERU',
-  /** Mbabane */
-  AfricaMbabane = 'AFRICA_MBABANE',
-  /** Mogadishu */
-  AfricaMogadishu = 'AFRICA_MOGADISHU',
-  /** Monrovia */
-  AfricaMonrovia = 'AFRICA_MONROVIA',
-  /** Nairobi */
-  AfricaNairobi = 'AFRICA_NAIROBI',
-  /** Ndjamena */
-  AfricaNdjamena = 'AFRICA_NDJAMENA',
-  /** Niamey */
-  AfricaNiamey = 'AFRICA_NIAMEY',
-  /** Nouakchott */
-  AfricaNouakchott = 'AFRICA_NOUAKCHOTT',
-  /** Ouagadougou */
-  AfricaOuagadougou = 'AFRICA_OUAGADOUGOU',
-  /** Porto-Novo */
-  AfricaPortoNovo = 'AFRICA_PORTO_NOVO',
-  /** Sao Tome */
-  AfricaSaoTome = 'AFRICA_SAO_TOME',
-  /** Tripoli */
-  AfricaTripoli = 'AFRICA_TRIPOLI',
-  /** Tunis */
-  AfricaTunis = 'AFRICA_TUNIS',
-  /** Windhoek */
-  AfricaWindhoek = 'AFRICA_WINDHOEK',
-  /** Adak */
-  AmericaAdak = 'AMERICA_ADAK',
-  /** Anchorage */
-  AmericaAnchorage = 'AMERICA_ANCHORAGE',
-  /** Anguilla */
-  AmericaAnguilla = 'AMERICA_ANGUILLA',
-  /** Antigua */
-  AmericaAntigua = 'AMERICA_ANTIGUA',
-  /** Araguaina */
-  AmericaAraguaina = 'AMERICA_ARAGUAINA',
-  /** Argentina - Buenos Aires */
-  AmericaArgentinaBuenosAires = 'AMERICA_ARGENTINA_BUENOS_AIRES',
-  /** Argentina - Catamarca */
-  AmericaArgentinaCatamarca = 'AMERICA_ARGENTINA_CATAMARCA',
-  /** Argentina - Cordoba */
-  AmericaArgentinaCordoba = 'AMERICA_ARGENTINA_CORDOBA',
-  /** Argentina - Jujuy */
-  AmericaArgentinaJujuy = 'AMERICA_ARGENTINA_JUJUY',
-  /** Argentina - La Rioja */
-  AmericaArgentinaLaRioja = 'AMERICA_ARGENTINA_LA_RIOJA',
-  /** Argentina - Mendoza */
-  AmericaArgentinaMendoza = 'AMERICA_ARGENTINA_MENDOZA',
-  /** Argentina - Rio Gallegos */
-  AmericaArgentinaRioGallegos = 'AMERICA_ARGENTINA_RIO_GALLEGOS',
-  /** Argentina - Salta */
-  AmericaArgentinaSalta = 'AMERICA_ARGENTINA_SALTA',
-  /** Argentina - San Juan */
-  AmericaArgentinaSanJuan = 'AMERICA_ARGENTINA_SAN_JUAN',
-  /** Argentina - San Luis */
-  AmericaArgentinaSanLuis = 'AMERICA_ARGENTINA_SAN_LUIS',
-  /** Argentina - Tucuman */
-  AmericaArgentinaTucuman = 'AMERICA_ARGENTINA_TUCUMAN',
-  /** Argentina - Ushuaia */
-  AmericaArgentinaUshuaia = 'AMERICA_ARGENTINA_USHUAIA',
-  /** Aruba */
-  AmericaAruba = 'AMERICA_ARUBA',
-  /** Asuncion */
-  AmericaAsuncion = 'AMERICA_ASUNCION',
-  /** Atikokan */
-  AmericaAtikokan = 'AMERICA_ATIKOKAN',
-  /** Bahia */
-  AmericaBahia = 'AMERICA_BAHIA',
-  /** Bahia Banderas */
-  AmericaBahiaBanderas = 'AMERICA_BAHIA_BANDERAS',
-  /** Barbados */
-  AmericaBarbados = 'AMERICA_BARBADOS',
-  /** Belem */
-  AmericaBelem = 'AMERICA_BELEM',
-  /** Belize */
-  AmericaBelize = 'AMERICA_BELIZE',
-  /** Blanc-Sablon */
-  AmericaBlancSablon = 'AMERICA_BLANC_SABLON',
-  /** Boa Vista */
-  AmericaBoaVista = 'AMERICA_BOA_VISTA',
-  /** Bogota */
-  AmericaBogota = 'AMERICA_BOGOTA',
-  /** Boise */
-  AmericaBoise = 'AMERICA_BOISE',
-  /** Cambridge Bay */
-  AmericaCambridgeBay = 'AMERICA_CAMBRIDGE_BAY',
-  /** Campo Grande */
-  AmericaCampoGrande = 'AMERICA_CAMPO_GRANDE',
-  /** Cancun */
-  AmericaCancun = 'AMERICA_CANCUN',
-  /** Caracas */
-  AmericaCaracas = 'AMERICA_CARACAS',
-  /** Cayenne */
-  AmericaCayenne = 'AMERICA_CAYENNE',
-  /** Cayman */
-  AmericaCayman = 'AMERICA_CAYMAN',
-  /** Chicago */
-  AmericaChicago = 'AMERICA_CHICAGO',
-  /** Chihuahua */
-  AmericaChihuahua = 'AMERICA_CHIHUAHUA',
-  /** Costa Rica */
-  AmericaCostaRica = 'AMERICA_COSTA_RICA',
-  /** Creston */
-  AmericaCreston = 'AMERICA_CRESTON',
-  /** Cuiaba */
-  AmericaCuiaba = 'AMERICA_CUIABA',
-  /** Curacao */
-  AmericaCuracao = 'AMERICA_CURACAO',
-  /** Danmarkshavn */
-  AmericaDanmarkshavn = 'AMERICA_DANMARKSHAVN',
-  /** Dawson */
-  AmericaDawson = 'AMERICA_DAWSON',
-  /** Dawson Creek */
-  AmericaDawsonCreek = 'AMERICA_DAWSON_CREEK',
-  /** Denver */
-  AmericaDenver = 'AMERICA_DENVER',
-  /** Detroit */
-  AmericaDetroit = 'AMERICA_DETROIT',
-  /** Dominica */
-  AmericaDominica = 'AMERICA_DOMINICA',
-  /** Edmonton */
-  AmericaEdmonton = 'AMERICA_EDMONTON',
-  /** Eirunepe */
-  AmericaEirunepe = 'AMERICA_EIRUNEPE',
-  /** El Salvador */
-  AmericaElSalvador = 'AMERICA_EL_SALVADOR',
-  /** Fortaleza */
-  AmericaFortaleza = 'AMERICA_FORTALEZA',
-  /** Fort Nelson */
-  AmericaFortNelson = 'AMERICA_FORT_NELSON',
-  /** Glace Bay */
-  AmericaGlaceBay = 'AMERICA_GLACE_BAY',
-  /** Goose Bay */
-  AmericaGooseBay = 'AMERICA_GOOSE_BAY',
-  /** Grand Turk */
-  AmericaGrandTurk = 'AMERICA_GRAND_TURK',
-  /** Grenada */
-  AmericaGrenada = 'AMERICA_GRENADA',
-  /** Guadeloupe */
-  AmericaGuadeloupe = 'AMERICA_GUADELOUPE',
-  /** Guatemala */
-  AmericaGuatemala = 'AMERICA_GUATEMALA',
-  /** Guayaquil */
-  AmericaGuayaquil = 'AMERICA_GUAYAQUIL',
-  /** Guyana */
-  AmericaGuyana = 'AMERICA_GUYANA',
-  /** Halifax */
-  AmericaHalifax = 'AMERICA_HALIFAX',
-  /** Havana */
-  AmericaHavana = 'AMERICA_HAVANA',
-  /** Hermosillo */
-  AmericaHermosillo = 'AMERICA_HERMOSILLO',
-  /** Indiana - Indianapolis */
-  AmericaIndianaIndianapolis = 'AMERICA_INDIANA_INDIANAPOLIS',
-  /** Indiana - Knox */
-  AmericaIndianaKnox = 'AMERICA_INDIANA_KNOX',
-  /** Indiana - Marengo */
-  AmericaIndianaMarengo = 'AMERICA_INDIANA_MARENGO',
-  /** Indiana - Petersburg */
-  AmericaIndianaPetersburg = 'AMERICA_INDIANA_PETERSBURG',
-  /** Indiana - Tell City */
-  AmericaIndianaTellCity = 'AMERICA_INDIANA_TELL_CITY',
-  /** Indiana - Vevay */
-  AmericaIndianaVevay = 'AMERICA_INDIANA_VEVAY',
-  /** Indiana - Vincennes */
-  AmericaIndianaVincennes = 'AMERICA_INDIANA_VINCENNES',
-  /** Indiana - Winamac */
-  AmericaIndianaWinamac = 'AMERICA_INDIANA_WINAMAC',
-  /** Inuvik */
-  AmericaInuvik = 'AMERICA_INUVIK',
-  /** Iqaluit */
-  AmericaIqaluit = 'AMERICA_IQALUIT',
-  /** Jamaica */
-  AmericaJamaica = 'AMERICA_JAMAICA',
-  /** Juneau */
-  AmericaJuneau = 'AMERICA_JUNEAU',
-  /** Kentucky - Louisville */
-  AmericaKentuckyLouisville = 'AMERICA_KENTUCKY_LOUISVILLE',
-  /** Kentucky - Monticello */
-  AmericaKentuckyMonticello = 'AMERICA_KENTUCKY_MONTICELLO',
-  /** Kralendijk */
-  AmericaKralendijk = 'AMERICA_KRALENDIJK',
-  /** La Paz */
-  AmericaLaPaz = 'AMERICA_LA_PAZ',
-  /** Lima */
-  AmericaLima = 'AMERICA_LIMA',
-  /** Los Angeles */
-  AmericaLosAngeles = 'AMERICA_LOS_ANGELES',
-  /** Lower Princes */
-  AmericaLowerPrinces = 'AMERICA_LOWER_PRINCES',
-  /** Maceio */
-  AmericaMaceio = 'AMERICA_MACEIO',
-  /** Managua */
-  AmericaManagua = 'AMERICA_MANAGUA',
-  /** Manaus */
-  AmericaManaus = 'AMERICA_MANAUS',
-  /** Marigot */
-  AmericaMarigot = 'AMERICA_MARIGOT',
-  /** Martinique */
-  AmericaMartinique = 'AMERICA_MARTINIQUE',
-  /** Matamoros */
-  AmericaMatamoros = 'AMERICA_MATAMOROS',
-  /** Mazatlan */
-  AmericaMazatlan = 'AMERICA_MAZATLAN',
-  /** Menominee */
-  AmericaMenominee = 'AMERICA_MENOMINEE',
-  /** Merida */
-  AmericaMerida = 'AMERICA_MERIDA',
-  /** Metlakatla */
-  AmericaMetlakatla = 'AMERICA_METLAKATLA',
-  /** Mexico City */
-  AmericaMexicoCity = 'AMERICA_MEXICO_CITY',
-  /** Miquelon */
-  AmericaMiquelon = 'AMERICA_MIQUELON',
-  /** Moncton */
-  AmericaMoncton = 'AMERICA_MONCTON',
-  /** Monterrey */
-  AmericaMonterrey = 'AMERICA_MONTERREY',
-  /** Montevideo */
-  AmericaMontevideo = 'AMERICA_MONTEVIDEO',
-  /** Montserrat */
-  AmericaMontserrat = 'AMERICA_MONTSERRAT',
-  /** Nassau */
-  AmericaNassau = 'AMERICA_NASSAU',
-  /** New York */
-  AmericaNewYork = 'AMERICA_NEW_YORK',
-  /** Nipigon */
-  AmericaNipigon = 'AMERICA_NIPIGON',
-  /** Nome */
-  AmericaNome = 'AMERICA_NOME',
-  /** Noronha */
-  AmericaNoronha = 'AMERICA_NORONHA',
-  /** North Dakota - Beulah */
-  AmericaNorthDakotaBeulah = 'AMERICA_NORTH_DAKOTA_BEULAH',
-  /** North Dakota - Center */
-  AmericaNorthDakotaCenter = 'AMERICA_NORTH_DAKOTA_CENTER',
-  /** North Dakota - New Salem */
-  AmericaNorthDakotaNewSalem = 'AMERICA_NORTH_DAKOTA_NEW_SALEM',
-  /** Nuuk */
-  AmericaNuuk = 'AMERICA_NUUK',
-  /** Ojinaga */
-  AmericaOjinaga = 'AMERICA_OJINAGA',
-  /** Panama */
-  AmericaPanama = 'AMERICA_PANAMA',
-  /** Pangnirtung */
-  AmericaPangnirtung = 'AMERICA_PANGNIRTUNG',
-  /** Paramaribo */
-  AmericaParamaribo = 'AMERICA_PARAMARIBO',
-  /** Phoenix */
-  AmericaPhoenix = 'AMERICA_PHOENIX',
-  /** Porto Velho */
-  AmericaPortoVelho = 'AMERICA_PORTO_VELHO',
-  /** Port-au-Prince */
-  AmericaPortAuPrince = 'AMERICA_PORT_AU_PRINCE',
-  /** Port of Spain */
-  AmericaPortOfSpain = 'AMERICA_PORT_OF_SPAIN',
-  /** Puerto Rico */
-  AmericaPuertoRico = 'AMERICA_PUERTO_RICO',
-  /** Punta Arenas */
-  AmericaPuntaArenas = 'AMERICA_PUNTA_ARENAS',
-  /** Rainy River */
-  AmericaRainyRiver = 'AMERICA_RAINY_RIVER',
-  /** Rankin Inlet */
-  AmericaRankinInlet = 'AMERICA_RANKIN_INLET',
-  /** Recife */
-  AmericaRecife = 'AMERICA_RECIFE',
-  /** Regina */
-  AmericaRegina = 'AMERICA_REGINA',
-  /** Resolute */
-  AmericaResolute = 'AMERICA_RESOLUTE',
-  /** Rio Branco */
-  AmericaRioBranco = 'AMERICA_RIO_BRANCO',
-  /** Santarem */
-  AmericaSantarem = 'AMERICA_SANTAREM',
-  /** Santiago */
-  AmericaSantiago = 'AMERICA_SANTIAGO',
-  /** Santo Domingo */
-  AmericaSantoDomingo = 'AMERICA_SANTO_DOMINGO',
-  /** Sao Paulo */
-  AmericaSaoPaulo = 'AMERICA_SAO_PAULO',
-  /** Scoresbysund */
-  AmericaScoresbysund = 'AMERICA_SCORESBYSUND',
-  /** Sitka */
-  AmericaSitka = 'AMERICA_SITKA',
-  /** St Barthelemy */
-  AmericaStBarthelemy = 'AMERICA_ST_BARTHELEMY',
-  /** St Johns */
-  AmericaStJohns = 'AMERICA_ST_JOHNS',
-  /** St Kitts */
-  AmericaStKitts = 'AMERICA_ST_KITTS',
-  /** St Lucia */
-  AmericaStLucia = 'AMERICA_ST_LUCIA',
-  /** St Thomas */
-  AmericaStThomas = 'AMERICA_ST_THOMAS',
-  /** St Vincent */
-  AmericaStVincent = 'AMERICA_ST_VINCENT',
-  /** Swift Current */
-  AmericaSwiftCurrent = 'AMERICA_SWIFT_CURRENT',
-  /** Tegucigalpa */
-  AmericaTegucigalpa = 'AMERICA_TEGUCIGALPA',
-  /** Thule */
-  AmericaThule = 'AMERICA_THULE',
-  /** Thunder Bay */
-  AmericaThunderBay = 'AMERICA_THUNDER_BAY',
-  /** Tijuana */
-  AmericaTijuana = 'AMERICA_TIJUANA',
-  /** Toronto */
-  AmericaToronto = 'AMERICA_TORONTO',
-  /** Tortola */
-  AmericaTortola = 'AMERICA_TORTOLA',
-  /** Vancouver */
-  AmericaVancouver = 'AMERICA_VANCOUVER',
-  /** Whitehorse */
-  AmericaWhitehorse = 'AMERICA_WHITEHORSE',
-  /** Winnipeg */
-  AmericaWinnipeg = 'AMERICA_WINNIPEG',
-  /** Yakutat */
-  AmericaYakutat = 'AMERICA_YAKUTAT',
-  /** Yellowknife */
-  AmericaYellowknife = 'AMERICA_YELLOWKNIFE',
-  /** Casey */
-  AntarcticaCasey = 'ANTARCTICA_CASEY',
-  /** Davis */
-  AntarcticaDavis = 'ANTARCTICA_DAVIS',
-  /** DumontDUrville */
-  AntarcticaDumontdurville = 'ANTARCTICA_DUMONTDURVILLE',
-  /** Macquarie */
-  AntarcticaMacquarie = 'ANTARCTICA_MACQUARIE',
-  /** Mawson */
-  AntarcticaMawson = 'ANTARCTICA_MAWSON',
-  /** McMurdo */
-  AntarcticaMcmurdo = 'ANTARCTICA_MCMURDO',
-  /** Palmer */
-  AntarcticaPalmer = 'ANTARCTICA_PALMER',
-  /** Rothera */
-  AntarcticaRothera = 'ANTARCTICA_ROTHERA',
-  /** Syowa */
-  AntarcticaSyowa = 'ANTARCTICA_SYOWA',
-  /** Troll */
-  AntarcticaTroll = 'ANTARCTICA_TROLL',
-  /** Vostok */
-  AntarcticaVostok = 'ANTARCTICA_VOSTOK',
-  /** Longyearbyen */
-  ArcticLongyearbyen = 'ARCTIC_LONGYEARBYEN',
-  /** Aden */
-  AsiaAden = 'ASIA_ADEN',
-  /** Almaty */
-  AsiaAlmaty = 'ASIA_ALMATY',
-  /** Amman */
-  AsiaAmman = 'ASIA_AMMAN',
-  /** Anadyr */
-  AsiaAnadyr = 'ASIA_ANADYR',
-  /** Aqtau */
-  AsiaAqtau = 'ASIA_AQTAU',
-  /** Aqtobe */
-  AsiaAqtobe = 'ASIA_AQTOBE',
-  /** Ashgabat */
-  AsiaAshgabat = 'ASIA_ASHGABAT',
-  /** Atyrau */
-  AsiaAtyrau = 'ASIA_ATYRAU',
-  /** Baghdad */
-  AsiaBaghdad = 'ASIA_BAGHDAD',
-  /** Bahrain */
-  AsiaBahrain = 'ASIA_BAHRAIN',
-  /** Baku */
-  AsiaBaku = 'ASIA_BAKU',
-  /** Bangkok */
-  AsiaBangkok = 'ASIA_BANGKOK',
-  /** Barnaul */
-  AsiaBarnaul = 'ASIA_BARNAUL',
-  /** Beirut */
-  AsiaBeirut = 'ASIA_BEIRUT',
-  /** Bishkek */
-  AsiaBishkek = 'ASIA_BISHKEK',
-  /** Brunei */
-  AsiaBrunei = 'ASIA_BRUNEI',
-  /** Chita */
-  AsiaChita = 'ASIA_CHITA',
-  /** Choibalsan */
-  AsiaChoibalsan = 'ASIA_CHOIBALSAN',
-  /** Colombo */
-  AsiaColombo = 'ASIA_COLOMBO',
-  /** Damascus */
-  AsiaDamascus = 'ASIA_DAMASCUS',
-  /** Dhaka */
-  AsiaDhaka = 'ASIA_DHAKA',
-  /** Dili */
-  AsiaDili = 'ASIA_DILI',
-  /** Dubai */
-  AsiaDubai = 'ASIA_DUBAI',
-  /** Dushanbe */
-  AsiaDushanbe = 'ASIA_DUSHANBE',
-  /** Famagusta */
-  AsiaFamagusta = 'ASIA_FAMAGUSTA',
-  /** Gaza */
-  AsiaGaza = 'ASIA_GAZA',
-  /** Hebron */
-  AsiaHebron = 'ASIA_HEBRON',
-  /** Hong Kong */
-  AsiaHongKong = 'ASIA_HONG_KONG',
-  /** Hovd */
-  AsiaHovd = 'ASIA_HOVD',
-  /** Ho Chi Minh */
-  AsiaHoChiMinh = 'ASIA_HO_CHI_MINH',
-  /** Irkutsk */
-  AsiaIrkutsk = 'ASIA_IRKUTSK',
-  /** Jakarta */
-  AsiaJakarta = 'ASIA_JAKARTA',
-  /** Jayapura */
-  AsiaJayapura = 'ASIA_JAYAPURA',
-  /** Jerusalem */
-  AsiaJerusalem = 'ASIA_JERUSALEM',
-  /** Kabul */
-  AsiaKabul = 'ASIA_KABUL',
-  /** Kamchatka */
-  AsiaKamchatka = 'ASIA_KAMCHATKA',
-  /** Karachi */
-  AsiaKarachi = 'ASIA_KARACHI',
-  /** Kathmandu */
-  AsiaKathmandu = 'ASIA_KATHMANDU',
-  /** Khandyga */
-  AsiaKhandyga = 'ASIA_KHANDYGA',
-  /** Kolkata */
-  AsiaKolkata = 'ASIA_KOLKATA',
-  /** Krasnoyarsk */
-  AsiaKrasnoyarsk = 'ASIA_KRASNOYARSK',
-  /** Kuala Lumpur */
-  AsiaKualaLumpur = 'ASIA_KUALA_LUMPUR',
-  /** Kuching */
-  AsiaKuching = 'ASIA_KUCHING',
-  /** Kuwait */
-  AsiaKuwait = 'ASIA_KUWAIT',
-  /** Macau */
-  AsiaMacau = 'ASIA_MACAU',
-  /** Magadan */
-  AsiaMagadan = 'ASIA_MAGADAN',
-  /** Makassar */
-  AsiaMakassar = 'ASIA_MAKASSAR',
-  /** Manila */
-  AsiaManila = 'ASIA_MANILA',
-  /** Muscat */
-  AsiaMuscat = 'ASIA_MUSCAT',
-  /** Nicosia */
-  AsiaNicosia = 'ASIA_NICOSIA',
-  /** Novokuznetsk */
-  AsiaNovokuznetsk = 'ASIA_NOVOKUZNETSK',
-  /** Novosibirsk */
-  AsiaNovosibirsk = 'ASIA_NOVOSIBIRSK',
-  /** Omsk */
-  AsiaOmsk = 'ASIA_OMSK',
-  /** Oral */
-  AsiaOral = 'ASIA_ORAL',
-  /** Phnom Penh */
-  AsiaPhnomPenh = 'ASIA_PHNOM_PENH',
-  /** Pontianak */
-  AsiaPontianak = 'ASIA_PONTIANAK',
-  /** Pyongyang */
-  AsiaPyongyang = 'ASIA_PYONGYANG',
-  /** Qatar */
-  AsiaQatar = 'ASIA_QATAR',
-  /** Qostanay */
-  AsiaQostanay = 'ASIA_QOSTANAY',
-  /** Qyzylorda */
-  AsiaQyzylorda = 'ASIA_QYZYLORDA',
-  /** Riyadh */
-  AsiaRiyadh = 'ASIA_RIYADH',
-  /** Sakhalin */
-  AsiaSakhalin = 'ASIA_SAKHALIN',
-  /** Samarkand */
-  AsiaSamarkand = 'ASIA_SAMARKAND',
-  /** Seoul */
-  AsiaSeoul = 'ASIA_SEOUL',
-  /** Shanghai */
-  AsiaShanghai = 'ASIA_SHANGHAI',
-  /** Singapore */
-  AsiaSingapore = 'ASIA_SINGAPORE',
-  /** Srednekolymsk */
-  AsiaSrednekolymsk = 'ASIA_SREDNEKOLYMSK',
-  /** Taipei */
-  AsiaTaipei = 'ASIA_TAIPEI',
-  /** Tashkent */
-  AsiaTashkent = 'ASIA_TASHKENT',
-  /** Tbilisi */
-  AsiaTbilisi = 'ASIA_TBILISI',
-  /** Tehran */
-  AsiaTehran = 'ASIA_TEHRAN',
-  /** Thimphu */
-  AsiaThimphu = 'ASIA_THIMPHU',
-  /** Tokyo */
-  AsiaTokyo = 'ASIA_TOKYO',
-  /** Tomsk */
-  AsiaTomsk = 'ASIA_TOMSK',
-  /** Ulaanbaatar */
-  AsiaUlaanbaatar = 'ASIA_ULAANBAATAR',
-  /** Urumqi */
-  AsiaUrumqi = 'ASIA_URUMQI',
-  /** Ust-Nera */
-  AsiaUstNera = 'ASIA_UST_NERA',
-  /** Vientiane */
-  AsiaVientiane = 'ASIA_VIENTIANE',
-  /** Vladivostok */
-  AsiaVladivostok = 'ASIA_VLADIVOSTOK',
-  /** Yakutsk */
-  AsiaYakutsk = 'ASIA_YAKUTSK',
-  /** Yangon */
-  AsiaYangon = 'ASIA_YANGON',
-  /** Yekaterinburg */
-  AsiaYekaterinburg = 'ASIA_YEKATERINBURG',
-  /** Yerevan */
-  AsiaYerevan = 'ASIA_YEREVAN',
-  /** Azores */
-  AtlanticAzores = 'ATLANTIC_AZORES',
-  /** Bermuda */
-  AtlanticBermuda = 'ATLANTIC_BERMUDA',
-  /** Canary */
-  AtlanticCanary = 'ATLANTIC_CANARY',
-  /** Cape Verde */
-  AtlanticCapeVerde = 'ATLANTIC_CAPE_VERDE',
-  /** Faroe */
-  AtlanticFaroe = 'ATLANTIC_FAROE',
-  /** Madeira */
-  AtlanticMadeira = 'ATLANTIC_MADEIRA',
-  /** Reykjavik */
-  AtlanticReykjavik = 'ATLANTIC_REYKJAVIK',
-  /** South Georgia */
-  AtlanticSouthGeorgia = 'ATLANTIC_SOUTH_GEORGIA',
-  /** Stanley */
-  AtlanticStanley = 'ATLANTIC_STANLEY',
-  /** St Helena */
-  AtlanticStHelena = 'ATLANTIC_ST_HELENA',
-  /** Adelaide */
-  AustraliaAdelaide = 'AUSTRALIA_ADELAIDE',
-  /** Brisbane */
-  AustraliaBrisbane = 'AUSTRALIA_BRISBANE',
-  /** Broken Hill */
-  AustraliaBrokenHill = 'AUSTRALIA_BROKEN_HILL',
-  /** Darwin */
-  AustraliaDarwin = 'AUSTRALIA_DARWIN',
-  /** Eucla */
-  AustraliaEucla = 'AUSTRALIA_EUCLA',
-  /** Hobart */
-  AustraliaHobart = 'AUSTRALIA_HOBART',
-  /** Lindeman */
-  AustraliaLindeman = 'AUSTRALIA_LINDEMAN',
-  /** Lord Howe */
-  AustraliaLordHowe = 'AUSTRALIA_LORD_HOWE',
-  /** Melbourne */
-  AustraliaMelbourne = 'AUSTRALIA_MELBOURNE',
-  /** Perth */
-  AustraliaPerth = 'AUSTRALIA_PERTH',
-  /** Sydney */
-  AustraliaSydney = 'AUSTRALIA_SYDNEY',
-  /** Amsterdam */
-  EuropeAmsterdam = 'EUROPE_AMSTERDAM',
-  /** Andorra */
-  EuropeAndorra = 'EUROPE_ANDORRA',
-  /** Astrakhan */
-  EuropeAstrakhan = 'EUROPE_ASTRAKHAN',
-  /** Athens */
-  EuropeAthens = 'EUROPE_ATHENS',
-  /** Belgrade */
-  EuropeBelgrade = 'EUROPE_BELGRADE',
-  /** Berlin */
-  EuropeBerlin = 'EUROPE_BERLIN',
-  /** Bratislava */
-  EuropeBratislava = 'EUROPE_BRATISLAVA',
-  /** Brussels */
-  EuropeBrussels = 'EUROPE_BRUSSELS',
-  /** Bucharest */
-  EuropeBucharest = 'EUROPE_BUCHAREST',
-  /** Budapest */
-  EuropeBudapest = 'EUROPE_BUDAPEST',
-  /** Busingen */
-  EuropeBusingen = 'EUROPE_BUSINGEN',
-  /** Chisinau */
-  EuropeChisinau = 'EUROPE_CHISINAU',
-  /** Copenhagen */
-  EuropeCopenhagen = 'EUROPE_COPENHAGEN',
-  /** Dublin */
-  EuropeDublin = 'EUROPE_DUBLIN',
-  /** Gibraltar */
-  EuropeGibraltar = 'EUROPE_GIBRALTAR',
-  /** Guernsey */
-  EuropeGuernsey = 'EUROPE_GUERNSEY',
-  /** Helsinki */
-  EuropeHelsinki = 'EUROPE_HELSINKI',
-  /** Isle of Man */
-  EuropeIsleOfMan = 'EUROPE_ISLE_OF_MAN',
-  /** Istanbul */
-  EuropeIstanbul = 'EUROPE_ISTANBUL',
-  /** Jersey */
-  EuropeJersey = 'EUROPE_JERSEY',
-  /** Kaliningrad */
-  EuropeKaliningrad = 'EUROPE_KALININGRAD',
-  /** Kiev */
-  EuropeKiev = 'EUROPE_KIEV',
-  /** Kirov */
-  EuropeKirov = 'EUROPE_KIROV',
-  /** Lisbon */
-  EuropeLisbon = 'EUROPE_LISBON',
-  /** Ljubljana */
-  EuropeLjubljana = 'EUROPE_LJUBLJANA',
-  /** London */
-  EuropeLondon = 'EUROPE_LONDON',
-  /** Luxembourg */
-  EuropeLuxembourg = 'EUROPE_LUXEMBOURG',
-  /** Madrid */
-  EuropeMadrid = 'EUROPE_MADRID',
-  /** Malta */
-  EuropeMalta = 'EUROPE_MALTA',
-  /** Mariehamn */
-  EuropeMariehamn = 'EUROPE_MARIEHAMN',
-  /** Minsk */
-  EuropeMinsk = 'EUROPE_MINSK',
-  /** Monaco */
-  EuropeMonaco = 'EUROPE_MONACO',
-  /** Moscow */
-  EuropeMoscow = 'EUROPE_MOSCOW',
-  /** Oslo */
-  EuropeOslo = 'EUROPE_OSLO',
-  /** Paris */
-  EuropeParis = 'EUROPE_PARIS',
-  /** Podgorica */
-  EuropePodgorica = 'EUROPE_PODGORICA',
-  /** Prague */
-  EuropePrague = 'EUROPE_PRAGUE',
-  /** Riga */
-  EuropeRiga = 'EUROPE_RIGA',
-  /** Rome */
-  EuropeRome = 'EUROPE_ROME',
-  /** Samara */
-  EuropeSamara = 'EUROPE_SAMARA',
-  /** San Marino */
-  EuropeSanMarino = 'EUROPE_SAN_MARINO',
-  /** Sarajevo */
-  EuropeSarajevo = 'EUROPE_SARAJEVO',
-  /** Saratov */
-  EuropeSaratov = 'EUROPE_SARATOV',
-  /** Simferopol */
-  EuropeSimferopol = 'EUROPE_SIMFEROPOL',
-  /** Skopje */
-  EuropeSkopje = 'EUROPE_SKOPJE',
-  /** Sofia */
-  EuropeSofia = 'EUROPE_SOFIA',
-  /** Stockholm */
-  EuropeStockholm = 'EUROPE_STOCKHOLM',
-  /** Tallinn */
-  EuropeTallinn = 'EUROPE_TALLINN',
-  /** Tirane */
-  EuropeTirane = 'EUROPE_TIRANE',
-  /** Ulyanovsk */
-  EuropeUlyanovsk = 'EUROPE_ULYANOVSK',
-  /** Uzhgorod */
-  EuropeUzhgorod = 'EUROPE_UZHGOROD',
-  /** Vaduz */
-  EuropeVaduz = 'EUROPE_VADUZ',
-  /** Vatican */
-  EuropeVatican = 'EUROPE_VATICAN',
-  /** Vienna */
-  EuropeVienna = 'EUROPE_VIENNA',
-  /** Vilnius */
-  EuropeVilnius = 'EUROPE_VILNIUS',
-  /** Volgograd */
-  EuropeVolgograd = 'EUROPE_VOLGOGRAD',
-  /** Warsaw */
-  EuropeWarsaw = 'EUROPE_WARSAW',
-  /** Zagreb */
-  EuropeZagreb = 'EUROPE_ZAGREB',
-  /** Zaporozhye */
-  EuropeZaporozhye = 'EUROPE_ZAPOROZHYE',
-  /** Zurich */
-  EuropeZurich = 'EUROPE_ZURICH',
-  /** Antananarivo */
-  IndianAntananarivo = 'INDIAN_ANTANANARIVO',
-  /** Chagos */
-  IndianChagos = 'INDIAN_CHAGOS',
-  /** Christmas */
-  IndianChristmas = 'INDIAN_CHRISTMAS',
-  /** Cocos */
-  IndianCocos = 'INDIAN_COCOS',
-  /** Comoro */
-  IndianComoro = 'INDIAN_COMORO',
-  /** Kerguelen */
-  IndianKerguelen = 'INDIAN_KERGUELEN',
-  /** Mahe */
-  IndianMahe = 'INDIAN_MAHE',
-  /** Maldives */
-  IndianMaldives = 'INDIAN_MALDIVES',
-  /** Mauritius */
-  IndianMauritius = 'INDIAN_MAURITIUS',
-  /** Mayotte */
-  IndianMayotte = 'INDIAN_MAYOTTE',
-  /** Reunion */
-  IndianReunion = 'INDIAN_REUNION',
-  /** Apia */
-  PacificApia = 'PACIFIC_APIA',
-  /** Auckland */
-  PacificAuckland = 'PACIFIC_AUCKLAND',
-  /** Bougainville */
-  PacificBougainville = 'PACIFIC_BOUGAINVILLE',
-  /** Chatham */
-  PacificChatham = 'PACIFIC_CHATHAM',
-  /** Chuuk */
-  PacificChuuk = 'PACIFIC_CHUUK',
-  /** Easter */
-  PacificEaster = 'PACIFIC_EASTER',
-  /** Efate */
-  PacificEfate = 'PACIFIC_EFATE',
-  /** Enderbury */
-  PacificEnderbury = 'PACIFIC_ENDERBURY',
-  /** Fakaofo */
-  PacificFakaofo = 'PACIFIC_FAKAOFO',
-  /** Fiji */
-  PacificFiji = 'PACIFIC_FIJI',
-  /** Funafuti */
-  PacificFunafuti = 'PACIFIC_FUNAFUTI',
-  /** Galapagos */
-  PacificGalapagos = 'PACIFIC_GALAPAGOS',
-  /** Gambier */
-  PacificGambier = 'PACIFIC_GAMBIER',
-  /** Guadalcanal */
-  PacificGuadalcanal = 'PACIFIC_GUADALCANAL',
-  /** Guam */
-  PacificGuam = 'PACIFIC_GUAM',
-  /** Honolulu */
-  PacificHonolulu = 'PACIFIC_HONOLULU',
-  /** Kiritimati */
-  PacificKiritimati = 'PACIFIC_KIRITIMATI',
-  /** Kosrae */
-  PacificKosrae = 'PACIFIC_KOSRAE',
-  /** Kwajalein */
-  PacificKwajalein = 'PACIFIC_KWAJALEIN',
-  /** Majuro */
-  PacificMajuro = 'PACIFIC_MAJURO',
-  /** Marquesas */
-  PacificMarquesas = 'PACIFIC_MARQUESAS',
-  /** Midway */
-  PacificMidway = 'PACIFIC_MIDWAY',
-  /** Nauru */
-  PacificNauru = 'PACIFIC_NAURU',
-  /** Niue */
-  PacificNiue = 'PACIFIC_NIUE',
-  /** Norfolk */
-  PacificNorfolk = 'PACIFIC_NORFOLK',
-  /** Noumea */
-  PacificNoumea = 'PACIFIC_NOUMEA',
-  /** Pago Pago */
-  PacificPagoPago = 'PACIFIC_PAGO_PAGO',
-  /** Palau */
-  PacificPalau = 'PACIFIC_PALAU',
-  /** Pitcairn */
-  PacificPitcairn = 'PACIFIC_PITCAIRN',
-  /** Pohnpei */
-  PacificPohnpei = 'PACIFIC_POHNPEI',
-  /** Port Moresby */
-  PacificPortMoresby = 'PACIFIC_PORT_MORESBY',
-  /** Rarotonga */
-  PacificRarotonga = 'PACIFIC_RAROTONGA',
-  /** Saipan */
-  PacificSaipan = 'PACIFIC_SAIPAN',
-  /** Tahiti */
-  PacificTahiti = 'PACIFIC_TAHITI',
-  /** Tarawa */
-  PacificTarawa = 'PACIFIC_TARAWA',
-  /** Tongatapu */
-  PacificTongatapu = 'PACIFIC_TONGATAPU',
-  /** Wake */
-  PacificWake = 'PACIFIC_WAKE',
-  /** Wallis */
-  PacificWallis = 'PACIFIC_WALLIS',
-  /** UTC offset: UTC+0 */
-  Utc_0 = 'UTC_0',
-  /** UTC offset: UTC+0:30 */
-  Utc_0_30 = 'UTC_0_30',
-  /** UTC offset: UTC+1 */
-  Utc_1 = 'UTC_1',
-  /** UTC offset: UTC+10 */
-  Utc_10 = 'UTC_10',
-  /** UTC offset: UTC+10:30 */
-  Utc_10_30 = 'UTC_10_30',
-  /** UTC offset: UTC+11 */
-  Utc_11 = 'UTC_11',
-  /** UTC offset: UTC+11:30 */
-  Utc_11_30 = 'UTC_11_30',
-  /** UTC offset: UTC+12 */
-  Utc_12 = 'UTC_12',
-  /** UTC offset: UTC+12:45 */
-  Utc_12_45 = 'UTC_12_45',
-  /** UTC offset: UTC+13 */
-  Utc_13 = 'UTC_13',
-  /** UTC offset: UTC+13:45 */
-  Utc_13_45 = 'UTC_13_45',
-  /** UTC offset: UTC+14 */
-  Utc_14 = 'UTC_14',
-  /** UTC offset: UTC+1:30 */
-  Utc_1_30 = 'UTC_1_30',
-  /** UTC offset: UTC+2 */
-  Utc_2 = 'UTC_2',
-  /** UTC offset: UTC+2:30 */
-  Utc_2_30 = 'UTC_2_30',
-  /** UTC offset: UTC+3 */
-  Utc_3 = 'UTC_3',
-  /** UTC offset: UTC+3:30 */
-  Utc_3_30 = 'UTC_3_30',
-  /** UTC offset: UTC+4 */
-  Utc_4 = 'UTC_4',
-  /** UTC offset: UTC+4:30 */
-  Utc_4_30 = 'UTC_4_30',
-  /** UTC offset: UTC+5 */
-  Utc_5 = 'UTC_5',
-  /** UTC offset: UTC+5:30 */
-  Utc_5_30 = 'UTC_5_30',
-  /** UTC offset: UTC+5:45 */
-  Utc_5_45 = 'UTC_5_45',
-  /** UTC offset: UTC+6 */
-  Utc_6 = 'UTC_6',
-  /** UTC offset: UTC+6:30 */
-  Utc_6_30 = 'UTC_6_30',
-  /** UTC offset: UTC+7 */
-  Utc_7 = 'UTC_7',
-  /** UTC offset: UTC+7:30 */
-  Utc_7_30 = 'UTC_7_30',
-  /** UTC offset: UTC+8 */
-  Utc_8 = 'UTC_8',
-  /** UTC offset: UTC+8:30 */
-  Utc_8_30 = 'UTC_8_30',
-  /** UTC offset: UTC+8:45 */
-  Utc_8_45 = 'UTC_8_45',
-  /** UTC offset: UTC+9 */
-  Utc_9 = 'UTC_9',
-  /** UTC offset: UTC+9:30 */
-  Utc_9_30 = 'UTC_9_30'
-}
-
 /** Any node that has a URI */
 export type UniformResourceIdentifiable = {
   /** The unique resource identifier path */
@@ -8002,21 +11343,21 @@ export type UniformResourceIdentifiable = {
 /** Input for the updateArtist mutation */
 export type UpdateArtistInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The ID of the Artist object */
   id: Scalars['ID'];
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the updateArtist mutation */
@@ -8031,19 +11372,19 @@ export type UpdateArtistPayload = {
 /** Input for the UpdateCategory mutation */
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the category object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the category object to update */
   id: Scalars['ID'];
   /** The name of the category object to mutate */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** The ID of the category that should be set as the parent */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the UpdateCategory mutation */
@@ -8058,27 +11399,27 @@ export type UpdateCategoryPayload = {
 /** Input for the updateComment mutation */
 export type UpdateCommentInput = {
   /** The approval status of the comment. */
-  approved?: Maybe<Scalars['String']>;
+  approved?: InputMaybe<Scalars['String']>;
   /** The name of the comment's author. */
-  author?: Maybe<Scalars['String']>;
+  author?: InputMaybe<Scalars['String']>;
   /** The email of the comment's author. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** The url of the comment's author. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
-  commentOn?: Maybe<Scalars['Int']>;
+  commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day ( e.g. 01/31/2017 ) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The ID of the comment being updated. */
   id: Scalars['ID'];
   /** Parent comment of current comment. */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Type of comment. */
-  type?: Maybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the updateComment mutation */
@@ -8095,37 +11436,37 @@ export type UpdateCommentPayload = {
 /** Input for the updateMediaItem mutation */
 export type UpdateMediaItemInput = {
   /** Alternative text to display when mediaItem is not displayed */
-  altText?: Maybe<Scalars['String']>;
+  altText?: InputMaybe<Scalars['String']>;
   /** The userId to assign as the author of the mediaItem */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** The caption for the mediaItem */
-  caption?: Maybe<Scalars['String']>;
+  caption?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the mediaItem */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The date of the mediaItem */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The date (in GMT zone) of the mediaItem */
-  dateGmt?: Maybe<Scalars['String']>;
+  dateGmt?: InputMaybe<Scalars['String']>;
   /** Description of the mediaItem */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The file name of the mediaItem */
-  filePath?: Maybe<Scalars['String']>;
+  filePath?: InputMaybe<Scalars['String']>;
   /** The file type of the mediaItem */
-  fileType?: Maybe<MimeTypeEnum>;
+  fileType?: InputMaybe<MimeTypeEnum>;
   /** The ID of the mediaItem object */
   id: Scalars['ID'];
   /** The WordPress post ID or the graphQL postId of the parent object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
-  pingStatus?: Maybe<Scalars['String']>;
+  pingStatus?: InputMaybe<Scalars['String']>;
   /** The slug of the mediaItem */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the mediaItem */
-  status?: Maybe<MediaItemStatusEnum>;
+  status?: InputMaybe<MediaItemStatusEnum>;
   /** The title of the mediaItem */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the updateMediaItem mutation */
@@ -8140,29 +11481,29 @@ export type UpdateMediaItemPayload = {
 /** Input for the updatePage mutation */
 export type UpdatePageInput = {
   /** The userId to assign as the author of the object */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the object */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The content of the object */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The ID of the page object */
   id: Scalars['ID'];
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The ID of the parent object */
-  parentId?: Maybe<Scalars['ID']>;
+  parentId?: InputMaybe<Scalars['ID']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the updatePage mutation */
@@ -8177,17 +11518,17 @@ export type UpdatePagePayload = {
 /** Input for the UpdatePostFormat mutation */
 export type UpdatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the post_format object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the postFormat object to update */
   id: Scalars['ID'];
   /** The name of the post_format object to mutate */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the UpdatePostFormat mutation */
@@ -8202,41 +11543,41 @@ export type UpdatePostFormatPayload = {
 /** Input for the updatePost mutation */
 export type UpdatePostInput = {
   /** The userId to assign as the author of the object */
-  authorId?: Maybe<Scalars['ID']>;
+  authorId?: InputMaybe<Scalars['ID']>;
   /** Set connections between the post and categories */
-  categories?: Maybe<PostCategoriesInput>;
+  categories?: InputMaybe<PostCategoriesInput>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The comment status for the object */
-  commentStatus?: Maybe<Scalars['String']>;
+  commentStatus?: InputMaybe<Scalars['String']>;
   /** The content of the object */
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date?: Maybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['String']>;
   /** The excerpt of the object */
-  excerpt?: Maybe<Scalars['String']>;
+  excerpt?: InputMaybe<Scalars['String']>;
   /** The ID of the post object */
   id: Scalars['ID'];
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
+  menuOrder?: InputMaybe<Scalars['Int']>;
   /** The password used to protect the content of the object */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** The ping status for the object */
-  pingStatus?: Maybe<Scalars['String']>;
+  pingStatus?: InputMaybe<Scalars['String']>;
   /** URLs that have been pinged. */
-  pinged?: Maybe<Array<Maybe<Scalars['String']>>>;
+  pinged?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Set connections between the post and postFormats */
-  postFormats?: Maybe<PostPostFormatsInput>;
+  postFormats?: InputMaybe<PostPostFormatsInput>;
   /** The slug of the object */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   /** The status of the object */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Set connections between the post and tags */
-  tags?: Maybe<PostTagsInput>;
+  tags?: InputMaybe<PostTagsInput>;
   /** The title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
   /** URLs queued to be pinged. */
-  toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
+  toPing?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /** The payload for the updatePost mutation */
@@ -8248,40 +11589,71 @@ export type UpdatePostPayload = {
   post?: Maybe<Post>;
 };
 
+/** Input for the updateReusableBlock mutation */
+export type UpdateReusableBlockInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The content of the object */
+  content?: InputMaybe<Scalars['String']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']>;
+  /** The ID of the ReusableBlock object */
+  id: Scalars['ID'];
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** The payload for the updateReusableBlock mutation */
+export type UpdateReusableBlockPayload = {
+  __typename?: 'UpdateReusableBlockPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
+  reusableBlock?: Maybe<ReusableBlock>;
+};
+
 /** Input for the updateSettings mutation */
 export type UpdateSettingsInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Allow people to submit comments on new posts. */
-  discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']>;
+  discussionSettingsDefaultCommentStatus?: InputMaybe<Scalars['String']>;
   /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
-  discussionSettingsDefaultPingStatus?: Maybe<Scalars['String']>;
+  discussionSettingsDefaultPingStatus?: InputMaybe<Scalars['String']>;
   /** A date format for all date strings. */
-  generalSettingsDateFormat?: Maybe<Scalars['String']>;
+  generalSettingsDateFormat?: InputMaybe<Scalars['String']>;
   /** Site tagline. */
-  generalSettingsDescription?: Maybe<Scalars['String']>;
+  generalSettingsDescription?: InputMaybe<Scalars['String']>;
   /** This address is used for admin purposes, like new user notification. */
-  generalSettingsEmail?: Maybe<Scalars['String']>;
+  generalSettingsEmail?: InputMaybe<Scalars['String']>;
   /** WordPress locale code. */
-  generalSettingsLanguage?: Maybe<Scalars['String']>;
+  generalSettingsLanguage?: InputMaybe<Scalars['String']>;
   /** A day number of the week that the week should start on. */
-  generalSettingsStartOfWeek?: Maybe<Scalars['Int']>;
+  generalSettingsStartOfWeek?: InputMaybe<Scalars['Int']>;
   /** A time format for all time strings. */
-  generalSettingsTimeFormat?: Maybe<Scalars['String']>;
+  generalSettingsTimeFormat?: InputMaybe<Scalars['String']>;
   /** A city in the same timezone as you. */
-  generalSettingsTimezone?: Maybe<Scalars['String']>;
+  generalSettingsTimezone?: InputMaybe<Scalars['String']>;
   /** Site title. */
-  generalSettingsTitle?: Maybe<Scalars['String']>;
+  generalSettingsTitle?: InputMaybe<Scalars['String']>;
   /** Site URL. */
-  generalSettingsUrl?: Maybe<Scalars['String']>;
+  generalSettingsUrl?: InputMaybe<Scalars['String']>;
   /** Blog pages show at most. */
-  readingSettingsPostsPerPage?: Maybe<Scalars['Int']>;
+  readingSettingsPostsPerPage?: InputMaybe<Scalars['Int']>;
   /** Default post category. */
-  writingSettingsDefaultCategory?: Maybe<Scalars['Int']>;
+  writingSettingsDefaultCategory?: InputMaybe<Scalars['Int']>;
   /** Default post format. */
-  writingSettingsDefaultPostFormat?: Maybe<Scalars['String']>;
+  writingSettingsDefaultPostFormat?: InputMaybe<Scalars['String']>;
   /** Convert emoticons like :-) and :-P to graphics on display. */
-  writingSettingsUseSmilies?: Maybe<Scalars['Boolean']>;
+  writingSettingsUseSmilies?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** The payload for the updateSettings mutation */
@@ -8304,17 +11676,17 @@ export type UpdateSettingsPayload = {
 /** Input for the UpdateTag mutation */
 export type UpdateTagInput = {
   /** The slug that the post_tag will be an alias of */
-  aliasOf?: Maybe<Scalars['String']>;
+  aliasOf?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The description of the post_tag object */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** The ID of the tag object to update */
   id: Scalars['ID'];
   /** The name of the post_tag object to mutate */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug?: Maybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the UpdateTag mutation */
@@ -8329,45 +11701,45 @@ export type UpdateTagPayload = {
 /** Input for the updateUser mutation */
 export type UpdateUserInput = {
   /** User's AOL IM account. */
-  aim?: Maybe<Scalars['String']>;
+  aim?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** A string containing content about the user. */
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
-  displayName?: Maybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   /** A string containing the user's email address. */
-  email?: Maybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   /** 	The user's first name. */
-  firstName?: Maybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
   /** The ID of the user */
   id: Scalars['ID'];
   /** User's Jabber account. */
-  jabber?: Maybe<Scalars['String']>;
+  jabber?: InputMaybe<Scalars['String']>;
   /** The user's last name. */
-  lastName?: Maybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
   /** User's locale. */
-  locale?: Maybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
   /** A string that contains a URL-friendly name for the user. The default is the user's username. */
-  nicename?: Maybe<Scalars['String']>;
+  nicename?: InputMaybe<Scalars['String']>;
   /** The user's nickname, defaults to the user's username. */
-  nickname?: Maybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** If true, this will refresh the users JWT secret. */
-  refreshJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
-  registered?: Maybe<Scalars['String']>;
+  registered?: InputMaybe<Scalars['String']>;
   /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
-  revokeJwtUserSecret?: Maybe<Scalars['Boolean']>;
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
-  richEditing?: Maybe<Scalars['String']>;
+  richEditing?: InputMaybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
-  roles?: Maybe<Array<Maybe<Scalars['String']>>>;
+  roles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** A string containing the user's URL for the user's web site. */
-  websiteUrl?: Maybe<Scalars['String']>;
+  websiteUrl?: InputMaybe<Scalars['String']>;
   /** User's Yahoo IM account. */
-  yim?: Maybe<Scalars['String']>;
+  yim?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload for the updateUser mutation */
@@ -8380,10 +11752,12 @@ export type UpdateUserPayload = {
 };
 
 /** A User object */
-export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIdentifier & {
+export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable & {
   __typename?: 'User';
   /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
   avatar?: Maybe<Avatar>;
+  /** Connection between the User type and the BlockEditorPreview type */
+  blockEditorPreviews?: Maybe<UserToBlockEditorPreviewConnection>;
   /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
   capKey?: Maybe<Scalars['String']>;
   /** A list of capabilities (permissions) granted to the user */
@@ -8462,86 +11836,96 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
 
 /** A User object */
 export type UserAvatarArgs = {
-  size?: Maybe<Scalars['Int']>;
-  forceDefault?: Maybe<Scalars['Boolean']>;
-  rating?: Maybe<AvatarRatingEnum>;
+  forceDefault?: InputMaybe<Scalars['Boolean']>;
+  rating?: InputMaybe<AvatarRatingEnum>;
+  size?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** A User object */
+export type UserBlockEditorPreviewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToBlockEditorPreviewConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToCommentConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToCommentConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** A User object */
 export type UserEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** A User object */
 export type UserMediaItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToMediaItemConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToMediaItemConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserPagesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToPageConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToPageConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToPostConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToPostConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserRevisionsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToContentRevisionUnionConnectionWhereArgs>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserToContentRevisionUnionConnectionWhereArgs>;
 };
 
 
 /** A User object */
 export type UserRolesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** The Type of Identifier used to fetch a single User node. To be used along with the "id" field. Default is "ID". */
@@ -8593,6 +11977,72 @@ export enum UserRoleEnum {
   Subscriber = 'SUBSCRIBER'
 }
 
+/** Connection between the User type and the BlockEditorPreview type */
+export type UserToBlockEditorPreviewConnection = {
+  __typename?: 'UserToBlockEditorPreviewConnection';
+  /** Edges for the UserToBlockEditorPreviewConnection connection */
+  edges?: Maybe<Array<Maybe<UserToBlockEditorPreviewConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<BlockEditorPreview>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type UserToBlockEditorPreviewConnectionEdge = {
+  __typename?: 'UserToBlockEditorPreviewConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<BlockEditorPreview>;
+};
+
+/** Arguments for filtering the UserToBlockEditorPreviewConnection connection */
+export type UserToBlockEditorPreviewConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']>;
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']>;
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']>;
+};
+
 /** Connection between the User type and the Comment type */
 export type UserToCommentConnection = {
   __typename?: 'UserToCommentConnection';
@@ -8616,63 +12066,63 @@ export type UserToCommentConnectionEdge = {
 /** Arguments for filtering the UserToCommentConnection connection */
 export type UserToCommentConnectionWhereArgs = {
   /** Comment author email address. */
-  authorEmail?: Maybe<Scalars['String']>;
+  authorEmail?: InputMaybe<Scalars['String']>;
   /** Array of author IDs to include comments for. */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to exclude comments for. */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Comment author URL. */
-  authorUrl?: Maybe<Scalars['String']>;
+  authorUrl?: InputMaybe<Scalars['String']>;
   /** Array of comment IDs to include. */
-  commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
-  commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  commentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Include comments of a given type. */
-  commentType?: Maybe<Scalars['String']>;
+  commentType?: InputMaybe<Scalars['String']>;
   /** Include comments from a given array of comment types. */
-  commentTypeIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  commentTypeIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Exclude comments from a given array of comment types. */
-  commentTypeNotIn?: Maybe<Scalars['String']>;
+  commentTypeNotIn?: InputMaybe<Scalars['String']>;
   /** Content object author ID to limit results by. */
-  contentAuthor?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthor?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs to retrieve comments for. */
-  contentAuthorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of author IDs *not* to retrieve comments for. */
-  contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentAuthorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Limit results to those affiliated with a given content object ID. */
-  contentId?: Maybe<Scalars['ID']>;
+  contentId?: InputMaybe<Scalars['ID']>;
   /** Array of content object IDs to include affiliated comments for. */
-  contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
-  contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  contentIdNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Content object name to retrieve affiliated comments for. */
-  contentName?: Maybe<Scalars['String']>;
+  contentName?: InputMaybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
-  contentParent?: Maybe<Scalars['Int']>;
+  contentParent?: InputMaybe<Scalars['Int']>;
   /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  contentStatus?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
-  contentType?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentType?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
-  includeUnapproved?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  includeUnapproved?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Karma score to retrieve matching comments for. */
-  karma?: Maybe<Scalars['Int']>;
+  karma?: InputMaybe<Scalars['Int']>;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
   /** Field to order the comments by. */
-  orderby?: Maybe<CommentsConnectionOrderbyEnum>;
+  orderby?: InputMaybe<CommentsConnectionOrderbyEnum>;
   /** Parent ID of comment to retrieve children of. */
-  parent?: Maybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['Int']>;
   /** Array of parent IDs of comments to retrieve children for. */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of parent IDs of comments *not* to retrieve children for. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Search term(s) to retrieve matching comments for. */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Comment status to limit results by. */
-  status?: Maybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   /** Include comments for a specific user ID. */
-  userId?: Maybe<Scalars['ID']>;
+  userId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Connection between the User type and the ContentRevisionUnion type */
@@ -8698,41 +12148,41 @@ export type UserToContentRevisionUnionConnectionEdge = {
 /** Arguments for filtering the UserToContentRevisionUnionConnection connection */
 export type UserToContentRevisionUnionConnectionWhereArgs = {
   /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the User type and the EnqueuedScript type */
@@ -8798,47 +12248,47 @@ export type UserToMediaItemConnectionEdge = {
 /** Arguments for filtering the UserToMediaItemConnection connection */
 export type UserToMediaItemConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the User type and the page type */
@@ -8864,47 +12314,47 @@ export type UserToPageConnectionEdge = {
 /** Arguments for filtering the UserToPageConnection connection */
 export type UserToPageConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the User type and the post type */
@@ -8930,67 +12380,67 @@ export type UserToPostConnectionEdge = {
 /** Arguments for filtering the UserToPostConnection connection */
 export type UserToPostConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>;
+  author?: InputMaybe<Scalars['Int']>;
   /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>;
+  authorName?: InputMaybe<Scalars['String']>;
   /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
   /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  categoryNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
+  dateQuery?: InputMaybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
+  hasPassword?: InputMaybe<Scalars['Boolean']>;
   /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
+  mimeType?: InputMaybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
   /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
+  parent?: InputMaybe<Scalars['ID']>;
   /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
   /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
   /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
+  status?: InputMaybe<PostStatusEnum>;
   /** Tag Slug */
-  tag?: Maybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
   /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>;
+  tagId?: InputMaybe<Scalars['String']>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Title of the object */
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Connection between the User type and the UserRole type */
@@ -9038,7 +12488,7 @@ export type UsersConnectionOrderbyInput = {
   /** The field name used to sort the results. */
   field: UsersConnectionOrderbyEnum;
   /** The cardinality of the order of the connection */
-  order?: Maybe<OrderEnum>;
+  order?: InputMaybe<OrderEnum>;
 };
 
 /** Column used for searching for users. */
@@ -9081,44 +12531,44 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-export type ArtistSummaryFragment = { __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, srcSet?: Maybe<string>, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, fieldGroupName?: Maybe<string>, flickrUsername?: Maybe<string>, sltInstagram?: Maybe<string>, sltTwitterid?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string> }> };
+export type ArtistSummaryFragment = { __typename?: 'Artist', id: string, title?: string | null | undefined, slug?: string | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', id: string, srcSet?: string | null | undefined, sourceUrl?: string | null | undefined, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, artistInformation?: { __typename?: 'Artist_Artistinformation', artistDescription?: string | null | undefined, fieldGroupName?: string | null | undefined, flickrUsername?: string | null | undefined, sltInstagram?: string | null | undefined, sltTwitterid?: string | null | undefined, sltWebsite?: string | null | undefined, sltYoutubeid?: string | null | undefined } | null | undefined };
 
-export type AuthorFieldsFragment = { __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> };
+export type AuthorFieldsFragment = { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, slug?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined };
 
-export type FeaturedImageFieldsFragment = { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> };
+export type FeaturedImageFieldsFragment = { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined };
 
-export type PostExcerptFieldsFragment = { __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> };
+export type PostExcerptFieldsFragment = { __typename?: 'RootQueryToPostConnectionEdge', node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
-export type PostFieldsFragment = { __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> };
+export type PostFieldsFragment = { __typename?: 'Post', title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, id: string, srcSet?: string | null | undefined, sizes?: string | null | undefined, thumbnail?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', sizes?: Array<{ __typename?: 'MediaSize', sourceUrl?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, slug?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
-export type RevisionsFragment = { __typename?: 'Post', revisions?: Maybe<{ __typename?: 'PostToRevisionConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToRevisionConnectionEdge', node?: Maybe<{ __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, content?: Maybe<string>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }> };
+export type RevisionsFragment = { __typename?: 'Post', revisions?: { __typename?: 'PostToRevisionConnection', edges?: Array<{ __typename?: 'PostToRevisionConnectionEdge', node?: { __typename?: 'Post', title?: string | null | undefined, excerpt?: string | null | undefined, content?: string | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, slug?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
-export type TaxonomyFieldsFragment = { __typename?: 'RootQueryToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> };
+export type TaxonomyFieldsFragment = { __typename?: 'RootQueryToTagConnection', edges?: Array<{ __typename?: 'RootQueryToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, databaseId: number, description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined, count?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined };
 
 export type AboutPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AboutPageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, content?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }> }> };
+export type AboutPageQuery = { __typename?: 'RootQuery', page?: { __typename?: 'Page', id: string, title?: string | null | undefined, content?: string | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { __typename?: 'RootQuery', artists?: Maybe<{ __typename?: 'RootQueryToArtistConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToArtistConnectionEdge', node?: Maybe<{ __typename?: 'Artist', slug?: Maybe<string>, modified?: Maybe<string> }> }>>> }> };
+export type Unnamed_1_Query = { __typename?: 'RootQuery', artists?: { __typename?: 'RootQueryToArtistConnection', edges?: Array<{ __typename?: 'RootQueryToArtistConnectionEdge', node?: { __typename?: 'Artist', slug?: string | null | undefined, modified?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_2_Query = { __typename?: 'RootQuery', categories?: Maybe<{ __typename?: 'RootQueryToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> }> };
+export type Unnamed_2_Query = { __typename?: 'RootQuery', categories?: { __typename?: 'RootQueryToCategoryConnection', edges?: Array<{ __typename?: 'RootQueryToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, databaseId: number, description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined, count?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_3_Query = { __typename?: 'RootQuery', posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', slug?: Maybe<string>, modified?: Maybe<string> }> }>>> }> };
+export type Unnamed_3_Query = { __typename?: 'RootQuery', posts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', node?: { __typename?: 'Post', slug?: string | null | undefined, modified?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_4_Query = { __typename?: 'RootQuery', tags?: Maybe<{ __typename?: 'RootQueryToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, databaseId: number, description?: Maybe<string>, name?: Maybe<string>, slug?: Maybe<string>, count?: Maybe<number> }> }>>> }> };
+export type Unnamed_4_Query = { __typename?: 'RootQuery', tags?: { __typename?: 'RootQueryToTagConnection', edges?: Array<{ __typename?: 'RootQueryToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, databaseId: number, description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined, count?: number | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ArtistBySlugQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -9126,20 +12576,20 @@ export type ArtistBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ArtistBySlugQuery = { __typename?: 'RootQuery', artist?: Maybe<{ __typename?: 'Artist', slug?: Maybe<string>, id: string, title?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string>, sltTwitterid?: Maybe<string>, sltInstagram?: Maybe<string>, flickrUsername?: Maybe<string>, relatedArticles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }>>> }> }> };
+export type ArtistBySlugQuery = { __typename?: 'RootQuery', artist?: { __typename?: 'Artist', slug?: string | null | undefined, id: string, title?: string | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', id: string, sourceUrl?: string | null | undefined, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, artistInformation?: { __typename?: 'Artist_Artistinformation', artistDescription?: string | null | undefined, sltWebsite?: string | null | undefined, sltYoutubeid?: string | null | undefined, sltTwitterid?: string | null | undefined, sltInstagram?: string | null | undefined, flickrUsername?: string | null | undefined, relatedArticles?: Array<{ __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
 
 export type ArtistsQueryVariables = Exact<{
   first: Scalars['Int'];
-  after?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type ArtistsQuery = { __typename?: 'RootQuery', artists?: Maybe<{ __typename?: 'RootQueryToArtistConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToArtistConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string }> }> }> }>>> }> };
+export type ArtistsQuery = { __typename?: 'RootQuery', artists?: { __typename?: 'RootQueryToArtistConnection', pageInfo?: { __typename?: 'WPPageInfo', endCursor?: string | null | undefined, startCursor?: string | null | undefined } | null | undefined, edges?: Array<{ __typename?: 'RootQueryToArtistConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Artist', id: string, title?: string | null | undefined, slug?: string | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type FrontpagePostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FrontpagePostsQuery = { __typename?: 'RootQuery', settings?: Maybe<{ __typename?: 'Settings', generalSettingsDescription?: Maybe<string>, generalSettingsTitle?: Maybe<string> }>, stickyPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, newWorkPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, interviewsPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, cfyeXPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, featuresPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }> };
+export type FrontpagePostsQuery = { __typename?: 'RootQuery', settings?: { __typename?: 'Settings', generalSettingsDescription?: string | null | undefined, generalSettingsTitle?: string | null | undefined } | null | undefined, stickyPosts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, newWorkPosts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, interviewsPosts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, cfyeXPosts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuresPosts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type PostBySlugQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -9147,29 +12597,29 @@ export type PostBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PostBySlugQuery = { __typename?: 'RootQuery', post?: Maybe<{ __typename?: 'Post', content?: Maybe<string>, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, postSettingsField?: Maybe<{ __typename?: 'Post_Postsettingsfield', artistPost?: Maybe<Array<Maybe<{ __typename?: 'Artist', id: string, title?: Maybe<string>, slug?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', id: string, srcSet?: Maybe<string>, sourceUrl?: Maybe<string>, thumbnail?: Maybe<string> }> }>, artistInformation?: Maybe<{ __typename?: 'Artist_Artistinformation', artistDescription?: Maybe<string>, fieldGroupName?: Maybe<string>, flickrUsername?: Maybe<string>, sltInstagram?: Maybe<string>, sltTwitterid?: Maybe<string>, sltWebsite?: Maybe<string>, sltYoutubeid?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> }>, posts?: Maybe<{ __typename?: 'RootQueryToPostConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', node?: Maybe<{ __typename?: 'Post', title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, id: string, srcSet?: Maybe<string>, sizes?: Maybe<string>, thumbnail?: Maybe<string>, mediaDetails?: Maybe<{ __typename?: 'MediaDetails', sizes?: Maybe<Array<Maybe<{ __typename?: 'MediaSize', sourceUrl?: Maybe<string> }>>> }> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, slug?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', name?: Maybe<string> }> }>>> }>, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', name?: Maybe<string> }> }>>> }> }> }>>> }> };
+export type PostBySlugQuery = { __typename?: 'RootQuery', post?: { __typename?: 'Post', content?: string | null | undefined, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, postSettingsField?: { __typename?: 'Post_Postsettingsfield', artistPost?: Array<{ __typename?: 'Artist', id: string, title?: string | null | undefined, slug?: string | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', id: string, srcSet?: string | null | undefined, sourceUrl?: string | null | undefined, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, artistInformation?: { __typename?: 'Artist_Artistinformation', artistDescription?: string | null | undefined, fieldGroupName?: string | null | undefined, flickrUsername?: string | null | undefined, sltInstagram?: string | null | undefined, sltTwitterid?: string | null | undefined, sltWebsite?: string | null | undefined, sltYoutubeid?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, blocks?: Array<{ __typename?: 'CgbBlockCfyeBlocksBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreArchivesBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreAudioBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreButtonBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreButtonsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreCalendarBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreCategoriesBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreCodeBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreColumnBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreColumnsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreCoverBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreEmbedBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreFileBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreFreeformBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreGalleryBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string, attributes?: { __typename?: 'CoreGalleryBlockAttributes', align?: string | null | undefined, anchor?: string | null | undefined, className?: string | null | undefined, columns?: number | null | undefined, caption?: string | null | undefined, images: Array<{ __typename?: 'CoreGalleryBlockAttributesImages', url?: string | null | undefined } | null | undefined> } | { __typename?: 'CoreGalleryBlockDeprecatedV1Attributes' } | { __typename?: 'CoreGalleryBlockDeprecatedV2Attributes' } | { __typename?: 'CoreGalleryBlockDeprecatedV3Attributes' } | { __typename?: 'CoreGalleryBlockDeprecatedV4Attributes' } | { __typename?: 'CoreGalleryBlockDeprecatedV5Attributes' } | null | undefined } | { __typename?: 'CoreGroupBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreHeadingBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreHtmlBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreImageBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreLatestCommentsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreLatestPostsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreListBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreLoginoutBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreMediaTextBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreMissingBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreMoreBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreNextpageBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePageListBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreParagraphBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostContentBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostDateBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostExcerptBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostFeaturedImageBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostTemplateBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostTermsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePostTitleBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePreformattedBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CorePullquoteBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryPaginationBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryPaginationNextBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryPaginationNumbersBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryPaginationPreviousBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQueryTitleBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreQuoteBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreRssBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSearchBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSeparatorBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreShortcodeBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSiteLogoBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSiteTaglineBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSiteTitleBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSocialLinkBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSocialLinksBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreSpacerBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreTableBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreTagCloudBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreTextColumnsBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreVerseBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string } | { __typename?: 'CoreVideoBlock', cdnContent?: string | null | undefined, saveContent?: string | null | undefined, name: string }> | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, id: string, srcSet?: string | null | undefined, sizes?: string | null | undefined, thumbnail?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', sizes?: Array<{ __typename?: 'MediaSize', sourceUrl?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, slug?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined, posts?: { __typename?: 'RootQueryToPostConnection', edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', node?: { __typename?: 'Post', title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, id: string, srcSet?: string | null | undefined, sizes?: string | null | undefined, thumbnail?: string | null | undefined, mediaDetails?: { __typename?: 'MediaDetails', sizes?: Array<{ __typename?: 'MediaSize', sourceUrl?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, slug?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type CategoryPostsQueryVariables = Exact<{
   first: Scalars['Int'];
-  after?: Maybe<Scalars['String']>;
-  categoryName?: Maybe<Scalars['String']>;
-  tagName?: Maybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
+  tagName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
 }>;
 
 
-export type CategoryPostsQuery = { __typename?: 'RootQuery', categoryPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string>, hasNextPage: boolean, offsetPagination?: Maybe<{ __typename?: 'OffsetPaginationPageInfo', hasMore?: Maybe<boolean>, hasPrevious?: Maybe<boolean>, total?: Maybe<number> }> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, categoryDetails?: Maybe<{ __typename?: 'Category', id: string, description?: Maybe<string>, name?: Maybe<string> }>, tagDetails?: Maybe<{ __typename?: 'Tag', id: string, description?: Maybe<string>, name?: Maybe<string> }> };
+export type CategoryPostsQuery = { __typename?: 'RootQuery', categoryPosts?: { __typename?: 'RootQueryToPostConnection', pageInfo?: { __typename?: 'WPPageInfo', endCursor?: string | null | undefined, startCursor?: string | null | undefined, hasNextPage: boolean, offsetPagination?: { __typename?: 'OffsetPaginationPageInfo', hasMore?: boolean | null | undefined, hasPrevious?: boolean | null | undefined, total?: number | null | undefined } | null | undefined } | null | undefined, edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categoryDetails?: { __typename?: 'Category', id: string, description?: string | null | undefined, name?: string | null | undefined } | null | undefined, tagDetails?: { __typename?: 'Tag', id: string, description?: string | null | undefined, name?: string | null | undefined } | null | undefined };
 
 export type CategoryPostsOffsetQueryVariables = Exact<{
-  categoryName?: Maybe<Scalars['String']>;
-  tagName?: Maybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
+  tagName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   offset: Scalars['Int'];
   size: Scalars['Int'];
 }>;
 
 
-export type CategoryPostsOffsetQuery = { __typename?: 'RootQuery', categoryPosts?: Maybe<{ __typename?: 'RootQueryToPostConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, startCursor?: Maybe<string>, hasNextPage: boolean, offsetPagination?: Maybe<{ __typename?: 'OffsetPaginationPageInfo', hasMore?: Maybe<boolean>, hasPrevious?: Maybe<boolean>, total?: Maybe<number> }> }>, edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, excerpt?: Maybe<string>, slug?: Maybe<string>, date?: Maybe<string>, isSticky: boolean, tags?: Maybe<{ __typename?: 'PostToTagConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToTagConnectionEdge', node?: Maybe<{ __typename?: 'Tag', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, categories?: Maybe<{ __typename?: 'PostToCategoryConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'PostToCategoryConnectionEdge', node?: Maybe<{ __typename?: 'Category', id: string, name?: Maybe<string>, slug?: Maybe<string> }> }>>> }>, featuredImageSettings?: Maybe<{ __typename?: 'Post_Featuredimagesettings', imageFit?: Maybe<string>, backgroundColor?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', sourceUrl?: Maybe<string>, srcSet?: Maybe<string>, id: string, thumbnail?: Maybe<string> }> }>, author?: Maybe<{ __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: Maybe<{ __typename?: 'User', name?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, avatar?: Maybe<{ __typename?: 'Avatar', url?: Maybe<string> }> }> }> }> }>>> }>, categoryDetails?: Maybe<{ __typename?: 'Category', id: string, description?: Maybe<string>, name?: Maybe<string> }>, tagDetails?: Maybe<{ __typename?: 'Tag', id: string, description?: Maybe<string>, name?: Maybe<string> }> };
+export type CategoryPostsOffsetQuery = { __typename?: 'RootQuery', categoryPosts?: { __typename?: 'RootQueryToPostConnection', pageInfo?: { __typename?: 'WPPageInfo', endCursor?: string | null | undefined, startCursor?: string | null | undefined, hasNextPage: boolean, offsetPagination?: { __typename?: 'OffsetPaginationPageInfo', hasMore?: boolean | null | undefined, hasPrevious?: boolean | null | undefined, total?: number | null | undefined } | null | undefined } | null | undefined, edges?: Array<{ __typename?: 'RootQueryToPostConnectionEdge', cursor?: string | null | undefined, node?: { __typename?: 'Post', id: string, title?: string | null | undefined, excerpt?: string | null | undefined, slug?: string | null | undefined, date?: string | null | undefined, isSticky: boolean, tags?: { __typename?: 'PostToTagConnection', edges?: Array<{ __typename?: 'PostToTagConnectionEdge', node?: { __typename?: 'Tag', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categories?: { __typename?: 'PostToCategoryConnection', edges?: Array<{ __typename?: 'PostToCategoryConnectionEdge', node?: { __typename?: 'Category', id: string, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, featuredImageSettings?: { __typename?: 'Post_Featuredimagesettings', imageFit?: string | null | undefined, backgroundColor?: string | null | undefined } | null | undefined, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: { __typename?: 'MediaItem', sourceUrl?: string | null | undefined, srcSet?: string | null | undefined, id: string, thumbnail?: string | null | undefined } | null | undefined } | null | undefined, author?: { __typename?: 'NodeWithAuthorToUserConnectionEdge', node?: { __typename?: 'User', name?: string | null | undefined, firstName?: string | null | undefined, lastName?: string | null | undefined, avatar?: { __typename?: 'Avatar', url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined, categoryDetails?: { __typename?: 'Category', id: string, description?: string | null | undefined, name?: string | null | undefined } | null | undefined, tagDetails?: { __typename?: 'Tag', id: string, description?: string | null | undefined, name?: string | null | undefined } | null | undefined };
 
 export type PreviewPostQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -9177,4 +12627,4 @@ export type PreviewPostQueryVariables = Exact<{
 }>;
 
 
-export type PreviewPostQuery = { __typename?: 'RootQuery', post?: Maybe<{ __typename?: 'Post', databaseId: number, slug?: Maybe<string>, status?: Maybe<string> }> };
+export type PreviewPostQuery = { __typename?: 'RootQuery', post?: { __typename?: 'Post', databaseId: number, slug?: string | null | undefined, status?: string | null | undefined } | null | undefined };

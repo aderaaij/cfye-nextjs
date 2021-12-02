@@ -1,7 +1,4 @@
-import {
-  usePlaiceholderActionsContext,
-  usePlaiceholderStateContext,
-} from 'contexts/PlaiceholderContext';
+import { usePlaiceholderStateContext } from 'contexts/PlaiceholderContext';
 import Image, { ImageProps } from 'next/image';
 import { useEffect, useState } from 'react';
 

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Container } from '@/components/Common';
 
 interface Props {
@@ -10,7 +11,7 @@ export const Alert: React.FC<Props> = ({ preview }) => {
       <Container>
         <div>
           This is page is a preview.
-          <a href="/api/exit-preview">Click here</a> to exit preview mode.
+          <Link href="/api/exit-preview">Click here</Link> to exit preview mode.
         </div>
       </Container>
     )

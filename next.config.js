@@ -6,7 +6,7 @@ module.exports = withPlaiceholder({
     ...constants,
   },
   images: {
-    domains: ['admin.cfye.com', 'admin.cfye.local', 'cdn.cfye.com'],
+    domains: ['cdn.cfye.com'],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     if (dev) {

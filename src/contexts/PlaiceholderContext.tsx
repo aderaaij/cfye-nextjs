@@ -27,9 +27,9 @@ export const PlaiceholderActionsContext =
   createContext<PlaiceholderActions>(null);
 PlaiceholderActionsContext.displayName = 'PlaiceholderActionsContext';
 
-export const usePlaiceholderStateContext = () =>
+export const usePlaiceholderStateContext = (): any =>
   useContext(PlaiceholderStateContext);
-export const usePlaiceholderActionsContext = () =>
+export const usePlaiceholderActionsContext = (): any =>
   useContext(PlaiceholderActionsContext);
 
 const initialPlaiceholderState: PlaiceholderState = {};
