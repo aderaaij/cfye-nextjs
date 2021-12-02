@@ -20,9 +20,7 @@ export const PostBody: React.FC<Props> = ({ blocks }) => {
         {blocks.map((block, index) => {
           switch (block.name) {
             case 'core/paragraph':
-              return (
-                <Fragment key={index}>{parse(block.saveContent)}</Fragment>
-              );
+              return <Fragment key={index}>{parse(block.cdnContent)}</Fragment>;
             case 'core/image':
               return <Fragment key={index}>{parse(block.cdnContent)}</Fragment>;
             case 'core/gallery':
