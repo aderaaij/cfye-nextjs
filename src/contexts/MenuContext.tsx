@@ -12,6 +12,7 @@ const initialState = {
 
 interface Props {
   value: Initialstate;
+  children: React.ReactNode;
 }
 
 export const AppContext = createContext(initialState);

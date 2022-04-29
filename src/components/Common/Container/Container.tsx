@@ -1,7 +1,7 @@
 import styles from './Container.module.scss';
 
 interface Props {
-  children: any;
+  children: React.ReactNode;
   type?: 'artists-grid' | 'container-grid' | 'frontpage-grid' | 'article-grid';
 }
 
