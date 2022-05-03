@@ -5,6 +5,7 @@ import cx from 'classnames';
 interface Props {
   preview: boolean;
   pageType?: 'home' | 'artist';
+  children: React.ReactNode;
 }
 
 export const Layout: React.FC<Props> = ({ preview, children, pageType }) => {

@@ -34,7 +34,13 @@ export const usePlaiceholderActionsContext = () =>
 
 const initialPlaiceholderState: PlaiceholderState = {};
 
-export const PlaiceholderProvider: React.FC = ({ children }) => {
+interface PlaiceholderProviderProps {
+  children: React.ReactNode;
+}
+
+export const PlaiceholderProvider: React.FC<PlaiceholderProviderProps> = ({
+  children,
+}) => {
   const [plaiceholderState, setPlaiceholderState] = useState<PlaiceholderState>(
     initialPlaiceholderState
   );

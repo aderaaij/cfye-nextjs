@@ -8,16 +8,6 @@ module.exports = withPlaiceholder({
   images: {
     domains: ['admin.cfye.com', 'admin.cfye.local', 'cdn.cfye.com'],
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    if (dev) {
-      config.module.rules.push({
-        test: /\.(j|t)sx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-      });
-    }
-    return config;
-  },
   async redirects() {
     return [
       {
