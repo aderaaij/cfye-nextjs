@@ -23,14 +23,14 @@
 
   &.columns-2 {
     .blocks-gallery-grid {
-      @media screen and(min-width: 768px) {
+      @media screen and (min-width: 768px) {
         grid-template-columns: 1fr 1fr;
       }
     }
   }
 
   &.columns-3 .blocks-gallery-grid {
-    @media screen and(min-width: 768px) {
+    @media screen and (min-width: 768px) {
       grid-template-columns: 1fr 1fr 1fr;
     }
 

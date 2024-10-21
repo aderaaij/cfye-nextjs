@@ -10,7 +10,7 @@ import { PlaiceholderProvider } from '../contexts/PlaiceholderContext';
 import '../styles/index.scss';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
-  const apolloClient = useApollo(pageProps.initialApolloState);
+  const apolloClient = useApollo(pageProps);
   const [isMenuActive, toggleMenu] = useState(false);
   const value = { isMenuActive, toggleMenu };
   return (
